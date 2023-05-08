@@ -20,7 +20,7 @@ app = Flask(__name__)
 @app.route('/postman', methods=['POST'])
 def postman():
     import requests
-    url = '127.0.0.1:3000/vlogin'##request.json['url']
+    url = request.json['url']
     method = request.json['method']
     key1 = request.json['key1']
     val1 = request.json['val1']
@@ -34,13 +34,14 @@ def postman():
         key2: val2,
         key3: val3
         }
+    print(data)
     headers = {'Content-type': 'application/json'}
     print("validando")
     if method == 'post':
         print("go to post")
         response = requests.post(url, json=data, headers=headers)
     else: 
-        print("go to")
+        print("go to get")
         response = requests.get(url, headers=headers)
     
     print(response.json())
@@ -72,6 +73,11 @@ def hello_world():
 @app.route('/')
 def landing():
     return render_template('index.html')
+
+## Login page
+@app.route('/login')
+def login():
+    return render_template('login.html')
 
 ## @TO_BE_DELETED
 # Sample service
