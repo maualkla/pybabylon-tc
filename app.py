@@ -17,6 +17,38 @@ app = Flask(__name__)
 
 ## @TO_BE_DELETED 
 # sample helloworld
+@app.route('/postman', methods=['POST'])
+def postman():
+    import requests
+    url = '127.0.0.1:3000/vlogin'##request.json['url']
+    method = request.json['method']
+    key1 = request.json['key1']
+    val1 = request.json['val1']
+    key2 = request.json['key2']
+    val2 = request.json['val2']
+    key3 = request.json['key3']
+    val3 = request.json['val3']
+
+    data = {
+        key1: val1,
+        key2: val2,
+        key3: val3
+        }
+    headers = {'Content-type': 'application/json'}
+    print("validando")
+    if method == 'post':
+        print("go to post")
+        response = requests.post(url, json=data, headers=headers)
+    else: 
+        print("go to")
+        response = requests.get(url, headers=headers)
+    
+    print(response.json())
+    return response.json()
+
+
+## @TO_BE_DELETED 
+# sample helloworld
 @app.route('/helloworld')
 def hello_world():
     import requests
