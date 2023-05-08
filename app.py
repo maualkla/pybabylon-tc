@@ -5,7 +5,6 @@
 ## More info at @intmau in twitter or in http://maualkla.com
 ## Description: Web app to serve adminde-tc project.
 
-
 ## Imports
 ## Imports
 from flask import Flask, jsonify, request, render_template
@@ -22,18 +21,19 @@ app = Flask(__name__)
 def hello_world():
     import requests
 
-    url = 'http://localhost:5000/vlogin'
+    url = 'http://localhost:3000/vlogin'
     data = {
         "user": "maualkla",
         "email": "mauricio@adminde.com",
-        "word": "helloadminde2023"
+        "word": "helloadminde2024"
         }
     headers = {'Content-type': 'application/json'}
 
     response = requests.post(url, json=data, headers=headers)
-    print(response)
+    print(response.json())
+    
     ##print(response.json())
-    return 'Hello World!'
+    return response.json()
 
 ## @TO_BE_DELETED
 # Landing page
@@ -63,4 +63,4 @@ def status():
     return "Running fine"
 
 if __name__ == '__main__':
-    app.run(debug=True, port=int(os.envirom.get('PORT', 8080)))
+    app.run(debug=True, port=8001)
