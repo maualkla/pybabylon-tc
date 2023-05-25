@@ -8,7 +8,7 @@
 ## Imports
 ## Imports
 from flask import Flask, jsonify, request, render_template
-import os 
+import os, requests
 
 
 ## Initialize Flask App
@@ -19,7 +19,6 @@ app = Flask(__name__)
 # sample helloworld
 @app.route('/postman', methods=['POST'])
 def postman():
-    import requests
     url = request.json['url']
     method = request.json['method']
     key1 = request.json['key1']
