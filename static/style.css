@@ -143,21 +143,43 @@
  .ib_high {
     border: none;
     background: none;
-    color: white;
+    color: #edf0fa;
     background-color: #49547B;
+    border: 5px solid #49547B ;
     padding: 10px;
 }
 .ib_high:hover{
-    background-color: white;
+    background-color: #edf0fa;
+    border: 5px solid #49547B ;
     color: #49547B;
 }
 .ib_norm {
     border: none;
     background: none;
     padding: 10px;
-    color: white;
+    color: #edf0fa;
 }
 .ib_norm:hover{
-    background-color: white;
+    background-color: #edf0fa;
     color: #49547B;
+}
+.ib_norm_inv {
+    border: none;
+    background: none;
+    padding: 10px;
+    color: #49547B;
+}
+.ib_norm_inv:hover{
+    background-color: #49547B;
+    color: #edf0fa;
+}
+
+/* Login page styles */
+.login
+{
+    background-image: none;
+    background-color: #edf0fa;
+}
+.login_container{
+    color:#49547B;
 }
