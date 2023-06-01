@@ -16,6 +16,11 @@ if(path === '/login')
         console.log("Login btton activated")
         window.location.replace("/login")
     });
+    // listener for the login button to confirm JS funcitons
+    document.getElementById('M_Login').addEventListener('click', function (){
+        console.log("Login btton activated")
+        window.location.replace("/login")
+    });
 
     // listener for the login button to confirm JS funcitons
     document.getElementById('B_Register').addEventListener('click', function (){

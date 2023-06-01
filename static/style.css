@@ -1,7 +1,7 @@
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 1000px), (pointer:none){/*, (pointer:coarse)  {*/
     * {
         font-family: Verdana, Geneva, Tahoma, sans-serif;  
-        font-size: 20px;
+        font-size: 38px;
     }
     body{
         /*background-image: url("bg_v3.jpg");/**/
@@ -63,7 +63,7 @@
 
 
 
-@media only screen and (min-width: 769px){
+@media only screen and (min-width: 1000px){
     * {
         box-sizing: border-box;
         font-family: Verdana, Geneva, Tahoma, sans-serif;  
@@ -180,9 +180,30 @@
     background-image: none;
     background-color: #edf0fa;
 }
-.login_container{
-    color:#49547B;
-}
-#login_title{
-    font-size: 400%;
-}
+    .login_container{
+        color:#49547B;
+    }
+
+        .login_top{
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: 1fr;
+            grid-column-gap: 0px;
+            grid-row-gap: 0px;
+        }
+
+            #login_top_left{
+                grid-area: 1 / 1 / 2 / 2;
+                
+            }
+                #b_register{
+                    vertical-align: middle;
+                    margin-top: 50%;
+                    margin-left: 50%;
+                }
+            #login_top_right{
+                grid-area: 1 / 2 / 2 / 5;
+            }
+                #login_title{
+                    font-size: 500%;
+                }
