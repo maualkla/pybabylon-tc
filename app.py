@@ -4,10 +4,11 @@
 ## Date: May 2023.
 ## More info at @intmau in twitter or in http://maualkla.com
 ## Description: Web app to serve adminde-tc project.
+## flask run --host=0.0.0.0 --port=3000
 
 ## Imports
 ## Imports
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, jsonify, request, render_template, redirect, make_response
 import os, requests
 
 
@@ -73,6 +74,14 @@ def hello_world():
 def landing():
     return render_template('index.html')
 
+@app.route('/index')
+def index():
+    local_ip = request.remote_addr
+
+    response = make_response(redirect('/status'))
+    response.set_cookie('local_ip', local_ip)
+    return response
+
 ## Login page
 @app.route('/login')
 def login():
@@ -97,7 +106,9 @@ def service():
 ## API Status
 @app.route('/status')
 def status():
-    return "Running fine"
+    _local_ip = request.remote_addr
+    local_ip = request.cookies.get('local_ip')
+    return "Running fine - IP: "+local_ip
 
 if __name__ == '__main__':
     app.run(debug=True)
