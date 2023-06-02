@@ -199,12 +199,11 @@
 
             #login_top_left{
                 grid-area: 1 / 1 / 2 / 2;
-                
+                width: 20%;
+                margin: auto;
             }
-                #b_register{
-                    vertical-align: middle;
-                    margin-top: 50%;
-                    margin-left: 50%;
+                #b_register_login{
+                    margin: auto;
                 }
             #login_top_right{
                 grid-area: 1 / 2 / 2 / 5;
