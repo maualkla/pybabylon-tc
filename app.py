@@ -54,16 +54,11 @@ def postman():
 def hello_world():
     import requests
 
-    url = 'http://localhost:3000/vlogin'
-    data = {
-        "user": "maualkla",
-        "email": "mauricio@adminde.com",
-        "word": "helloadminde2024"
-        }
+    url = 'http://localhost:3000/login?u=jp@adminde.com&p=aG9sYTEyMw=='
     headers = {'Content-type': 'application/json'}
 
-    response = requests.post(url, json=data, headers=headers)
-    print(response.json())
+    response = requests.get(url, headers=headers)
+    ##print(response.json())
     
     ##print(response.json())
     return response.json()
