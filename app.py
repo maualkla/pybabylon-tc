@@ -98,15 +98,23 @@ def s_login():
 
     url = _alx_url+'/login?u='+_u+'&p='+_p
     headers = {'Content-type': 'application/json'}
-    response = requests.get(url, headers=headers)
-    _data = response.text
-    _status = response.status_code
+    _response = requests.get(url, headers=headers)
+    _data = _response.text
+    _data = jsonify(_data)
+    print(_data)
+    print(_data.id)
+    print(_data['username'])
+    _status = _response.status_code
     print(" Status de regreso: ")
     print(_status)
     print(_data)
 
     if _status == 200:
         #response.delete_cookie('_u')
+        response = make_response(redirect('/dashboard'))
+        response.set_cookie('id', )
+        response.delete_cookie('_u')
+        return response
         return render_template('dashboard.html')
     else:
         #response.delete_cookie('_u')
