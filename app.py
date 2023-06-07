@@ -9,8 +9,11 @@
 ## Imports
 ## Imports
 from flask import Flask, jsonify, request, render_template, redirect, make_response
-import os, requests
+import os, requests, base64
 
+
+## globals
+_alx_url = 'http://localhost:3000/'
 
 ## Initialize Flask App
 app = Flask(__name__)
@@ -85,9 +88,22 @@ def login():
 ## Login process
 @app.route('/s_login')
 def s_login():
+    print(" Entro a s_login")
+    import requests
     _u = request.cookies.get('_u')
     _p = request.cookies.get('_p')
-    return 'User = '+_u+'; Password: '+_p
+    print('Valores de las cookies: ')
+    print('User = '+_u+'; Password: '+_p)
+    url = _alx_url+'/login?u='+_u+'&p='+_p
+    headers = {'Content-type': 'application/json'}
+    response = requests.get(url, headers=headers)
+    _data = response.text
+    _status = response.status_code
+    print(" Status de regreso: ")
+    print(_status)
+    print(_data)
+    return _data
+    ##return 'User = '+_u+'; Password: '+_p
 
 ## @TO_BE_DELETED
 # Sample service
@@ -111,6 +127,21 @@ def status():
     _local_ip = request.remote_addr
     local_ip = request.cookies.get('local_ip')
     return "Running fine - IP: "+local_ip
+
+
+########################################
+### Helpers ############################
+########################################
+
+## Base64 encode
+def b64Encode(_string):
+    try:
+        print(" >> b64Encode() helper.")
+        _out = base64.b64encode(_string.encode('utf-8'))
+        _r_out = str(_out, "utf-8")
+        return _r_out
+    except Exception as e:
+        return {"status": "An error Occurred", "error": e}
 
 if __name__ == '__main__':
     app.run(debug=True)
