@@ -9,6 +9,7 @@ const path = ObjURL.pathname;
 
 if(path === '/login')
 {
+    console.log(getCookies());
     console.log(" JS Working fine");
     // listener for the login button to confirm JS funcitons
     document.getElementById('b_login').addEventListener('click', function (){
@@ -23,6 +24,7 @@ if(path === '/login')
     });
 
 }if(path === "/" || path === null) {
+    console.log(getCookies());
     // listener for the login button to confirm JS funcitons
     document.getElementById('B_Login').addEventListener('click', function (){
         console.log("Login btton activated")
@@ -41,3 +43,14 @@ if(path === '/login')
 } else {
     console.log(" JS Working fine");
 }
+
+// Const to get ans show all cookies.
+function getCookies(){
+    var pairs = document.cookie.split(";");
+    var cookies = {};
+    for (var i=0; i<pairs.length; i++){
+      var pair = pairs[i].split("=");
+      cookies[(pair[0]+'').trim()] = unescape(pair.slice(1).join('='));
+    }
+    return cookies;
+  }

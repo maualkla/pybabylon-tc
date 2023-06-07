@@ -78,6 +78,7 @@ def index():
 
     response = make_response(redirect('/status'))
     response.set_cookie('local_ip', local_ip)
+    response.delete_cookie('_u')
     return response
 
 ## Login page
@@ -94,6 +95,7 @@ def s_login():
     _p = request.cookies.get('_p')
     print('Valores de las cookies: ')
     print('User = '+_u+'; Password: '+_p)
+
     url = _alx_url+'/login?u='+_u+'&p='+_p
     headers = {'Content-type': 'application/json'}
     response = requests.get(url, headers=headers)
@@ -102,7 +104,15 @@ def s_login():
     print(" Status de regreso: ")
     print(_status)
     print(_data)
-    return _data
+
+    if _status == 200:
+        #response.delete_cookie('_u')
+        return render_template('dashboard.html')
+    else:
+        #response.delete_cookie('_u')
+        return "user o password no valido, <a href='/login'> Regresar a login </a>"
+
+    
     ##return 'User = '+_u+'; Password: '+_p
 
 ## @TO_BE_DELETED
