@@ -82,6 +82,13 @@ def index():
 def login():
     return render_template('login.html')
 
+## Login process
+@app.route('/s_login')
+def s_login():
+    _u = request.cookies.get('_u')
+    _p = request.cookies.get('_p')
+    return 'User = '+_u+'; Password: '+_p
+
 ## @TO_BE_DELETED
 # Sample service
 @app.route('/service', methods=['GET'])
