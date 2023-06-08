@@ -82,13 +82,25 @@ def index():
 ## Login page
 @app.route('/login')
 def login():
-    _id = request.cookies.get('_id')
-    _un = request.cookies.get('_un')
-    _auth_obj = auth(_id, _un)
-    _auth_obj
+    try:
+        if request.cookies.get('_id') and request.cookies.get('_un'):
+            _id = request.cookies.get('_id')
+            _un = request.cookies.get('_un')
+            _auth_obj = auth(_id, _un)
+            _status = _auth_obj.json().get('status')
+            if _status == 'valid':
+                _dash = make_response(redirect('/dashboard'))
+                return _dash
+            else:
+                _log = make_response(redirect('/login'))
+                _log.delete_cookie('_id')
+                _log.delete_cookie('_un')
+                return _log
+        else:
+            return render_template('login.html')
+    except Exception as e:
+        return {"status": "An error Occurred", "error": e}
     
-
-    return render_template('login.html')
 
 ## Login process
 @app.route('/s_login')
@@ -118,7 +130,6 @@ def s_login():
 ## Dashboard Service.
 @app.route('/dashboard')
 def dashboard():
-    
     return render_template('dashboard.html')
 
 
@@ -175,7 +186,9 @@ def auth(_id, _un):
             "id": _id,
             "username": _un
         }
-        _response = requests.get(_url, _json, headers=_headers)
+        print(_json)
+        _response = requests.post(_url, json=_json, headers=_headers)
+        print(_response)
         return _response
     except Exception as e:
         return {"status": "An error Occurred", "error": e}
