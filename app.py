@@ -50,7 +50,6 @@ def postman():
     print(response.json())
     return response.json()
 
-
 ## @TO_BE_DELETED 
 # sample helloworld
 @app.route('/helloworld')
@@ -75,7 +74,6 @@ def landing():
 @app.route('/index')
 def index():
     local_ip = request.remote_addr
-
     response = make_response(redirect('/status'))
     response.set_cookie('local_ip', local_ip)
     response.delete_cookie('_u')
@@ -84,6 +82,12 @@ def index():
 ## Login page
 @app.route('/login')
 def login():
+    _id = request.cookies.get('_id')
+    _un = request.cookies.get('_un')
+    _auth_obj = auth(_id, _un)
+    _auth_obj
+    
+
     return render_template('login.html')
 
 ## Login process
@@ -95,8 +99,6 @@ def s_login():
     url = _alx_url+'/login?u='+_u+'&p='+_p
     headers = {'Content-type': 'application/json'}
     _response = requests.get(url, headers=headers)
-    _data = _response.text
-    _data = jsonify(_data)
     _json_r = _response.json()
     _status = _response.status_code 
 
@@ -161,3 +163,19 @@ def b64Encode(_string):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+## Auth
+def auth(_id, _un):
+    try:
+        import requests
+        _url = _alx_url+'/vauth'
+        _headers = {'Content-type': 'application/json'}
+        _json = {
+            "id": _id,
+            "username": _un
+        }
+        _response = requests.get(_url, _json, headers=_headers)
+        return _response
+    except Exception as e:
+        return {"status": "An error Occurred", "error": e}
