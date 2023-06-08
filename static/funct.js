@@ -41,6 +41,7 @@ if(path === '/login')
         console.log("Js is working fine");
     });
 } else {
+    console.log(getCookies());
     console.log(" JS Working fine");
 }
 

@@ -89,39 +89,37 @@ def login():
 ## Login process
 @app.route('/s_login')
 def s_login():
-    print(" Entro a s_login")
     import requests
     _u = request.cookies.get('_u')
     _p = request.cookies.get('_p')
-    print('Valores de las cookies: ')
-    print('User = '+_u+'; Password: '+_p)
-
     url = _alx_url+'/login?u='+_u+'&p='+_p
     headers = {'Content-type': 'application/json'}
     _response = requests.get(url, headers=headers)
     _data = _response.text
     _data = jsonify(_data)
-    print(_data)
-    print(_data.id)
-    print(_data['username'])
-    _status = _response.status_code
-    print(" Status de regreso: ")
-    print(_status)
-    print(_data)
+    _json_r = _response.json()
+    _status = _response.status_code 
 
     if _status == 200:
-        #response.delete_cookie('_u')
         response = make_response(redirect('/dashboard'))
-        response.set_cookie('id', )
+        _id = _json_r.get('id')
+        _un = _json_r.get('username')
+        response.set_cookie('_id', _id)
+        response.set_cookie('_un', _un)
         response.delete_cookie('_u')
+        response.delete_cookie('_p')
         return response
-        return render_template('dashboard.html')
+        
     else:
-        #response.delete_cookie('_u')
         return "user o password no valido, <a href='/login'> Regresar a login </a>"
 
+## Dashboard Service.
+@app.route('/dashboard')
+def dashboard():
     
-    ##return 'User = '+_u+'; Password: '+_p
+    return render_template('dashboard.html')
+
+
 
 ## @TO_BE_DELETED
 # Sample service
