@@ -21,7 +21,7 @@ if(path === '/login')
         console.log('_u = '+username+'; _p = '+buf_psw+'; _dec: '+password)
         document.cookie = '_u='+username+';';
         document.cookie = '_p='+buf_psw+';';
-        window.location.replace("/s_login")
+        window.location.replace("/s_login") 
     });
 
 }if(path === "/" || path === null) {
@@ -40,6 +40,7 @@ if(path === '/login')
     // listener for the login button to confirm JS funcitons
     document.getElementById('B_Register').addEventListener('click', function (){
         console.log("Js is working fine");
+        window.location.replace("/signup")
     });
 } else {
     console.log(getCookies());

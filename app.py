@@ -161,7 +161,7 @@ def dashboard():
     except Exception as e:
         return {"status": "An error Occurred", "error": e}
     
-
+## Logout service
 @app.route('/logout')
 def logout():
     try:
@@ -172,6 +172,28 @@ def logout():
     except Exception as e:
         return {"status": "An error Occurred", "error": e}
 
+## Signup service
+@app.route('/signup')
+def signup():
+    try:
+        if request.cookies.get('_id') and request.cookies.get('_un'):
+            _id = request.cookies.get('_id')
+            _un = request.cookies.get('_un')
+            _auth_obj = auth(_id, _un)
+            _status = _auth_obj.json().get('status')
+            if _status == 'valid':
+                _dash = make_response(redirect('/dashboard'))
+                _dash.delete_cookie('_flag')
+                return _dash
+            else:
+                _log = make_response(redirect('/login'))
+                _log.delete_cookie('_id')
+                _log.delete_cookie('_un')
+                return _log
+        else:
+            return render_template('signup.html')
+    except Exception as e:
+        return {"status": "An error Occurred", "error": e}
 
 
 ## @TO_BE_DELETED
