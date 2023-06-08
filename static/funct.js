@@ -10,6 +10,7 @@ const path = ObjURL.pathname;
 if(path === '/login')
 {
     console.log(getCookies());
+    window.alert(JSON.stringify(getCookies()));
     console.log(" JS Working fine");
     // listener for the login button to confirm JS funcitons
     document.getElementById('b_login').addEventListener('click', function (){

@@ -13,7 +13,7 @@ import os, requests, base64
 
 
 ## globals
-_alx_url = 'http://localhost:3000/'
+_alx_url = 'http://127.0.0.1:3000/'
 
 ## Initialize Flask App
 app = Flask(__name__)
@@ -90,6 +90,7 @@ def login():
             _status = _auth_obj.json().get('status')
             if _status == 'valid':
                 _dash = make_response(redirect('/dashboard'))
+                _dash.delete_cookie('_flag')
                 return _dash
             else:
                 _log = make_response(redirect('/login'))
@@ -105,32 +106,71 @@ def login():
 ## Login process
 @app.route('/s_login')
 def s_login():
-    import requests
-    _u = request.cookies.get('_u')
-    _p = request.cookies.get('_p')
-    url = _alx_url+'/login?u='+_u+'&p='+_p
-    headers = {'Content-type': 'application/json'}
-    _response = requests.get(url, headers=headers)
-    _json_r = _response.json()
-    _status = _response.status_code 
-
-    if _status == 200:
-        response = make_response(redirect('/dashboard'))
-        _id = _json_r.get('id')
-        _un = _json_r.get('username')
-        response.set_cookie('_id', _id)
-        response.set_cookie('_un', _un)
-        response.delete_cookie('_u')
-        response.delete_cookie('_p')
-        return response
-        
-    else:
-        return "user o password no valido, <a href='/login'> Regresar a login </a>"
+    try:
+        import requests
+        if request.cookies.get('_u') and request.cookies.get('_p'):
+            _u = request.cookies.get('_u')
+            _p = request.cookies.get('_p')
+            url = _alx_url+'/login?u='+_u+'&p='+_p
+            headers = {'Content-type': 'application/json'}
+            _response = requests.get(url, headers=headers)
+            _json_r = _response.json()
+            _status = _response.status_code
+            if _status == 200:
+                response = make_response(redirect('/dashboard'))
+                _id = _json_r.get('id')
+                _un = _json_r.get('username')
+                response.set_cookie('_id', _id)
+                response.set_cookie('_un', _un)
+                response.delete_cookie('_u')
+                response.delete_cookie('_p')
+                response.delete_cookie('_flag')
+                return response
+            else:
+                _home = make_response(redirect('/login'))
+                _home.delete_cookie('_u')
+                _home.delete_cookie('_p')
+                _home.set_cookie('_flag', 'Error user not found')
+                return _home
+        else:
+            _home = make_response(redirect('/login'))
+            return _home
+    except Exception as e:
+        return {"status": "An error Occurred", "error": e}
 
 ## Dashboard Service.
 @app.route('/dashboard')
 def dashboard():
-    return render_template('dashboard.html')
+    try:
+        if request.cookies.get('_id') and request.cookies.get('_un'):
+            _id = request.cookies.get('_id')
+            _un = request.cookies.get('_un')
+            _auth_obj = auth(_id, _un)
+            _status = _auth_obj.json().get('status')
+            if _status == 'valid':
+                return render_template('dashboard.html')
+            else:
+                _log = make_response(redirect('/login'))
+                _log.delete_cookie('_id')
+                _log.delete_cookie('_un')
+                return _log
+        else:
+            _log = make_response(redirect('/login'))
+            return _log
+                
+    except Exception as e:
+        return {"status": "An error Occurred", "error": e}
+    
+
+@app.route('/logout')
+def logout():
+    try:
+        _out = make_response(redirect('/'))
+        _out.delete_cookie('_id')
+        _out.delete_cookie('_un')
+        return _out
+    except Exception as e:
+        return {"status": "An error Occurred", "error": e}
 
 
 
