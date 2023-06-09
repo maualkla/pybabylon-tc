@@ -42,6 +42,25 @@ if(path === '/login')
         console.log("Js is working fine");
         window.location.replace("/signup")
     });
+}if(path === '/signup')
+{
+    /*
+    console.log(getCookies());
+    window.alert(JSON.stringify(getCookies()));
+    console.log(" JS Working fine");
+    // listener for the login button to confirm JS funcitons
+    document.getElementById('b_login').addEventListener('click', function (){
+        console.log("Login JS Function")
+        let username = document.getElementById('i_email').value;
+        let password = document.getElementById('i_word').value;
+        let buf_psw = window.btoa(unescape(encodeURIComponent(password)))
+        console.log('_u = '+username+'; _p = '+buf_psw+'; _dec: '+password)
+        document.cookie = '_u='+username+';';
+        document.cookie = '_p='+buf_psw+';';
+        window.location.replace("/s_login") 
+    });
+    */
+
 } else {
     console.log(getCookies());
     console.log(" JS Working fine");
