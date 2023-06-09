@@ -195,6 +195,15 @@ def signup():
     except Exception as e:
         return {"status": "An error Occurred", "error": e}
 
+## Login process
+@app.route('/s_signup')
+def s_signup():
+
+    try:
+        return "estas en s_signup"
+    except Exception as e:
+        return {"status": "An error Occurred", "error": e}
+
 
 ## @TO_BE_DELETED
 # Sample service

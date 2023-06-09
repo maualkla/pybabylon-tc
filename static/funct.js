@@ -44,6 +44,31 @@ if(path === '/login')
     });
 }if(path === '/signup')
 {
+    console.log(getCookies())
+    console.log('JS working fine')
+    document.getElementById('b_signup').addEventListener('click', function (){
+        console.log("Signup JS Function")
+        let _un = document.getElementById('s_username').value;
+        let _pw = document.getElementById('s_pass').value;
+        _pw = window.btoa(unescape(encodeURIComponent(_pw)))
+        let _bd = document.getElementById('s_bday').value;
+        let _em = document.getElementById('s_email').value;
+        let _fn = document.getElementById('s_fname').value;
+        let _pn = document.getElementById('s_pin').value;
+        let _pc = document.getElementById('s_postalCode').value;
+        let _tr = document.getElementById('s_terms').value;
+        let _ty = document.getElementById('s_type').value;
+        document.cookie = '_un='+_un+';';
+        document.cookie = '_pw='+_pw+';';
+        document.cookie = '_em='+_em+';';
+        document.cookie = '_bd='+_bd+';';
+        document.cookie = '_fn='+_fn+';';
+        document.cookie = '_pn='+_pn+';';
+        document.cookie = '_pc='+_pc+';';
+        document.cookie = '_tr='+_tr+';';
+        document.cookie = '_ty='+_ty+';';
+        window.location.replace("/s_signup") 
+    });
     /*
     console.log(getCookies());
     window.alert(JSON.stringify(getCookies()));
