@@ -54,6 +54,7 @@ if(path === '/login')
         let _bd = document.getElementById('s_bday').value;
         let _em = document.getElementById('s_email').value;
         let _fn = document.getElementById('s_fname').value;
+        let _po = document.getElementById('s_phone').value;
         let _pn = document.getElementById('s_pin').value;
         let _pc = document.getElementById('s_postalCode').value;
         let _tr = document.getElementById('s_terms').value;
@@ -63,6 +64,7 @@ if(path === '/login')
         document.cookie = '_em='+_em+';';
         document.cookie = '_bd='+_bd+';';
         document.cookie = '_fn='+_fn+';';
+        document.cookie = '_po='+_po+';';
         document.cookie = '_pn='+_pn+';';
         document.cookie = '_pc='+_pc+';';
         document.cookie = '_tr='+_tr+';';

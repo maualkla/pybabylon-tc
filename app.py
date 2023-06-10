@@ -204,12 +204,33 @@ def s_signup():
         _em = request.cookies.get('_em')
         _bd = request.cookies.get('_bd')
         _fn = request.cookies.get('_fn')
+        _po = request.cookies.get('_po')
         _pn = request.cookies.get('_pn')
         _pc = request.cookies.get('_pc')
         _tr = request.cookies.get('_tr')
         _ty = request.cookies.get('_ty')
         print('username: '+_un+' password: '+_pw+' email: '+_em+' birthday: '+_bd+' fullname: '+_fn+' phone: '+_pn+' pin code: '+_pc+' terms: '+_tr+' type: '+_ty )
-        return "estas en s_signup"
+
+        url = _alx_url+'/login?u='+_u+'&p='+_p
+        headers = {'Content-type': 'application/json'}
+        _user = {
+            "activate": True,
+            "username": _un,
+            "bday": _bd,
+            "email": _em,
+            "fname": _fn,
+            "pass": _pw,
+            "phone": _po,
+            "pin": _pn,
+            "plan": 1,
+            "postalCode": _pc,
+            "terms": _tr,
+            "type": _ty
+        }
+        _response = requests.post(url, json=_user, headers=headers) 
+
+
+        return _response
     except Exception as e:
         return {"status": "An error Occurred", "error": e}
 
