@@ -198,8 +198,17 @@ def signup():
 ## Login process
 @app.route('/s_signup')
 def s_signup():
-
     try:
+        _un = request.cookies.get('_un')
+        _pw = request.cookies.get('_pw')
+        _em = request.cookies.get('_em')
+        _bd = request.cookies.get('_bd')
+        _fn = request.cookies.get('_fn')
+        _pn = request.cookies.get('_pn')
+        _pc = request.cookies.get('_pc')
+        _tr = request.cookies.get('_tr')
+        _ty = request.cookies.get('_ty')
+        print('username: '+_un+' password: '+_pw+' email: '+_em+' birthday: '+_bd+' fullname: '+_fn+' phone: '+_pn+' pin code: '+_pc+' terms: '+_tr+' type: '+_ty )
         return "estas en s_signup"
     except Exception as e:
         return {"status": "An error Occurred", "error": e}
