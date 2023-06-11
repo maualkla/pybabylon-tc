@@ -233,8 +233,11 @@ def s_signup():
 
         print(_response)
         print(_response.status_code)
-
-        return "ok estamos trabajando "
+        ##_status = _response.status_code
+        if _response.status_code == 202:
+            return "Successfuly created."
+        else:
+            return str(_response.json().get('status'))
     except Exception as e:
         return {"status": "An error Occurred", "error": e}
 
