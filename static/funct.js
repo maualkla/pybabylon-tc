@@ -45,6 +45,7 @@ if(path === '/login')
 }if(path === '/signup')
 {
     console.log(getCookies())
+    alert(JSON.stringify(getCookies()))
     console.log('JS working fine')
     document.getElementById('b_signup').addEventListener('click', function (){
         console.log("Signup JS Function")

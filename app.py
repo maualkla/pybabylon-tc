@@ -189,6 +189,7 @@ def signup():
                 _log = make_response(redirect('/login'))
                 _log.delete_cookie('_id')
                 _log.delete_cookie('_un')
+                _log.delete_cookie('_flag')
                 return _log
         else:
             return render_template('signup.html')
@@ -234,10 +235,36 @@ def s_signup():
         print(_response)
         print(_response.status_code)
         ##_status = _response.status_code
+        
         if _response.status_code == 202:
-            return "Successfuly created."
+            ##return "Successfuly created."
+            _logi = make_response(redirect('/login'))
+            _logi.set_cookie('_flag', 'User created, login to start.')
+            _logi.delete_cookie('_un')
+            _logi.delete_cookie('_em')
+            _logi.delete_cookie('_pw')
+            _logi.delete_cookie('_bd')
+            _logi.delete_cookie('_fn')
+            _logi.delete_cookie('_po')
+            _logi.delete_cookie('_pn')
+            _logi.delete_cookie('_pc')
+            _logi.delete_cookie('_tr')
+            _logi.delete_cookie('_ty')
+            return _logi
         else:
-            return str(_response.json().get('status'))
+            _logi = make_response(redirect('/signup'))
+            _logi.set_cookie('_flag', _response.json().get('status'))
+            _logi.delete_cookie('_un')
+            _logi.delete_cookie('_em')
+            _logi.delete_cookie('_pw')
+            _logi.delete_cookie('_bd')
+            _logi.delete_cookie('_fn')
+            _logi.delete_cookie('_po')
+            _logi.delete_cookie('_pn')
+            _logi.delete_cookie('_pc')
+            _logi.delete_cookie('_tr')
+            _logi.delete_cookie('_ty')
+            return _logi
     except Exception as e:
         return {"status": "An error Occurred", "error": e}
 
