@@ -10,7 +10,7 @@ const path = ObjURL.pathname;
 if(path === '/login')
 {
     console.log(getCookies());
-    window.alert(JSON.stringify(getCookies()));
+    //window.alert(JSON.stringify(getCookies()));
     console.log(" JS Working fine");
     // listener for the login button to confirm JS funcitons
     document.getElementById('b_login').addEventListener('click', function (){
@@ -22,6 +22,10 @@ if(path === '/login')
         document.cookie = '_u='+username+';';
         document.cookie = '_p='+buf_psw+';';
         window.location.replace("/s_login") 
+    });
+    document.getElementById('b_register_login').addEventListener('click', function (){
+        console.log("Js is working fine");
+        window.location.replace("/signup")
     });
 
 }if(path === "/" || path === null) {
@@ -45,7 +49,7 @@ if(path === '/login')
 }if(path === '/signup')
 {
     console.log(getCookies())
-    alert(JSON.stringify(getCookies()))
+    //alert(JSON.stringify(getCookies()))
     console.log('JS working fine')
     document.getElementById('b_signup').addEventListener('click', function (){
         console.log("Signup JS Function")
@@ -58,7 +62,13 @@ if(path === '/login')
         let _po = document.getElementById('s_phone').value;
         let _pn = document.getElementById('s_pin').value;
         let _pc = document.getElementById('s_postalCode').value;
-        let _tr = document.getElementById('s_terms').value;
+        console.log(document.getElementById('s_terms').checked)
+        let _tr = document.getElementById('s_terms').checked;
+        if(_tr === 1){
+            _tr = true
+        }else{
+            _tr = false
+        }
         let _ty = document.getElementById('s_type').value;
         document.cookie = '_un='+_un+';';
         document.cookie = '_pw='+_pw+';';

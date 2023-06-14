@@ -290,7 +290,7 @@ def service():
 def status():
     _local_ip = request.remote_addr
     local_ip = request.cookies.get('local_ip')
-    return "Running fine - IP: "+local_ip
+    return "Running fine - IP: "+_local_ip
 
 
 ########################################

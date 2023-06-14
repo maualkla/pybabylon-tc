@@ -6,25 +6,29 @@
         <link rel="icon" type="" href="../static/tc_logo.ico">
     </head>
     <body class="login">
-        <div class="container login_container">
-            <div class="top login_top">
-                <div id="login_top_left">
-                    <input type="button" class="ib_high" name="register" id="b_register_login" value="Register">
-                </div>
-                <div id="login_top_right">
-                    <p id="login_title"> Login </p>
-                </div>
+        <div class="container" id="login_container">
+            <div id="login_top_left">
+                <input type="button" class="ib_high" name="register" id="b_register_login" value="Register">
             </div>
-            <div class="middle">
-                <input type="email" placeholder="email" id="i_email">
-                <input type="password" placeholder="password" id="i_word">
-                <input type="button" class="ib_high" name="login" value="Login" id="b_login">
+            <div id="login_top_right">
+                <p id="login_title"> Login </p>
             </div>
-            <a href="#" > Contact </a> - 
+            <div id="login_middle_left"></div>
+            <div id="login_middle_center">
+                <form>
+                    <input required type="email" placeholder="email" id="i_email">
+                    <input required type="password" placeholder="password" id="i_word">
+                    <input type="button" class="ib_high" name="login" value="Login" id="b_login">
+                </form>
+            </div>
+            <div id="login_middle_right"></div>
+            <div class="bottom" id="login_bottom">
+                <a href="#" > Contact </a> - 
                 <a href="#" > Legal </a> - 
                 <a href="#" > About </a> - 
-                <a href="https://www.maualkla.com/jobs" > Jobs </a> - 
+                <a href="https://www.maualkla.com/jobs" target="_blank"> Jobs </a> - 
                 <a href="/" > Home </a>
+            </div>
         </div>
     </body>
     <script src="../static/funct.js"></script>

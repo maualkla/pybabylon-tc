@@ -180,34 +180,31 @@
 }
 
 /* Login page styles */
-.login
-{
-    background-image: none;
-    background-color: #edf0fa;
+#login_container{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
 }
-    .login_container{
-        color:#49547B;
-    }
-
-        .login_top{
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-template-rows: 1fr;
-            grid-column-gap: 0px;
-            grid-row-gap: 0px;
+    /* top */
+        #login_top_left{
+            grid-area: 1 / 1 / 2 / 2;
         }
-
-            #login_top_left{
-                grid-area: 1 / 1 / 2 / 2;
-                width: 20%;
-                margin: auto;
-            }
-                #b_register_login{
-                    margin: auto;
-                }
-            #login_top_right{
-                grid-area: 1 / 2 / 2 / 5;
-            }
-                #login_title{
-                    font-size: 500%;
-                }
+        #login_top_right{
+            grid-area: 1 / 2 / 2 / 6;
+        }
+    /* middle */
+        #login_middle_left{
+            grid-area: 2 / 1 / 5 / 2; 
+        }
+        #login_middle_center{
+            grid-area: 2 / 2 / 5 / 5;
+        }
+        #login_middle_right{
+            grid-area: 2 / 5 / 5 / 6; 
+        }
+    /* bottom */
+        #login_bottom{
+            grid-area: 5 / 1 / 6 / 6; 
+        }
