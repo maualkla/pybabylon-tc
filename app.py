@@ -148,7 +148,7 @@ def dashboard():
             _auth_obj = auth(_id, _un)
             _status = _auth_obj.json().get('status')
             if _status == 'valid':
-                return render_template('dashboard.html')
+                return render_template('dashboard.html', user_name=_un)
             else:
                 _log = make_response(redirect('/login'))
                 _log.delete_cookie('_id')
@@ -200,71 +200,76 @@ def signup():
 @app.route('/s_signup')
 def s_signup():
     try:
-        _un = request.cookies.get('_un')
-        _pw = request.cookies.get('_pw')
-        _em = request.cookies.get('_em')
-        _bd = request.cookies.get('_bd')
-        _fn = request.cookies.get('_fn')
-        _po = request.cookies.get('_po')
-        _pn = request.cookies.get('_pn')
-        _pc = request.cookies.get('_pc')
-        _tr = request.cookies.get('_tr')
-        _ty = request.cookies.get('_ty')
-        print('username: '+_un+' password: '+_pw+' email: '+_em+' birthday: '+_bd+' fullname: '+_fn+' phone: '+_pn+' pin code: '+_pc+' terms: '+_tr+' type: '+_ty )
+        if request.cookies.get('_un') and request.cookies.get('_pw') and request.cookies.get('_em') and request.cookies.get('_bd') and request.cookies.get('_fn') and request.cookies.get('_po') and request.cookies.get('_pn') and request.cookies.get('_pc') and request.cookies.get('_tr') and request.cookies.get('_ty'):
+            _un = request.cookies.get('_un')
+            _pw = request.cookies.get('_pw')
+            _em = request.cookies.get('_em')
+            _bd = request.cookies.get('_bd')
+            _fn = request.cookies.get('_fn')
+            _po = request.cookies.get('_po')
+            _pn = request.cookies.get('_pn')
+            _pc = request.cookies.get('_pc')
+            _tr = request.cookies.get('_tr')
+            _ty = request.cookies.get('_ty')
+            print('username: '+_un+' password: '+_pw+' email: '+_em+' birthday: '+_bd+' fullname: '+_fn+' phone: '+_pn+' pin code: '+_pc+' terms: '+_tr+' type: '+_ty )
 
-        url = _alx_url+'/signup'
-        headers = {'Content-type': 'application/json'}
-        _user = {
-            "activate": True,
-            "username": _un,
-            "bday": _bd,
-            "email": _em,
-            "fname": _fn,
-            "pass": _pw,
-            "phone": _po,
-            "pin": _pn,
-            "plan": 1,
-            "postalCode": _pc,
-            "terms": _tr,
-            "type": _ty
-        }
-        print(_user)
+            url = _alx_url+'/signup'
+            headers = {'Content-type': 'application/json'}
+            _user = {
+                "activate": True,
+                "username": _un,
+                "bday": _bd,
+                "email": _em,
+                "fname": _fn,
+                "pass": _pw,
+                "phone": _po,
+                "pin": _pn,
+                "plan": 1,
+                "postalCode": _pc,
+                "terms": _tr,
+                "type": _ty
+            }
+            print(_user)
 
-        _response = requests.post(url, json=_user, headers=headers) 
+            _response = requests.post(url, json=_user, headers=headers) 
 
-        print(_response)
-        print(_response.status_code)
-        ##_status = _response.status_code
-        
-        if _response.status_code == 202:
-            ##return "Successfuly created."
-            _logi = make_response(redirect('/login'))
-            _logi.set_cookie('_flag', 'User created, login to start.')
-            _logi.delete_cookie('_un')
-            _logi.delete_cookie('_em')
-            _logi.delete_cookie('_pw')
-            _logi.delete_cookie('_bd')
-            _logi.delete_cookie('_fn')
-            _logi.delete_cookie('_po')
-            _logi.delete_cookie('_pn')
-            _logi.delete_cookie('_pc')
-            _logi.delete_cookie('_tr')
-            _logi.delete_cookie('_ty')
-            return _logi
+            print(_response)
+            print(_response.status_code)
+            ##_status = _response.status_code
+            
+            if _response.status_code == 202:
+                ##return "Successfuly created."
+                _logi = make_response(redirect('/login'))
+                _logi.set_cookie('_flag', 'User created, login to start.')
+                _logi.delete_cookie('_un')
+                _logi.delete_cookie('_em')
+                _logi.delete_cookie('_pw')
+                _logi.delete_cookie('_bd')
+                _logi.delete_cookie('_fn')
+                _logi.delete_cookie('_po')
+                _logi.delete_cookie('_pn')
+                _logi.delete_cookie('_pc')
+                _logi.delete_cookie('_tr')
+                _logi.delete_cookie('_ty')
+                return _logi
+            else:
+                _logi = make_response(redirect('/signup'))
+                _logi.set_cookie('_flag', _response.json().get('status'))
+                _logi.delete_cookie('_un')
+                _logi.delete_cookie('_em')
+                _logi.delete_cookie('_pw')
+                _logi.delete_cookie('_bd')
+                _logi.delete_cookie('_fn')
+                _logi.delete_cookie('_po')
+                _logi.delete_cookie('_pn')
+                _logi.delete_cookie('_pc')
+                _logi.delete_cookie('_tr')
+                _logi.delete_cookie('_ty')
+                return _logi
         else:
-            _logi = make_response(redirect('/signup'))
-            _logi.set_cookie('_flag', _response.json().get('status'))
-            _logi.delete_cookie('_un')
-            _logi.delete_cookie('_em')
-            _logi.delete_cookie('_pw')
-            _logi.delete_cookie('_bd')
-            _logi.delete_cookie('_fn')
-            _logi.delete_cookie('_po')
-            _logi.delete_cookie('_pn')
-            _logi.delete_cookie('_pc')
-            _logi.delete_cookie('_tr')
-            _logi.delete_cookie('_ty')
-            return _logi
+            _sign = make_response(redirect('/signup'))
+            _sign.delete_cookie('_flag')
+            return _sign
     except Exception as e:
         return {"status": "An error Occurred", "error": e}
 
