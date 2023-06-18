@@ -18,6 +18,13 @@ _alx_url = 'http://127.0.0.1:3000/'
 ## Initialize Flask App
 app = Flask(__name__)
 
+@app.route('/apidocs')
+def apidocs():
+    return render_template('apidocs.html')
+
+@app.route('/apidocs/v0-1')
+def apidocs_v0_1():
+    return render_template('apidocs_v0_1.html')
 
 ## @TO_BE_DELETED 
 # sample helloworld
