@@ -80,44 +80,11 @@
                     display:none;
                 }
                 /* top */
-                    #login_top_left{
-                        grid-area: 1 / 1 / 2 / 2;
-                    }
-                        #login_top_left{
-                            margin: auto;
-                        }
-                    #login_top_right{
-                        grid-area: 1 / 2 / 2 / 6;
-                    }
-                        #login_title{
-                            font-size: 500%;
-                            margin: auto;
-                        }
+                   
                 /* middle */
-                    #login_middle_left{
-                        grid-area: 2 / 1 / 5 / 2; 
-                    }
-                    #login_middle_center{
-                        margin: auto;
-                        grid-area: 2 / 2 / 5 / 5;
-                    }
-                    #login_middle_right{
-                        grid-area: 2 / 5 / 5 / 6; 
-                    }
+
                 /* bottom */
-                    #login_bottom{
-                        background: #49547B;
-                        grid-area: 5 / 1 / 6 / 6; 
-                        text-align: center;
-                        max-height: 80%;
-                        margin-top: 10%;
-                        font-style: normal;
-                        font-size: 49%;
-                    }
-                        #login_bottom a{
-                            color: #edf0fa;
-                            font-size: 90%;
-                        }
+                    
 
     }
 
@@ -234,9 +201,19 @@
                         grid-area: 2 / 1 / 5 / 2; 
                     }
                     #login_middle_center{
-                        margin: auto;
+                        margin:auto;
                         grid-area: 2 / 2 / 5 / 5;
+                        display:flex;
+                        justify-content: center;
+                        align-items: center;
                     }
+                        #i_email, #i_word{
+                            font-size: 200%;
+                            margin: 1%;;
+                        }
+                        #b_login{
+                            margin: 1%;
+                        }
                     #login_middle_right{
                         grid-area: 2 / 5 / 5 / 6; 
                     }
@@ -255,6 +232,7 @@
                             color: #edf0fa;
                             font-size: 90%;
                         }
+
 
     }
 

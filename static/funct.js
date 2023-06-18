@@ -23,7 +23,11 @@ if(path === '/login')
         document.cookie = '_p='+buf_psw+';';
         window.location.replace("/s_login") 
     });
-    document.getElementById('b_register_login').addEventListener('click', function (){
+    document.getElementById('b_register_login_w').addEventListener('click', function (){
+        console.log("Js is working fine");
+        window.location.replace("/signup")
+    });
+    document.getElementById('b_register_login_m').addEventListener('click', function (){
         console.log("Js is working fine");
         window.location.replace("/signup")
     });
