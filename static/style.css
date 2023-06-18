@@ -233,7 +233,6 @@
                             font-size: 90%;
                         }
 
-
     }
 
     /* reutilizables */
@@ -274,4 +273,12 @@
     /* text inputs */
     .it_input{
         font-size: 150%;
+    }
+
+     /* Signup styles web */
+     #form_stage_1{
+        display: block;
+    }
+    #form_stage_2, #form_stage_3{
+        display: none;
     }
