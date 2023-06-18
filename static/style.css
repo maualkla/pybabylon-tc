@@ -66,7 +66,8 @@
         
         /* Login page styles */
         .login{
-            background:#e9ccfc;
+            display: none;
+            background: #49547B;
         }
             #login_container{
                 display: grid;
@@ -84,7 +85,11 @@
                 /* middle */
 
                 /* bottom */
-                    
+        /* signup styles for mobile */
+        .signup{
+            display: none;
+            background: #49547B;
+        } 
 
     }
 
@@ -208,7 +213,7 @@
                         align-items: center;
                     }
                         #i_email, #i_word{
-                            font-size: 200%;
+                            font-size: 300%;
                             margin: 1%;;
                         }
                         #b_login{
@@ -258,10 +263,30 @@
                     }
                 #signup_middle{
                     grid-area: 2 / 1 / 5 / 6;
+                    display:flex;
+                    justify-content: center;
+                    align-items: center;
+                    margin: 20%;
                 }
+                    .it_input, .signup_input_text{
+                        font-size: 300%;
+                        margin: 1%;
+                    }
                 #signup_bottom{
                     grid-area: 5 / 1 / 6 / 6; 
+                    background: #49547B;
+                    grid-area: 5 / 1 / 6 / 6; 
+                    text-align: center;
+                    height: 50%;
+                    margin-top: 8%;
+                    font-style: normal;
+                    font-size: 49%;
+                    padding-top: .5%;
                 }
+                    #signup_bottom a{
+                        color: #edf0fa;
+                        font-size: 90%;
+                    }
 
     }
 
@@ -302,7 +327,7 @@
     }
     /* text inputs */
     .it_input{
-        font-size: 150%;
+        font-size: 300%;
     }
 
      /* Signup styles web */
