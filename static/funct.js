@@ -64,11 +64,17 @@ if(path === '/login')
             document.getElementById('form_stage_3').style.display = "none";
             _stage = 2;
         }else if(_stage === 2){
-            document.getElementById('form_stage_1').style.display = "none";
-            document.getElementById('form_stage_2').style.display = "none";
-            document.getElementById('form_stage_3').style.display = "block";
-            document.getElementById('b_signup').value = 'Create User';
-            _stage = 3;
+            console.log(document.getElementById('plan_radio_1'))
+            console.log(document.getElementById('plan_radio_1').checked)
+            if(document.getElementById('plan_radio_1').checked){
+                document.getElementById('form_stage_1').style.display = "none";
+                document.getElementById('form_stage_2').style.display = "none";
+                document.getElementById('form_stage_3').style.display = "block";
+                document.getElementById('b_signup').value = 'Create User';
+                _stage = 3;
+            }else{
+                window.alert(" Choose a plan. ");
+            }
         } else if(_stage === 3){
             _redirect_to_signup(); 
         }   
@@ -77,6 +83,11 @@ if(path === '/login')
     document.getElementById('b_login_signup_w').addEventListener('click', function (){
         console.log("Js is working fine");
         window.location.replace("/login")
+    });
+
+    document.getElementById('plan_button_1').addEventListener('click', function (){
+        console.log(" Checked value changed ");
+        document.getElementById('plan_radio_1').checked = true;
     });
 
     /*
