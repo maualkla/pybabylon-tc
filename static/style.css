@@ -266,15 +266,12 @@
                         display:flex;
                         justify-content: center;
                         align-items: center;
-                        border: solid red 1px;
-
                     }
                         .it_input, .signup_input_text{
                             font-size: 100%;
                             margin: 1%;
                         }
                         #form_stage_1{
-                            border: solid red 1px;
                             padding-left: 20%;
                             padding-right: 20%;
                         }
