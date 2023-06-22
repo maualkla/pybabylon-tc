@@ -63,6 +63,7 @@ if(path === '/login')
             document.getElementById('form_stage_2').style.display = "block";
             document.getElementById('form_stage_3').style.display = "none";
             _stage = 2;
+            document.getElementById('b_back').disabled = false;
         }else if(_stage === 2){
             console.log(document.getElementById('plan_radio_1'))
             console.log(document.getElementById('plan_radio_1').checked)
@@ -78,6 +79,22 @@ if(path === '/login')
         } else if(_stage === 3){
             _redirect_to_signup(); 
         }   
+        console.log(" Stage out: "+_stage)    
+    });
+    document.getElementById('b_back').addEventListener('click', function (){
+        if(_stage === 2){
+            document.getElementById('form_stage_1').style.display = "block";
+            document.getElementById('form_stage_2').style.display = "none";
+            document.getElementById('form_stage_3').style.display = "none";
+            document.getElementById('b_back').disabled = true;
+            _stage = 1;
+        }else if(_stage === 3){
+            document.getElementById('form_stage_1').style.display = "none";
+            document.getElementById('form_stage_2').style.display = "block";
+            document.getElementById('form_stage_3').style.display = "none";
+            document.getElementById('b_signup').value = 'Next';
+            _stage = 2;
+        } 
         console.log(" Stage out: "+_stage)    
     });
     document.getElementById('b_login_signup_w').addEventListener('click', function (){
@@ -138,7 +155,7 @@ function _redirect_to_signup(){
         console.log(document.getElementById('s_terms').checked)
         let _tr = document.getElementById('s_terms').checked;
         let _ty = "1_hc";//document.getElementById('s_type').value;
-        let _pl = document.getElementById('s_plan').value;
+        let _pl = (document.getElementById('plan_radio_1').checked === true ? 1: 0);
         document.cookie = '_un='+_un+';';
         document.cookie = '_pw='+_pw+';';
         document.cookie = '_em='+_em+';';
