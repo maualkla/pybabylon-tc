@@ -154,8 +154,13 @@ def dashboard():
             _un = request.cookies.get('_un')
             _auth_obj = auth(_id, _un)
             _status = _auth_obj.json().get('status')
+            _lov = ['value1', 'value2', 'value3']
+            context = {
+                "user_name": _un,
+                "values": _lov,
+            }
             if _status == 'valid':
-                return render_template('dashboard.html', user_name=_un)
+                return render_template('dashboard.html', **context)
             else:
                 _log = make_response(redirect('/login'))
                 _log.delete_cookie('_id')
