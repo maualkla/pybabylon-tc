@@ -59,11 +59,16 @@ if(path === '/login')
     console.log("stage in: "+_stage)
     document.getElementById('b_signup').addEventListener('click', function (){
         if(_stage === 1){
-            document.getElementById('form_stage_1').style.display = "none";
-            document.getElementById('form_stage_2').style.display = "block";
-            document.getElementById('form_stage_3').style.display = "none";
-            _stage = 2;
-            document.getElementById('b_back').disabled = false;
+            if(document.getElementById('s_fname').value.length > 0 && document.getElementById('s_username').value.length > 0 && document.getElementById('s_email').value.length > 0 && document.getElementById('s_pass').value.length > 0) 
+            {    
+                document.getElementById('form_stage_1').style.display = "none";
+                document.getElementById('form_stage_2').style.display = "block";
+                document.getElementById('form_stage_3').style.display = "none";
+                document.getElementById('b_back').disabled = false;
+                _stage = 2;
+            }else{
+                window.alert(' Please fill all the required fields.')
+            }       
         }else if(_stage === 2){
             console.log(document.getElementById('plan_radio_1'))
             console.log(document.getElementById('plan_radio_1').checked)
