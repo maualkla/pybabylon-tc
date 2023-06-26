@@ -1,37 +1,33 @@
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Login - Adminde Time Card</title>
-        <link rel="stylesheet" href="../static/style.css">
-        <link rel="icon" type="" href="../static/tc_logo.ico">
-    </head>
-    <body class="login">
-        <div class="container" id="login_container">
-            <div id="login_top_left">
-                <input type="button" class="ib_high" name="register" id="b_register_login_w" value="Register">
-            </div>
-            <div id="login_top_right">
-                <p id="login_title"> Login </p>
-            </div>
-            <div id="login_middle_left"></div>
-            <div id="login_middle_center">
-                <form id="login_middle_center_form">
-                    <input required type="email" class="it_input" placeholder="email" id="i_email">
-                    <input required type="password" class="it_input" placeholder="password" id="i_word">
-                    <br><br>
-                    <input type="button" class="ib_high" name="login" value="Login" id="b_login">
-                </form>
-                <input type="button" class="ib_norm" name="register" id="b_register_login_m" value="Register">
-            </div>
-            <div id="login_middle_right"></div>
-            <div class="bottom" id="login_bottom">
-                <a href="#" > Contact </a> - 
-                <a href="#" > Legal </a> - 
-                <a href="#" > About </a> - 
-                <a href="https://www.maualkla.com/jobs" target="_blank"> Jobs </a> - 
-                <a href="{{ url_for('index') }}" > Home </a>
-            </div>
-        </div>
-    </body>
-    <script src="../static/funct.js"></script>
-</html>
+{% extends 'base.html' %}
+{% block title %}
+Login - {{ super() }}
+{% endblock %}
+
+{% block content %}
+<div class="container login" id="login_container">
+    <div id="login_top_left">
+        <input type="button" class="ib_high" name="register" id="b_register_login_w" value="Register">
+    </div>
+    <div id="login_top_right">
+        <p id="login_title"> Login </p>
+    </div>
+    <div id="login_middle_left"></div>
+    <div id="login_middle_center">
+        <form id="login_middle_center_form">
+            <input required type="email" class="it_input" placeholder="email" id="i_email">
+            <input required type="password" class="it_input" placeholder="password" id="i_word">
+            <br><br>
+            <input type="button" class="ib_high" name="login" value="Login" id="b_login">
+        </form>
+        <input type="button" class="ib_norm" name="register" id="b_register_login_m" value="Register">
+    </div>
+    <div id="login_middle_right"></div>
+    <div class="bottom" id="login_bottom">
+        <a href="#" > Contact </a> - 
+        <a href="#" > Legal </a> - 
+        <a href="#" > About </a> - 
+        <a href="https://www.maualkla.com/jobs" target="_blank"> Jobs </a> - 
+        <a href="{{ url_for('index') }}" > Home </a>
+    </div>
+</div>
+{% endblock %}
