@@ -97,6 +97,12 @@
                             font-size: 200%;
                         }
                         /* bottom */
+                        #login_bottom a{
+                            color:#49547B;
+                        }
+                            #b_register_login_m{
+                                color:#49547B;
+                            }
                 /* signup styles for mobile */
                 .signup{
                     display: none;
