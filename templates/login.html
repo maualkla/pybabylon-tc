@@ -15,6 +15,7 @@ Login - {{ super() }}
     <div id="login_middle_center">
         <form id="login_middle_center_form">
             <input required type="email" class="it_input" placeholder="email" id="i_email">
+            <br><br>
             <input required type="password" class="it_input" placeholder="password" id="i_word">
             <br><br>
             <input type="button" class="ib_high" name="login" value="Login" id="b_login">
@@ -27,7 +28,7 @@ Login - {{ super() }}
         <a href="#" > Legal </a> - 
         <a href="#" > About </a> - 
         <a href="https://www.maualkla.com/jobs" target="_blank"> Jobs </a> - 
-        <a href="{{ url_for('index') }}" > Home </a>
+        <a href="{{ url_for('landing') }}" > Home </a>
     </div>
 </div>
 {% endblock %}
