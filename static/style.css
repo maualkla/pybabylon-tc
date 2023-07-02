@@ -195,6 +195,40 @@
                         color:#edf0fa;
                         text-decoration: none;
                     }
+
+                    /* Dashboard */
+                    .dashboard{
+                        background: #edf0fa;
+                        color:#49547B;
+                    }
+
+                    /* Top*/ 
+                        #dashboard_title{
+                            font-size: 300%;
+                            padding: 10%;
+                        }
+                    
+                    /* Middle */
+                        #dashboard_middle{
+                            padding: 10%;
+                            padding-top: 5%;
+                            padding-bottom: 5%;
+                        }
+                    
+                    /* bottom */ 
+                        #dashboard_bottom{
+                            background-color: #49547B;
+                            color: #edf0fa;
+                            height: 40%;
+                            margin-left: -1%;
+                            margin-top: 0%;
+                            padding: 3%;
+                            text-align: center;
+                        }
+                        #dashboard_bottom a{
+                            color:#edf0fa;
+                            text-decoration: none;
+                        }
             }
 
 
@@ -403,6 +437,40 @@
                                 color: #edf0fa;
                                 font-size: 90%;
                             }
+
+                    /* Dashboard */
+                    .dashboard{
+                        background: #edf0fa;
+                        color:#49547B;
+                    }
+
+                    /* Top*/ 
+                        #dashboard_title{
+                            font-size: 300%;
+                            padding: 10%;
+                        }
+                    
+                    /* Middle */
+                        #dashboard_middle{
+                            padding: 10%;
+                            padding-top: 5%;
+                            padding-bottom: 5%;
+                        }
+                    
+                    /* bottom */ 
+                    #dashboard_bottom{
+                        background-color: #49547B;
+                        color: #edf0fa;
+                        height: 40%;
+                        margin-left: -1%;
+                        margin-top: 0%;
+                        padding: 3%;
+                        text-align: center;
+                    }
+                    #dashboard_bottom a{
+                        color:#edf0fa;
+                        text-decoration: none;
+                    }
 
             }
 
