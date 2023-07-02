@@ -51,6 +51,12 @@ if(path === '/login')
         console.log("Js is working fine");
         window.location.replace("/signup")
     });
+
+    // listener for the login button to confirm JS funcitons
+    document.getElementById('M_Register').addEventListener('click', function (){
+        console.log("Js is working fine");
+        window.location.replace("/signup")
+    });
 }if(path === '/signup')
 {
     console.log(getCookies())
@@ -103,6 +109,11 @@ if(path === '/login')
         console.log(" Stage out: "+_stage)    
     });
     document.getElementById('b_login_signup_w').addEventListener('click', function (){
+        console.log("Js is working fine");
+        window.location.replace("/login")
+    });
+
+    document.getElementById('b_login_signup_m').addEventListener('click', function (){
         console.log("Js is working fine");
         window.location.replace("/login")
     });

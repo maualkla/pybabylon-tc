@@ -83,7 +83,7 @@
                         }
                         /* top */
                         #login_title{
-                            font-size: 600%;
+                            font-size: 450%;
                             margin: 15%;
                         }
                         /* middle */
@@ -129,9 +129,35 @@
                         }
                 /* signup styles for mobile */
                 .signup{
-                    display: none;
-                    background: #49547B;
+                    color: #49547B;
+                    background: #edf0fa;
                 } 
+                    #b_login_signup_w{
+                        display: none;
+                    }
+                    #b_login_signup_m, #b_back{
+                        color:#49547B;
+                    }
+                    /*top*/
+                    #signup_title{
+                        font-size: 450%;
+                        margin: 15%;
+                    }
+
+                    /* middle */ 
+                    #form_stage_1, #form_stage_2, #form_stage_3{
+                        margin: 10%;
+                    }
+                    #b_back, #b_signup, #b_login_signup_m{
+                        font-size: 150%;
+                    }
+
+                    #b_signup{
+                        margin-left: 31%;
+                    }
+                    #b_login_signup_m{
+                        margin-left: 34%;
+                    }
 
             }
 
@@ -322,6 +348,9 @@
                             }
                             #b_back{
                                 color:#49547B;
+                            }
+                            #b_login_signup_m{
+                                display: none;
                             }
                         #signup_bottom{
                             grid-area: 5 / 1 / 6 / 6; 
