@@ -10,26 +10,26 @@ var _stage = 1;
 
 if(path === '/login')
 {
-    console.log(getCookies());
+    //console.log(getCookies());
     //window.alert(JSON.stringify(getCookies()));
-    console.log(" JS Working fine");
+    //console.log(" JS Working fine");
     // listener for the login button to confirm JS funcitons
     document.getElementById('b_login').addEventListener('click', function (){
-        console.log("Login JS Function")
+        //console.log("Login JS Function")
         let username = document.getElementById('i_email').value;
         let password = document.getElementById('i_word').value;
         let buf_psw = window.btoa(unescape(encodeURIComponent(password)))
-        console.log('_u = '+username+'; _p = '+buf_psw+'; _dec: '+password)
+        //console.log('_u = '+username+'; _p = '+buf_psw+'; _dec: '+password)
         document.cookie = '_u='+username+';';
         document.cookie = '_p='+buf_psw+';';
         window.location.replace("/s_login") 
     });
     document.getElementById('b_register_login_w').addEventListener('click', function (){
-        console.log("Js is working fine");
+        //console.log("Js is working fine");
         window.location.replace("/signup")
     });
     document.getElementById('b_register_login_m').addEventListener('click', function (){
-        console.log("Js is working fine");
+        //console.log("Js is working fine");
         window.location.replace("/signup")
     });
 
@@ -37,32 +37,32 @@ if(path === '/login')
     console.log(getCookies());
     // listener for the login button to confirm JS funcitons
     document.getElementById('B_Login').addEventListener('click', function (){
-        console.log("Login btton activated")
+        //console.log("Login btton activated")
         window.location.replace("/login")
     });
     // listener for the login button to confirm JS funcitons
     document.getElementById('M_Login').addEventListener('click', function (){
-        console.log("Login btton activated")
+        //console.log("Login btton activated")
         window.location.replace("/login")
     });
 
     // listener for the login button to confirm JS funcitons
     document.getElementById('B_Register').addEventListener('click', function (){
-        console.log("Js is working fine");
+        //console.log("Js is working fine");
         window.location.replace("/signup")
     });
 
     // listener for the login button to confirm JS funcitons
     document.getElementById('M_Register').addEventListener('click', function (){
-        console.log("Js is working fine");
+        //console.log("Js is working fine");
         window.location.replace("/signup")
     });
 }if(path === '/signup')
 {
     console.log(getCookies())
     //alert(JSON.stringify(getCookies()))
-    console.log('JS working fine')
-    console.log("stage in: "+_stage)
+    //console.log('JS working fine')
+    //console.log("stage in: "+_stage)
     document.getElementById('b_signup').addEventListener('click', function (){
         if(_stage === 1){
             if(document.getElementById('s_fname').value.length > 0 && document.getElementById('s_username').value.length > 0 && document.getElementById('s_email').value.length > 0 && document.getElementById('s_pass').value.length > 0) 
@@ -76,8 +76,8 @@ if(path === '/login')
                 window.alert(' Please fill all the required fields.')
             }       
         }else if(_stage === 2){
-            console.log(document.getElementById('plan_radio_1'))
-            console.log(document.getElementById('plan_radio_1').checked)
+            //console.log(document.getElementById('plan_radio_1'))
+            //console.log(document.getElementById('plan_radio_1').checked)
             if(document.getElementById('plan_radio_1').checked){
                 document.getElementById('form_stage_1').style.display = "none";
                 document.getElementById('form_stage_2').style.display = "none";
@@ -109,17 +109,17 @@ if(path === '/login')
         console.log(" Stage out: "+_stage)    
     });
     document.getElementById('b_login_signup_w').addEventListener('click', function (){
-        console.log("Js is working fine");
+        //console.log("Js is working fine");
         window.location.replace("/login")
     });
 
     document.getElementById('b_login_signup_m').addEventListener('click', function (){
-        console.log("Js is working fine");
+        //console.log("Js is working fine");
         window.location.replace("/login")
     });
 
     document.getElementById('plan_button_1').addEventListener('click', function (){
-        console.log(" Checked value changed ");
+        //console.log(" Checked value changed ");
         document.getElementById('plan_radio_1').checked = true;
     });
 
@@ -140,9 +140,16 @@ if(path === '/login')
     });
     */
 
-} else {
-    console.log(getCookies());
-    console.log(" JS Working fine");
+}if(path === '/dashboard')
+{
+    document.getElementById('b_dash_logout').addEventListener('click', function (){
+        //console.log("Login btton activated")
+        window.location.replace("/logout")
+    });
+
+ } else {
+    //console.log(getCookies());
+    //console.log(" JS Working fine");
 }
 
 // Const to get ans show all cookies.
@@ -167,8 +174,8 @@ function _redirect_to_signup(){
         let _po = "121212121_hc";//document.getElementById('s_phone').value;
         let _pn = "2411_hc";//document.getElementById('s_pin').value;
         let _pc = "20250_hc";//document.getElementById('s_postalCode').value;
-        console.log(document.getElementById('s_terms'))
-        console.log(document.getElementById('s_terms').checked)
+        //console.log(document.getElementById('s_terms'))
+        //console.log(document.getElementById('s_terms').checked)
         let _tr = document.getElementById('s_terms').checked;
         let _ty = "1_hc";//document.getElementById('s_type').value;
         let _pl = (document.getElementById('plan_radio_1').checked === true ? 1: 0);

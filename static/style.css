@@ -196,24 +196,29 @@
                         text-decoration: none;
                     }
 
-                    /* Dashboard */
-                    .dashboard{
-                        background: #edf0fa;
-                        color:#49547B;
-                    }
+                /* Dashboard */
+                .dashboard{
+                    background: #edf0fa;
+                    color:#49547B;
+                }
 
                     /* Top*/ 
                         #dashboard_title{
-                            font-size: 300%;
+                            font-size: 150%;
                             padding: 10%;
                         }
                     
                     /* Middle */
                         #dashboard_middle{
+                            display: grid;
                             padding: 10%;
-                            padding-top: 5%;
-                            padding-bottom: 5%;
+                            padding-top: 30%;
+                            padding-bottom: 50%;
                         }
+                            #b_dash_cworkspace,#b_dash_help,#b_dash_logout{
+                                font-size: 150%;
+                                margin: 1%;
+                            }
                     
                     /* bottom */ 
                         #dashboard_bottom{
