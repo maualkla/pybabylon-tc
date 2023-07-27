@@ -16,6 +16,7 @@ const path = ObjURL.pathname;
 var _stage = 1;
 
 
+
 if(path === '/login')
 {
     //console.log(getCookies());
@@ -65,6 +66,8 @@ if(path === '/login')
         //console.log("Js is working fine");
         window.location.replace("/signup")
     });
+
+    
 }if(path === '/signup')
 {
     console.log(getCookies())

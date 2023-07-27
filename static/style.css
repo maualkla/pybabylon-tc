@@ -15,21 +15,36 @@
 @media only screen and (max-width: 1000px), (pointer:none){
 
     ._content{
+        margin: -.9%;
+        border: solid 1px red;
+
+        font-family: Arial, Helvetica, sans-serif; 
+        /* grid for the top and the content */ 
         display: grid;
         grid-template-columns: 1fr;
         grid-template-rows: repeat(10, 1fr);
         grid-column-gap: 0px;
         grid-row-gap: 0px;
-        font-size: medium;
+        font-size: 10um;
     }
         ._top{
             grid-area: 1 / 1 / 2 / 2;
+            /* Grid for the title and hamburger menu */
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            grid-template-rows: 1fr;
+            grid-column-gap: 0px;
+            grid-row-gap: 0px;
         }
             ._title{
-                font-size: 150%;
-                padding: 10%;
+                grid-area: 1 / 1 / 2 / 6;
+                font-size: 700%;
+                padding: 4%;
                 text-align: left;
-                
+            }
+            ._menu_button{
+                grid-area: 1 / 6 / 2 / 7;
+                display: flex;
             }
         ._flex_box{
             grid-area: 2 / 1 / 11 / 2;
@@ -41,6 +56,96 @@
         }
 
 }
+
+/* START Hamburger External CSS CODE */
+#burger-toggle {
+    appearance: none;
+    opacity: 0;
+    &:checked {
+        /* Here don't use box-shadow to make overlay because it will damage performance. ¨*/
+        &~.overlay {
+            opacity: 1;
+            transform: scale(160);
+        }
+        &~.burger-menu {
+            .line {
+                &:nth-child(1) {
+                    transform: translateY(calc(var(--burger-menu-radius) / 5)) rotate(45deg);
+                }
+                &:nth-child(2) {
+                    transform: scaleX(0);
+                }
+                &:nth-child(3) {
+                    transform: translateY(calc(var(--burger-menu-radius) / -5)) rotate(-45deg);
+                }
+            }
+        }
+    }
+}
+.burger-menu {
+    --burger-menu-radius: 4em;
+    position: relative;
+    z-index: 100;
+    display: block;
+    width: var(--burger-menu-radius);
+    height: var(--burger-menu-radius);
+    background: white;
+    border: solid 2px hsla(184, 9%, 62%, 0.4);
+    border-radius: 50%;
+    outline: none;
+    cursor: pointer;
+    transition: 0.5s ease-in-out;
+    .line {
+        position: absolute;
+        left: 25%;
+        width: 50%;
+        height: 3px;
+        background: hsla(210, 29%, 24%, 0.3);
+        border-radius: 10px;
+        overflow: hidden;
+        transition: all 0.5s ease;
+        &:nth-child(1) {
+            top: 30%;
+        }
+        &:nth-child(2) {
+            top: 50%;
+        }
+        &:nth-child(3) {
+            top: 70%;
+        }
+        &::after {
+            position: absolute;
+            content: "";
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #2980b9;
+            transform: translateX(-100%);
+            transition: all 0.25s ease;
+        }
+        @for $i from 2 through 3 {
+            &:nth-child(#{$i})::after {
+                transition-delay: 0.1s * ($i - 1);
+            }
+        }
+    }
+    &:hover {
+        box-shadow:
+            0.4px 0.4px 0.8px rgba(0, 0, 0, 0.042),
+            1px 1px 2px rgba(0, 0, 0, 0.061),
+            1.9px 1.9px 3.8px rgba(0, 0, 0, 0.075),
+            3.4px 3.4px 6.7px rgba(0, 0, 0, 0.089),
+            6.3px 6.3px 12.5px rgba(0, 0, 0, 0.108),
+            15px 15px 30px rgba(0, 0, 0, 0.15);
+    
+        .line::after {
+            transform: translateX(0);
+        }
+    }
+}
+/* FINISH Hamburger External CSS CODE */
+
 
 
 /*
@@ -348,3 +453,26 @@
         margin-top: 5%;
         margin-bottom: 10%;
     }
+
+/***************************
+    Commons
+****************************/
+
+/* common objects */
+._menu_box{}
+
+/* color schemes */
+._main{
+    background: #edf0fa;
+    color:#49547B;
+}
+._altern{
+    background: #49547B;
+    color: #edf0fa;
+}
+
+/* status */
+._hidden{
+    display: none;
+}
+
