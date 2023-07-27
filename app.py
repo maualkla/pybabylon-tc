@@ -23,9 +23,6 @@ app.config.from_object(Config)
 ## globals
 _alx_url = str(app.config['CONF_URL']) + ":" + str(app.config['CONF_PORT'])
 
-print("--> Service Up: ")
-print("  (1) Alexa URL: "+_alx_url)
-
 @app.route('/apidocs')
 def apidocs():
     return render_template('apidocs.html')
