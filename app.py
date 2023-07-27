@@ -34,7 +34,15 @@ def apidocs_v0_1():
 # Landing page
 @app.route('/')
 def landing():
-    return render_template('home.html')
+    try:
+        _logged = True if request.cookies.get('_id') and request.cookies.get('_un') else False
+        context = {
+            "_logged": _logged,
+            "_sample": "1234",
+        }
+        return render_template('home.html', **context)
+    except Exception as e:
+        return {"status": "Error", "reason": str(e)}
 
 @app.route('/index')
 def index():
