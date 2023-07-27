@@ -57,6 +57,9 @@
             grid-area: 2 / 1 / 11 / 2;
             display: block;
         }
+            #_menu_box_extender{
+                border-bottom: solid 4px;
+            }
 }
 
 
