@@ -16,7 +16,7 @@
 
     ._content{
         margin: -.9%;
-        border: solid 1px red;
+        border: solid 1px #49547B;
 
         font-family: Arial, Helvetica, sans-serif; 
         /* grid for the top and the content */ 
@@ -43,6 +43,7 @@
                 padding: 5%;
                 padding-top: 5%;
                 text-align: left;
+                height: 10%;
             }
             ._menu_button{
                 grid-area: 1 / 6 / 2 / 7;
@@ -54,9 +55,8 @@
         }
         ._flex_menu{
             grid-area: 2 / 1 / 11 / 2;
-            display: none;
+            display: block;
         }
-
 }
 
 
@@ -372,7 +372,14 @@
 ****************************/
 
 /* common objects */
-._menu_box{}
+._menu_box{
+    font-size: 700%;
+    padding: 5%;
+    padding-top: 5%;
+    text-align: left;
+    border-bottom: 1px solid #49547B;
+    max-height: 11%;
+}
 
 /* color schemes */
 ._main{
@@ -382,6 +389,28 @@
 ._altern{
     background: #49547B;
     color: #edf0fa;
+}
+._box_main{
+    background: #edf0fa;
+    color:#49547B;
+}
+    ._box_main:active, ._box_main:hover{
+        background: #49547B;
+        color: #edf0fa;
+    }
+._box_altern{
+    background: #49547B;
+    color: #edf0fa;
+}
+    ._box_altern:active, ._box_altern:hover{
+        background: #edf0fa;
+        color:#49547B;
+    }
+._box_main_bot{
+    border-bottom: 1px solid #49547B;
+}
+._box_altern_bot{
+    border-bottom: 1px solid #edf0fa;
 }
 
 /* status */
@@ -468,7 +497,7 @@
         }
     }
     &:hover {
-        border: solid 3px #49547B;
+        border: solid 2px #49547B;
     
         .line::after {
             transform: translateX(0);
