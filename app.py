@@ -2,6 +2,8 @@
 ## Pybabylon Project.
 ## Coded by: Mauricio Alcala (@maualkla)
 ## Date: May 2023.
+## Current Version: 0.02
+## Last Modification Date: Aug 2023.
 ## More info at @intmau in twitter or in http://maualkla.com
 ## Description: Web app to serve adminde-tc project.
 ## flask run --host=0.0.0.0 --port=3000
@@ -9,14 +11,20 @@
 ## Imports
 ## Imports
 from flask import Flask, jsonify, request, render_template, redirect, make_response
+from config import Config
 import os, requests, base64
-
-
-## globals
-_alx_url = 'http://127.0.0.1:3000/'
 
 ## Initialize Flask App
 app = Flask(__name__)
+
+## Setup env vars
+app.config.from_object(Config)
+
+## globals
+_alx_url = str(app.config['CONF_URL']) + ":" + str(app.config['CONF_PORT'])
+
+print("--> Service Up: ")
+print("  (1) Alexa URL: "+_alx_url)
 
 @app.route('/apidocs')
 def apidocs():
