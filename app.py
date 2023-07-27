@@ -34,7 +34,7 @@ def apidocs_v0_1():
 # Landing page
 @app.route('/')
 def landing():
-    return render_template('index.html')
+    return render_template('home.html')
 
 @app.route('/index')
 def index():

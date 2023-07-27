@@ -20,7 +20,25 @@
         grid-template-rows: repeat(10, 1fr);
         grid-column-gap: 0px;
         grid-row-gap: 0px;
+        font-size: medium;
     }
+        ._top{
+            grid-area: 1 / 1 / 2 / 2;
+        }
+            ._title{
+                font-size: 150%;
+                padding: 10%;
+                text-align: left;
+                
+            }
+        ._flex_box{
+            grid-area: 2 / 1 / 11 / 2;
+            display: grid;
+        }
+        ._flex_menu{
+            grid-area: 2 / 1 / 11 / 2;
+            display: none;
+        }
 
 }
 
