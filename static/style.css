@@ -425,6 +425,16 @@
 }
 
 /* Special objects */ 
+/* Button big */
+._button_big{
+    align-items: center;
+    height: 230px;
+    width: 500px;
+    font-size: 500%;
+    border-radius: 5%;
+    padding: auto;
+}
+
 
 /* START Hamburger External CSS CODE */
 #burger-toggle {

@@ -23,10 +23,12 @@ app.config.from_object(Config)
 ## globals
 _alx_url = str(app.config['CONF_URL']) + ":" + str(app.config['CONF_PORT'])
 
+## apidocs menu
 @app.route('/apidocs')
 def apidocs():
     return render_template('apidocs.html')
 
+## apidocs v0.01
 @app.route('/apidocs/v0-1')
 def apidocs_v0_1():
     return render_template('apidocs_v0_1.html')
@@ -44,6 +46,7 @@ def landing():
     except Exception as e:
         return {"status": "Error", "reason": str(e)}
 
+## Index page
 @app.route('/index')
 def index():
     local_ip = request.remote_addr
@@ -278,6 +281,24 @@ def status():
     local_ip = request.cookies.get('local_ip')
     return "Running fine - IP: "+_local_ip
 
+
+##### Service paths
+## /legal
+@app.route('/legal')
+def legal():
+    return '/legal in construction, go back to <a href="/"> home </a>'
+
+##### Service paths
+## /about
+@app.route('/about')
+def about():
+    return '/about in construction, go back to <a href="/"> home </a>'
+
+##### Service paths
+## /jobs
+@app.route('/jobs')
+def jobs():
+    return '/jobs in construction, go back to <a href="/"> home </a>'
 
 ########################################
 ### Helpers ############################
