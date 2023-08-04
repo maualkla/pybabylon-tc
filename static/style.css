@@ -387,6 +387,14 @@
     max-height: 11%;
 }
 
+/* Languaje */
+._en{
+    display: block;
+}
+._es{
+    display: none;
+}
+
 /* color schemes */
 ._main{
     background: #edf0fa;
@@ -427,13 +435,15 @@
 /* Special objects */ 
 /* Button big */
 ._button_big{
-    align-items: center;
-    height: 230px;
-    width: 500px;
-    font-size: 500%;
-    border-radius: 5%;
-    padding: auto;
+    height: 120px;
+    width: 420px;
+    font-size: 450%;
+    border-radius: px;
+    padding: 5%;
 }
+    ._button_big p{
+        margin: auto;
+    }
 
 
 /* START Hamburger External CSS CODE */
@@ -502,7 +512,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #2980b9;
+            background: #49547B;
             transform: translateX(-100%);
             transition: all 0.25s ease;
         }
