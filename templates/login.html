@@ -2,33 +2,30 @@
 {% block title %}
 Login - {{ super() }}
 {% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="../static/home.css">
+{{ super() }}
+{% endblock %}
 
-{% block content %}
-<div class="container login" id="login_container">
-    <div id="login_top_left">
-        <input type="button" class="ib_high" name="register" id="b_register_login_w" value="Register">
-    </div>
-    <div id="login_top_right">
-        <p id="login_title"> Login </p>
-    </div>
-    <div id="login_middle_left"></div>
-    <div id="login_middle_center">
-        <form id="login_middle_center_form">
-            <input required type="email" class="it_input" placeholder="email" id="i_email">
-            <br><br>
-            <input required type="password" class="it_input" placeholder="password" id="i_word">
-            <br><br>
-            <input type="button" class="ib_high" name="login" value="Login" id="b_login">
-        </form>
-        <input type="button" class="ib_norm" name="register" id="b_register_login_m" value="Register">
-    </div>
-    <div id="login_middle_right"></div>
-    <div class="bottom" id="login_bottom">
-        <a href="#" > Contact </a> - 
-        <a href="#" > Legal </a> - 
-        <a href="#" > About </a> - 
-        <a href="https://www.maualkla.com/jobs" target="_blank"> Jobs </a> - 
-        <a href="{{ url_for('landing') }}" > Home </a>
-    </div>
-</div>
+{% block _title %}
+Login
+{% endblock %}
+
+{% block _flex_box %}
+
+{% endblock %}
+
+{% block _flex_menu %}
+{% if _logged: %}
+<div class="_menu_box _box_main _box_main_bot" id="_dashboard">Dashboard</div>
+{% else: %}
+<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_signup_en">Signup</div>
+<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_signup_es">Registrate</div>
+{% endif %}
+{% endblock %}
+
+
+{% block scripts %}
+{{ super() }}
+<script src="../static/home.js"></script>
 {% endblock %}

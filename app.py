@@ -9,7 +9,6 @@
 ## flask run --host=0.0.0.0 --port=3000
 
 ## Imports
-## Imports
 from flask import Flask, jsonify, request, render_template, redirect, make_response
 from config import Config
 import os, requests, base64
@@ -37,11 +36,22 @@ def apidocs_v0_1():
 @app.route('/')
 def landing():
     try:
-        _logged = True if request.cookies.get('_id') and request.cookies.get('_un') else False
         context = {
-            "_logged": _logged,
+            "_logged": True,
             "_sample": "1234",
         }
+        _logged = True if request.cookies.get('_id') and request.cookies.get('_un') else False
+        if _logged:
+            _id = request.cookies.get('_id')
+            _un = request.cookies.get('_un')
+            _auth_obj = auth(_id, _un)
+            _status = _auth_obj.json().get('status')
+            if _status == 'valid':
+                context['_logged'] = True
+            else:
+                context['_logged'] = False
+        else:
+            context['_logged'] = False
         return render_template('home.html', **context)
     except Exception as e:
         return {"status": "Error", "reason": str(e)}
