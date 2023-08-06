@@ -93,7 +93,6 @@ def login():
 @app.route('/s_login')
 def s_login():
     try:
-        import requests
         if request.cookies.get('_u') and request.cookies.get('_p'):
             _u = request.cookies.get('_u')
             _p = request.cookies.get('_p')
