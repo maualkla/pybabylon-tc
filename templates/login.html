@@ -14,7 +14,7 @@
         {% block _flex_box %}
         <div class="_main_block">
             <div class="_main_block_alerts {{ _flag_status }} ">
-                {{ _flag_content }}
+                {% if _flag_content %} <p>{{ _flag_content }} </p> {% endif %}
             </div>
             <div class="_main_block_content">
                 <div class="_mbc_inputs">
