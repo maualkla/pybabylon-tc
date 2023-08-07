@@ -76,7 +76,8 @@ def login():
             _status = _auth_obj.json().get('status')
             if _status == 'valid':
                 _dash = make_response(redirect('/dashboard'))
-                _dash.delete_cookie('_flag')
+                _dash.delete_cookie('_flag_status')
+                _dash.delete_cookie('_flag_content')
                 return _dash
             else:
                 _log = make_response(redirect('/login'))
@@ -84,7 +85,14 @@ def login():
                 _log.delete_cookie('_un')
                 return _log
         else:
-            return render_template('login.html')
+            if request.cookies.get('_flag_content') and request.cookies.get('_flag_status'):
+                context = {
+                    "_flag_content": request.cookies.get('_flag_content'),
+                    "_flag_status": request.cookies.get('_flag_status')
+                }
+            else:
+                context = {}
+            return render_template('login.html', **context)
     except Exception as e:
         return {"status": "An error Occurred", "error": e}
     
@@ -115,10 +123,13 @@ def s_login():
                 _home = make_response(redirect('/login'))
                 _home.delete_cookie('_u')
                 _home.delete_cookie('_p')
-                _home.set_cookie('_flag', 'Error user not found')
+                _home.set_cookie('_flag_content', 'Wrong username or password')
+                _home.set_cookie('_flag_status', '_box_yellow')
                 return _home
         else:
             _home = make_response(redirect('/login'))
+            _home.set_cookie('_flag_content', 'Missing username or password')
+            _home.set_cookie('_flag_status', '_box_red')
             return _home
     except Exception as e:
         return {"status": "An error Occurred", "error": e}
