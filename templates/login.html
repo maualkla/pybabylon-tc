@@ -1,45 +1,45 @@
-        {% extends 'base.html' %}
-        {% block title %}
-        Login - {{ super() }}
-        {% endblock %}
-        {% block styles %}
-        <link rel="stylesheet" href="../static/login.css">
-        {{ super() }}
-        {% endblock %}
+{% extends 'base.html' %}
+{% block title %}
+Login - {{ super() }}
+{% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="../static/login.css">
+{{ super() }}
+{% endblock %}
 
-        {% block _title %}
-        Login
-        {% endblock %}
+{% block _title %}
+Login
+{% endblock %}
 
-        {% block _flex_box %}
-        <div class="_main_block">
-            <div class="_main_block_alerts {{ _flag_status }} ">
-                {% if _flag_content %} <p>{{ _flag_content }} </p> {% endif %}
-            </div>
-            <div class="_main_block_content">
-                <div class="_mbc_inputs">
-                    <input class="_input_general _altern" type="text" placeholder="Email / Username" id="i_email">
-                    <input class="_input_general _altern" type="password" placeholder="Password" id="i_word">
-                </div>
-                <div class="_button_big _box_altern _altern" id="_login_buttom">
-                    <p class="_en _hidden">Login</p>
-                    <p class="_es _hidden">Inicia Sesion</p>
-                </div>
-            </div>
+{% block _flex_box %}
+<div class="_main_block">
+    <div class="_main_block_alerts {{ _flag_status }} ">
+        {% if _flag_content %} <p>{{ _flag_content }} </p> {% endif %}
+    </div>
+    <div class="_main_block_content">
+        <div class="_mbc_inputs">
+            <input class="_input_general _altern" type="text" placeholder="Email / Username" id="i_email">
+            <input class="_input_general _altern" type="password" placeholder="Password" id="i_word">
         </div>
-        {% endblock %}
+        <div class="_button_big _box_altern _altern" id="_login_buttom">
+            <p class="_en _hidden">Login</p>
+            <p class="_es _hidden">Inicia Sesion</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
 
-        {% block _flex_menu %}
-        {% if _logged: %}
-        <div class="_menu_box _box_main _box_main_bot" id="_dashboard">Dashboard</div>
-        {% else: %}
-        <div class="_menu_box _box_main _box_main_bot _en _hidden" id="_signup_en">Signup</div>
-        <div class="_menu_box _box_main _box_main_bot _es _hidden" id="_signup_es">Registrate</div>
-        {% endif %}
-        {% endblock %}
+{% block _flex_menu %}
+{% if _logged: %}
+<div class="_menu_box _box_main _box_main_bot" id="_dashboard">Dashboard</div>
+{% else: %}
+<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_signup_en">Signup</div>
+<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_signup_es">Registrate</div>
+{% endif %}
+{% endblock %}
 
 
-        {% block scripts %}
-        {{ super() }}
-        <script src="../static/login.js"></script>
-        {% endblock %}
+{% block scripts %}
+{{ super() }}
+<script src="../static/login.js"></script>
+{% endblock %}
