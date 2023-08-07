@@ -94,7 +94,7 @@ def login():
                 context = {}
             return render_template('login.html', **context)
     except Exception as e:
-        return {"status": "An error Occurred", "error": e}
+        return {"status": "An error Occurred", "error": str(e)}
     
 
 ## Login process
@@ -132,7 +132,7 @@ def s_login():
             _home.set_cookie('_flag_status', '_box_red')
             return _home
     except Exception as e:
-        return {"status": "An error Occurred", "error": e}
+        return {"status": "An error Occurred", "error": str(e)}
 
 ## Dashboard Service.
 @app.route('/dashboard')
@@ -160,7 +160,7 @@ def dashboard():
             return _log
                 
     except Exception as e:
-        return {"status": "An error Occurred", "error": e}
+        return {"status": "An error Occurred", "error": str(e)}
     
 ## Logout service
 @app.route('/logout')
@@ -171,7 +171,7 @@ def logout():
         _out.delete_cookie('_un')
         return _out
     except Exception as e:
-        return {"status": "An error Occurred", "error": e}
+        return {"status": "An error Occurred", "error": str(e)}
 
 ## Signup service
 @app.route('/signup')
@@ -195,7 +195,7 @@ def signup():
         else:
             return render_template('signup.html')
     except Exception as e:
-        return {"status": "An error Occurred", "error": e}
+        return {"status": "An error Occurred", "error": str(e)}
 
 ## Login process
 @app.route('/s_signup')
@@ -292,7 +292,7 @@ def s_signup():
             _sign.delete_cookie('_pl')
             return _sign
     except Exception as e:
-        return {"status": "An error Occurred", "error": e}
+        return {"status": "An error Occurred", "error": str(e)}
     
 ## API Status
 @app.route('/status')
@@ -332,7 +332,7 @@ def b64Encode(_string):
         _r_out = str(_out, "utf-8")
         return _r_out
     except Exception as e:
-        return {"status": "An error Occurred", "error": e}
+        return {"status": "An error Occurred", "error": str(e)}
 
 if __name__ == '__main__':
     app.run(debug=True)
@@ -353,4 +353,4 @@ def auth(_id, _un):
         print(_response)
         return _response
     except Exception as e:
-        return {"status": "An error Occurred", "error": e}
+        return {"status": "An error Occurred", "error": str(e)}
