@@ -13,9 +13,12 @@
         ._mbc_inputs input{
             margin-bottom: 5%;
         }
-        #_next_buttom{
+        #_next_button{
             margin: auto;
-            
+        }
+        #_back_button{
+            margin: auto;
+            margin-top: 5%;
         }
     #_stage_0{
     }

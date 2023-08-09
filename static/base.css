@@ -420,6 +420,7 @@
     ._main{
         background: #edf0fa;
         color:#49547B;
+        border: solid 2px #49547B;
     }
     ._altern{
         background: #49547B;
@@ -483,7 +484,7 @@
         border-radius: 10px;
         text-align: center;
         align-items: center;
-        display: block;
+        /* display: block; */
     }
         ._button_big p{
             margin: 0;
