@@ -15,12 +15,17 @@ Signup
 {% block _flex_box %}
 <div class="_main_block">
     <div class="_main_block_content">
-        <div class="_mbc_inputs">
+        <div class="_mbc_inputs" id="_stage_0">
             <input class="_input_general _main" type="text" placeholder="Full Name" id="i_full_name">
             <input class="_input_general _main" type="text" placeholder="Username" id="i_username">
             <input class="_input_general _main" type="email" placeholder="Email" id="i_email">
             <input class="_input_general _main" type="password" placeholder="Password" id="i_pass">
             <input class="_input_general _main" type="password" placeholder="Password" id="i_pass_repeat">
+        </div>
+        <div class="_mbc_inputs _hidden" id="_stage_1">
+            <input class="_input_general _main" type="number" placeholder="Phone" id="i_phone">
+            <input class="_input_general _main" type="date" placeholder="Birthday" id="i_birthday">
+            <input class="_input_general _main" type="text" placeholder="Postal Code" id="i_postal_code">
         </div>
         <div class="_button_big _gray" id="_next_buttom">
             <p class="_en _hidden">Next</p>

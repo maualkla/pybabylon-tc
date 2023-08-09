@@ -8,6 +8,7 @@
     ._main_block_alerts{}
     ._main_block_content{
         margin-top: 10%;
+        display: block;
     }
         ._mbc_inputs input{
             margin-bottom: 5%;
@@ -16,3 +17,7 @@
             margin: auto;
             
         }
+    #_stage_0{
+    }
+    #_stage_1{
+    }
