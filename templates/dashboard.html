@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}
+Dashboard - {{ super() }}
+{% endblock %}
+
+{% block content %}
+<div class="container dashboard" >
+    <div class="top">
+        <p id="dashboard_title">Welcome {{user_name}}</p>
+    </div>
+    <div class="middle" id="dashboard_middle">
+        <input type="button" class="ib_high" name="b_dash_cworkspace" id="b_dash_cworkspace" value="Create Workspace">
+        <input type="button" class="ib_high" name="b_dash_help" id="b_dash_help" value="Help">
+        <input type="button" class="ib_high" name="b_dash_logout" id="b_dash_logout" value="Close Session">
+    </div> 
+    <div class="bottom" id="dashboard_bottom">
+        <a href="#" > Contact </a> - 
+        <a href="#" > Legal </a> - 
+        <a href="#" > About </a> - 
+        <a href="https://www.maualkla.com/jobs" target="_blank"> Jobs </a> - 
+        <a href="{{ url_for('landing') }}"> Home </a>
+    </div>
+    {% if values: %}
+        {% for _x in values: %}
+            <p> {{_x}} </p>
+        {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% block title %}
+Signup - {{ super() }}
+{% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="../static/signup.css">
+{{ super() }}
+{% endblock %}
+
+{% block _title %}
+Signup
+{% endblock %}
+
+
+{% block _flex_box %}
+<div class="_main_block">
+    <div class="_main_block_content">
+        <div class="_mbc_inputs">
+            <input class="_input_general _main" type="text" placeholder="Full Name" id="i_full_name">
+            <input class="_input_general _main" type="text" placeholder="Username" id="i_username">
+            <input class="_input_general _main" type="email" placeholder="Email" id="i_email">
+            <input class="_input_general _main" type="password" placeholder="Password" id="i_pass">
+            <input class="_input_general _main" type="password" placeholder="Password" id="i_pass_repeat">
+        </div>
+        <div class="_button_big _gray" id="_next_buttom">
+            <p class="_en _hidden">Next</p>
+            <p class="_es _hidden">Siguiente</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block content_e %}
+<div class="container signup" id="signup_container">
+    <div id="signup_top_left">
+        <input type="button" class="ib_high" name="login" id="b_login_signup_w" value="Login">
+    </div>
+    <div id="signup_top_right">
+        <p id="signup_title"> Sign Up </p>
+    </div>
+    <div id="signup_middle">
+        <form>
+            <div id="form_stage_1">
+                <input class="it_input signup_input_text" type="text" placeholder="fname" required id="s_fname">
+                <br><br>
+                <input class="it_input signup_input_text" type="text" placeholder="username" required id="s_username">
+                <br><br>
+                <input class="it_input signup_input_text" type="email" placeholder="email" required id="s_email">
+                <br><br>
+                <input class="it_input signup_input_text" type="password" placeholder="pass" required id="s_pass">
+            </div>
+            <div id="form_stage_2">
+                <div class="plan_div">
+                    <input type="button" class="plan_button" value="Free Plan ($ 0.00 USD / Month)" id="plan_button_1">
+                    <input type="radio" value="1" required disabled id="plan_radio_1">
+                </div>
+                <!--input class="it_input signup_input_text" type="text" placeholder="plan" id="s_plan"-->
+            </div>
+            <div id="form_stage_3">
+                <label for="s_terms"> Accept <a href="" target="_blank">terms and conditions </a> </label>
+                <input class="it_input" type="checkbox" class="s_checkTerms" required placeholder="terms" value="1" id="s_terms">
+            </div>
+            <!--input class="it_input" type="text" placeholder="bday" required id="s_bday">
+            <input class="it_input" type="text" placeholder="phone" required id="s_phone">
+            <input class="it_input" type="text" placeholder="postalCode" required id="s_postalCode">
+            <input class="it_input" type="text" placeholder="type" id="s_type">
+            <input class="it_input" type="text" placeholder="pin" id="s_pin"-->
+            <input type="button" class="ib_high" name="signup" value="Next" id="b_signup">
+            <input type="button" disabled class="ib_norm" name="back" value="Back" id="b_back">
+        </form>
+        <input type="button" class="ib_norm" name="login" id="b_login_signup_m" value="Login">
+    </div>
+    <div class="bottom" id="signup_bottom">
+        <a href="#" > Contact </a> - 
+        <a href="#" > Legal </a> - 
+        <a href="#" > About </a> - 
+        <a href="https://www.maualkla.com/jobs" target="_blank"> Jobs </a> - 
+        <a href="{{ url_for('landing') }}"> Home </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block _flex_menu %}
+{% if _logged: %}
+<div class="_menu_box _box_main _box_main_bot" id="_dashboard">Dashboard</div>
+{% else: %}
+<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_login_en">Login</div>
+<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_login_es">Iniciar Sesion</div>
+{% endif %}
+{% endblock %}
+
+
+{% block scripts %}
+{{ super() }}
+<script src="../static/signup.js"></script>
+{% endblock %}

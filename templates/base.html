@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %} Adminde Time Card {% endblock %}</title>
+        {% block styles %}
+        <link rel="stylesheet" href="../static/base.css">
+        {% endblock %}
+        <link rel="icon" type="" href="../static/_logo.ico">
+    </head>
+    <body>
+        
+        <div class="_content _main">
+            <div class="_top">
+                <div class="_title">
+                    {% block _title %}
+                    <p> _title</p>
+                    {% endblock %}
+                </div>
+                <div class="_menu_button">   
+                    <input type="checkbox" id="burger-toggle" value="1">
+                    <label for="burger-toggle" class="burger-menu">
+                        <div class="line"></div>
+                        <div class="line"></div>
+                        <div class="line"></div>
+                    </label>
+                    <div class="overlay"></div>
+                </div>
+            </div>
+            <div class="_flex_box">
+                {% block _flex_box %}
+                <p> _flex_box</p>
+                {% endblock %}
+            </div>
+            <div class="_flex_menu _hidden">
+                {% block _flex_menu %}
+                <p> _flex_menu</p>
+                {% endblock %}
+                <div class="_menu_box _box_main _box_main_bot" id="_menu_box_extender">More..</div>
+                <div class="_menu_box _box_altern _box_altern_bot _hidden" id="_contac">Contact</div>
+                <div class="_menu_box _box_altern _box_altern_bot _hidden" id="_legal">Legal</div>
+                <div class="_menu_box _box_altern _box_altern_bot _hidden" id="_about">About</div>
+                <div class="_menu_box _box_altern _box_altern_bot _hidden" id="_jobs">Jobs</div>
+                <div class="_menu_box _box_altern _box_altern_bot _hidden" id="_home">Home</div>
+                <div class="_menu_box _box_altern _box_altern_bot _hidden" id="_trans">En/Es</div>
+            </div>
+        </div>
+
+        {% block content %}
+        {% endblock %}
+
+        {% block scripts %}
+        <script src="../static/base.js"></script>
+        {% endblock %}
+    </body>
+</html>

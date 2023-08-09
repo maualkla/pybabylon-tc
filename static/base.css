@@ -1,0 +1,578 @@
+    /*
+    ## Front End CSS styles for adminde-tc project.
+    ## Pybabylon Project.
+    ## Coded by: Mauricio Alcala (@maualkla)
+    ## Date: May 2023.
+    ## Current Version: 0.02
+    ## Last Modification Date: Aug 2023.
+    ## More info at @intmau in twitter or in http://maualkla.com
+    ## Description: Web app to serve adminde-tc project.
+    */
+
+    /*
+        ** Mobile v0_02 
+    */
+    @media only screen and (max-width: 1000px), (pointer:none){
+
+        /* GLOBAL */
+        ._content{
+            margin: -.9%;
+            border: solid 1px #49547B;
+
+            font-family: Arial, Helvetica, sans-serif; 
+            /* grid for the top and the content */ 
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: repeat(10, 1fr);
+            grid-column-gap: 0px;
+            grid-row-gap: 0px;
+            font-size: 10um;
+        }
+            ._top{
+                grid-area: 1 / 1 / 2 / 2;
+                /* Grid for the title and hamburger menu */
+                display: grid;
+                grid-template-columns: repeat(6, 1fr);
+                grid-template-rows: 1fr;
+                grid-column-gap: 0px;
+                grid-row-gap: 0px;
+                border-bottom: solid 2px #49547B;
+            }
+                ._title{
+                    grid-area: 1 / 1 / 2 / 6;
+                    font-size: 700%;
+                    padding: 5%;
+                    padding-top: 5%;
+                    text-align: left;
+                    height: 10%;
+                }
+                ._menu_button{
+                    grid-area: 1 / 6 / 2 / 7;
+                    display: flex;
+                }
+            ._flex_box{
+                grid-area: 2 / 1 / 11 / 2;
+                display: grid;
+            }
+            ._flex_menu{
+                grid-area: 2 / 1 / 11 / 2;
+                display: block;
+            }
+                #_menu_box_extender{
+                    border-bottom: solid 4px;
+                }
+
+        
+    }
+
+
+
+    /*
+        ** Web 
+    */
+    @media only screen and (min-width: 1000px), (pointer:cursor) {
+    /* Main page */
+        * {
+            box-sizing: border-box;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;  
+            font-size: 24px;
+            margin: 0;
+        }
+        
+        body{
+            background-image: url("bg_v3.jpg");/**/
+            background-color: #edf0fa;
+            /*background-position: center; */
+            background-size: cover; 
+            background-attachment: fixed;
+        
+            height: 100vh; /* For 100% screen height */
+            width:  100vw; /* For 100% screen width */
+        }
+        
+        .container {
+            width: 100%;
+            height: 100%;
+            color: white; /* #49547B; /**/
+            /*margin: 1%;*/
+        }
+        
+        #top{
+            padding: 2%; 
+            height: 25%;
+            padding-left: 0;
+            margin: 1%; margin-left: 3%;
+        }
+        #middle{
+            padding-top: 0%;padding-left: 2%;
+            height: 65%;
+            margin-bottom: 6%;
+            margin: 1%;
+            text-shadow: 1px 1px 2px #49547B;
+        }
+            #m_title{
+                font-size: 320%;
+                margin-bottom: 10%; 
+                margin-right: 40%; 
+                opacity: .5;  
+            }
+            p#m_title{
+                opacity: 1;
+            }
+            #m_message{
+                margin-right: 55%;
+                font-size: 82%;
+                /*margin-bottom: 10%;/**/
+            }
+            #m_buttons{
+                display: none;
+            }
+        
+        #bottom{
+            background-color:#49547B;
+            text-align: center;
+            height: 10%;
+            color: white;
+            padding: .5%;
+            font-style: normal;
+            font-size: 49%;
+        }  
+        #bot_message{
+            display: none;
+        }
+        a{
+            color: white;
+            font-size: 90%;
+        }
+
+        /* Login page styles */
+        .login{
+            background: #edf0fa;
+        }
+            #login_container{
+                display: grid;
+                grid-template-columns: repeat(5, 1fr);
+                grid-template-rows: repeat(5, 1fr);
+                grid-column-gap: 0px;
+                grid-row-gap: 0px;
+                color: #49547B;
+            }
+                #b_register_login_m{
+                    display:none;
+                }
+                /* top */
+                    #login_top_left{
+                        grid-area: 1 / 1 / 2 / 2;
+                    }
+                        #login_top_left{
+                            margin: auto;
+                        }
+                    #login_top_right{
+                        grid-area: 1 / 2 / 2 / 6;
+                    }
+                        #login_title{
+                            font-size: 500%;
+                            margin: auto;
+                        }
+                /* middle */
+                    #login_middle_left{
+                        grid-area: 2 / 1 / 5 / 2; 
+                    }
+                    #login_middle_center{
+                        margin:auto;
+                        grid-area: 2 / 2 / 5 / 5;
+                        display:flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
+                        #i_email, #i_word{
+                            font-size: 300%;
+                            margin: 1%;;
+                        }
+                        #b_login{
+                            margin: 1%;
+                        }
+                    #login_middle_right{
+                        grid-area: 2 / 5 / 5 / 6; 
+                    }
+                /* bottom */
+                    #login_bottom{
+                        background: #49547B;
+                        grid-area: 5 / 1 / 6 / 6; 
+                        text-align: center;
+                        height: 50%;
+                        margin-top: 8%;
+                        font-style: normal;
+                        font-size: 49%;
+                        padding-top: .5%;
+                    }
+                        #login_bottom a{
+                            color: #edf0fa;
+                            font-size: 90%;
+                        }
+        /* Sign up styles for web */
+        .signup{
+            background:#edf0fa;
+            color:#49547B;
+        }
+            #signup_container{
+                color:#49547B;
+                display: grid;
+                grid-template-columns: repeat(5, 1fr);
+                grid-template-rows: repeat(5, 1fr);
+                grid-column-gap: 0px;
+                grid-row-gap: 0px;
+            }
+                #signup_top_left{
+                    grid-area: 1 / 1 / 2 / 2; 
+                    margin: auto;
+                }
+                #signup_top_right{
+                    grid-area: 1 / 2 / 2 / 6;
+                }
+                    #signup_title{
+                        font-size: 500%;
+                        margin: auto;
+                    }
+                #signup_middle{
+                    grid-area: 2 / 1 / 5 / 6;
+                    display:flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+                    .it_input, .signup_input_text{
+                        font-size: 100%;
+                        margin: 1%;
+                    }
+                    #form_stage_1{
+                        padding-left: 20%;
+                        padding-right: 20%;
+                    }
+                    #b_signup{
+                        margin-left: 22%;
+                    }
+                    #b_back{
+                        color:#49547B;
+                    }
+                    #b_login_signup_m{
+                        display: none;
+                    }
+                #signup_bottom{
+                    grid-area: 5 / 1 / 6 / 6; 
+                    background: #49547B;
+                    grid-area: 5 / 1 / 6 / 6; 
+                    text-align: center;
+                    height: 50%;
+                    margin-top: 5%;
+                    font-style: normal;
+                    font-size: 49%;
+                    padding-top: .5%;
+                }
+                    #signup_bottom a{
+                        color: #edf0fa;
+                        font-size: 90%;
+                    }
+
+            /* Dashboard */
+            .dashboard{
+                background: #edf0fa;
+                color:#49547B;
+            }
+
+            /* Top*/ 
+                #dashboard_title{
+                    font-size: 300%;
+                    padding: 10%;
+                }
+            
+            /* Middle */
+                #dashboard_middle{
+                    padding: 10%;
+                    padding-top: 5%;
+                    padding-bottom: 5%;
+                }
+            
+            /* bottom */ 
+            #dashboard_bottom{
+                background-color: #49547B;
+                color: #edf0fa;
+                height: 40%;
+                margin-left: -1%;
+                margin-top: 0%;
+                padding: 3%;
+                text-align: center;
+            }
+            #dashboard_bottom a{
+                color:#edf0fa;
+                text-decoration: none;
+            }
+
+    }
+
+    /* reutilizables */
+    /* buttons */
+    .ib_high {
+        border: none;
+        background: none;
+        color: #edf0fa;
+        background-color: #49547B;
+        border: 5px solid #49547B ;
+        padding: 10px;
+    }
+    .ib_high:hover{
+        background-color: #edf0fa;
+        border: 5px solid #49547B ;
+        color: #49547B;
+    }
+    .ib_norm {
+        border: none;
+        background: none;
+        padding: 10px;
+        color: #edf0fa;
+    }
+    .ib_norm:hover{
+        background-color: #edf0fa;
+        color: #49547B;
+    }
+    .ib_norm_inv {
+        border: none;
+        background: none;
+        padding: 10px;
+        color: #49547B;
+    }
+    .ib_norm_inv:hover{
+        background: #49547B;
+        color: #edf0fa;
+    }
+    /* text inputs */
+    .it_input{
+        font-size: 280%;
+    }
+
+    /* Signup styles web */
+    #form_stage_1{
+        display: block;
+    }
+    #form_stage_2, #form_stage_3{
+        display: none;
+    }
+
+    /* Plan button */
+    .plan_div{
+        display: grid;
+    }
+        .plan_button{
+            margin: auto;
+            height: 200px;
+            width: 200px;
+            white-space: normal;
+            border: solid #49547B 1px .5;
+        }
+        #plan_radio_1{
+            margin-top: 5%;
+            margin-bottom: 10%;
+        }
+
+    /***************************
+        Commons
+    ****************************/
+
+    /* common objects */
+    ._menu_box{
+        font-size: 700%;
+        padding: 5%;
+        padding-top: 5%;
+        text-align: left;
+        border-bottom: 1px solid #49547B;
+        max-height: 11%;
+    }
+
+    /* inputs */
+    ._input_general{
+        font-size: 700%;
+        padding: 5%;
+        padding-top: 5%;
+        text-align: left;
+        border-bottom: 1px solid #49547B;
+        max-height: 11%;
+        width: 89.5%;
+    }
+
+    /* alert_box */
+    ._main_block_alerts{
+        font-size: 300%;
+        text-align: center;
+        margin: auto;
+        width: 100%;
+        height: 75%;
+    }
+
+
+    /* Languaje */
+    ._en{
+        display: block;
+    }
+    ._es{
+        display: block;
+    }
+
+    /* color schemes */
+    ._main{
+        background: #edf0fa;
+        color:#49547B;
+    }
+    ._altern{
+        background: #49547B;
+        color: #edf0fa;
+    }
+    ._gray{
+        background: gray;
+        color:#edf0fa;
+    }
+    ._box_main{
+        background: #edf0fa;
+        color:#49547B;
+    }
+        ._box_main:active, ._box_main:hover{
+            background: #49547B;
+            color: #edf0fa;
+            border: solid 2px #edf0fa;
+        }
+    ._box_altern{
+        background: #49547B;
+        color: #edf0fa;
+    }
+        ._box_altern:active, ._box_altern:hover{
+            background: #edf0fa;
+            color:#49547B;
+            border: solid 2px #49547B;
+        }
+    ._box_main_bot{
+        border-bottom: 1px solid #49547B;
+    }
+    ._box_altern_bot{
+        border-bottom: 1px solid #edf0fa;
+    }
+    ._box_green{
+        background: #497B5A;
+        color:#edf0fa;
+        border: solid 2px #edf0fa;
+    }
+    ._box_red{
+        background: #7B4949;
+        color:#edf0fa;
+        border: solid 2px #edf0fa;
+    }
+    ._box_yellow{
+        background: #EBD74D;
+        color:#49547B;
+        border: solid 2px #49547B;
+    }
+
+    /* status */
+    ._hidden{
+        display: none;
+    }
+
+    /* Special objects */ 
+    /* Button big */
+    ._button_big{
+        height: 180px;
+        width: 420px;
+        font-size: 400%;
+        border-radius: 10px;
+        text-align: center;
+        align-items: center;
+        display: block;
+    }
+        ._button_big p{
+            margin: 0;
+            padding: 13% 0% 0% 0%;
+        }
+
+
+    /* START Hamburger External CSS CODE */
+    #burger-toggle {
+        appearance: none;
+        opacity: 0;
+        &:checked {
+            /* Here don't use box-shadow to make overlay because it will damage performance. ¨*/
+            &~.overlay {
+                opacity: .5;
+                transform: scale(160);
+            }
+            &~.burger-menu {
+                .line {
+                    &:nth-child(1) {
+                        transform: translateY(calc(var(--burger-menu-radius) / 5)) rotate(45deg);
+                    }
+                    &:nth-child(2) {
+                        transform: scaleX(0);
+                    }
+                    &:nth-child(3) {
+                        transform: translateY(calc(var(--burger-menu-radius) / -5)) rotate(-45deg);
+                    }
+                }
+            }
+        }
+    }
+    .burger-menu {
+        --burger-menu-radius: 6em;
+        margin: auto;
+        padding: auto;
+        margin-top: 5%;
+        position:absolute;
+        z-index: 100;
+        display: block;
+        width: var(--burger-menu-radius);
+        height: var(--burger-menu-radius);
+        background: #edf0fa;
+        border: solid 2px #49547B (184, 9%, 62%, 0.4);
+        border-radius: 10%;
+        outline: none;
+        cursor: pointer;
+        transition: 0.5s ease-in-out;
+        .line {
+            position: absolute;
+            left: 25%;
+            width: 50%;
+            height: 3px;
+            background: hsla(210, 29%, 24%, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.5s ease;
+            &:nth-child(1) {
+                top: 30%;
+            }
+            &:nth-child(2) {
+                top: 50%;
+            }
+            &:nth-child(3) {
+                top: 70%;
+            }
+            &::after {
+                position: absolute;
+                content: "";
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: #49547B;
+                transform: translateX(-100%);
+                transition: all 0.25s ease;
+            }
+            @for $i from 2 through 3 {
+                &:nth-child(#{$i})::after {
+                    transition-delay: 0.1s * ($i - 1);
+                }
+            }
+        }
+        &:hover {
+            border: solid 2px #49547B;
+        
+            .line::after {
+                transform: translateX(0);
+            }
+        }
+    }
+    /* FINISH Hamburger External CSS CODE */

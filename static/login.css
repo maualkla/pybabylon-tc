@@ -1,0 +1,20 @@
+._main_block{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(8, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+}
+    ._main_block_alerts{
+        grid-area: 1 / 1 / 2 / 2;
+    }
+    ._main_block_content{
+        grid-area: 2 / 1 / 9 / 2;
+    }
+        ._mbc_inputs input{
+            margin-bottom: 5%;
+        }
+        #_login_buttom{
+            margin: auto;
+            
+        }
