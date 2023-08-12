@@ -27,11 +27,13 @@ function nextButton(_direction){
         document.getElementById(_stages[_stage]).classList.add("_hidden");
         document.getElementById(_stages[_stage + 1]).classList.remove("_hidden");
         if(_stage == 0){document.getElementById('_back_button').classList.remove('_hidden');}
+        if(_stage == 2){document.getElementById('_next_button').classList.add('_hidden');document.getElementById('_create_button').classList.remove('_hidden');}
         _stage += 1;
     }else if(_stage > 0){
         document.getElementById(_stages[_stage - 1]).classList.remove("_hidden");
         document.getElementById(_stages[_stage]).classList.add("_hidden");
         if(_stage == 1){document.getElementById('_back_button').classList.add('_hidden');}
+        if(_stage == 3){document.getElementById('_next_button').classList.remove('_hidden');document.getElementById('_create_button').classList.add('_hidden');}
         _stage -= 1;
     }
 }

@@ -51,8 +51,16 @@
             #_stage_3{
                 height: 50%;
             }
+                ._terms_box{
+                    margin: 20% 5% 0% 5%;
+                    text-align: left;
+                }
         #_next_button{
             margin: auto;
+        }
+        #_create_button{
+            margin: auto;
+            padding-top: 0;
         }
         #_back_button{
             margin: auto;
