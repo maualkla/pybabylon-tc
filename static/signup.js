@@ -10,6 +10,10 @@ if(document.getElementById('i_pass_repeat')) document.getElementById('i_pass_rep
 // next button trigger
 if(document.getElementById('_next_button')) document.getElementById('_next_button').addEventListener('click', function (){ if (_valid) nextButton(true); });
 if(document.getElementById('_back_button')) document.getElementById('_back_button').addEventListener('click', function (){ if (_valid) nextButton(false); });
+// Stage 2 triggers (selectors)
+if(document.getElementById('_plan_op1')) document.getElementById('_plan_op1').addEventListener('click', function (){ if (_stage == 2) stage2Selector(1); });
+if(document.getElementById('_plan_op2')) document.getElementById('_plan_op2').addEventListener('click', function (){ if (_stage == 2) stage2Selector(2); });
+if(document.getElementById('_plan_op3')) document.getElementById('_plan_op3').addEventListener('click', function (){ if (_stage == 2) stage2Selector(3); });
 
 
 // _stage 0 check inputs.
@@ -30,4 +34,9 @@ function nextButton(_direction){
         if(_stage == 1){document.getElementById('_back_button').classList.add('_hidden');}
         _stage -= 1;
     }
+}
+
+// Stage 2 selector functions
+function stage2Selector(_selection){
+    
 }

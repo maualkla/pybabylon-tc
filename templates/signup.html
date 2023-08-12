@@ -18,7 +18,7 @@ Signup
         {% if _flag_content %} <p>{{ _flag_content }} </p> {% endif %}
     </div>
     <div class="_main_block_content">
-        <div class="_mbc_inputs" id="_stage_0">
+        <div class="_mbc_inputs _hidden" id="_stage_0">
             <input class="_input_general _main" type="text" placeholder="Full Name" id="i_full_name">
             <input class="_input_general _main" type="text" placeholder="Username" id="i_username">
             <input class="_input_general _main" type="email" placeholder="Email" id="i_email">
@@ -31,8 +31,10 @@ Signup
             <input class="_input_general _main" type="date" placeholder="Birthday" id="i_birthday">
             <input class="_input_general _main" type="text" placeholder="Postal Code" id="i_postal_code">
         </div>
-        <div class="_mbc_inputs _hidden" id="_stage_2">
-            <h1> STAGE </h1>
+        <div class="_mbc_inputs " id="_stage_2">
+            <input class="_big_selector _main _box_main" type="button" id="_plan_op1" value="Free Plan (5 users) $0.00 USD / month">
+            <input class="_big_selector _main _box_main" type="button" id="_plan_op2" value="Standard (25 users) $5.00 USD / month">
+            <input class="_big_selector _main _box_main" type="button" id="_plan_op3" value="Pro Plan (50 users) $9.00 / month">
         </div>
         <div class="_button_big _gray" id="_next_button">
             <p class="_en _hidden">Next</p>

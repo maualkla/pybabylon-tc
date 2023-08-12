@@ -6,9 +6,21 @@
         margin-top: 10%;
         display: block;
     }
-        ._mbc_inputs input{
-            margin-bottom: 5%;
+        _mbc_inputs{
+            display: grid;
         }
+            ._mbc_inputs input{
+                margin-bottom: 5%;
+            }
+            #_stage_0{
+            }
+            #_stage_1{
+            }
+            #_stage_2{
+            }
+                ._big_selector{
+                    margin: auto;
+                }
         #_next_button{
             margin: auto;
         }
@@ -16,7 +28,3 @@
             margin: auto;
             margin-top: 5%;
         }
-    #_stage_0{
-    }
-    #_stage_1{
-    }
