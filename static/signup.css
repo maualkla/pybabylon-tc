@@ -48,6 +48,9 @@
                         color: #edf0fa;
                         border: solid 2px #edf0fa;
                     }
+            #_stage_3{
+                height: 50%;
+            }
         #_next_button{
             margin: auto;
         }
