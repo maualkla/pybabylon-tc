@@ -1,5 +1,5 @@
 // Vars to be used
-let _stage = 0, _valid = false;
+let _stage = 0, _valid = false, _s2_selector = 0;
 
 // Stage 0 triggers (inputs)
 if(document.getElementById('i_full_name')) document.getElementById('i_full_name').addEventListener('change', function (){stage_0_inputs_check();});
@@ -11,9 +11,9 @@ if(document.getElementById('i_pass_repeat')) document.getElementById('i_pass_rep
 if(document.getElementById('_next_button')) document.getElementById('_next_button').addEventListener('click', function (){ if (_valid) nextButton(true); });
 if(document.getElementById('_back_button')) document.getElementById('_back_button').addEventListener('click', function (){ if (_valid) nextButton(false); });
 // Stage 2 triggers (selectors)
-if(document.getElementById('_plan_op1')) document.getElementById('_plan_op1').addEventListener('click', function (){ if (_stage == 2) stage2Selector(1); });
-if(document.getElementById('_plan_op2')) document.getElementById('_plan_op2').addEventListener('click', function (){ if (_stage == 2) stage2Selector(2); });
-if(document.getElementById('_plan_op3')) document.getElementById('_plan_op3').addEventListener('click', function (){ if (_stage == 2) stage2Selector(3); });
+if(document.getElementById('_plan_op1')) document.getElementById('_plan_op1').addEventListener('click', function (){ console.log("click 1 - selectio = "+_s2_selector); if (_stage == 2) stage2Selector(1); });
+if(document.getElementById('_plan_op2')) document.getElementById('_plan_op2').addEventListener('click', function (){ console.log("click 2 - selectio = "+_s2_selector);  if (_stage == 2) stage2Selector(2); });
+if(document.getElementById('_plan_op3')) document.getElementById('_plan_op3').addEventListener('click', function (){ console.log("click 3 - selectio = "+_s2_selector);  if (_stage == 2) stage2Selector(3); });
 
 
 // _stage 0 check inputs.
@@ -38,5 +38,19 @@ function nextButton(_direction){
 
 // Stage 2 selector functions
 function stage2Selector(_selection){
-    
+    _curr = document.getElementById("_plan_op"+_selection);
+    if(document.getElementById("_plan_op"+_s2_selector)){_past = document.getElementById("_plan_op"+_s2_selector)}else{_past = false};
+    console.log("_plan_op"+_selection + " past == "+_past)
+    _curr = document.getElementById("_plan_op"+_selection);
+    _curr.classList.remove("_s_main");
+    _curr.classList.remove("_s_box_main");
+    _curr.classList.add("_s_altern");
+    _curr.classList.add("_s_box_altern");
+    if (_past){
+        _past.classList.add("_s_main");
+        _past.classList.add("_s_box_main");
+        _past.classList.remove("_s_altern");
+        _past.classList.remove("_s_box_altern");
+    }
+    _s2_selector = _selection;
 }

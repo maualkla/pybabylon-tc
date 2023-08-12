@@ -21,6 +21,33 @@
                 ._big_selector{
                     margin: auto;
                 }
+                ._s_main{
+                    background: #edf0fa;
+                    color:#49547B;
+                    border: solid 2px #49547B;
+                }
+                ._s_altern{
+                    background: #49547B;
+                    color: #edf0fa;
+                }
+                ._s_box_main{
+                    background: #edf0fa;
+                    color:#49547B;
+                }
+                    ._s_box_main:active, ._s_box_main:hover{
+                        background: #49547B;
+                        color: #edf0fa;
+                        border: solid 2px #edf0fa;
+                    }
+                ._s_box_altern{
+                    background: #49547B;
+                    color: #edf0fa;
+                }
+                    ._s_box_altern:active, ._s_box_altern:hover{
+                        background: #49547B;
+                        color: #edf0fa;
+                        border: solid 2px #edf0fa;
+                    }
         #_next_button{
             margin: auto;
         }
