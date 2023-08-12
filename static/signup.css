@@ -1,9 +1,5 @@
 ._main_block{
     display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr;
-    grid-column-gap: 0px;
-    grid-row-gap: 0px;
 }
     ._main_block_alerts{}
     ._main_block_content{
