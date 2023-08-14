@@ -83,10 +83,14 @@ function stage3terms(){
 function createAccount(){
     if(document.getElementById('i_pass').value === document.getElementById('i_pass_repeat').value){
         console.log(" Creating account...");
+        _selector_ids = ['i_full_name', 'i_username', 'i_email', 'i_pass', 'i_phone', 'i_birthday', 'i_postal_code' ];
+        for(let i = 0; i < _selector_ids.length; i++){
+            console.log(document.getElementById(_selector_ids[i]).value)
+        }
+
     }else{
         setAlert("_box_red", "Passwords don´t match try again.");
         nextButton(false);nextButton(false);nextButton(false);
     }
-    _selector_ids = ['i_full_name', 'i_username', 'i_email', 'i_pass', 'i_phone', 'i_birthday', 'i_postal_code' ];
-
+    
 }
