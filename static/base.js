@@ -34,6 +34,9 @@ document.getElementById('_menu_box_extender').addEventListener('click', function
     extended(_menu_ext_value);
 });
 
+// triggers for alerts
+if(document.getElementsByClassName('_main_block_alerts')) document.getElementsByClassName('_main_block_alerts')[0].addEventListener('click', function (){ cleanAlert(); });
+
 // triggers for the extended links
 document.getElementById('_contac').addEventListener('click', function (){location.href = "https://www.twitter.com/intmau";});
 document.getElementById('_legal').addEventListener('click', function (){window.location.replace("/legal")});
@@ -125,4 +128,21 @@ function deleteAllCookies() {
         const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
         document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
     }
+}
+
+function setAlert(_class, _text){
+    document.getElementsByClassName('_main_block_alerts')[0].classList.add(_class);
+    document.getElementsByClassName('_main_block_alerts')[0].classList.remove("_hidden");
+    document.getElementsByClassName('_main_block_alerts')[0].innerHTML = '<p> '+ _text +' </p>';
+}
+
+// Clean alert function
+function cleanAlert(){
+    console.log(" Entramos a clean alerts")
+    document.getElementsByClassName('_main_block_alerts')[0].innerHTML = "";
+    document.getElementsByClassName('_main_block_alerts')[0].classList.add("_hidden");
+    document.getElementsByClassName('_main_block_alerts')[0].classList.remove("_box_yellow");
+    document.getElementsByClassName('_main_block_alerts')[0].classList.remove("_box_green");
+    document.getElementsByClassName('_main_block_alerts')[0].classList.remove("_box_red");
+    deleteAllCookies();
 }

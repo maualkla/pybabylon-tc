@@ -7,7 +7,6 @@
 if(document.getElementById('_signup_en')) document.getElementById('_signup_en').addEventListener('click', function (){window.location.replace("/signup")});
 if(document.getElementById('_signup_es')) document.getElementById('_signup_es').addEventListener('click', function (){window.location.replace("/signup")});
 if(document.getElementById('_login_buttom')) document.getElementById('_login_buttom').addEventListener('click', function (){ s_login(); });
-if(document.getElementsByClassName('_main_block_alerts')) document.getElementsByClassName('_main_block_alerts')[0].addEventListener('click', function (){ cleanAlert(); });
 
 
 // Login function
@@ -25,14 +24,4 @@ function s_login(){
         document.getElementsByClassName('_main_block_alerts')[0].classList.add("_box_yellow");
         document.getElementsByClassName('_main_block_alerts')[0].innerHTML = "<p> Missing username or password. </p>";
     }
-}
-
-// Clean alert function
-function cleanAlert(){
-    console.log(" Entramos a clean alerts")
-    document.getElementsByClassName('_main_block_alerts')[0].innerHTML = "";
-    document.getElementsByClassName('_main_block_alerts')[0].classList.remove("_box_yellow");
-    document.getElementsByClassName('_main_block_alerts')[0].classList.remove("_box_green");
-    document.getElementsByClassName('_main_block_alerts')[0].classList.remove("_box_red");
-    deleteAllCookies();
 }
