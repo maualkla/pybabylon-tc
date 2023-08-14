@@ -1,5 +1,5 @@
 // Vars to be used
-let _stage = 0, _valid = false, _s2_selector = 0;
+let _stage = 0, _valid = false, _s2_selector = 0, _s3_selector = false;
 
 // Stage 0 triggers (inputs)
 if(document.getElementById('i_full_name')) document.getElementById('i_full_name').addEventListener('change', function (){stage_0_inputs_check();});
@@ -14,6 +14,8 @@ if(document.getElementById('_back_button')) document.getElementById('_back_butto
 if(document.getElementById('_plan_op1')) document.getElementById('_plan_op1').addEventListener('click', function (){ console.log("click 1 - selectio = "+_s2_selector); if (_stage == 2) stage2Selector(1); });
 if(document.getElementById('_plan_op2')) document.getElementById('_plan_op2').addEventListener('click', function (){ console.log("click 2 - selectio = "+_s2_selector);  if (_stage == 2) stage2Selector(2); });
 if(document.getElementById('_plan_op3')) document.getElementById('_plan_op3').addEventListener('click', function (){ console.log("click 3 - selectio = "+_s2_selector);  if (_stage == 2) stage2Selector(3); });
+//  Stage 3 triggers (terms and conditions
+if(document.getElementById('i_terms')) document.getElementById('i_terms').addEventListener('change', function (){ console.log("terms change - selectio = "); });
 
 
 // _stage 0 check inputs.
@@ -55,4 +57,10 @@ function stage2Selector(_selection){
         _past.classList.remove("_s_box_altern");
     }
     _s2_selector = _selection;
+}
+
+// Stage 3 terms selector.
+function stage3terms(){
+    if(_s3_selector){ _s3_selector = false;} else { _s3_selector = true;}
+    console.log( "selector value = "+_s3_selector);
 }

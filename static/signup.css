@@ -60,8 +60,10 @@
         }
         #_create_button{
             margin: auto;
-            padding-top: 0;
         }
+            #_create_button p {
+                padding: 4%;
+            }
         #_back_button{
             margin: auto;
             margin-top: 5%;
