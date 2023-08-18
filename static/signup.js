@@ -82,12 +82,27 @@ function stage3terms(){
 // stage 3 create account
 function createAccount(){
     if(document.getElementById('i_pass').value === document.getElementById('i_pass_repeat').value){
+        let _json_obj = {}
         console.log(" Creating account...");
         _selector_ids = ['i_full_name', 'i_username', 'i_email', 'i_pass', 'i_phone', 'i_birthday', 'i_postal_code' ];
         for(let i = 0; i < _selector_ids.length; i++){
-            console.log(document.getElementById(_selector_ids[i]).value)
+            console.log("Field: "+ _selector_ids[i] + " : " + document.getElementById(_selector_ids[i]).value)
+            _json_obj[_selector_ids[i]] = document.getElementById(_selector_ids[i]).value;
         }
-
+        console.log(_json_obj)
+        
+        let xhr = new XMLHttpRequest();
+        let url = "/s_signup";
+        xhr.open("POST", url);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var _out = JSON.parse(xhr.responseText);
+                console.log(_out);
+            }
+        };
+        var data = JSON.stringify(_json_obj);
+        xhr.send(data);
     }else{
         setAlert("_box_red", "Passwords don´t match try again.");
         nextButton(false);nextButton(false);nextButton(false);

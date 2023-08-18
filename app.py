@@ -198,9 +198,21 @@ def signup():
         return {"status": "An error Occurred", "error": str(e)}
 
 ## Login process
-@app.route('/s_signup')
+@app.route('/s_signup', methods=['POST'])
 def s_signup():
     try:
+        
+        ## Validate required values, first creating a list of all required
+        req_fields = ['i_full_name', 'i_username', 'i_email', 'i_pass', 'i_phone', 'i_birthday', 'i_postal_code' ]
+        ## go and iterate to find all of them, if not _go will be false
+        _go = True
+        for req_value in req_fields:
+            if req_value not in request.json:
+                _go = False
+            else:
+                print(request.json[req_value])
+        return {"status": "success"}
+        """
         print(" Entramos a s_signup")
         print(request.cookies.get('_pl'))
         if request.cookies.get('_un') and request.cookies.get('_pw') and request.cookies.get('_em') and request.cookies.get('_bd') and request.cookies.get('_fn') and request.cookies.get('_po') and request.cookies.get('_pn') and request.cookies.get('_pc') and request.cookies.get('_tr') and request.cookies.get('_ty') and request.cookies.get('_pl'):
@@ -291,6 +303,7 @@ def s_signup():
             _sign.delete_cookie('_ty')
             _sign.delete_cookie('_pl')
             return _sign
+        """
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
     
