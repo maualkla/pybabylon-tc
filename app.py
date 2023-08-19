@@ -203,14 +203,32 @@ def s_signup():
     try:
         
         ## Validate required values, first creating a list of all required
-        req_fields = ['i_full_name', 'i_username', 'i_email', 'i_pass', 'i_phone', 'i_birthday', 'i_postal_code' ]
+        req_fields = ['i_full_name', 'i_username', 'i_email', 'i_phone', 'i_birthday', 'i_postal_code', 'i_pass', 'i_plan', 'i_terms']
         ## go and iterate to find all of them, if not _go will be false
         _go = True
         for req_value in req_fields:
             if req_value not in request.json:
                 _go = False
+                print(" go = false")
             else:
                 print(request.json[req_value])
+        print(" _go: ")
+        print(_go)
+        _payload = {}
+        print("payload setted")
+        if _go:
+            print("_go is true: ")
+            _correct_fields_name = ['fname', 'username', 'email', 'phone', 'bday', 'postalCode', 'pass', 'plan', 'terms']
+            i = 0
+            for _corr in _correct_fields_name:
+                _payload[_corr] = request.json[req_fields[i]]
+                i += 1
+            _payload['type'] = '2'
+            print(" Va el payload: ")
+            print(_payload)
+            print(" Ese fue el payload: ")
+        else:
+            print(" _go is false: ")
         return {"status": "success"}
         """
         print(" Entramos a s_signup")
