@@ -4,9 +4,9 @@
 */
 /* triggers for the buttons */
 
-if(document.getElementById('_signup_en').length > 0) document.getElementById('_signup_en').addEventListener('click', function (){window.location.replace("/signup")});
-if(document.getElementById('_signup_es').length > 0) document.getElementById('_signup_es').addEventListener('click', function (){window.location.replace("/signup")});
-if(document.getElementById('_login_buttom').length > 0) document.getElementById('_login_buttom').addEventListener('click', function (){ s_login(); });
+if(document.getElementById('_signup_en')) document.getElementById('_signup_en').addEventListener('click', function (){window.location.replace("/signup")});
+if(document.getElementById('_signup_es')) document.getElementById('_signup_es').addEventListener('click', function (){window.location.replace("/signup")});
+if(document.getElementById('_login_buttom')) document.getElementById('_login_buttom').addEventListener('click', function (){ s_login(); });
 
 
 // Login function

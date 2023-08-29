@@ -2,11 +2,11 @@
 let _stage = 0, _valid = false, _s2_selector = 0, _s3_selector = false;
 
 // Stage 0 triggers (inputs)
-if(document.getElementById('i_full_name').length > 0) document.getElementById('i_full_name').addEventListener('change', function (){stage_0_inputs_check();});
-if(document.getElementById('i_username').length > 0) document.getElementById('i_username').addEventListener('change', function (){stage_0_inputs_check();});
-if(document.getElementById('i_email').length > 0) document.getElementById('i_email').addEventListener('change', function (){stage_0_inputs_check();});
-if(document.getElementById('i_pass').length > 0) document.getElementById('i_pass').addEventListener('change', function (){stage_0_inputs_check();});
-if(document.getElementById('i_pass_repeat').length > 0) document.getElementById('i_pass_repeat').addEventListener('change', function (){stage_0_inputs_check();});
+if(document.getElementById('i_full_name')) document.getElementById('i_full_name').addEventListener('change', function (){stage_0_inputs_check();});
+if(document.getElementById('i_username')) document.getElementById('i_username').addEventListener('change', function (){stage_0_inputs_check();});
+if(document.getElementById('i_email')) document.getElementById('i_email').addEventListener('change', function (){stage_0_inputs_check();});
+if(document.getElementById('i_pass')) document.getElementById('i_pass').addEventListener('change', function (){stage_0_inputs_check();});
+if(document.getElementById('i_pass_repeat')) document.getElementById('i_pass_repeat').addEventListener('change', function (){stage_0_inputs_check();});
 // next button trigger
 if(document.getElementById('_next_button')) document.getElementById('_next_button').addEventListener('click', function (){ 
     if (
@@ -20,16 +20,16 @@ if(document.getElementById('_next_button')) document.getElementById('_next_butto
     }
 });
 // back button trigger
-if(document.getElementById('_back_button').length > 0) document.getElementById('_back_button').addEventListener('click', function (){ if (_valid) nextButton(false); });
+if(document.getElementById('_back_button')) document.getElementById('_back_button').addEventListener('click', function (){ if (_valid) nextButton(false); });
 // create button trigger
-if(document.getElementById('_create_button').length > 0) document.getElementById('_create_button').addEventListener('click', function (){ if (_s3_selector) { cleanAlert(); createAccount(); } else { setAlert("_box_red", " Accept terms and conditions. ") } });
+if(document.getElementById('_create_button')) document.getElementById('_create_button').addEventListener('click', function (){ if (_s3_selector) { cleanAlert(); createAccount(); } else { setAlert("_box_red", " Accept terms and conditions. ") } });
 
 // Stage 2 triggers (selectors)
-if(document.getElementById('_plan_op1').length > 0) document.getElementById('_plan_op1').addEventListener('click', function (){ console.log("click 1 - selectio = "+_s2_selector); if (_stage == 2) stage2Selector(1); });
-if(document.getElementById('_plan_op2').length > 0) document.getElementById('_plan_op2').addEventListener('click', function (){ console.log("click 2 - selectio = "+_s2_selector);  if (_stage == 2) stage2Selector(2); });
-if(document.getElementById('_plan_op3').length > 0) document.getElementById('_plan_op3').addEventListener('click', function (){ console.log("click 3 - selectio = "+_s2_selector);  if (_stage == 2) stage2Selector(3); });
+if(document.getElementById('_plan_op1')) document.getElementById('_plan_op1').addEventListener('click', function (){ console.log("click 1 - selectio = "+_s2_selector); if (_stage == 2) stage2Selector(1); });
+if(document.getElementById('_plan_op2')) document.getElementById('_plan_op2').addEventListener('click', function (){ console.log("click 2 - selectio = "+_s2_selector);  if (_stage == 2) stage2Selector(2); });
+if(document.getElementById('_plan_op3')) document.getElementById('_plan_op3').addEventListener('click', function (){ console.log("click 3 - selectio = "+_s2_selector);  if (_stage == 2) stage2Selector(3); });
 //  Stage 3 triggers (terms and conditions
-if(document.getElementById('i_terms').length > 0) document.getElementById('i_terms').addEventListener('change', function (){ console.log("terms change - selectio = "); stage3terms(); });
+if(document.getElementById('i_terms')) document.getElementById('i_terms').addEventListener('change', function (){ console.log("terms change - selectio = "); stage3terms(); });
 
 
 // _stage 0 check inputs.
