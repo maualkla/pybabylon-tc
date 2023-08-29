@@ -36,22 +36,31 @@ def apidocs_v0_1():
 @app.route('/')
 def landing():
     try:
+        ## Set context values. 
+        ## _logged is true in case the user is logged
+        ## _sample is a test value.
         context = {
             "_logged": True,
             "_sample": "1234",
         }
+        ## Set logged values in case the user is logged.
         _logged = True if request.cookies.get('_id') and request.cookies.get('_un') else False
         if _logged:
+            ## Case where user is logged, save the _id and _un 
             _id = request.cookies.get('_id')
             _un = request.cookies.get('_un')
+            ## Create a auth object to validate the authentication of the user.
             _auth_obj = auth(_id, _un)
+            ## save status of the auth object.
             _status = _auth_obj.json().get('status')
+            ## if auth obj is = valid save a True in the context _logged variable, otherwise saves a false.
             if _status == 'valid':
                 context['_logged'] = True
             else:
                 context['_logged'] = False
         else:
             context['_logged'] = False
+        ## render and return the home page including the context variables.
         return render_template('home.html', **context)
     except Exception as e:
         return {"status": "Error", "reason": str(e)}
@@ -69,29 +78,40 @@ def index():
 @app.route('/login')
 def login():
     try:
+        ## Validate if _id and _un params are in the cookies. If thats the case validate the authentucation.
         if request.cookies.get('_id') and request.cookies.get('_un'):
+            ## Save the cookies for _id and _un
             _id = request.cookies.get('_id')
             _un = request.cookies.get('_un')
+            ## Create a new auth object sending the _id and _un params
             _auth_obj = auth(_id, _un)
+            ## save the status from the auth object.
             _status = _auth_obj.json().get('status')
+            ## Validate if status = valid 
             if _status == 'valid':
+                ## in case status = valid create a redirection to the /dashboard service deleting all _flag cookies.
                 _dash = make_response(redirect('/dashboard'))
                 _dash.delete_cookie('_flag_status')
                 _dash.delete_cookie('_flag_content')
                 return _dash
             else:
+                ## in case of not valid, redirects to login and delete the _id and _un cookies
                 _log = make_response(redirect('/login'))
                 _log.delete_cookie('_id')
                 _log.delete_cookie('_un')
                 return _log
         else:
+            ## if _id and _un cookies are not present, validate id _flag cookies are present.
             if request.cookies.get('_flag_content') and request.cookies.get('_flag_status'):
+                ## if _flag cookies are present, set the context object to the content of the cookies.
                 context = {
                     "_flag_content": request.cookies.get('_flag_content'),
                     "_flag_status": request.cookies.get('_flag_status')
                 }
             else:
+                ## Else, set the context object as empty.
                 context = {}
+            ## Return the login template sending the context object.
             return render_template('login.html', **context)
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}

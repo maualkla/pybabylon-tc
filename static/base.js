@@ -35,7 +35,7 @@ document.getElementById('_menu_box_extender').addEventListener('click', function
 });
 
 // triggers for alerts
-if(document.getElementsByClassName('_main_block_alerts')) document.getElementsByClassName('_main_block_alerts')[0].addEventListener('click', function (){ cleanAlert(); });
+if(document.getElementsByClassName('_main_block_alerts').length > 0) document.getElementsByClassName('_main_block_alerts')[0].addEventListener('click', function (){ cleanAlert(); });
 
 // triggers for the extended links
 document.getElementById('_contac').addEventListener('click', function (){location.href = "https://www.twitter.com/intmau";});
