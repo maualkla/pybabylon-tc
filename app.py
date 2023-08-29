@@ -294,7 +294,7 @@ if __name__ == '__main__':
 def auth(_id, _un):
     try:
         import requests
-        _url = _alx_url+'/vauth'
+        _url = _alx_url+'/auth'
         _headers = {'Content-type': 'application/json'}
         _json = {
             "id": _id,
