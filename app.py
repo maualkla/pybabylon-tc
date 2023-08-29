@@ -201,7 +201,6 @@ def signup():
 @app.route('/s_signup', methods=['POST'])
 def s_signup():
     try:
-        
         ## Validate required values, first creating a list of all required
         req_fields = ['i_full_name', 'i_username', 'i_email', 'i_phone', 'i_birthday', 'i_postal_code', 'i_pass', 'i_plan', 'i_terms']
         ## go and iterate to find all of them, if not _go will be false
@@ -209,15 +208,8 @@ def s_signup():
         for req_value in req_fields:
             if req_value not in request.json:
                 _go = False
-                print(" go = false")
-            else:
-                print(request.json[req_value])
-        print(" _go: ")
-        print(_go)
         _payload = {}
-        print("payload setted")
         if _go:
-            print("_go is true: ")
             _correct_fields_name = ['fname', 'username', 'email', 'phone', 'bday', 'postalCode', 'pass', 'plan', 'terms']
             i = 0
             for _corr in _correct_fields_name:
@@ -226,21 +218,10 @@ def s_signup():
             _payload['type'] = '2'
             _payload['pin'] = ''
             _payload['activate'] = True
-            print(" Va el payload: ")
-            print(_payload)
-            print(" Ese fue el payload: ")
             url = _alx_url+'/user'
             headers = {'Content-type': 'application/json'}
             _response = requests.post(url, json=_payload, headers=headers) 
-            print(_response.status_code)
-            if str(_response.status_code) == str(202):
-                print('Successfully created')
-                print(_response.to_dict())
-                return str(_response.status_code)
-            else:
-                return str(_response.status_code)
-        else:
-            print(" _go is false: ")
+            return str(_response.status_code)
         return {"status": "success"}
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
