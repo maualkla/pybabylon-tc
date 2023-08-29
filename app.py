@@ -224,9 +224,21 @@ def s_signup():
                 _payload[_corr] = request.json[req_fields[i]]
                 i += 1
             _payload['type'] = '2'
+            _payload['pin'] = ''
+            _payload['activate'] = True
             print(" Va el payload: ")
             print(_payload)
             print(" Ese fue el payload: ")
+            url = _alx_url+'/user'
+            headers = {'Content-type': 'application/json'}
+            _response = requests.post(url, json=_payload, headers=headers) 
+            print(_response.status_code)
+            if str(_response.status_code) == str(202):
+                print('Successfully created')
+                print(_response.to_dict())
+                return str(_response.status_code)
+            else:
+                return str(_response.status_code)
         else:
             print(" _go is false: ")
         return {"status": "success"}

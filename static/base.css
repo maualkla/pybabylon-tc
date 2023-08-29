@@ -72,6 +72,10 @@
     */
     @media only screen and (min-width: 1000px), (pointer:cursor) {
     /* Main page */
+
+    ._content{
+        display: none;
+    }
         * {
             box-sizing: border-box;
             font-family: Verdana, Geneva, Tahoma, sans-serif;  
