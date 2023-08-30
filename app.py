@@ -248,21 +248,33 @@ def s_signup():
         for req_value in req_fields:
             if req_value not in request.json:
                 _go = False
+        ## Initialize the payload object
         _payload = {}
+        ## validate if all the required params are present
         if _go:
+            ## Create a list of the correct names 
             _correct_fields_name = ['fname', 'username', 'email', 'phone', 'bday', 'postalCode', 'pass', 'plan', 'terms']
+            ## initialize a counter
             i = 0
+            ## Create a for each in the _correct_fields
             for _corr in _correct_fields_name:
+                ## for each loop, add a parameter and value to the payload object. Adds 1 to the counter for each iteration
                 _payload[_corr] = request.json[req_fields[i]]
                 i += 1
+            ## Add extra values fixed.
             _payload['type'] = '2'
             _payload['pin'] = ''
             _payload['activate'] = True
-            url = _alx_url+'/user'
-            headers = {'Content-type': 'application/json'}
-            _response = requests.post(url, json=_payload, headers=headers)
+            ## Set the url to be called.
+            _url = _alx_url+'/user'
+            ## Set the headers to call the service
+            _headers = {'Content-type': 'application/json'}
+            ## create a post request sending the _payload and headers
+            _response = requests.post(_url, json=_payload, headers=_headers)
+            ## Validate the response and if same as 202 retrieves a success and 202 status
             if str(_response.status_code) == str(202):
                 return jsonify({"message": "user successfully created"}), 202
+            ## Else, return a error message and the same error message returned by the alexandria api
             else:
                 return jsonify({"status": "error", "code": _response.status_code, "reason": _response.json().get('reason')}), 200
         else: 
