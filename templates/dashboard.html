@@ -2,28 +2,33 @@
 {% block title %}
 Dashboard - {{ super() }}
 {% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="../static/dashboard.css">
+{{ super() }}
+{% endblock %}
 
-{% block content %}
-<div class="container dashboard" >
-    <div class="top">
-        <p id="dashboard_title">Welcome {{user_name}}</p>
+{% block _title %}
+Welcome {{ user_name }}
+{% endblock %}
+
+{% block _flex_box %}
+<div class="_main_block">
+    <div class="_main_block_alerts {% if _flag_status %} {{ _flag_status }} {% else %} _hidden {% endif %} ">
+        {% if _flag_content %} <p>{{ _flag_content }} </p> {% endif %}
     </div>
-    <div class="middle" id="dashboard_middle">
-        <input type="button" class="ib_high" name="b_dash_cworkspace" id="b_dash_cworkspace" value="Create Workspace">
-        <input type="button" class="ib_high" name="b_dash_help" id="b_dash_help" value="Help">
-        <input type="button" class="ib_high" name="b_dash_logout" id="b_dash_logout" value="Close Session">
-    </div> 
-    <div class="bottom" id="dashboard_bottom">
-        <a href="#" > Contact </a> - 
-        <a href="#" > Legal </a> - 
-        <a href="#" > About </a> - 
-        <a href="https://www.maualkla.com/jobs" target="_blank"> Jobs </a> - 
-        <a href="{{ url_for('landing') }}"> Home </a>
+    <div class="_main_block_content">
+        <h1> Logged </h1>
     </div>
-    {% if values: %}
-        {% for _x in values: %}
-            <p> {{_x}} </p>
-        {% endfor %}
-    {% endif %}
 </div>
+{% endblock %}
+
+{% block _flex_menu %}
+<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_logout_en">Close Session</div>
+<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_logout_es">Cerrar Sesion</div>
+{% endblock %}
+
+
+{% block scripts %}
+{{ super() }}
+<script src="../static/dashboard.js"></script>
 {% endblock %}
