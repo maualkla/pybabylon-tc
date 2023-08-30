@@ -217,11 +217,16 @@ def logout():
 @app.route('/signup')
 def signup():
     try:
+        ## validate if _id and _un cookies present
         if request.cookies.get('_id') and request.cookies.get('_un'):
+            ## if present, save them into vars 
             _id = request.cookies.get('_id')
             _un = request.cookies.get('_un')
+            ## Create a auth object with the cookie values.
             _auth_obj = auth(_id, _un)
+            ## Save the status from the auth object
             _status = _auth_obj.json().get('status')
+            ## if status valid, redirect to /dashboard and delete cookie flag, otherwise redirects to /login and deletes _id and _un cookies
             if _status == 'valid':
                 _dash = make_response(redirect('/dashboard'))
                 _dash.delete_cookie('_flag')
@@ -233,6 +238,7 @@ def signup():
                 _log.delete_cookie('_flag')
                 return _log
         else:
+            ### In case _id and _un not presnt, renders signup.html page.
             return render_template('signup.html')
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
