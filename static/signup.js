@@ -1,3 +1,5 @@
+let errors = 0;
+
 // Vars to be used
 let _stage = 0, _valid = false, _s2_selector = 0, _s3_selector = false;
 
@@ -99,19 +101,25 @@ function createAccount(){
         xhr.open("POST", url);
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 202) {
-                document.cookie = '_flag_content=User succesfully created! Login to start.';
-                document.cookie = '_flag_status=_box_green';
-                window.location.replace("/login") 
-            }else{
-                console.log(xhr.responseText);
-                console.log(xhr.responseText.reason);
-                //var _out = JSON.parse(xhr.responseText);
-                document.getElementById("_xpc_signup_alert").style.height = '10%';
-                document.getElementsByClassName("_main_block")[0].style.display = 'block';
-                document.getElementsByClassName('_main_block_alerts')[0].classList.add("_box_red");
-                document.getElementsByClassName('_main_block_alerts')[0].classList.remove("_hidden");
-                document.getElementsByClassName('_main_block_alerts')[0].innerHTML = "<p> Error creating user, refresh the window and try again. </p>";
+            try
+            {
+                if (xhr.readyState === 4 && xhr.status === 202) {
+                    document.cookie = '_flag_content=User succesfully created! Login to start.';
+                    document.cookie = '_flag_status=_box_green';
+                    window.location.replace("/login");
+                }else{
+                    var data = xhr.responseText;
+                    var jsonResponse = JSON.parse(data);
+                    document.getElementById("_xpc_signup_alert").style.height = '10%';
+                    document.getElementsByClassName("_main_block")[0].style.display = 'block';
+                    document.getElementsByClassName('_main_block_alerts')[0].classList.add("_box_red");
+                    document.getElementsByClassName('_main_block_alerts')[0].classList.remove("_hidden");
+                    document.getElementsByClassName('_main_block_alerts')[0].innerHTML = "<p> Error creating user, "+ jsonResponse["reason"] +" </p>";
+                }
+            }
+            catch(e)
+            {
+                errors++;
             }
         };
         var data = JSON.stringify(_json_obj);
