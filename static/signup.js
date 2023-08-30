@@ -3,6 +3,11 @@ let errors = 0;
 // Vars to be used
 let _stage = 0, _valid = false, _s2_selector = 0, _s3_selector = false;
 
+// Triggers 
+if(document.getElementById('_login_en')) document.getElementById('_login_en').addEventListener('click', function (){window.location.replace("/login")});
+if(document.getElementById('_login_es')) document.getElementById('_login_es').addEventListener('click', function (){ window.location.replace("/login") });
+
+
 // Stage 0 triggers (inputs)
 if(document.getElementById('i_full_name')) document.getElementById('i_full_name').addEventListener('change', function (){stage_0_inputs_check();});
 if(document.getElementById('i_username')) document.getElementById('i_username').addEventListener('change', function (){stage_0_inputs_check();});
@@ -27,11 +32,11 @@ if(document.getElementById('_back_button')) document.getElementById('_back_butto
 if(document.getElementById('_create_button')) document.getElementById('_create_button').addEventListener('click', function (){ if (_s3_selector) { cleanAlert(); createAccount(); } else { setAlert("_box_red", " Accept terms and conditions. ") } });
 
 // Stage 2 triggers (selectors)
-if(document.getElementById('_plan_op1')) document.getElementById('_plan_op1').addEventListener('click', function (){ console.log("click 1 - selectio = "+_s2_selector); if (_stage == 2) stage2Selector(1); });
-if(document.getElementById('_plan_op2')) document.getElementById('_plan_op2').addEventListener('click', function (){ console.log("click 2 - selectio = "+_s2_selector);  if (_stage == 2) stage2Selector(2); });
-if(document.getElementById('_plan_op3')) document.getElementById('_plan_op3').addEventListener('click', function (){ console.log("click 3 - selectio = "+_s2_selector);  if (_stage == 2) stage2Selector(3); });
+if(document.getElementById('_plan_op1')) document.getElementById('_plan_op1').addEventListener('click', function (){ if (_stage == 2) stage2Selector(1); });
+if(document.getElementById('_plan_op2')) document.getElementById('_plan_op2').addEventListener('click', function (){ if (_stage == 2) stage2Selector(2); });
+if(document.getElementById('_plan_op3')) document.getElementById('_plan_op3').addEventListener('click', function (){ if (_stage == 2) stage2Selector(3); });
 //  Stage 3 triggers (terms and conditions
-if(document.getElementById('i_terms')) document.getElementById('i_terms').addEventListener('change', function (){ console.log("terms change - selectio = "); stage3terms(); });
+if(document.getElementById('i_terms')) document.getElementById('i_terms').addEventListener('change', function (){ stage3terms(); });
 
 
 // _stage 0 check inputs.
@@ -102,13 +107,13 @@ function createAccount(){
                     document.cookie = '_flag_status=_box_green';
                     window.location.replace("/login");
                 }else{
-                    var data = xhr.responseText;
-                    var jsonResponse = JSON.parse(data);
+                    let _data = xhr.responseText;
+                    let _parsed_data = JSON.parse(_data);
                     document.getElementById("_xpc_signup_alert").style.height = '10%';
                     document.getElementsByClassName("_main_block")[0].style.display = 'block';
                     document.getElementsByClassName('_main_block_alerts')[0].classList.add("_box_red");
                     document.getElementsByClassName('_main_block_alerts')[0].classList.remove("_hidden");
-                    document.getElementsByClassName('_main_block_alerts')[0].innerHTML = "<p> Error creating user, "+ jsonResponse["reason"] +" </p>";
+                    document.getElementsByClassName('_main_block_alerts')[0].innerHTML = "<p> Error creating user, "+ _parsed_data["reason"] +" </p>";
                 }
             }
             catch(e)
