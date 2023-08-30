@@ -1,13 +1,16 @@
 ._main_block{
     display: grid;
 }
-    ._main_block_alerts{}
+    ._main_block_alerts{
+    }
+        #_xpc_signup_alert{
+        }
     ._main_block_content{
         margin-top: 10%;
         display: block;
     }
-        _mbc_inputs{
-            display: grid;
+        ._mbc_inputs{
+            display: block;
         }
             ._mbc_inputs input{
                 margin-bottom: 5%;

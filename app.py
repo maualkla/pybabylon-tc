@@ -240,9 +240,20 @@ def s_signup():
             _payload['activate'] = True
             url = _alx_url+'/user'
             headers = {'Content-type': 'application/json'}
-            _response = requests.post(url, json=_payload, headers=headers) 
-            return str(_response.status_code)
-        return {"status": "success"}
+            _response = requests.post(url, json=_payload, headers=headers)
+            if str(_response.status_code) == str(202):
+                return jsonify({"message": "user successfully created"}), 202
+            else:
+                print( " ahi va....")
+                _cv = _response.text
+                print(_cv)
+                _cv = jsonify(_cv)
+                print(_cv.json("reason"))
+                _reason__ = type(_cv)
+                print(_reason__)
+                return jsonify({"status": "error", "code": str(_response.status_code), "reason": str(_response.text.json().get('reason'))}), 200
+        else: 
+            return jsonify({"status": "error", "code": "403", "reason": "Missing required fields."}), 403 
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
     
