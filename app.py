@@ -3,7 +3,7 @@
 ## Coded by: Mauricio Alcala (@maualkla)
 ## Date: May 2023.
 ## Current Version: 0.02
-## Last Modification Date: Aug 2023.
+## Last Modification Date: Sept 2023.
 ## More info at @intmau in twitter or in http://maualkla.com
 ## Description: Web app to serve adminde-tc project.
 ## flask run --host=0.0.0.0 --port=3000
@@ -121,36 +121,56 @@ def login():
 @app.route('/s_login')
 def s_login():
     try:
+        ## Validate if the cookies include the _u and _p 
         if request.cookies.get('_u') and request.cookies.get('_p'):
+            ## saves _p and _u
             _u = request.cookies.get('_u')
             _p = request.cookies.get('_p')
+            ## generates the url to call the service adding the -u and _p params
             url = _alx_url+'/login?u='+_u+'&p='+_p
+            ## Create the headers for the request
             headers = {'Content-type': 'application/json'}
+            ## Generates the call to the sevice. It is a GET call.
             _response = requests.get(url, headers=headers)
+            ## Saves the response in _json_r
             _json_r = _response.json()
+            ## Saves the status code in _status
             _status = _response.status_code
+            ## Validate if the response status code is 200
             if _status == 200:
-                response = make_response(redirect('/dashboard'))
+                ## Genetates a response object setting the redirection to /dashboard
+                _dash = make_response(redirect('/dashboard'))
+                ## saves the _id and _un params from the json object.
                 _id = _json_r.get('id')
                 _un = _json_r.get('username')
-                response.set_cookie('_id', _id)
-                response.set_cookie('_un', _un)
-                response.delete_cookie('_u')
-                response.delete_cookie('_p')
-                response.delete_cookie('_flag')
-                return response
+                ## Set the _id and _un cookies.
+                _dash.set_cookie('_id', _id)
+                _dash.set_cookie('_un', _un)
+                ## delete any other possible cookie.
+                _dash.delete_cookie('_u')
+                _dash.delete_cookie('_p')
+                _dash.delete_cookie('_flag')
+                ## Returns the _dash response object.
+                return _dash
             else:
-                _home = make_response(redirect('/login'))
-                _home.delete_cookie('_u')
-                _home.delete_cookie('_p')
-                _home.set_cookie('_flag_content', 'Wrong username or password')
-                _home.set_cookie('_flag_status', '_box_yellow')
-                return _home
+                ## Generates a response object to /login
+                _logi = make_response(redirect('/login'))
+                ## Delete the _u and _p cookies to clean the status
+                _logi.delete_cookie('_u')
+                _logi.delete_cookie('_p')
+                ## Set the _flag_content and _flag_status cookies to set a frontend alert
+                _logi.set_cookie('_flag_content', 'Wrong username or password')
+                _logi.set_cookie('_flag_status', '_box_yellow')
+                ## return the response _login object.
+                return _logi
         else:
-            _home = make_response(redirect('/login'))
-            _home.set_cookie('_flag_content', 'Missing username or password')
-            _home.set_cookie('_flag_status', '_box_red')
-            return _home
+            ## Generates a response object 
+            _logi = make_response(redirect('/login'))
+            ## Set the cookies for the flags to display a frontend alert.
+            _logi.set_cookie('_flag_content', 'Missing username or password')
+            _logi.set_cookie('_flag_status', '_box_red')
+            ## Returns the response.
+            return _logi
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
 
@@ -197,11 +217,16 @@ def logout():
 @app.route('/signup')
 def signup():
     try:
+        ## validate if _id and _un cookies present
         if request.cookies.get('_id') and request.cookies.get('_un'):
+            ## if present, save them into vars 
             _id = request.cookies.get('_id')
             _un = request.cookies.get('_un')
+            ## Create a auth object with the cookie values.
             _auth_obj = auth(_id, _un)
+            ## Save the status from the auth object
             _status = _auth_obj.json().get('status')
+            ## if status valid, redirect to /dashboard and delete cookie flag, otherwise redirects to /login and deletes _id and _un cookies
             if _status == 'valid':
                 _dash = make_response(redirect('/dashboard'))
                 _dash.delete_cookie('_flag')
@@ -213,6 +238,7 @@ def signup():
                 _log.delete_cookie('_flag')
                 return _log
         else:
+            ### In case _id and _un not presnt, renders signup.html page.
             return render_template('signup.html')
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
@@ -228,21 +254,33 @@ def s_signup():
         for req_value in req_fields:
             if req_value not in request.json:
                 _go = False
+        ## Initialize the payload object
         _payload = {}
+        ## validate if all the required params are present
         if _go:
+            ## Create a list of the correct names 
             _correct_fields_name = ['fname', 'username', 'email', 'phone', 'bday', 'postalCode', 'pass', 'plan', 'terms']
+            ## initialize a counter
             i = 0
+            ## Create a for each in the _correct_fields
             for _corr in _correct_fields_name:
+                ## for each loop, add a parameter and value to the payload object. Adds 1 to the counter for each iteration
                 _payload[_corr] = request.json[req_fields[i]]
                 i += 1
+            ## Add extra values fixed.
             _payload['type'] = '2'
             _payload['pin'] = ''
             _payload['activate'] = True
-            url = _alx_url+'/user'
-            headers = {'Content-type': 'application/json'}
-            _response = requests.post(url, json=_payload, headers=headers)
+            ## Set the url to be called.
+            _url = _alx_url+'/user'
+            ## Set the headers to call the service
+            _headers = {'Content-type': 'application/json'}
+            ## create a post request sending the _payload and headers
+            _response = requests.post(_url, json=_payload, headers=_headers)
+            ## Validate the response and if same as 202 retrieves a success and 202 status
             if str(_response.status_code) == str(202):
                 return jsonify({"message": "user successfully created"}), 202
+            ## Else, return a error message and the same error message returned by the alexandria api
             else:
                 return jsonify({"status": "error", "code": _response.status_code, "reason": _response.json().get('reason')}), 200
         else: 
