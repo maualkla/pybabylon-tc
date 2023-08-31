@@ -8,7 +8,7 @@ Dashboard - {{ super() }}
 {% endblock %}
 
 {% block _title %}
-Welcome {{ user_name }}
+Welcome 
 {% endblock %}
 
 {% block _flex_box %}
@@ -17,7 +17,7 @@ Welcome {{ user_name }}
         {% if _flag_content %} <p>{{ _flag_content }} </p> {% endif %}
     </div>
     <div class="_main_block_content">
-        <h1> Logged </h1>
+        <h1> {{ user_name }}</h1>
     </div>
 </div>
 {% endblock %}
