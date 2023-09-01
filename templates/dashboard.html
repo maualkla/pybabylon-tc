@@ -17,24 +17,36 @@ Welcome
         {% if _flag_content %} <p>{{ _flag_content }} </p> {% endif %}
     </div>
     <div class="_main_block_content">
-        <div class="_option_block _main _box_main _en">
-            <div class="_ob_text">
-                Create new workspace
+        <div class="_option_block _main _box_main" id="_opt_new_ws">
+            <div class="_ob_text _en _hidden">
+                New Workspace
+            </div>
+            <div class="_ob_text _es _hidden">
+                Crear Workspace
             </div>
         </div>
-        <div class="_option_block _main _box_main _en">
-            <div class="_ob_text">
+        <div class="_option_block _main _box_main" id="_opt_manage_ws">
+            <div class="_ob_text _en _hidden">
                 Manage Profile
             </div>
-        </div>
-        <div class="_option_block _main _box_main _en">
-            <div class="_ob_text">
-                Request Help
+            <div class="_ob_text _es _hidden">
+                Administrar Perfil
             </div>
         </div>
-        <div class="_option_block _main _box_main _en">
-            <div class="_ob_text">
+        <div class="_option_block _main _box_main " id="_opt_help">
+            <div class="_ob_text _en _hidden">
+                Request Help
+            </div>
+            <div class="_ob_text _es _hidden">
+                Solicitar Ayuda
+            </div>
+        </div>
+        <div class="_option_block _main _box_main">
+            <div class="_ob_text _en _hidden">
                 Tutorials & Walkthrough
+            </div>
+            <div class="_ob_text _es _hidden">
+                Tutoriales y Apoyo
             </div>
         </div>
     </div>
@@ -42,11 +54,13 @@ Welcome
 {% endblock %}
 
 {% block _flex_menu %}
+<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_profile_en">Profile</div>
+<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_profile_es">Perfil</div>
 <div class="_menu_box _box_main _box_main_bot _en _hidden" id="_create_ws_en">New Workspace</div>
 <div class="_menu_box _box_main _box_main_bot _es _hidden" id="_create_ws_es">Crear Workspace</div>
-<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_manage_ws_en">Manage WS</div>
+<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_manage_ws_en">Edit Workspace</div>
 <div class="_menu_box _box_main _box_main_bot _es _hidden" id="_manage_ws_es">Administrar WS</div>
-<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_help_en">Help</div>
+<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_help_en">Request Help</div>
 <div class="_menu_box _box_main _box_main_bot _es _hidden" id="_help_es">Ayuda</div>
 <div class="_menu_box _box_main _box_main_bot _en _hidden" id="_logout_en">Close Session</div>
 <div class="_menu_box _box_main _box_main_bot _es _hidden" id="_logout_es">Cerrar Sesion</div>
