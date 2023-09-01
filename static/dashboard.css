@@ -1,0 +1,23 @@
+._main_block{
+
+}
+    ._main_block_alerts{
+
+    }
+    ._main_block_content{
+        display: block;
+    }
+        ._option_block{
+            width: 80%;
+            height: 400px;
+            margin: auto;
+            margin-top: 5%;
+            margin-bottom: 5%;
+            border-radius: 20px;
+        }
+            ._ob_text{
+                font-size: 700%;
+                margin: auto;
+                padding: 10%;
+                text-align: center;
+            }

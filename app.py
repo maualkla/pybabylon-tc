@@ -208,6 +208,7 @@ def logout():
     try:
         if request.cookies.get('_id') and request.cookies.get('_un'):
             _un = request.cookies.get('_un')
+            _un = b64Encode(_un)
             _id = request.cookies.get('_id')
             ## generates the url to call the service adding the -u and _p params
             url = _alx_url+'/logout?_id='+_id+'&_username='+_un
