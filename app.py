@@ -206,10 +206,22 @@ def dashboard():
 @app.route('/logout')
 def logout():
     try:
-        _out = make_response(redirect('/'))
-        _out.delete_cookie('_id')
-        _out.delete_cookie('_un')
-        return _out
+        if request.cookies.get('_id') and request.cookies.get('_un'):
+            _un = request.cookies.get('_un')
+            _id = request.cookies.get('_id')
+            ## generates the url to call the service adding the -u and _p params
+            url = _alx_url+'/logout?_id='+_id+'&_username='+_un
+            ## Create the headers for the request
+            headers = {'Content-type': 'application/json'}
+            ## Generates the call to the sevice. It is a GET call.
+            _response = requests.get(url, headers=headers)
+            _out = make_response(redirect('/'))
+            _out.delete_cookie('_id')
+            _out.delete_cookie('_un')
+            return _out
+        else:
+            _out = make_response(redirect('/'))
+            return _out
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
 
