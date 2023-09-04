@@ -45,6 +45,9 @@ document.getElementById('_jobs').addEventListener('click', function (){window.lo
 document.getElementById('_home').addEventListener('click', function (){window.location.replace("/")});
 document.getElementById('_trans').addEventListener('click', function (){ changeLanguaje(_new_lang); });
 
+// TBD Extra triggers
+if(document.getElementById('_x_account')) document.getElementById('_x_account').addEventListener('click', function (){window.open('https://twitter.com/intmau', '_blank')});
+
 
 // Functions
 // Regular menu action
@@ -146,3 +149,4 @@ function cleanAlert(){
     document.getElementsByClassName('_main_block_alerts')[0].classList.remove("_box_red");
     deleteAllCookies();
 }
+

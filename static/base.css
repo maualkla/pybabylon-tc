@@ -54,6 +54,12 @@
                 grid-area: 2 / 1 / 11 / 2;
                 display: grid;
             }
+                /* For help site */ 
+                #_x_account{
+                    margin: auto;
+                    margin-top: 10%;
+                    padding: 10%;
+                }
             ._flex_menu{
                 grid-area: 2 / 1 / 11 / 2;
                 display: block;

@@ -18,4 +18,4 @@ if(document.getElementById('_help_es')) document.getElementById('_help_es').addE
 if(document.getElementById('_opt_new_ws')) document.getElementById('_opt_new_ws').addEventListener('click', function (){window.location.replace("/workspace")});
 if(document.getElementById('_opt_manage_ws')) document.getElementById('_opt_manage_ws').addEventListener('click', function (){window.location.replace("/account")});
 if(document.getElementById('_opt_help')) document.getElementById('_opt_help').addEventListener('click', function (){ window.open('/help', '_blank') });
-if(document.getElementById('_opt_tuto')) document.getElementById('_opt_tuto').addEventListener('click', function (){ window.open('/tutorials', '_blank') });
+if(document.getElementById('_opt_tuto')) document.getElementById('_opt_tuto').addEventListener('click', function (){  window.alert("No tutorials found, Try later again.")  });

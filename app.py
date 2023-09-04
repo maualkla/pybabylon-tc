@@ -327,6 +327,20 @@ def about():
 def jobs():
     return '/jobs in construction, go back to <a href="/"> home </a>'
 
+##### Service paths
+## /help
+@app.route('/help')
+def help():
+    try:
+        _logged = True if request.cookies.get('_id') and request.cookies.get('_un') else False
+        context = {
+                "_logged": _logged,
+                "_sample": "1234",
+            }
+        return render_template('help.html', **context)
+    except Exception as e:
+        return {"status": "An error Occurred", "error": str(e)}
+
 ########################################
 ### Helpers ############################
 ########################################
