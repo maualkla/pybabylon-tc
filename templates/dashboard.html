@@ -14,9 +14,9 @@ Welcome
 {% block _flex_box %}
 <div class="_main_block">
     <div class="_main_block_alerts {% if _flag_status %} {{ _flag_status }} {% else %} _hidden {% endif %} ">
-        {% if _flag_content %} <p>{{ _flag_content }} </p> {% endif %}
+        {% if _flag_content%} <p>{{ _flag_content }} </p> {% endif %}
     </div>
-    <div class="_main_block_content">
+    <div class="_main_block_content {% if pin_tb_set %} _hidden {% endif %} ">
         <div class="_option_block _main _box_main" id="_opt_new_ws">
             <div class="_ob_text _en _hidden">
                 New Workspace
@@ -50,6 +50,22 @@ Welcome
             </div>
         </div>
     </div>
+    {% if pin_tb_set %}
+    <div class="_main_block_numpad">
+        <div class="_big_numpad" id="_set_pin">
+            
+        </div>
+        <div class="_numpad_buttons">
+            <div class="_button_big _gray" id="_set_pin_button">
+                <p class="">Set Pin</p>
+            </div>
+            <div class="_button_big _main _box_main _hidden" id="_close_sesion_button">
+                <p class="_en _hidden">Close Sesion</p>
+                <p class="_es _hidden">Cerrar Sesion</p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}
 

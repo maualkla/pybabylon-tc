@@ -21,3 +21,20 @@
                 padding: 10%;
                 text-align: center;
             }
+    
+    ._main_block_numpad{
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(10, 1fr);
+        grid-column-gap: 0px;
+        grid-row-gap: 0px;
+        height: 100%;
+    }
+        ._big_numpad{
+            border: solid 4px red;
+            grid-area: 1 / 1 / 8 / 2;
+        }
+        ._numpad_buttons{
+            border: solid 4px yellow;
+            grid-area: 8 / 1 / 11 / 2;
+        }

@@ -183,10 +183,12 @@ def dashboard():
             _un = request.cookies.get('_un')
             _auth_obj = auth(_id, _un)
             _status = _auth_obj.json().get('status')
+            _pin_tb_set = True
             _lov = ['value1', 'value2', 'value3']
             context = {
                 "user_name": _un,
                 "values": _lov,
+                "pin_tb_set": _pin_tb_set,
             }
             if _status == 'valid':
                 return render_template('dashboard.html', **context)
