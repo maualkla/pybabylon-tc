@@ -2,28 +2,72 @@
 {% block title %}
 Dashboard - {{ super() }}
 {% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="../static/dashboard.css">
+{{ super() }}
+{% endblock %}
 
-{% block content %}
-<div class="container dashboard" >
-    <div class="top">
-        <p id="dashboard_title">Welcome {{user_name}}</p>
+{% block _title %}
+Welcome 
+{% endblock %}
+
+{% block _flex_box %}
+<div class="_main_block">
+    <div class="_main_block_alerts {% if _flag_status %} {{ _flag_status }} {% else %} _hidden {% endif %} ">
+        {% if _flag_content %} <p>{{ _flag_content }} </p> {% endif %}
     </div>
-    <div class="middle" id="dashboard_middle">
-        <input type="button" class="ib_high" name="b_dash_cworkspace" id="b_dash_cworkspace" value="Create Workspace">
-        <input type="button" class="ib_high" name="b_dash_help" id="b_dash_help" value="Help">
-        <input type="button" class="ib_high" name="b_dash_logout" id="b_dash_logout" value="Close Session">
-    </div> 
-    <div class="bottom" id="dashboard_bottom">
-        <a href="#" > Contact </a> - 
-        <a href="#" > Legal </a> - 
-        <a href="#" > About </a> - 
-        <a href="https://www.maualkla.com/jobs" target="_blank"> Jobs </a> - 
-        <a href="{{ url_for('landing') }}"> Home </a>
+    <div class="_main_block_content">
+        <div class="_option_block _main _box_main" id="_opt_new_ws">
+            <div class="_ob_text _en _hidden">
+                New Workspace
+            </div>
+            <div class="_ob_text _es _hidden">
+                Crear Workspace
+            </div>
+        </div>
+        <div class="_option_block _main _box_main" id="_opt_manage_ws">
+            <div class="_ob_text _en _hidden">
+                Manage Profile
+            </div>
+            <div class="_ob_text _es _hidden">
+                Administrar Perfil
+            </div>
+        </div>
+        <div class="_option_block _main _box_main " id="_opt_help">
+            <div class="_ob_text _en _hidden">
+                Request Help
+            </div>
+            <div class="_ob_text _es _hidden">
+                Solicitar Ayuda
+            </div>
+        </div>
+        <div class="_option_block _main _box_main" id="_opt_tuto">
+            <div class="_ob_text _en _hidden">
+                Tutorials & Walkthrough
+            </div>
+            <div class="_ob_text _es _hidden">
+                Tutoriales y Apoyo
+            </div>
+        </div>
     </div>
-    {% if values: %}
-        {% for _x in values: %}
-            <p> {{_x}} </p>
-        {% endfor %}
-    {% endif %}
 </div>
+{% endblock %}
+
+{% block _flex_menu %}
+<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_profile_en">Profile</div>
+<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_profile_es">Perfil</div>
+<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_create_ws_en">New Workspace</div>
+<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_create_ws_es">Crear Workspace</div>
+<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_manage_ws_en">Edit Workspace</div>
+<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_manage_ws_es">Administrar WS</div>
+<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_help_en">Request Help</div>
+<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_help_es">Ayuda</div>
+<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_logout_en">Close Session</div>
+<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_logout_es">Cerrar Sesion</div>
+{% endblock %}
+
+
+{% block scripts %}
+{{ super() }}
+<script src="../static/dashboard.js"></script>
 {% endblock %}
