@@ -178,27 +178,36 @@ def s_login():
 @app.route('/dashboard')
 def dashboard():
     try:
+        ## valdiate if _id and _un present
         if request.cookies.get('_id') and request.cookies.get('_un'):
+            ## if present, save the _id and _un
             _id = request.cookies.get('_id')
             _un = request.cookies.get('_un')
+            ## generate a auth object and save the response in _auth_obj
             _auth_obj = auth(_id, _un)
+            ## get status 
             _status = _auth_obj.json().get('status')
-            ### TBD get the user pin value, if null send True, else False
+            ### @TBD get the user pin value, if null send True, else False
             _pin_tb_set = True
+            ## sample list of values
             _lov = ['value1', 'value2', 'value3']
+            ## settting the context vadiable.
             context = {
                 "user_name": _un,
                 "values": _lov,
                 "pin_tb_set": _pin_tb_set,
             }
+            ## if the status was valid, return the dashboard.html and the context value
             if _status == 'valid':
                 return render_template('dashboard.html', **context)
             else:
+                ## return the login service and delete _id and _un cookies.
                 _log = make_response(redirect('/login'))
                 _log.delete_cookie('_id')
                 _log.delete_cookie('_un')
                 return _log
         else:
+            ## return to login 
             _log = make_response(redirect('/login'))
             return _log
                 
