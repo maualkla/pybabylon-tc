@@ -79,6 +79,25 @@ function _display_pinpad(_message){
 
 // send pin function
 function _send_pin(){
-    // Logic to send a request to save pin.
+    let x = document.cookie;
+    _id = x()
+    let xhr = new XMLHttpRequest();
+    let url = "/user";
+    xhr.open("PUT", url);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.setRequestHeader("_id", "_id");
+    xhr.setRequestHeader("_un", "_un");
+    xhr.onreadystatechange = function () {
+        try
+        {
+            if (xhr.readyState === 4 && xhr.status === 202) {
+                // Actions in case pin was updated.
+            }
+        }
+        catch(e)
+        {
+            errors++;
+        }
+    };
     console.log(" Saving pin: "+_pinpad_num)
 }

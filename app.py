@@ -183,6 +183,7 @@ def dashboard():
             _un = request.cookies.get('_un')
             _auth_obj = auth(_id, _un)
             _status = _auth_obj.json().get('status')
+            ### TBD get the user pin value, if null send True, else False
             _pin_tb_set = True
             _lov = ['value1', 'value2', 'value3']
             context = {
