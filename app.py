@@ -188,7 +188,7 @@ def dashboard():
             ## get status 
             _status = _auth_obj.json().get('status')
             ### @TBD get the user pin value, if null send True, else False
-            _pin_tb_set = True
+            _pin_tb_set = False
             ## sample list of values
             _lov = ['value1', 'value2', 'value3']
             ## settting the context vadiable.
