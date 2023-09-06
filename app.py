@@ -308,15 +308,12 @@ def s_signup():
 @app.route('/user', methods=['PUT'])
 def updateUser():
     try:
-        print("-----> Entramos a updateUser")
         if request.headers.get('_id') and request.headers.get('_un') and request.json['email']:
             _id = request.headers.get('_id')
             _un = request.headers.get('_un')
             _auth_obj = auth(_id, _un)
-            print(_auth_obj)
             _status = _auth_obj.json().get('status')
             if _status == 'valid':
-                print(" Vamos a status valid")
                 _json = {}
                 _json['email'] = request.json['email']
                 req_fields = ['pass','activate', 'username', 'bday', 'fname', 'phone', 'pin', 'plan', 'postalCode', 'type']
@@ -328,14 +325,10 @@ def updateUser():
                         _json[req_value] = request.json[req_value]
                         ## update flag to update user
                         _go = True
-                print (" Vamos a _go validation")
                 if _go:
-                    print( "vamos a hacer el llamado")
                     _url = _alx_url+'/user'
                     _headers = {'Content-type': 'application/json'}
                     _response = requests.put(_url, json=_json, headers=_headers)
-                    print(_response)
-                    print(" Se hizo el llamado")
                     if str(_response.status_code) == str(202):
                         return jsonify({"code": "202", "reason": "user successfully updated"}), 202
                     else:
