@@ -302,7 +302,15 @@ def s_signup():
             return jsonify({"status": "error", "code": "403", "reason": "Missing required fields."}), 403 
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
-    
+
+## Update User process
+@app.route('/user', methods=['PUT'])
+def updateUser():
+    try:
+        return "False"
+    except Exception as e:
+        return {"status": "An error Occurred", "error": str(e)}
+
 ## API Status
 @app.route('/status')
 def status():

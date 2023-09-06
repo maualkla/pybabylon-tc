@@ -95,7 +95,7 @@
             grid-area: 4 / 1 / 6 / 2;
             display: auto;
             margin: auto;
-            height: 100%; width: 99%;
+            height: 80%; width: 99%;
             padding-top: 5%;
         }
             #_close_sesion_button, #_set_pin_button{
