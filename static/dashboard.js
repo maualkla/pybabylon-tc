@@ -35,6 +35,9 @@ if(document.getElementById('_num_button_8')) document.getElementById('_num_butto
 if(document.getElementById('_num_button_9')) document.getElementById('_num_button_9').addEventListener('click', function (){  _add_pinpad(9)  });
 if(document.getElementById('_num_button_0')) document.getElementById('_num_button_0').addEventListener('click', function (){  _add_pinpad(0)  });
 if(document.getElementById('_num_button_del')) document.getElementById('_num_button_del').addEventListener('click', function (){  _substract_pinpad()  });
+if(document.getElementById('_set_pin_button')) document.getElementById('_set_pin_button').addEventListener('click', function (){  if(_pinpad_num.length === 6){ _send_pin() }else{window.alert("Pin has to be at least 6 digits long.")} });
+if(document.getElementById('_close_sesion_button')) document.getElementById('_close_sesion_button').addEventListener('click', function (){ window.location.replace("/logout"); });
+
 
 // add pinpad num function
 function _add_pinpad(_num){
@@ -48,7 +51,7 @@ function _add_pinpad(_num){
             document.getElementById("_set_pin_button").classList.add("_altern");
         }
     }else if(_pinpad_num.length === 6){
-        window.alert("Limit reached. Save Pinpad");
+        window.alert("Pin has to be max 6 digits long.");
     }else{
         _display_pinpad("Set Pin");
     }
@@ -74,3 +77,8 @@ function _display_pinpad(_message){
     document.getElementsByClassName("_numpad_box")[0].innerHTML = "<p>" + _message + "</p>";
 }
 
+// send pin function
+function _send_pin(){
+    // Logic to send a request to save pin.
+    console.log(" Saving pin: "+_pinpad_num)
+}

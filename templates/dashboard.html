@@ -51,7 +51,7 @@ Welcome
         </div>
     </div>
     {% if pin_tb_set %}
-    <div class="_main_block_numpad">
+    <div class="_main_block_numpad {% if pin_tb_set == false %} _hidden {% endif %}">
         <div class="_big_numpad" id="_set_pin">
             <div class="_numpad_box _altern" id=""><p>Set Pin</p></div>
             <div class="_num_button _altern" id="_num_button_1"><p>1</p></div>

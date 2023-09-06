@@ -30,7 +30,6 @@
         grid-row-gap: 0px;
     }
         ._big_numpad{
-            border: solid 4px red;
             grid-area: 1 / 1 / 4 / 2;
             display: grid;
             grid-template-columns: repeat(10, 1fr);
@@ -91,7 +90,6 @@
                     text-align: center;
                 }
         ._numpad_buttons{
-            border: solid 4px yellow;
             grid-area: 4 / 1 / 6 / 2;
             display: auto;
             margin: auto;
