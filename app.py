@@ -317,7 +317,16 @@ def s_signup():
 @app.route('/account')
 def account():
     try:
-        return render_template('account.html')
+        context = {
+            "_fullname": "Full Name",## requires to get the fullname
+            "_username": "username",
+            "_phone": 4491042429,
+            "_birthday": "2023-10-01", ## format YYYY-MM-DD
+            "_postcode": 20115,
+            "_pin": "Pin",
+            "_password": "Password"
+        }
+        return render_template('account.html', **context)
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
     

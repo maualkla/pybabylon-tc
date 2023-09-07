@@ -16,6 +16,27 @@ Account
     <div class="_main_block_alerts {% if _flag_status %} {{ _flag_status }} {% else %} _hidden {% endif %} ">
         {% if _flag_content%} <p>{{ _flag_content }} </p> {% endif %}
     </div>
+    <div class="_main_block_content">
+        <div class="_main_boxes">
+            <input class="_input_general _main" type="text" id="_input_fname" placeholder="Full name" value="{{ _fullname }}"/> 
+            <input class="_input_general _main" type="text" id="_input_username" placeholder="{{_username }}" value="{{_username }}"/> 
+            <input class="_input_general _main" type="number" id="_input_phone" placeholder="{{_phone }}" value="{{_phone }}"/> 
+            <input class="_input_general _main" type="date" id="_input_bday" placeholder="{{_birthday }}" value="{{_birthday }}"/> 
+            <input class="_input_general _main" type="number" id="_input_postalCode" placeholder="{{_postcode }}" value="{{_postcode }}"/> 
+            <input class="_input_general _main" type="number" id="_input_pin" placeholder="{{_pin }}" value=""/> 
+            <input class="_input_general _main" type="password" id="_input_pass" placeholder="{{_password }}" value=""/> 
+        </div>
+        <div class="_main_buttons">
+            <div class="_button_big _altern" id="_save_button">
+                <p class="_en _hidden">Save</p>
+                <p class="_es _hidden">Guardar</p>
+            </div>
+            <div class="_button_big _main _box_main" id="_cancel_button">
+                <p class="_en _hidden">Back</p>
+                <p class="_es _hidden">Regresar</p>
+            </div>
+        </div>
+    </div>
     <div class="_hidden _main_block_numpad">
         <div class="_big_numpad" id="_set_pin">
             <div class="_numpad_box _altern" id=""><p>Set Pin</p></div>
