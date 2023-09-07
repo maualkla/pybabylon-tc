@@ -317,7 +317,7 @@ def s_signup():
 @app.route('/account')
 def account():
     try:
-        return "In construction."
+        return render_template('account.html')
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
     

@@ -1,0 +1,3 @@
+/* 
+    JS functions for the dashboard.html file.
+*/
