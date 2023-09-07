@@ -178,24 +178,36 @@ def s_login():
 @app.route('/dashboard')
 def dashboard():
     try:
+        ## valdiate if _id and _un present
         if request.cookies.get('_id') and request.cookies.get('_un'):
+            ## if present, save the _id and _un
             _id = request.cookies.get('_id')
             _un = request.cookies.get('_un')
+            ## generate a auth object and save the response in _auth_obj
             _auth_obj = auth(_id, _un)
+            ## get status 
             _status = _auth_obj.json().get('status')
+            ### @TBD get the user pin value, if null send True, else False
+            _pin_tb_set = False
+            ## sample list of values
             _lov = ['value1', 'value2', 'value3']
+            ## settting the context vadiable.
             context = {
                 "user_name": _un,
                 "values": _lov,
+                "pin_tb_set": _pin_tb_set,
             }
+            ## if the status was valid, return the dashboard.html and the context value
             if _status == 'valid':
                 return render_template('dashboard.html', **context)
             else:
+                ## return the login service and delete _id and _un cookies.
                 _log = make_response(redirect('/login'))
                 _log.delete_cookie('_id')
                 _log.delete_cookie('_un')
                 return _log
         else:
+            ## return to login 
             _log = make_response(redirect('/login'))
             return _log
                 
@@ -300,12 +312,65 @@ def s_signup():
             return jsonify({"status": "error", "code": "403", "reason": "Missing required fields."}), 403 
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
+<<<<<<< HEAD
     
 ## Account Service
 @app.route('/account')
 def account():
     try:
         return "In construction."
+=======
+
+## Update User process
+@app.route('/user', methods=['PUT'])
+def updateUser():
+    try:
+        ## Validate if _un and _id are in the headers.
+        if request.headers.get('_id') and request.headers.get('_un') and request.json['email']:
+            ## save the _id and _un values
+            _id = request.headers.get('_id')
+            _un = request.headers.get('_un')
+            ## generate a auth object.
+            _auth_obj = auth(_id, _un)
+            ## get the status
+            _status = _auth_obj.json().get('status')
+            ## validate the status
+            if _status == 'valid':
+                ## Create the json object
+                _json = {}
+                ## Add email as a mandatory value
+                _json['email'] = request.json['email']
+                ## define the not mandatory fields
+                req_fields = ['pass','activate', 'username', 'bday', 'fname', 'phone', 'pin', 'plan', 'postalCode', 'type']
+                ## Set _go flag to false.
+                _go = False
+                ## go for all the possible fields to be send
+                for req_value in req_fields:
+                    ## In case required field in json payload 
+                    if req_value in request.json:
+                        ## update _json_payload object adding current field.
+                        _json[req_value] = request.json[req_value]
+                        ## update flag to update user
+                        _go = True
+                ## if any of the fields were processed and added to the json object, the _go flag will be true, else it will end the flow
+                if _go:
+                    ## preparate, the url, headers
+                    _url = _alx_url+'/user'
+                    _headers = {'Content-type': 'application/json'}
+                    ## save the response of sending a put request to the service to update user.
+                    _response = requests.put(_url, json=_json, headers=_headers)
+                    ## Validate the status code as 202
+                    if str(_response.status_code) == str(202):
+                        return jsonify({"code": "202", "reason": "user successfully updated"}), 202
+                    else:
+                        return jsonify({"code": str(_response.status_code), "reason": "Error updating user"}), 500
+                else:
+                    return jsonify({"code": 403, "reason": "Missing required parameters"}), 403
+            else:
+                return jsonify({"code": 400, "reason": "Invalid authorization"}), 400
+        else: 
+            return jsonify({"code": 400, "reason": "Missing authorization."}), 400
+>>>>>>> 63ddbb9b3532c9ef1275d5e3006b46f025f06d96
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
 
