@@ -20,6 +20,7 @@ let _new_lang = "_es";
 
 let _langs = ['_en', '_es'];
 let _pinpad_num = "";
+let _pinpad_num_alert = 0;
 
 // Set initial languajes for the page.
 setInitialLanguaje();
@@ -178,9 +179,12 @@ function _add_pinpad(_num){
             document.getElementById("_set_pin_button").classList.add("_altern");
         }
     }else if(_pinpad_num.length === 6){
-        window.alert("Pin has to be max 6 digits long.");
+        if(_pinpad_num_alert === 0){
+            window.alert("Pin has to be max 6 digits long.");
+            _pinpad_num_alert++;
+        }
     }else{
-        _display_pinpad("Set Pin");
+        _display_pinpad("Type Pin");
     }
 }
 
@@ -191,7 +195,7 @@ function _substract_pinpad(){
         document.getElementById("_set_pin_button").classList.add("_gray");
         document.getElementById("_set_pin_button").classList.remove("_altern");
         if(_pinpad_num.length === 0){
-            _display_pinpad("Set Pin");
+            _display_pinpad("Type Pin");
         }else{
             _display_pinpad(_pinpad_num)
         }
