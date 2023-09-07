@@ -373,6 +373,7 @@ def updateUser():
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
 
+
 ## API Status
 @app.route('/status')
 def status():
