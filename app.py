@@ -301,13 +301,20 @@ def s_signup():
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
     
+## Account Service
+@app.route('/account')
+def account():
+    try:
+        return "In construction."
+    except Exception as e:
+        return {"status": "An error Occurred", "error": str(e)}
+
 ## API Status
 @app.route('/status')
 def status():
     _local_ip = request.remote_addr
     local_ip = request.cookies.get('local_ip')
     return "Running fine - IP: "+_local_ip
-
 
 ##### Service paths
 ## /legal
