@@ -312,15 +312,15 @@ def s_signup():
             return jsonify({"status": "error", "code": "403", "reason": "Missing required fields."}), 403 
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
-<<<<<<< HEAD
     
 ## Account Service
 @app.route('/account')
 def account():
     try:
         return "In construction."
-=======
-
+    except Exception as e:
+        return {"status": "An error Occurred", "error": str(e)}
+    
 ## Update User process
 @app.route('/user', methods=['PUT'])
 def updateUser():
@@ -370,7 +370,6 @@ def updateUser():
                 return jsonify({"code": 400, "reason": "Invalid authorization"}), 400
         else: 
             return jsonify({"code": 400, "reason": "Missing authorization."}), 400
->>>>>>> 63ddbb9b3532c9ef1275d5e3006b46f025f06d96
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
 
