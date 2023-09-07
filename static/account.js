@@ -2,11 +2,28 @@
     JS functions for the dashboard.html file.
 */
 // Triggers
-if(document.getElementById('_save_button')) document.getElementById('_save_button').addEventListener('click', function (){ _send_user_update(); console.log(" Sent to update. ")});
+if(document.getElementById('_save_button')) document.getElementById('_save_button').addEventListener('click', function (){ _pinpad_visibility(true); console.log(" Sent to update. ")});
+if(document.getElementById('_cancel_button')) document.getElementById('_cancel_button').addEventListener('click', function (){ window.location.replace("/dashboard") });
+if(document.getElementById('_back_dash_en')) document.getElementById('_back_dash_en').addEventListener('click', function (){ window.location.replace("/dashboard") });
+if(document.getElementById('_back_dash_es')) document.getElementById('_back_dash_es').addEventListener('click', function (){ window.location.replace("/dashboard") });
+if(document.getElementById('_close_sesion_en')) document.getElementById('_close_sesion_en').addEventListener('click', function (){ window.location.replace("/logout") });
+if(document.getElementById('_close_sesion_es')) document.getElementById('_close_sesion_es').addEventListener('click', function (){ window.location.replace("/logout") });
+
+if(document.getElementById('_set_pin_button')) document.getElementById('_set_pin_button').addEventListener('click', function (){  if(_pinpad_num.length === 6){ _send_user_update() }else{window.alert("Pin has to be at least 6 digits long.")}});
+if(document.getElementById('_close_sesion_button')) document.getElementById('_close_sesion_button').addEventListener('click', function (){ _pinpad_visibility(false); _pinpad_num = " "; _substract_pinpad();});
 
 
 
-
+// display pinpad
+function _pinpad_visibility(action){
+    if(action){
+        document.getElementsByClassName("_main_block_content")[0].classList.add("_hidden");
+        document.getElementsByClassName("_main_block_numpad")[0].classList.remove("_hidden");
+    }else{
+        document.getElementsByClassName("_main_block_content")[0].classList.remove("_hidden");
+        document.getElementsByClassName("_main_block_numpad")[0].classList.add("_hidden");
+    }
+}
 
 // update user account function
 function _send_user_update(){
