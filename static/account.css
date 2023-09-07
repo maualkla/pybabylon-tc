@@ -1,0 +1,24 @@
+._main_block_content{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(11, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+}
+    ._main_boxes{
+        grid-area: 1 / 1 / 8 / 2;
+    }
+        ._input_general{
+            border-top: none !important;
+            border-left: none !important;
+            border-right: none !important;
+        }
+    ._main_buttons{
+        grid-area: 8 / 1 / 12 / 2;
+        width: 99%;
+        height: 100%;
+    }
+        #_save_button, #_cancel_button{
+            margin: auto;
+            margin-top: 5%;
+        }
