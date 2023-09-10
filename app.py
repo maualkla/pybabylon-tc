@@ -330,6 +330,14 @@ def account():
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
     
+## Workspace Service.
+@app.route('/workspace')
+def workspace():
+    try: 
+        return "success"
+    except Exception as e: 
+        return {"status": "An error Occurred", "error": str(e)}
+
 ## Update User process
 @app.route('/user', methods=['PUT'])
 def updateUser():
