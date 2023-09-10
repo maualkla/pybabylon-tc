@@ -317,16 +317,36 @@ def s_signup():
 @app.route('/account')
 def account():
     try:
-        context = {
-            "_fullname": "Full Name",## requires to get the fullname
-            "_username": "username",
-            "_phone": 4491042429,
-            "_birthday": "2023-10-01", ## format YYYY-MM-DD
-            "_postcode": 20115,
-            "_pin": "Pin",
-            "_password": "Password"
-        }
-        return render_template('account.html', **context)
+        ## valdiate if _id and _un present
+        if request.cookies.get('_id') and request.cookies.get('_un'):
+            ## if present, save the _id and _un
+            _id = request.cookies.get('_id')
+            _un = request.cookies.get('_un')
+            ## generate a auth object and save the response in _auth_obj
+            _auth_obj = auth(_id, _un)
+            ## get status 
+            _status = _auth_obj.json().get('status')
+            context = {
+                "_fullname": "Full Name",## requires to get the fullname
+                "_username": "username",
+                "_phone": 4491042429,
+                "_birthday": "2023-10-01", ## format YYYY-MM-DD
+                "_postcode": 20115,
+                "_pin": "Pin",
+                "_password": "Password"
+            }
+            if _status == 'valid':
+                return render_template('account.html', **context)
+            else:
+                ## return the login service and delete _id and _un cookies.
+                _log = make_response(redirect('/login'))
+                _log.delete_cookie('_id')
+                _log.delete_cookie('_un')
+                return _log
+        else:
+            ## return to login 
+            _log = make_response(redirect('/login'))
+            return _log
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
     
@@ -334,7 +354,39 @@ def account():
 @app.route('/workspace')
 def workspace():
     try: 
-        return "success"
+        ## valdiate if _id and _un present
+        if request.cookies.get('_id') and request.cookies.get('_un'):
+            ## if present, save the _id and _un
+            _id = request.cookies.get('_id')
+            _un = request.cookies.get('_un')
+            ## generate a auth object and save the response in _auth_obj
+            _auth_obj = auth(_id, _un)
+            _level = "2"
+            ## get status 
+            _status = _auth_obj.json().get('status')
+            context = {
+                "_logged": "Full Name",## requires to get the fullname
+                "_username": "username",
+                "_email": "email",
+                "_level": _level,
+                "_context": "no_context"
+            }
+            if _status == 'valid':
+                if int(_level) >= int(2):
+                    return render_template('workspace.html', **context)
+                else:
+                    _dash = make_response(redirect('/dashboard'))
+                    return _log
+            else:
+                ## return the login service and delete _id and _un cookies.
+                _log = make_response(redirect('/login'))
+                _log.delete_cookie('_id')
+                _log.delete_cookie('_un')
+                return _log
+        else:
+            ## return to login 
+            _log = make_response(redirect('/login'))
+            return _log
     except Exception as e: 
         return {"status": "An error Occurred", "error": str(e)}
 

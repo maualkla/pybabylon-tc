@@ -8,7 +8,7 @@ Workspace - {{ super() }}
 {% endblock %}
 
 {% block _title %}
-New Workspace 
+Workspace 
 {% endblock %}
 
 {% block _flex_box %}
@@ -17,19 +17,21 @@ New Workspace
         {% if _flag_content%} <p>{{ _flag_content }} </p> {% endif %}
     </div>
     <div class="_main_block_content">
-        <div class="_main_boxes">
-            <input class="_input_general _main" type="text" id="_input_fname" placeholder="Full name" value="{{ _fullname }}"/> 
-            <input class="_input_general _main" type="text" id="_input_username" placeholder="{{_username }}" value="{{_username }}"/> 
-            <input class="_input_general _main" type="number" id="_input_phone" placeholder="{{_phone }}" value="{{_phone }}"/> 
-            <input class="_input_general _main" type="date" id="_input_bday" placeholder="{{_birthday }}" value="{{_birthday }}"/> 
-            <input class="_input_general _main" type="number" id="_input_postalCode" placeholder="{{_postcode }}" value="{{_postcode }}"/> 
-            <input class="_input_general _main" type="password" id="_input_pin" placeholder="New Pin" value=""/> 
-            <input class="_input_general _main" type="password" id="_input_pass" placeholder="New Password" value=""/> 
-        </div>
+        <div class="_main_boxes" id="_mb_stage_1">
+            <input class="_input_general _altern" type="text" id="_input_LegalName" placeholder="Business Legal Name" value=""/> 
+            <input class="_input_general _altern" type="text" id="_input_InformalName" placeholder="Informal Name" value=""/> 
+            <input class="_input_general _altern" type="text" id="_input_ShortCode" placeholder="Short Code" value=""/> 
+            <input class="_input_general _altern" type="text" id="_input_TaxId" placeholder="Tax Id" value=""/> 
+            <input class="_input_general _altern" type="email" id="_input_Email" placeholder="Business Email" value=""/> 
+       </div>
         <div class="_main_buttons">
             <div class="_button_big _altern" id="_save_button">
-                <p class="_en _hidden">Save</p>
-                <p class="_es _hidden">Guardar</p>
+                <p class="_en _hidden">Next</p>
+                <p class="_es _hidden">Siguiente</p>
+            </div>
+            <div class="_button_big _altern _hidden" id="_save_button">
+                <p class="_en _hidden">Create</p>
+                <p class="_es _hidden">Crear</p>
             </div>
             <div class="_button_big _main _box_main" id="_cancel_button">
                 <p class="_en _hidden">Back</p>
@@ -54,7 +56,7 @@ New Workspace
         </div>
         <div class="_numpad_buttons">
             <div class="_button_big _gray" id="_set_pin_button">
-                <p class="">Set Pin</p>
+                <p class="">Create</p>
             </div>
             <div class="_button_big _main _box_main" id="_close_sesion_button">
                 <p class="_en _hidden">Cancel</p>
