@@ -31,12 +31,10 @@ function _send_user_update(){
     let _fields = ['pass', 'username', 'bday', 'fname', 'phone', 'pin', 'postalCode']
     let _go = false;
     for(let x = 0; x < _fields.length ; x++){
-        console.log('_input_'+_fields[x]);
         _json_obj[_fields[x]] = document.getElementById('_input_'+_fields[x]).value;
         _go = true;
     }
     _json_obj['email'] = "missing email origin";
-    console.log(_json_obj);
     if(1 === 2){
         let x = document.cookie;
         _id = x()
