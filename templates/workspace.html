@@ -17,21 +17,21 @@
             {% if _flag_content%} <p>{{ _flag_content }} </p> {% endif %}
         </div>
         <div class="_main_block_content">
-            <div class="_main_boxes _hidden" id="_mb_stage_1">
+            <div class="_main_boxes" id="_mb_stage_0">
                 <input class="_input_general _altern _ws_input" type="text" id="_input_LegalName" placeholder="Business Legal Name" value=""/> 
                 <input class="_input_general _altern _ws_input" type="text" id="_input_InformalName" placeholder="Informal Name" value=""/> 
                 <input class="_input_general _altern _ws_input" type="text" id="_input_ShortCode" placeholder="Short Code" value=""/> 
                 <input class="_input_general _altern _ws_input" type="text" id="_input_TaxId" placeholder="Tax Id" value=""/> 
                 <input class="_input_general _altern _ws_input" type="email" id="_input_Email" placeholder="Business Email" value=""/> 
-        </div>
-        <div class="_main_boxes _hidden" id="_mb_stage_2">
+            </div>
+            <div class="_main_boxes _hidden" id="_mb_stage_1">
                 <input class="_input_general _altern _ws_input" type="search" id="_input_CountryCode" placeholder="Country" value=""/> 
                 <input class="_input_general _altern _ws_input" type="text" id="_input_State" placeholder="State" value=""/> 
                 <input class="_input_general _altern _ws_input" type="text" id="_input_City" placeholder="City" value=""/> 
                 <input class="_input_general _altern _ws_input" type="text" id="_input_AddressLine1" placeholder="Address Line 1" value=""/> 
                 <input class="_input_general _altern _ws_input" type="text" id="_input_AddressLine2" placeholder="Address Line 2" value=""/> 
             </div>
-            <div class="_main_boxes " id="_mb_stage_3">
+            <div class="_main_boxes _hidden" id="_mb_stage_2">
                 <input class="_input_general _altern _ws_input" type="text" id="_input_PhoneCountryCode" placeholder="Phone Country Code" value=""/> 
                 <input class="_input_general _altern _ws_input" type="number" id="_input_PhoneNumber" placeholder="Phone Number" value=""/> 
                 <input class="_input_general _altern _ws_input" type="color" id="_input_MainHexColor" placeholder="Main Hex Color" onchange="window.alert(this.value)"> 
@@ -39,15 +39,15 @@
                 <input class="_input_general _altern _ws_input" type="color" id="_input_AlterHexColor" placeholder="Alternate Hex Color" /> 
             </div>
             <div class="_main_buttons">
-                <div class="_button_big _altern" id="_save_button">
+                <div class="_button_big _altern" id="_next_button">
                     <p class="_en _hidden">Next</p>
                     <p class="_es _hidden">Siguiente</p>
                 </div>
-                <div class="_button_big _altern _hidden" id="_save_button">
+                <div class="_button_big _altern _hidden" id="_create_button">
                     <p class="_en _hidden">Create</p>
                     <p class="_es _hidden">Crear</p>
                 </div>
-                <div class="_button_big _main _box_main" id="_cancel_button">
+                <div class="_button_big _main _box_main" id="_back_button">
                     <p class="_en _hidden">Back</p>
                     <p class="_es _hidden">Regresar</p>
                 </div>
