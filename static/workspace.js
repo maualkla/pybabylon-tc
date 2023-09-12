@@ -31,9 +31,6 @@ function _change_view(_direction){
         _hide_all_ws_views();
         _show_ws_view(_ws_stage);
     }
-    console.log( " Accesed to change view ");
-    console.log(_direction);
-    console.log(_ws_stage);
 }
 
 // Function to hide all views.
@@ -41,12 +38,12 @@ function _hide_all_ws_views(){
     document.getElementById("_mb_stage_0").classList.add("_hidden");
     document.getElementById("_mb_stage_1").classList.add("_hidden");
     document.getElementById("_mb_stage_2").classList.add("_hidden");
-    return false;
+    return true;
 }
 
 // Function to show specific view.
 function _show_ws_view(_view_num){
     let _view = "_mb_stage_"+_view_num.toString();
     document.getElementById(_view).classList.remove("_hidden");
-    return false;
+    return true;
 }
