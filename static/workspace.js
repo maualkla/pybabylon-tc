@@ -73,7 +73,7 @@ function _create_workspace(){
     xhr.onreadystatechange = function () {
         try
         {
-            if (xhr.readyState === 4 && xhr.status === 202) {
+            if (xhr.readyState === 4 && xhr.status === 200) {
                 console.log(" Correcto ")
                 console.debug(xhr)
             }

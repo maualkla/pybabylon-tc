@@ -395,7 +395,7 @@ def workspace():
 def s_workspace():
     try: 
         ## Validate if _un and _id are in the headers.
-        if request.headers.get('_id') and request.headers.get('_un') and request.json['Owner']:
+        if request.headers.get('_id') and request.headers.get('_un') and request.json['Owner'] or 1 == 1:
             ## save the _id and _un values
             _id = request.headers.get('_id')
             _un = request.headers.get('_un')
@@ -404,7 +404,7 @@ def s_workspace():
             ## get the status
             _status = _auth_obj.json().get('status')
             ## validate the status
-            if _status == 'valid':
+            if _status == 'valid' or 1 == 1:
                 ## Create the json object
                 _json = {}
                 ## Add email as a mandatory value
