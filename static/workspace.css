@@ -12,6 +12,9 @@
             font-size: 400% !important;
             margin-top: 3%;
         }
+        #_mb_stage_2{
+            text-align: center;
+        }
     ._main_buttons{
         grid-area: 14 / 1 / 21 / 2;
         margin: auto;

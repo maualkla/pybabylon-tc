@@ -395,7 +395,7 @@ def workspace():
 def s_workspace():
     try: 
         ## Validate if _un and _id are in the headers.
-        if request.headers.get('_id') and request.headers.get('_un') and request.json['email']:
+        if request.headers.get('_id') and request.headers.get('_un') and request.json['Owner']:
             ## save the _id and _un values
             _id = request.headers.get('_id')
             _un = request.headers.get('_un')
@@ -408,9 +408,9 @@ def s_workspace():
                 ## Create the json object
                 _json = {}
                 ## Add email as a mandatory value
-                _json['email'] = request.json['email']
+                _json['Owner'] = request.json['Owner']
                 ## define the not mandatory fields
-                req_fields = ['Owner', 'TaxId', 'LegalName', 'InformalName', 'ShortCode', 'CountryCode', 'State', 'City', 'AddressLine1', 'AddressLine2', 'AddressLine3', 'AddressLine4', 'PhoneCountryCode', 'PhoneNumber', 'MainHexColor', 'AlterHexColor', 'LowHexColor', 'Level', 'Active', 'CreationDate', 'PostalCode']
+                req_fields = ['Email', 'TaxId', 'LegalName', 'InformalName', 'ShortCode', 'CountryCode', 'State', 'City', 'AddressLine1', 'AddressLine2', 'AddressLine3', 'AddressLine4', 'PhoneCountryCode', 'PhoneNumber', 'MainHexColor', 'AlterHexColor', 'LowHexColor', 'Level', 'Active', 'CreationDate', 'PostalCode']
                 ## Set _go flag to false.
                 _go = False
                 ## go for all the possible fields to be send
