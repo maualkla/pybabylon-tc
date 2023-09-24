@@ -523,6 +523,7 @@
     }
     ._label{
         font-size: 450%;
+        margin:0;
     }
 
     /* START Hamburger External CSS CODE */

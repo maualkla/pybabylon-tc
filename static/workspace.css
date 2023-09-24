@@ -16,5 +16,8 @@
         grid-area: 14 / 1 / 21 / 2;
         margin: auto;
     }
+        ._main_buttons div{
+            margin-top: 10%;
+        }
 
     

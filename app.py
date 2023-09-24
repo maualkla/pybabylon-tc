@@ -390,6 +390,59 @@ def workspace():
     except Exception as e: 
         return {"status": "An error Occurred", "error": str(e)}
 
+## s_workspace service
+@app.route('/s_workspace', methods=['POST'])
+def s_workspace():
+    try: 
+        ## Validate if _un and _id are in the headers.
+        if request.headers.get('_id') and request.headers.get('_un') and request.json['email']:
+            ## save the _id and _un values
+            _id = request.headers.get('_id')
+            _un = request.headers.get('_un')
+            ## generate a auth object.
+            _auth_obj = auth(_id, _un)
+            ## get the status
+            _status = _auth_obj.json().get('status')
+            ## validate the status
+            if _status == 'valid':
+                ## Create the json object
+                _json = {}
+                ## Add email as a mandatory value
+                _json['email'] = request.json['email']
+                ## define the not mandatory fields
+                req_fields = ['Owner', 'TaxId', 'LegalName', 'InformalName', 'ShortCode', 'CountryCode', 'State', 'City', 'AddressLine1', 'AddressLine2', 'AddressLine3', 'AddressLine4', 'PhoneCountryCode', 'PhoneNumber', 'MainHexColor', 'AlterHexColor', 'LowHexColor', 'Level', 'Active', 'CreationDate', 'PostalCode']
+                ## Set _go flag to false.
+                _go = False
+                ## go for all the possible fields to be send
+                for req_value in req_fields:
+                    ## In case required field in json payload 
+                    if req_value in request.json:
+                        ## update _json_payload object adding current field.
+                        _json[req_value] = request.json[req_value]
+                        ## update flag to update user
+                        _go = True
+                ## if any of the fields were processed and added to the json object, the _go flag will be true, else it will end the flow
+                if _go:
+                    ## preparate, the url, headers
+                    _url = _alx_url+'/workspace'
+                    _headers = {'Content-type': 'application/json'}
+                    ## save the response of sending a put request to the service to update user.
+                    _response = requests.post(_url, json=_json, headers=_headers)
+                   ## Validate the status code as 202
+                    if str(_response.status_code) == str(200):
+                        return jsonify({"code": "202", "reason": "user successfully updated"}), 202
+                    else:
+                        return jsonify({"code": str(_response.status_code), "reason": "Error updating user"}), 500
+                else:
+                    return jsonify({"code": 403, "reason": "Missing required parameters"}), 403
+            else:
+                return jsonify({"code": 400, "reason": "Invalid authorization"}), 400
+        else: 
+            return jsonify({"code": 400, "reason": "Missing authorization."}), 400
+    except Exception as e: 
+        return {"status": "An error Occurred", "error": str(e)}
+
+
 ## Update User process
 @app.route('/user', methods=['PUT'])
 def updateUser():

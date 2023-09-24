@@ -8,6 +8,11 @@ let _ws_stage = 0;
 // Triggers
 if(document.getElementById('_next_button')) document.getElementById('_next_button').addEventListener('click', function (){ _change_view(true) });
 if(document.getElementById('_back_button')) document.getElementById('_back_button').addEventListener('click', function (){ _change_view(false) });
+if(document.getElementById('_back_dash_en')) document.getElementById('_back_dash_en').addEventListener('click', function (){ window.location.replace("/dashboard") });
+if(document.getElementById('_back_dash_es')) document.getElementById('_back_dash_es').addEventListener('click', function (){ window.location.replace("/dashboard") });
+if(document.getElementById('_close_sesion_en')) document.getElementById('_close_sesion_en').addEventListener('click', function (){ window.location.replace("/logout") });
+if(document.getElementById('_close_sesion_es')) document.getElementById('_close_sesion_es').addEventListener('click', function (){ window.location.replace("/logout") });
+
 
 // Functions
 // 
