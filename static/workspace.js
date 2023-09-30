@@ -3,7 +3,7 @@
 */
 
 // control variables
-let _ws_stage = 0;
+let _ws_stage = 0, errors = 0;
 
 // Triggers
 if(document.getElementById('_next_button')) document.getElementById('_next_button').addEventListener('click', function (){ _change_view(true) });
@@ -77,6 +77,11 @@ function _create_workspace(){
                 console.log(" Correcto ")
                 console.debug(xhr)
                 window.location.replace('/dashboard');
+            }else{
+                document.getElementsByClassName('_main_block_alerts')[0].classList.add("_box_red");
+                document.getElementsByClassName('_main_block_alerts')[0].classList.remove("_hidden");
+                document.getElementsByClassName('_main_block_alerts')[0].innerHTML = "<p> Error creating user, "+ _parsed_data["reason"] +" </p>";
+            
             }
         }
         catch(e)

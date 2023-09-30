@@ -1,3 +1,7 @@
+._main_block_alerts{
+    height: 200px !important;
+}
+
 ._main_block_content{
     display: grid;
     grid-template-columns: 1fr;
