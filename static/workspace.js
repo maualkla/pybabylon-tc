@@ -73,9 +73,10 @@ function _create_workspace(){
     xhr.onreadystatechange = function () {
         try
         {
-            if (xhr.readyState === 4 && xhr.status === 200) {
+            if (xhr.readyState === 4 && xhr.status === 202) {
                 console.log(" Correcto ")
                 console.debug(xhr)
+                window.location.replace('/dashboard');
             }
         }
         catch(e)
