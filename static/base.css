@@ -399,7 +399,7 @@
 
     /* inputs */
     ._input_general{
-        font-size: 700%;
+        font-size: 400%;
         padding: 5%;
         padding-top: 5%;
         text-align: left;
@@ -407,6 +407,14 @@
         max-height: 11%;
         width: 89.5%;
     }
+
+    /* Input color general */
+    ._input_general_color{
+        width: 200px;
+        height: 100px;
+        border-radius: 10px;
+    }
+    
 
     /* alert_box */
     ._main_block_alerts{
@@ -515,6 +523,7 @@
     }
     ._label{
         font-size: 450%;
+        margin:0;
     }
 
     /* START Hamburger External CSS CODE */

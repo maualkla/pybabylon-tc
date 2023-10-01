@@ -317,19 +317,132 @@ def s_signup():
 @app.route('/account')
 def account():
     try:
-        context = {
-            "_fullname": "Full Name",## requires to get the fullname
-            "_username": "username",
-            "_phone": 4491042429,
-            "_birthday": "2023-10-01", ## format YYYY-MM-DD
-            "_postcode": 20115,
-            "_pin": "Pin",
-            "_password": "Password"
-        }
-        return render_template('account.html', **context)
+        ## valdiate if _id and _un present
+        if request.cookies.get('_id') and request.cookies.get('_un'):
+            ## if present, save the _id and _un
+            _id = request.cookies.get('_id')
+            _un = request.cookies.get('_un')
+            ## generate a auth object and save the response in _auth_obj
+            _auth_obj = auth(_id, _un)
+            ## get status 
+            _status = _auth_obj.json().get('status')
+            context = {
+                "_fullname": "Full Name",## requires to get the fullname
+                "_username": "username",
+                "_phone": 4491042429,
+                "_birthday": "2023-10-01", ## format YYYY-MM-DD
+                "_postcode": 20115,
+                "_pin": "Pin",
+                "_password": "Password"
+            }
+            if _status == 'valid':
+                return render_template('account.html', **context)
+            else:
+                ## return the login service and delete _id and _un cookies.
+                _log = make_response(redirect('/login'))
+                _log.delete_cookie('_id')
+                _log.delete_cookie('_un')
+                return _log
+        else:
+            ## return to login 
+            _log = make_response(redirect('/login'))
+            return _log
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
     
+## Workspace Service.
+@app.route('/workspace')
+def workspace():
+    try: 
+        ## valdiate if _id and _un present
+        if request.cookies.get('_id') and request.cookies.get('_un'):
+            ## if present, save the _id and _un
+            _id = request.cookies.get('_id')
+            _un = request.cookies.get('_un')
+            ## generate a auth object and save the response in _auth_obj
+            _auth_obj = auth(_id, _un)
+            _level = "2"
+            ## get status 
+            _status = _auth_obj.json().get('status')
+            context = {
+                "_logged": "Full Name",## requires to get the fullname
+                "_username": "username",
+                "_email": "email",
+                "_level": _level,
+                "_context": "no_context"
+            }
+            if _status == 'valid':
+                if int(_level) >= int(2):
+                    return render_template('workspace.html', **context)
+                else:
+                    _dash = make_response(redirect('/dashboard'))
+                    return _log
+            else:
+                ## return the login service and delete _id and _un cookies.
+                _log = make_response(redirect('/login'))
+                _log.delete_cookie('_id')
+                _log.delete_cookie('_un')
+                return _log
+        else:
+            ## return to login 
+            _log = make_response(redirect('/login'))
+            return _log
+    except Exception as e: 
+        return {"status": "An error Occurred", "error": str(e)}
+
+## s_workspace service
+@app.route('/s_workspace', methods=['POST'])
+def s_workspace():
+    try: 
+        ## Validate if _un and _id are in the headers.
+        if request.headers.get('_id') and request.headers.get('_un') and request.json['Owner'] or 1 == 1:
+            ## save the _id and _un values
+            _id = request.headers.get('_id')
+            _un = request.headers.get('_un')
+            ## generate a auth object.
+            _auth_obj = auth(_id, _un)
+            ## get the status
+            _status = _auth_obj.json().get('status')
+            ## validate the status
+            if _status == 'valid' or 1 == 1:
+                ## Create the json object
+                _json = {}
+                ## Add email as a mandatory value
+                _json['Owner'] = request.json['Owner']
+                ## define the not mandatory fields
+                req_fields = ['Email', 'TaxId', 'LegalName', 'InformalName', 'ShortCode', 'CountryCode', 'State', 'City', 'AddressLine1', 'AddressLine2', 'AddressLine3', 'AddressLine4', 'PhoneCountryCode', 'PhoneNumber', 'MainHexColor', 'AlterHexColor', 'LowHexColor', 'Level', 'Active', 'CreationDate', 'PostalCode']
+                ## Set _go flag to false.
+                _go = False
+                ## go for all the possible fields to be send
+                for req_value in req_fields:
+                    ## In case required field in json payload 
+                    if req_value in request.json:
+                        ## update _json_payload object adding current field.
+                        _json[req_value] = request.json[req_value]
+                        ## update flag to update user
+                        _go = True
+                ## if any of the fields were processed and added to the json object, the _go flag will be true, else it will end the flow
+                if _go:
+                    ## preparate, the url, headers
+                    _url = _alx_url+'/workspace'
+                    _headers = {'Content-type': 'application/json'}
+                    ## save the response of sending a put request to the service to update user.
+                    _response = requests.post(_url, json=_json, headers=_headers)
+                   ## Validate the status code as 202
+                    if str(_response.status_code) == str(200):
+                        return jsonify({"code": "202", "reason": "user successfully created"}), 202
+                    else:
+                        return jsonify({"code": str(_response.status_code), "reason": _response.json().get('reason')}), 409
+                else:
+                    return jsonify({"code": 403, "reason": "Missing required parameters"}), 403
+            else:
+                return jsonify({"code": 400, "reason": "Invalid authorization"}), 400
+        else: 
+            return jsonify({"code": 400, "reason": "Missing authorization."}), 400
+    except Exception as e: 
+        return {"status": "An error Occurred", "error": str(e)}
+
+
 ## Update User process
 @app.route('/user', methods=['PUT'])
 def updateUser():
