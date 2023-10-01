@@ -26,5 +26,7 @@
         ._main_buttons div{
             margin-top: 10%;
         }
-
+    ._numpad_buttons{
+        display: block;
+    }
     

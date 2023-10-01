@@ -8,13 +8,13 @@ let _ws_stage = 0, errors = 0;
 // Triggers
 if(document.getElementById('_next_button')) document.getElementById('_next_button').addEventListener('click', function (){ _change_view(true) });
 if(document.getElementById('_back_button')) document.getElementById('_back_button').addEventListener('click', function (){ _change_view(false) });
-if(document.getElementById('_create_button')) document.getElementById('_create_button').addEventListener('click', function (){ _ws_switch_pinpad(true) });
+if(document.getElementById('_create_button')) document.getElementById('_create_button').addEventListener('click', function (){ if(_required_check()){_ws_switch_pinpad(true);} });
 if(document.getElementById('_back_dash_en')) document.getElementById('_back_dash_en').addEventListener('click', function (){ window.location.replace("/dashboard") });
 if(document.getElementById('_back_dash_es')) document.getElementById('_back_dash_es').addEventListener('click', function (){ window.location.replace("/dashboard") });
 if(document.getElementById('_close_sesion_en')) document.getElementById('_close_sesion_en').addEventListener('click', function (){ window.location.replace("/logout") });
 if(document.getElementById('_close_sesion_es')) document.getElementById('_close_sesion_es').addEventListener('click', function (){ window.location.replace("/logout") });
 if(document.getElementById('_set_pin_button')) document.getElementById('_set_pin_button').addEventListener('click', function (){ _create_workspace(); });
-if(document.getElementById('_cancel_pin_button')) document.getElementById('_cancel_pin_button').addEventListener('click', function (){ window.location.replace("/dashboard") });
+if(document.getElementById('_close_sesion_button')) document.getElementById('_close_sesion_button').addEventListener('click', function (){ window.location.replace("/dashboard") });
 
 
 // Functions
@@ -80,7 +80,6 @@ function _create_workspace(){
         if(_pinpad_num === "111111"){ /// @TODO REPLACE the 111111 with the user pin. or find a way around. ¿?
             let fields = ['Owner', 'Email', 'TaxId', 'LegalName', 'InformalName', 'ShortCode', 'CountryCode', 'State', 'City', 'AddressLine1', 'AddressLine2', 'AddressLine3', 'AddressLine4', 'PhoneCountryCode', 'PhoneNumber', 'MainHexColor', 'AlterHexColor', 'LowHexColor', 'Level', 'Active', 'CreationDate', 'PostalCode']
             _json_payload = {}
-            window.alert(" create workspace")
             for(let i = 0; i < fields.length; i++){
                 _json_payload[fields[i]] = (document.getElementById('_input_'+fields[i])) ? document.getElementById('_input_'+fields[i]).value : '';
             }
@@ -110,7 +109,6 @@ function _create_workspace(){
             var data = JSON.stringify(_json_payload);
             xhr.send(data);
         }else{
-            _ws_switch_pinpad(false);
             setAlert("_box_red", "Incorrect Pin");
         }
     }else{
@@ -118,5 +116,19 @@ function _create_workspace(){
         setAlert("_box_red", "Missing Tax Id");
         _change_view(false);_change_view(false);
     }
-    _pinpad_num = "";
+    _pinpad_num = ""; _display_pinpad(_pinpad_num);
+}
+
+/// Function to check for required fields-
+function _required_check(){
+    let _go = true;
+    _required = ['Email', 'TaxId', 'LegalName', 'InformalName', 'ShortCode', 'CountryCode', 'State', 'City', 'AddressLine1', 'PhoneCountryCode', 'PhoneNumber', 'MainHexColor', 'AlterHexColor', 'LowHexColor', 'PostalCode'];
+    for(let i = 0; i < _required.length; i++){
+        if(document.getElementById("_input_"+_required[i]).value.length === 0){
+            _go = false;
+            setAlert("_box_red", "Missing "+_required[i]);
+            break;
+        }
+    }
+    return _go;
 }
