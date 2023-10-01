@@ -196,6 +196,7 @@ def dashboard():
                 "user_name": _un,
                 "values": _lov,
                 "pin_tb_set": _pin_tb_set,
+                "_level": 3 ### TBD wee need the level of the user available.
             }
             ## if the status was valid, return the dashboard.html and the context value
             if _status == 'valid':
@@ -444,9 +445,12 @@ def s_workspace():
 
 
 ## Update User process
-@app.route('/user', methods=['PUT'])
+@app.route('/user', methods=['GET', 'PUT'])
 def updateUser():
     try:
+        if request.method == 'GET':
+            _dash = make_response(redirect('/dashboard'))
+            return _dash
         ## Validate if _un and _id are in the headers.
         if request.headers.get('_id') and request.headers.get('_un') and request.json['email']:
             ## save the _id and _un values
@@ -494,6 +498,16 @@ def updateUser():
             return jsonify({"code": 400, "reason": "Missing authorization."}), 400
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
+
+## Transactions service
+@app.route('/transactions')
+def transactions():
+    context = {
+        '_level': '',
+        '_logged': '',
+        '_add': ''
+    }
+    return render_template('transactions.html', **context)
 
 
 ## API Status

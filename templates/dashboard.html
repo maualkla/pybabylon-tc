@@ -89,6 +89,10 @@ Welcome
 <div class="_menu_box _box_main _box_main_bot _es _hidden" id="_manage_ws_es">Administrar WS</div>
 <div class="_menu_box _box_main _box_main_bot _en _hidden" id="_help_en">Request Help</div>
 <div class="_menu_box _box_main _box_main_bot _es _hidden" id="_help_es">Ayuda</div>
+{% if _level > 2 %}
+<div class="_menu_box _box_main _box_main_bot" id="_trx_mgr">Trx Manager</div>
+<div class="_menu_box _box_main _box_main_bot" id="_usr_mgr">User Manager</div>
+{% endif %}
 <div class="_menu_box _box_main _box_main_bot _en _hidden" id="_logout_en">Close Session</div>
 <div class="_menu_box _box_main _box_main_bot _es _hidden" id="_logout_es">Cerrar Sesion</div>
 {% endblock %}
