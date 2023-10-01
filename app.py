@@ -430,9 +430,9 @@ def s_workspace():
                     _response = requests.post(_url, json=_json, headers=_headers)
                    ## Validate the status code as 202
                     if str(_response.status_code) == str(200):
-                        return jsonify({"code": "202", "reason": "user successfully updated"}), 202
+                        return jsonify({"code": "202", "reason": "user successfully created"}), 202
                     else:
-                        return jsonify({"code": str(_response.status_code), "reason": "Error updating user"}), 500
+                        return jsonify({"code": str(_response.status_code), "reason": _response.json().get('reason')}), 500
                 else:
                     return jsonify({"code": 403, "reason": "Missing required parameters"}), 403
             else:

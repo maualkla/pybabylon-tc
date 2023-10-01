@@ -73,15 +73,20 @@ function _create_workspace(){
     xhr.onreadystatechange = function () {
         try
         {
+            let _data = xhr.responseText;
+            let _parsed_data = JSON.parse(_data);
             if (xhr.readyState === 4 && xhr.status === 202) {
                 console.log(" Correcto ")
                 console.debug(xhr)
                 window.location.replace('/dashboard');
             }else{
+                console.log("error, not submited.")
+                console.log(xhr.status)
+                console.log(_parsed_data["reason"])
                 document.getElementsByClassName('_main_block_alerts')[0].classList.add("_box_red");
                 document.getElementsByClassName('_main_block_alerts')[0].classList.remove("_hidden");
+                document.getElementsByClassName('_main_block_alerts')[0].innerHTML = '<h1> que pedo </h1>';
                 document.getElementsByClassName('_main_block_alerts')[0].innerHTML = "<p> Error creating user, "+ _parsed_data["reason"] +" </p>";
-            
             }
         }
         catch(e)
