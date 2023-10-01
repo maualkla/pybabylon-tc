@@ -8,11 +8,13 @@ let _ws_stage = 0, errors = 0;
 // Triggers
 if(document.getElementById('_next_button')) document.getElementById('_next_button').addEventListener('click', function (){ _change_view(true) });
 if(document.getElementById('_back_button')) document.getElementById('_back_button').addEventListener('click', function (){ _change_view(false) });
-if(document.getElementById('_create_button')) document.getElementById('_create_button').addEventListener('click', function (){ _create_workspace() });
+if(document.getElementById('_create_button')) document.getElementById('_create_button').addEventListener('click', function (){ _ws_switch_pinpad(true) });
 if(document.getElementById('_back_dash_en')) document.getElementById('_back_dash_en').addEventListener('click', function (){ window.location.replace("/dashboard") });
 if(document.getElementById('_back_dash_es')) document.getElementById('_back_dash_es').addEventListener('click', function (){ window.location.replace("/dashboard") });
 if(document.getElementById('_close_sesion_en')) document.getElementById('_close_sesion_en').addEventListener('click', function (){ window.location.replace("/logout") });
 if(document.getElementById('_close_sesion_es')) document.getElementById('_close_sesion_es').addEventListener('click', function (){ window.location.replace("/logout") });
+if(document.getElementById('_set_pin_button')) document.getElementById('_set_pin_button').addEventListener('click', function (){ _create_workspace(); });
+if(document.getElementById('_cancel_pin_button')) document.getElementById('_cancel_pin_button').addEventListener('click', function (){ window.location.replace("/dashboard") });
 
 
 // Functions
@@ -20,6 +22,9 @@ if(document.getElementById('_close_sesion_es')) document.getElementById('_close_
 /// Function to change view.
 function _change_view(_direction){
     if (_direction && _ws_stage < 2 ){ 
+        if(_ws_stage === 0){
+            document.getElementById("_back_button").classList.remove("_hidden");
+        }
         if(_ws_stage === 1){
             document.getElementById("_next_button").classList.add("_hidden");
             document.getElementById("_create_button").classList.remove("_hidden");
@@ -32,6 +37,9 @@ function _change_view(_direction){
         if(_ws_stage === 2){
             document.getElementById("_create_button").classList.add("_hidden");
             document.getElementById("_next_button").classList.remove("_hidden");
+        }
+        if(_ws_stage === 1){
+            document.getElementById("_back_button").classList.add("_hidden");
         }
         _ws_stage--;
         _hide_all_ws_views();
@@ -54,48 +62,61 @@ function _show_ws_view(_view_num){
     return true;
 }
 
+// pinpad stage
+function _ws_switch_pinpad(_show){
+    if(_show){
+        document.getElementsByClassName('_main_block_content')[0].classList.add("_hidden");
+        document.getElementsByClassName('_main_block_numpad')[0].classList.remove("_hidden");
+    }else{
+        
+        document.getElementsByClassName('_main_block_numpad')[0].classList.add("_hidden");
+        document.getElementsByClassName('_main_block_content')[0].classList.remove("_hidden");
+    }
+}
+
 // Function to create the workspace
 function _create_workspace(){
-    let fields = ['Owner', 'Email', 'TaxId', 'LegalName', 'InformalName', 'ShortCode', 'CountryCode', 'State', 'City', 'AddressLine1', 'AddressLine2', 'AddressLine3', 'AddressLine4', 'PhoneCountryCode', 'PhoneNumber', 'MainHexColor', 'AlterHexColor', 'LowHexColor', 'Level', 'Active', 'CreationDate', 'PostalCode']
-    _json_payload = {}
-    window.alert(" create workspace")
-    for(let i = 0; i < fields.length; i++){
-        console.log(fields[i]);
-        _json_payload[fields[i]] = (document.getElementById('_input_'+fields[i])) ? document.getElementById('_input_'+fields[i]).value : '';
-    }
-    _json_payload['Owner'] = 'mauricio@adminde.com';
-    console.log(_json_payload);
-
-    let xhr = new XMLHttpRequest();
-    let url = "/s_workspace";
-    xhr.open("POST", url);
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.onreadystatechange = function () {
-        try
-        {
-            let _data = xhr.responseText;
-            let _parsed_data = JSON.parse(_data);
-            if (xhr.readyState === 4 && xhr.status === 202) {
-                console.log(" Correcto ")
-                console.debug(xhr)
-                window.location.replace('/dashboard');
-            }else{
-                console.log("error, not submited.")
-                console.log(xhr.status)
-                console.log(_parsed_data["reason"])
-                document.getElementsByClassName('_main_block_alerts')[0].classList.add("_box_red");
-                document.getElementsByClassName('_main_block_alerts')[0].classList.remove("_hidden");
-                document.getElementsByClassName('_main_block_alerts')[0].innerHTML = '<h1> que pedo </h1>';
-                document.getElementsByClassName('_main_block_alerts')[0].innerHTML = "<p> Error creating user, "+ _parsed_data["reason"] +" </p>";
+    if(document.getElementById("_input_TaxId").value.length > 0){
+        if(_pinpad_num === "111111"){ /// @TODO REPLACE the 111111 with the user pin. or find a way around. ¿?
+            let fields = ['Owner', 'Email', 'TaxId', 'LegalName', 'InformalName', 'ShortCode', 'CountryCode', 'State', 'City', 'AddressLine1', 'AddressLine2', 'AddressLine3', 'AddressLine4', 'PhoneCountryCode', 'PhoneNumber', 'MainHexColor', 'AlterHexColor', 'LowHexColor', 'Level', 'Active', 'CreationDate', 'PostalCode']
+            _json_payload = {}
+            window.alert(" create workspace")
+            for(let i = 0; i < fields.length; i++){
+                _json_payload[fields[i]] = (document.getElementById('_input_'+fields[i])) ? document.getElementById('_input_'+fields[i]).value : '';
             }
+            _json_payload['Owner'] = 'mauricio@adminde.com';
+            let xhr = new XMLHttpRequest();
+            let url = "/s_workspace";
+            xhr.open("POST", url);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function () {
+                try
+                {
+                    let _data = xhr.responseText;
+                    let _parsed_data = JSON.parse(_data);
+                    if (xhr.readyState === 4 && xhr.status === 202) {
+                        window.location.replace('/dashboard');
+                    }else if( xhr.status === 409){
+                        document.getElementsByClassName('_main_block_alerts')[0].classList.add("_box_red");
+                        document.getElementsByClassName('_main_block_alerts')[0].classList.remove("_hidden");
+                        document.getElementsByClassName('_main_block_alerts')[0].innerHTML = "<p> "+ _parsed_data["reason"] +" </p>";
+                    }
+                }
+                catch(e)
+                {
+                    errors++;
+                }
+            };
+            var data = JSON.stringify(_json_payload);
+            xhr.send(data);
+        }else{
+            _ws_switch_pinpad(false);
+            setAlert("_box_red", "Incorrect Pin");
         }
-        catch(e)
-        {
-            errors++;
-        }
-    };
-    var data = JSON.stringify(_json_payload);
-    xhr.send(data);
-
-
+    }else{
+        _ws_switch_pinpad(false);
+        setAlert("_box_red", "Missing Tax Id");
+        _change_view(false);_change_view(false);
+    }
+    _pinpad_num = "";
 }
