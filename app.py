@@ -502,12 +502,28 @@ def updateUser():
 ## Transactions service
 @app.route('/transactions')
 def transactions():
-    context = {
-        '_level': '',
-        '_logged': '',
-        '_add': ''
-    }
-    return render_template('transactions.html', **context)
+    try: 
+        _logged = True if request.cookies.get('_id') and request.cookies.get('_un') else False
+        if _logged:
+            ## we need a function to know the user level...
+            _level = 3
+            if _level > 2:
+                context = {
+                    '_level': _level,
+                    '_logged': '',
+                    '_add': ''
+                }
+                return render_template('transactions.html', **context)
+            else: 
+                _dash = make_response(redirect('/dashboard'))
+                return _dash
+        else:
+            _log = make_response(redirect('/login'))
+            _log.delete_cookie('_id')
+            _log.delete_cookie('_un')
+            return _log
+    except Exception as e:
+        return {"status": "An error Occurred", "error": str(e)}
 
 
 ## API Status
