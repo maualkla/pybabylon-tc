@@ -508,27 +508,22 @@ def transactions():
             ## we need a function to know the user level...
             _level = 3
             if _level > 2:
-                _items = [{
-                    "_type": "type1",
-                    "_date": "date",
-                    "_user": "user"
-                },{
-                    "_type": "type2",
-                    "_date": "date2",
-                    "_user": "user2"
-                },{
-                    "_type": "type3",
-                    "_date": "date3",
-                    "_user": "user3"
-                },{
-                    "_type": "type4",
-                    "_date": "date4",
-                    "_user": "user4"
-                },{
-                    "_type": "type5",
-                    "_date": "date5",
-                    "_user": "user5"
-                }]
+                
+                ## preparate, the url, headers
+                _url = _alx_url+'/transaction'
+                _headers = {'Content-type': 'application/json'}
+                ## save the response of sending a put request to the service to update user.
+                _response = requests.get(_url, headers=_headers)
+                ## Validate the status code as 202
+                if str(_response.status_code) == str(200):
+                    print(_response.json().get('items'))
+                    _items = _response.json().get('items')
+                else:
+                    _items = [{
+                        "date": "20231227",
+                        "id": "9eqhj9jq980a0jsdi0ajfjo",
+                        "user": "mauricio@adminde.com"
+                    }]
                 context = {
                     '_level': _level,
                     '_logged': '',

@@ -8,7 +8,7 @@ Transactions Manager - {{ super() }}
 {% endblock %}
 
 {% block _title %}
-TRX Manager 
+Transactions 
 {% endblock %}
 
 {% block _flex_box %}
@@ -21,13 +21,13 @@ TRX Manager
             {% for _item in _items %}
             <div class="_mbu_item">
                 <div class="_mbu_item_title">
-                    {{ _item["_type"] }}
+                    {{ _item["id"] }}
                 </div>
                 <div class="_mbu_item_date">
-                    {{ _item["_date"] }}
+                    {{ _item["date"] }}
                 </div>
                 <div class="_mbu_item_user">
-                    {{ _item["_user"] }}
+                    {{ _item["user"] }}
                 </div>
             </div>
             {% endfor %}
