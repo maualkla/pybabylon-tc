@@ -508,10 +508,32 @@ def transactions():
             ## we need a function to know the user level...
             _level = 3
             if _level > 2:
+                _items = [{
+                    "_type": "type1",
+                    "_date": "date",
+                    "_user": "user"
+                },{
+                    "_type": "type2",
+                    "_date": "date2",
+                    "_user": "user2"
+                },{
+                    "_type": "type3",
+                    "_date": "date3",
+                    "_user": "user3"
+                },{
+                    "_type": "type4",
+                    "_date": "date4",
+                    "_user": "user4"
+                },{
+                    "_type": "type5",
+                    "_date": "date5",
+                    "_user": "user5"
+                }]
                 context = {
                     '_level': _level,
                     '_logged': '',
-                    '_add': ''
+                    '_add': '', 
+                    '_items': _items
                 }
                 return render_template('transactions.html', **context)
             else: 

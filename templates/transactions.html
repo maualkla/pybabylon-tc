@@ -17,7 +17,34 @@ TRX Manager
         {% if _flag_content%} <p>{{ _flag_content }} </p> {% endif %}
     </div>
     <div class="_main_block_content ">
-        
+        <div class="_main_block_upper">
+            {% for _item in _items %}
+            <div class="_mbu_item">
+                <div class="_mbu_item_title">
+                    {{ _item["_type"] }}
+                </div>
+                <div class="_mbu_item_date">
+                    {{ _item["_date"] }}
+                </div>
+                <div class="_mbu_item_user">
+                    {{ _item["_user"] }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="_main_block_lower">
+            <div class="_button_big _altern" id="_next_button">
+                <p class="_en _hidden">Search</p>
+                <p class="_es _hidden">Buscar</p>
+            </div>
+            <div class="_button_big _main " id="_create_button">
+                <p class="_en _hidden">Refresh</p>
+                <p class="_es _hidden">Actualizar</p>
+            </div>
+        </div>
+    </div>
+    <div class="_main_block_search _hidden">
+        search -o
     </div>
 </div>
 {% endblock %}
