@@ -542,6 +542,27 @@ def transactions():
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
 
+## Users Manager Service
+@app.route('/users')
+def users():
+    try: 
+        ## Valdiate if logged.
+        _logged = True if request.cookies.get('_id') and request.cookies.get('_un') else False
+        if _logged:
+            ## we need a function to know the user level...
+            _level = 3
+            if _level > 2:
+                
+            else: 
+                _dash = make_response(redirect('/dashboard'))
+                return _dash
+        else:
+            _log = make_response(redirect('/login'))
+            _log.delete_cookie('_id')
+            _log.delete_cookie('_un')
+            return _log
+    except Exception as e:
+        return {"status": "An error Occurred", "error": str(e)}
 
 ## API Status
 @app.route('/status')
