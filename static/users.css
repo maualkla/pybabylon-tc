@@ -1,0 +1,44 @@
+._main_block_content, _main_block_search{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(5, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    border: solid 1px green;
+}
+    ._main_block_upper{
+        grid-area: 1 / 1 / 4 / 2;
+        border: solid 2px red;
+        overflow: scroll;
+        height: 1000px;
+        background: #49547B;
+    }   
+        ._mbu_item{
+            border: solid 1px #49547B;
+            border-radius: 10px;
+            margin: 5% 10% 5% 10%;
+            padding: 20px;
+            background: #edf0fa;
+        }
+            ._mbu_item_title{
+                font-size: 500%;
+            }
+            ._mbu_item_date, ._mbu_item_user{
+                font-size: 300%;
+            }
+            
+
+    ._main_block_lower{
+        grid-area: 4 / 1 / 6 / 2;
+        border: solid 2px yellow; 
+        display: block;
+    }
+        ._button_big{
+            margin: auto;
+            margin-top: 5%;
+        }
+/* button from the find stage */
+#i_email{
+    margin-top: 43%;
+    margin-bottom: 42%;
+}

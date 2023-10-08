@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block title %}
+Users Manager - {{ super() }}
+{% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="../static/users.css">
+{{ super() }}
+{% endblock %}
+
+{% block _title %}
+Users 
+{% endblock %}
+
+{% block _flex_box %}
+<div class="_main_block">
+    <div class="_main_block_alerts {% if _flag_status %} {{ _flag_status }} {% else %} _hidden {% endif %} ">
+        {% if _flag_content%} <p>{{ _flag_content }} </p> {% endif %}
+    </div>
+    <div class="_main_block_content ">
+        <div class="_main_block_upper">
+            {% for _item in _items %}
+            <div class="_mbu_item">
+                <div class="_mbu_item_title">
+                    {{ _item["id"][:18] }}
+                </div>
+                <div class="_mbu_item_date">
+                    {{ _item["date"][:20] }}
+                </div>
+                <div class="_mbu_item_user">
+                    {{ _item["user"][:20] }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="_main_block_lower">
+            <div class="_button_big _altern" id="_next_button">
+                <p class="_en _hidden">Search</p>
+                <p class="_es _hidden">Buscar</p>
+            </div>
+            <div class="_button_big _main " id="_create_button">
+                <p class="_en _hidden">Refresh</p>
+                <p class="_es _hidden">Actualizar</p>
+            </div>
+        </div>
+    </div>
+    <div class="_main_block_search _hidden">
+        <div class="_mbs_upper">
+            <div class="_mbc_inputs">
+                <input class="_input_general _main" type="text" placeholder="Search by Email" id="i_email">
+            </div>
+        </div>
+        <div class="_mbs_lower">
+            <div class="_button_big _altern" id="_next_button_2">
+                <p class="_en _hidden">Find</p>
+                <p class="_es _hidden">Encontrar</p>
+            </div>
+            <div class="_button_big _main " id="_create_button_2">
+                <p class="_en _hidden">Cancel</p>
+                <p class="_es _hidden">Cancelar</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block _flex_menu %}
+<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_dash_en">Back to Dashboard</div>
+<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_dash_es">Regresar a Dashboard</div>
+<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_logout_en">Close Session</div>
+<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_logout_es">Cerrar Sesion</div>
+{% endblock %}
+
+
+{% block scripts %}
+{{ super() }}
+<script src="../static/users.js"></script>
+{% endblock %}
