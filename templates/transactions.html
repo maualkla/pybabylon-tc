@@ -21,13 +21,13 @@ Transactions
             {% for _item in _items %}
             <div class="_mbu_item">
                 <div class="_mbu_item_title">
-                    {{ _item["id"] }}
+                    {{ _item["id"][:18] }}
                 </div>
                 <div class="_mbu_item_date">
-                    {{ _item["date"] }}
+                    {{ _item["date"][:20] }}
                 </div>
                 <div class="_mbu_item_user">
-                    {{ _item["user"] }}
+                    {{ _item["user"][:20] }}
                 </div>
             </div>
             {% endfor %}
