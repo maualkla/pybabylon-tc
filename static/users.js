@@ -19,7 +19,6 @@ if(document.getElementById('_create_button_2')) document.getElementById('_create
 
 // functions
 function _display_search(_show){
-    console.log("changing view -> ", _show)
     if(_show){
         document.getElementsByClassName("_main_block_content")[0].classList.add("_hidden");
         document.getElementsByClassName("_main_block_search")[0].classList.remove("_hidden");
@@ -31,11 +30,10 @@ function _display_search(_show){
 
 // function
 function _refresh_list(){
-    console.log("refreshing list...")
     window.location.reload();
 }
 
 // function delete user
 function _delete_user(_user){
-    console.log("deletin user: "+_user)
+    // code to be written
 }

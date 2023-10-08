@@ -569,12 +569,14 @@ def users():
                 _response = requests.get(_url, headers=_headers)
                 ## Validate the status code as 202
                 if str(_response.status_code) == str(200):
+                    ## return items 
                     _items = _response.json().get('items')
                 else:
+                    ## define sample json
                     _items = [{
-                        "date": "20231227",
-                        "id": "9eqhj9jq980a0jsdi0ajfjo",
-                        "user": "mauricio@adminde.com"
+                        "username": "NO USERS FOUND",
+                        "email": "",
+                        "postalCode": ""
                     }]
                 context = {
                     '_level': _level,
@@ -582,13 +584,14 @@ def users():
                     '_add': '', 
                     '_items': _items
                 }
+                ## return users view
                 return render_template('users.html', **context)
-
-
             else: 
+                ## return to dashboard service
                 _dash = make_response(redirect('/dashboard'))
                 return _dash
         else:
+            ## return to login service.
             _log = make_response(redirect('/login'))
             _log.delete_cookie('_id')
             _log.delete_cookie('_un')
