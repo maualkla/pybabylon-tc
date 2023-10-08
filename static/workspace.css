@@ -1,0 +1,32 @@
+._main_block_alerts{
+    height: 200px !important;
+}
+
+._main_block_content{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(20, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+}
+    ._main_boxes{
+        grid-area: 1 / 1 / 14 / 2;
+    }
+        ._ws_input{
+            font-size: 400% !important;
+            margin-top: 3%;
+        }
+        #_mb_stage_2{
+            text-align: center;
+        }
+    ._main_buttons{
+        grid-area: 14 / 1 / 21 / 2;
+        margin: auto;
+    }
+        ._main_buttons div{
+            margin-top: 10%;
+        }
+    ._numpad_buttons{
+        display: block;
+    }
+    

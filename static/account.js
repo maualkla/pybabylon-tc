@@ -1,5 +1,5 @@
 /* 
-    JS functions for the dashboard.html file.
+    JS functions for the account.html file.
 */
 // Triggers
 if(document.getElementById('_save_button')) document.getElementById('_save_button').addEventListener('click', function (){ _pinpad_visibility(true); console.log(" Sent to update. ")});
