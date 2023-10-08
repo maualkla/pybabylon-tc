@@ -106,7 +106,7 @@ function createAccount(){
                     document.cookie = '_flag_content=User succesfully created! Login to start.';
                     document.cookie = '_flag_status=_box_green';
                     window.location.replace("/login");
-                }else{
+                }else if( xhr.status === 200 || xhr.status === 403){
                     let _data = xhr.responseText;
                     let _parsed_data = JSON.parse(_data);
                     document.getElementById("_xpc_signup_alert").style.height = '10%';
