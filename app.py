@@ -552,7 +552,7 @@ def users():
             ## we need a function to know the user level...
             _level = 3
             if _level > 2:
-                
+                return "hola"
             else: 
                 _dash = make_response(redirect('/dashboard'))
                 return _dash
