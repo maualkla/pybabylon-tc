@@ -21,8 +21,11 @@
             ._mbu_item_title{
                 font-size: 500%;
             }
-            ._mbu_item_date, ._mbu_item_user{
-                font-size: 300%;
+            ._mbu_item_date{
+                font-size: 112%;
+            }
+            ._mbu_item_user{
+                font-size: 112%;
             }
             
 
