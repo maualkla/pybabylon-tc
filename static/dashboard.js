@@ -25,6 +25,8 @@ if(document.getElementById('_opt_tuto')) document.getElementById('_opt_tuto').ad
 if(document.getElementById('_set_pin_button')) document.getElementById('_set_pin_button').addEventListener('click', function (){  if(_pinpad_num.length === 6){ _send_pin() }else{window.alert("Pin has to be at least 6 digits long.")} });
 if(document.getElementById('_close_sesion_button')) document.getElementById('_close_sesion_button').addEventListener('click', function (){ window.location.replace("/logout"); });
 
+if(document.getElementById('_trx_mgr')) document.getElementById('_trx_mgr').addEventListener('click', function (){ window.location.replace("/transactions"); });
+if(document.getElementById('_usr_mgr')) document.getElementById('_usr_mgr').addEventListener('click', function (){ window.location.replace("/users"); });
 
 // send pin function
 function _send_pin(){

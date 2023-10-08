@@ -196,6 +196,7 @@ def dashboard():
                 "user_name": _un,
                 "values": _lov,
                 "pin_tb_set": _pin_tb_set,
+                "_level": 3 ### TBD wee need the level of the user available.
             }
             ## if the status was valid, return the dashboard.html and the context value
             if _status == 'valid':
@@ -444,9 +445,12 @@ def s_workspace():
 
 
 ## Update User process
-@app.route('/user', methods=['PUT'])
+@app.route('/user', methods=['GET', 'PUT'])
 def updateUser():
     try:
+        if request.method == 'GET':
+            _dash = make_response(redirect('/dashboard'))
+            return _dash
         ## Validate if _un and _id are in the headers.
         if request.headers.get('_id') and request.headers.get('_un') and request.json['email']:
             ## save the _id and _un values
@@ -492,6 +496,49 @@ def updateUser():
                 return jsonify({"code": 400, "reason": "Invalid authorization"}), 400
         else: 
             return jsonify({"code": 400, "reason": "Missing authorization."}), 400
+    except Exception as e:
+        return {"status": "An error Occurred", "error": str(e)}
+
+## Transactions service
+@app.route('/transactions')
+def transactions():
+    try: 
+        _logged = True if request.cookies.get('_id') and request.cookies.get('_un') else False
+        if _logged:
+            ## we need a function to know the user level...
+            _level = 3
+            if _level > 2:
+                
+                ## preparate, the url, headers
+                _url = _alx_url+'/transaction'
+                _headers = {'Content-type': 'application/json'}
+                ## save the response of sending a put request to the service to update user.
+                _response = requests.get(_url, headers=_headers)
+                ## Validate the status code as 202
+                if str(_response.status_code) == str(200):
+                    print(_response.json().get('items'))
+                    _items = _response.json().get('items')
+                else:
+                    _items = [{
+                        "date": "20231227",
+                        "id": "9eqhj9jq980a0jsdi0ajfjo",
+                        "user": "mauricio@adminde.com"
+                    }]
+                context = {
+                    '_level': _level,
+                    '_logged': '',
+                    '_add': '', 
+                    '_items': _items
+                }
+                return render_template('transactions.html', **context)
+            else: 
+                _dash = make_response(redirect('/dashboard'))
+                return _dash
+        else:
+            _log = make_response(redirect('/login'))
+            _log.delete_cookie('_id')
+            _log.delete_cookie('_un')
+            return _log
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
 
