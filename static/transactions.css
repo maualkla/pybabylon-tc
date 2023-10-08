@@ -1,4 +1,4 @@
-    ._main_block_content{
+    ._main_block_content, _main_block_search{
         display: grid;
         grid-template-columns: 1fr;
         grid-template-rows: repeat(5, 1fr);
@@ -37,3 +37,8 @@
                 margin: auto;
                 margin-top: 5%;
             }
+    /* button from the find stage */
+    #i_email{
+        margin-top: 43%;
+        margin-bottom: 42%;
+    }
