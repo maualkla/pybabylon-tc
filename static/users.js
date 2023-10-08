@@ -34,3 +34,8 @@ function _refresh_list(){
     console.log("refreshing list...")
     window.location.reload();
 }
+
+// function delete user
+function _delete_user(_user){
+    console.log("deletin user: "+_user)
+}

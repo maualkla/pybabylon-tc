@@ -10,6 +10,8 @@
         overflow: scroll;
         height: 1000px;
         background: #49547B;
+
+        
     }   
         ._mbu_item{
             border: solid 1px #49547B;
@@ -17,17 +19,31 @@
             margin: 5% 10% 5% 10%;
             padding: 20px;
             background: #edf0fa;
+
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(8, 1fr);
+            grid-column-gap: 0px;
+            grid-row-gap: 0px;
         }
             ._mbu_item_title{
                 font-size: 500%;
+                grid-area: 1 / 1 / 5 / 3;
             }
             ._mbu_item_date{
                 font-size: 112%;
+                grid-area: 5 / 1 / 7 / 2;
             }
             ._mbu_item_user{
                 font-size: 112%;
+                grid-area: 7 / 1 / 9 / 2;
             }
-            
+            ._mbu_item_btn{
+                font-size: 200%;
+                grid-area: 5 / 2 / 9 / 3; 
+                color: red;
+                text-align: right;
+            }
 
     ._main_block_lower{
         grid-area: 4 / 1 / 6 / 2;

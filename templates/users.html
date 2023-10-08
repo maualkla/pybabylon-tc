@@ -29,6 +29,9 @@ Users
                 <div class="_mbu_item_user">
                     {{ _item["postalCode"][:20] }}
                 </div>
+                <div class="_mbu_item_btn" id="_mib_{{_item['email']}}" onclick="_delete_user( '{{_item['email']}}' )">
+                    Delete
+                </div>
             </div>
             {% endfor %}
         </div>
