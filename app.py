@@ -569,7 +569,6 @@ def users():
                 _response = requests.get(_url, headers=_headers)
                 ## Validate the status code as 202
                 if str(_response.status_code) == str(200):
-                    print(_response.json().get('items'))
                     _items = _response.json().get('items')
                 else:
                     _items = [{
