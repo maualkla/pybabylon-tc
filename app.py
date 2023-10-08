@@ -551,6 +551,53 @@ def transactions():
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
 
+## Users Manager Service
+@app.route('/users')
+def users():
+    try: 
+        ## Valdiate if logged.
+        _logged = True if request.cookies.get('_id') and request.cookies.get('_un') else False
+        if _logged:
+            ## we need a function to know the user level...
+            _level = 3
+            if _level > 2:
+                
+                ## preparate, the url, headers
+                _url = _alx_url+'/user'
+                _headers = {'Content-type': 'application/json'}
+                ## save the response of sending a put request to the service to update user.
+                _response = requests.get(_url, headers=_headers)
+                ## Validate the status code as 202
+                if str(_response.status_code) == str(200):
+                    ## return items 
+                    _items = _response.json().get('items')
+                else:
+                    ## define sample json
+                    _items = [{
+                        "username": "NO USERS FOUND",
+                        "email": "",
+                        "postalCode": ""
+                    }]
+                context = {
+                    '_level': _level,
+                    '_logged': '',
+                    '_add': '', 
+                    '_items': _items
+                }
+                ## return users view
+                return render_template('users.html', **context)
+            else: 
+                ## return to dashboard service
+                _dash = make_response(redirect('/dashboard'))
+                return _dash
+        else:
+            ## return to login service.
+            _log = make_response(redirect('/login'))
+            _log.delete_cookie('_id')
+            _log.delete_cookie('_un')
+            return _log
+    except Exception as e:
+        return {"status": "An error Occurred", "error": str(e)}
 
 ## API Status
 @app.route('/status')
