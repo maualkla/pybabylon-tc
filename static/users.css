@@ -4,11 +4,9 @@
     grid-template-rows: repeat(5, 1fr);
     grid-column-gap: 0px;
     grid-row-gap: 0px;
-    border: solid 1px green;
 }
     ._main_block_upper{
         grid-area: 1 / 1 / 4 / 2;
-        border: solid 2px red;
         overflow: scroll;
         height: 1000px;
         background: #49547B;
@@ -30,7 +28,6 @@
 
     ._main_block_lower{
         grid-area: 4 / 1 / 6 / 2;
-        border: solid 2px yellow; 
         display: block;
     }
         ._button_big{

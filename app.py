@@ -552,7 +552,31 @@ def users():
             ## we need a function to know the user level...
             _level = 3
             if _level > 2:
-                return "hola"
+                
+                ## preparate, the url, headers
+                _url = _alx_url+'/user'
+                _headers = {'Content-type': 'application/json'}
+                ## save the response of sending a put request to the service to update user.
+                _response = requests.get(_url, headers=_headers)
+                ## Validate the status code as 202
+                if str(_response.status_code) == str(200):
+                    print(_response.json().get('items'))
+                    _items = _response.json().get('items')
+                else:
+                    _items = [{
+                        "date": "20231227",
+                        "id": "9eqhj9jq980a0jsdi0ajfjo",
+                        "user": "mauricio@adminde.com"
+                    }]
+                context = {
+                    '_level': _level,
+                    '_logged': '',
+                    '_add': '', 
+                    '_items': _items
+                }
+                return render_template('users.html', **context)
+
+
             else: 
                 _dash = make_response(redirect('/dashboard'))
                 return _dash

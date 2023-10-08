@@ -21,13 +21,13 @@ Users
             {% for _item in _items %}
             <div class="_mbu_item">
                 <div class="_mbu_item_title">
-                    {{ _item["id"][:18] }}
+                    {{ _item["username"][:18] }}
                 </div>
                 <div class="_mbu_item_date">
-                    {{ _item["date"][:20] }}
+                    {{ _item["email"][:20] }}
                 </div>
                 <div class="_mbu_item_user">
-                    {{ _item["user"][:20] }}
+                    {{ _item["postalCode"][:20] }}
                 </div>
             </div>
             {% endfor %}
