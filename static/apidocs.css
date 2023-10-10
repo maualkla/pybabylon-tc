@@ -22,7 +22,10 @@ mark{
     border-radius: 10px;
 }
 ._main_block{
+    font-size: 200%;
     margin: 20px;
+    height: 2000px;
+    overflow: scroll;
 }
     ._text_apidocs_block{
         margin-bottom: 10%;

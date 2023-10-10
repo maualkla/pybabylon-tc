@@ -18,26 +18,78 @@ Time Card
         <p>Service called via a GET request. Serve as a login service.</p>
         <p><mark>Request params:</mark></p>
         <ul>
-            <li> <strong> u </strong>: Username string</li>
+            <li> <strong> u </strong>: Base64 Username string</li>
             <li> <strong> p </strong>: Base64 password string</li>
         </ul>
         <p><mark>Response payload:</mark></p>
         <code>
             {
-                "expire": expire_string,
-                "id": id_string,
-                "username": username_string
+                "expire": "13102023H2623",
+                "id": "Ou10102023H2623XWSyTwqkKC",
+                "trxId": "ln10102023H2623lfQDidzKfmExrdwRdyGV",
+                "username": "mauricio@adminde.com"
             }
         </code>
         <p><mark>Error responses: </mark></p>
         <ul>
-            <li> <strong> 401 </strong>: User or password not valid.</li>
-            <li> <strong> 404 </strong>: User not yet registered.</li>
+            <li> <strong> 401 </strong>: Not Authorized, review user or password.</li>
+            <li> <strong> 404 </strong>: Not Authorized, review user or password.</li>
+            <li> <strong> 500 </strong>: Internal Error.</li>
         </ul>
     </div>
     <div class="_text_apidocs_block">
-        <h1>Signup Service <mark> POST /signup</mark> </h1>
-        <p>Service called via a POST request. </p>
+        <h1>Logout Service <mark> GET /logout</mark> </h1>
+        <p>Service called as a GET request, serve as a session ender for the user. </p>
+        <p><mark>Request params:</mark></p>
+        <ul>
+            <li> <strong> _id </strong>: User system generated id string</li>
+            <li> <strong> _username </strong>: Base64 Username string</li>
+        </ul>
+        <p><mark>Response payload:</mark></p>
+        <code>
+            {
+                "code": "440",
+                "reason": "session closed",
+                "status": "success"
+            }
+        </code>
+        <p><mark>Error responses: </mark></p>
+        <ul>
+            <li> <strong> 400 </strong>: Missing required fields.</li>
+            <li> <strong> 404 </strong>: User not logged.</li>
+            <li> <strong> 500 </strong>: Internal Error.</li>
+        </ul>
+    </div>
+    <div class="_text_apidocs_block">
+        <h1>User Service <mark> POST /user</mark> </h1>
+        <p>Service for the creation of a new user. </p>
+        <p><mark>Request params:</mark></p>
+        <p><strong>Required fields: </strong></p>
+        <code>
+            req_fields = ['username', 'bday', 'fname', 'pass', 'phone', 'pin', 'plan', 'postalCode', 'terms', 'type']
+        </code>
+        <ul>
+            <li> <strong> _id </strong>: User system generated id string</li>
+            <li> <strong> _username </strong>: Base64 Username string</li>
+        </ul>
+        <p><mark>Response payload:</mark></p>
+        <code>
+            {
+                "code": "440",
+                "reason": "session closed",
+                "status": "success"
+            }
+        </code>
+        <p><mark>Error responses: </mark></p>
+        <ul>
+            <li> <strong> 400 </strong>: Missing required fields.</li>
+            <li> <strong> 404 </strong>: User not logged.</li>
+            <li> <strong> 500 </strong>: Internal Error.</li>
+        </ul>
+    </div>
+    <div class="_text_apidocs_block">
+        <h1>Logout Service <mark> GET /logout</mark> </h1>
+        <p>Service called as a GET request, serve as a session ender for the user. </p>
         <p><mark>Request payload:</mark></p>
         <code>
             {
