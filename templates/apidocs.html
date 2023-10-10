@@ -2,6 +2,10 @@
 {% block title %}
 Api Docs - {{ super() }}
 {% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="../static/apidocs.css">
+{{ super() }}
+{% endblock %}
 
 {% block _title %}
 Time Card
