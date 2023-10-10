@@ -53,6 +53,11 @@
                 grid-area: 2 / 1 / 11 / 2;
                 display: grid;
             }
+                /* to fix view in mobile */ 
+                ._main_block{
+                    height: 1600px;
+                    overflow: scroll;
+                }
                 /* For help site */ 
                 #_x_account{
                     margin: auto;
@@ -66,7 +71,11 @@
                 #_menu_box_extender{
                     border-bottom: solid 4px;
                 }
-
+                /* to fix view in mobile */ 
+                ._flex_menu{
+                    height: 1600px;
+                    overflow: scroll;
+                }
         
     }
 

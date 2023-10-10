@@ -1,0 +1,353 @@
+{% extends 'base.html' %}
+{% block title %}
+Api Docs V-0.2 - {{ super() }}
+{% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="../static/apidocs.css">
+{{ super() }}
+{% endblock %}
+
+{% block _title %}
+Time Card
+{% endblock %}
+
+{% block _flex_box %}
+<div class="_main_block">
+    <div class="_text_apidocs_block">
+        <h1>Login Service </h1>
+        <mark style="background-color: lightgreen;"> GET /login</mark>
+        <p>Service called via a GET request. Serve as a login service.</p>
+        <p><mark>Request params:</mark></p>
+        <ul>
+            <li> <strong> u </strong>: Base64 Username string</li>
+            <li> <strong> p </strong>: Base64 password string</li>
+        </ul>
+        <p><mark>Response payload:</mark></p>
+        <code>
+            {
+                "expire": string,
+                "id": string,
+                "trxId": string,
+                "username": string
+            }
+        </code>
+        <p><mark>Error responses: </mark></p>
+        <ul>
+            <li> <strong> 401 </strong>: Not Authorized, review user or password.</li>
+            <li> <strong> 404 </strong>: Not Authorized, review user or password.</li>
+            <li> <strong> 500 </strong>: Internal Error.</li>
+        </ul>
+    </div>
+    <div class="_text_apidocs_block">
+        <h1>Logout Service  </h1>
+        <mark style="background-color: lightgreen;"> GET /logout</mark>
+        <p>Service called as a GET request, serve as a session ender for the user. </p>
+        <p><mark>Request params:</mark></p>
+        <ul>
+            <li> <strong> _id </strong>: User system generated id string</li>
+            <li> <strong> _username </strong>: Base64 Username string</li>
+        </ul>
+        <p><mark>Response payload:</mark></p>
+        <code>
+            {
+                "code": string,
+                "reason": string,
+                "status": string
+            }
+        </code>
+        <p><mark>Error responses: </mark></p>
+        <ul>
+            <li> <strong> 400 </strong>: Missing required fields.</li>
+            <li> <strong> 404 </strong>: User not logged.</li>
+            <li> <strong> 500 </strong>: Internal Error.</li>
+        </ul>
+    </div>
+    <div class="_text_apidocs_block">
+        <h1>User Service  </h1>
+        <mark style="color:white;background-color: red;"> POST /user</mark>
+        <p>Service for the creation of a new user. </p>
+        <p><mark>Request params:</mark></p>
+        <p><strong>Required fields: </strong></p>
+        <code>
+            req_fields = ['username', 'bday', 'fname', 'pass', 'phone', 'pin', 'plan', 'postalCode', 'terms', 'type']
+        </code>
+        <p><mark>Request payload:</mark></p>
+        <code>
+            {
+                "activate": bool,
+                "username": string,
+                "bday": ddmmyyyy,
+                "email": string@string.string,
+                "fname": string,
+                "pass": string b64encoded,
+                "phone": string,
+                "pin": string,
+                "plan": numerical,
+                "postalCode": string,
+                "terms": bool,
+                "type": numerical,
+            }
+        </code>
+        <p><mark>Response code: <strong>202</strong></mark></p>
+        <p><mark>Response Payload:</mark></p>
+        <code>
+            {
+                "trxId": string
+            }
+        </code>
+        <p><mark>Error responses: </mark></p>
+        <ul>
+            <li> <strong> 400 </strong>: Missing required fields.</li>
+            <li> <strong> 409 </strong>: Email already registered.</li>
+            <li> <strong> 500 </strong>: Error while creating user. </li>
+        </ul>
+        
+        <mark style="background-color: orange;"> PUT /user</mark>
+        <p>Service for the update of a user registry. </p>
+        <p><mark>Request params:</mark></p>
+        <p><strong>Required fields: </strong></p>
+        <code>
+            req_fields = ['activate', 'username', 'bday', 'fname', 'phone', 'pin', 'plan', 'postalCode', 'type']
+        </code>
+        <p><mark>Request payload:</mark></p>
+        <code>
+            {
+                "activate": bool,
+                "username": string,
+                "bday": ddmmyyyy,
+                "email": string@string.string,
+                "fname": string,
+                "pass": string b64encoded,
+                "phone": string,
+                "pin": string,
+                "plan": numerical,
+                "postalCode": string,
+                "terms": bool,
+                "type": numerical,
+            }
+        </code>
+        <p><mark>Response code: <strong>202</strong></mark></p>
+        <p><mark>Response Payload:</mark></p>
+        <code>
+            {
+                "status": string,
+                "code": string,
+                "reason": string,
+                "trxId": string
+            }
+        </code>
+        <p><mark>Error responses: </mark></p>
+        <ul>
+            <li> <strong> 400 </strong>: Send at least one field to be updated.</li>
+            <li> <strong> 400 </strong>: Review request payload.</li>
+            <li> <strong> 500 </strong>: Error while creating user. </li>
+        </ul>
+
+        <mark style="background-color: lightgreen;"> GET /user</mark>
+        <p>Service to retrieve a list of users. </p>
+        <p><mark>Request params:</mark></p>
+        <ul>
+            <li> <strong> limit </strong>: Number of registries to retrieve (numeric) optional. </li>
+        </ul>
+        <p><mark>Response Payload:</mark></p>
+        <code>
+            {
+                "containsData": bool,
+                "count": nueric,
+                "items": [
+                    {
+                        "activate": bool,
+                        "bday": string,
+                        "email": string,
+                        "fname": string,
+                        "phone": string,
+                        "plan": numeric,
+                        "postalCode": string,
+                        "terms": bool,
+                        "type": numeric,
+                        "username": string
+                    }],
+                    "limit": numeric,
+                    "query": string
+                }
+        </code>
+        <p><mark>Error responses: </mark></p>
+        <ul>
+            <li> <strong> 500 </strong>: Error while creating user. </li>
+        </ul>
+    </div>
+
+    <div class="_text_apidocs_block">
+        <h1>Workspace Service  </h1>
+        <mark style="color:white;background-color: red;"> POST /workspace</mark>
+        <p>Service for the creation of a new workspace. </p>
+        <p><mark>Request params:</mark></p>
+        <p><strong>Required fields: </strong></p>
+        <code>
+            req_fields = ['TaxId', 'Owner', 'TaxId', 'LegalName', 'InformalName', 'ShortCode', 'CountryCode', 'State', 'City', 'AddressLine1', 'AddressLine2', 'AddressLine3', 'AddressLine4', 'PhoneCountryCode', 'PhoneNumber', 'Email', 'MainHexColor', 'AlterHexColor', 'LowHexColor', 'Level', 'Active', 'CreationDate', 'PostalCode']
+        </code>
+        <p><mark>Request payload:</mark></p>
+        <code>
+            {
+                "Owner": string, 
+                "TaxId": string (unique),
+                "PostalCode": string,
+                "LegalName": string,
+                "InformalName":string,
+                "ShortCode": string,
+                "CountryCode": string,
+                "State": string,
+                "City":" string,
+                "AddressLine1": string,
+                "AddressLine2": string,
+                "AddressLine3": string,
+                "AddressLine4": string,
+                "PhoneCountryCode": string,
+                "PhoneNumber": string,
+                "Email": string,
+                "MainHexColor": string (hex),
+                "AlterHexColor": string (hex),
+                "LowHexColor": string (hex),
+                "Level": string,
+                "Active": bool,
+                "CreationDate": string ddmmyyyyhhmmss
+             }
+        </code>
+        <p><mark>Response code: <strong>202</strong></mark></p>
+        <p><mark>Response Payload:</mark></p>
+        <code>
+            {
+                "status": string, 
+                "code": string, 
+                "reason": string, 
+                "trxId": string
+            }
+        </code>
+        <p><mark>Error responses: </mark></p>
+        <ul>
+            <li> <strong> 400 </strong>: Missing required fields.</li>
+            <li> <strong> 403 </strong>: Workspace TaxId already registered.</li>
+            <li> <strong> 500 </strong>: Error while creating user. </li>
+        </ul>
+        
+        <mark style="background-color: orange;"> PUT /workspace</mark>
+        <p>Service for the update of a workspace registry. </p>
+        <p><mark>Request params:</mark></p>
+        <p><strong>Required fields: </strong></p>
+        <code>
+            req_fields = ['TaxId', 'Owner', 'TaxId', 'LegalName', 'InformalName', 'ShortCode', 'CountryCode', 'State', 'City', 'AddressLine1', 'AddressLine2', 'AddressLine3', 'AddressLine4', 'PhoneCountryCode', 'PhoneNumber', 'Email', 'MainHexColor', 'AlterHexColor', 'LowHexColor', 'Level', 'Active', 'CreationDate', 'PostalCode']
+        </code>
+        <p><mark>Request payload:</mark></p>
+        <code>
+            {
+                "Owner": string, 
+                "TaxId": string (unique),
+                "PostalCode": string,
+                "LegalName": string,
+                "InformalName":string,
+                "ShortCode": string,
+                "CountryCode": string,
+                "State": string,
+                "City":" string,
+                "AddressLine1": string,
+                "AddressLine2": string,
+                "AddressLine3": string,
+                "AddressLine4": string,
+                "PhoneCountryCode": string,
+                "PhoneNumber": string,
+                "Email": string,
+                "MainHexColor": string (hex),
+                "AlterHexColor": string (hex),
+                "LowHexColor": string (hex),
+                "Level": string,
+                "Active": bool,
+                "CreationDate": string ddmmyyyyhhmmss
+             }
+        </code>
+        <p><mark>Response code: <strong>202</strong></mark></p>
+        <p><mark>Response Payload:</mark></p>
+        <code>
+            {
+                "status": string, 
+                "code": string, 
+                "reason": string, 
+                "trxId": string
+            }
+        </code>
+        <p><mark>Error responses: </mark></p>
+        <ul>
+            <li> <strong> 400 </strong>: No fields to be updated, review the request.</li>
+            <li> <strong> 403 </strong>: Workspace not found or Owner user does not match. Review the payload and try again.</li>
+            <li> <strong> 500 </strong>: Error updating workspace. </li>
+        </ul>
+    </div>
+
+    <div class="_text_apidocs_block">
+        <h1>Transaction Service  </h1>
+        <mark style="background-color: lightgreen;"> GET /transaction</mark>
+        <p>Service to retrieve a list of transactions. </p>
+        <p><mark>Request params:</mark></p>
+        <ul>
+            <li> <strong> limit </strong>: Number of registries to retrieve (numeric) optional. </li>
+        </ul>
+        <p><mark>Response Payload:</mark></p>
+        <code>
+            {     
+            "containsData": bool,
+            "count": number,
+            "items": [
+                {
+                    "date": string ddmmyyyy,
+                    "id": string,
+                    "user": string
+                }],
+                "limit": number,
+                "query": string
+            }
+        </code>
+        <p><mark>Error responses: </mark></p>
+        <ul>
+            <li> <strong> 500 </strong>: Error while creating user. </li>
+        </ul>
+    </div>
+    <div class="_text_apidocs_block">
+        <h1>Auth Service  </h1>
+        <mark style="color:white;background-color: red;"> POST /auth</mark>
+        <p> Service for the validation of the user session. </p>
+        <p><mark>Request params:</mark></p>
+        <ul>
+            <li> <strong> id </strong>: User system generated id string</li>
+            <li> <strong> username </strong>: Username string</li>
+        </ul>
+        <p><mark>Response Payload:</mark></p>
+        <code>
+            {     
+                "status": "valid"
+            }
+        </code>
+        <p><mark>Error responses: </mark></p>
+        <ul>
+            <li> <strong> 500 </strong>: Error while creating user. </li>
+        </ul>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block _flex_menu %}
+
+{% if _logged: %}
+<div class="_menu_box _box_main _box_main_bot" id="_backtoapidocs">Back to Apidocs</div>
+{% else: %}
+<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_login_en">Login</div>
+<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_signup_en">Signup</div>
+<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_login_es">Inicia Sesion</div>
+<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_signup_es">Registrate</div>
+{% endif %}
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="../static/apidocs.js"></script>
+{% endblock %}
