@@ -45,6 +45,7 @@ document.getElementById('_legal').addEventListener('click', function (){window.l
 document.getElementById('_about').addEventListener('click', function (){window.location.replace("/about")});
 document.getElementById('_jobs').addEventListener('click', function (){window.location.replace("/jobs")});
 document.getElementById('_home').addEventListener('click', function (){window.location.replace("/")});
+document.getElementById('_apidocs').addEventListener('click', function (){window.location.replace("/apidocs")});
 document.getElementById('_trans').addEventListener('click', function (){ changeLanguaje(_new_lang); });
 
 // TBD Extra triggers
