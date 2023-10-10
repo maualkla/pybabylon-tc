@@ -61,6 +61,26 @@ def apidocs_v0_1():
             return _log
     except Exception as e:
         return {"status": "Error", "reason": str(e)}
+    
+## apidocs v0.01
+@app.route('/apidocs/v0-2')
+def apidocs_v0_2():
+    try:
+        ## Set a logged variable requesting the _id and _us cookies.
+        _logged = True if request.cookies.get('_id') and request.cookies.get('_un') else False
+        ## validate if _logged
+        if _logged:
+            context= {
+                "_logged" : _logged
+            }
+            return render_template('apidocs_v0_2.html', **context)
+        else:
+            _log = make_response(redirect('/login'))
+            _log.delete_cookie('_id')
+            _log.delete_cookie('_un')
+            return _log
+    except Exception as e:
+        return {"status": "Error", "reason": str(e)}
 
 # Landing page
 @app.route('/')

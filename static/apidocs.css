@@ -1,0 +1,9 @@
+._main_block{
+    margin: auto;
+    margin-top: 20%;
+}
+._main_block div{
+    margin-top: 10%;
+    padding: 20px;
+    height: fit-content;
+}
