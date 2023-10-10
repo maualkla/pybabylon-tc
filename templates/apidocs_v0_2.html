@@ -283,38 +283,54 @@ Time Card
     </div>
 
     <div class="_text_apidocs_block">
-        <h1>Logout Service <mark> GET /logout</mark> </h1>
-        <p>Service called as a GET request, serve as a session ender for the user. </p>
-        <p><mark>Request payload:</mark></p>
+        <h1>Transaction Service  </h1>
+        <mark style="background-color: lightgreen;"> GET /transaction</mark>
+        <p>Service to retrieve a list of transactions. </p>
+        <p><mark>Request params:</mark></p>
+        <ul>
+            <li> <strong> limit </strong>: Number of registries to retrieve (numeric) optional. </li>
+        </ul>
+        <p><mark>Response Payload:</mark></p>
         <code>
-            {
-                "activate": active_bool,
-                "username": username_string,
-                "bday": birthday_string,
-                "email": email_string,
-                "fname": fullname_string,
-                "pass": b64password_string,
-                "phone": phone_string,
-                "pin": pin_string, 
-                "plan": plan_number,
-                "postalCode": postalcode_string,
-                "terms": terms_bool,
-                "type": type_nuber
-            }
-        </code>
-        <p><mark>Response payload:</mark></p>
-        <code>
-            {
-                "trxId": transaxtion_id
+            {     
+            "containsData": bool,
+            "count": number,
+            "items": [
+                {
+                    "date": string ddmmyyyy,
+                    "id": string,
+                    "user": string
+                }],
+                "limit": number,
+                "query": string
             }
         </code>
         <p><mark>Error responses: </mark></p>
         <ul>
-            <li> <strong> 500 </strong>: Error creating user in backend.</li>
-            <li> <strong> 409 </strong>: User already registered.</li>
-            <li> <strong> 400 </strong>: Bad request.</li>
+            <li> <strong> 500 </strong>: Error while creating user. </li>
         </ul>
     </div>
+    <div class="_text_apidocs_block">
+        <h1>Auth Service  </h1>
+        <mark style="color:white;background-color: red;"> POST /auth</mark>
+        <p> Service for the validation of the user session. </p>
+        <p><mark>Request params:</mark></p>
+        <ul>
+            <li> <strong> id </strong>: User system generated id string</li>
+            <li> <strong> username </strong>: Username string</li>
+        </ul>
+        <p><mark>Response Payload:</mark></p>
+        <code>
+            {     
+                "status": "valid"
+            }
+        </code>
+        <p><mark>Error responses: </mark></p>
+        <ul>
+            <li> <strong> 500 </strong>: Error while creating user. </li>
+        </ul>
+    </div>
+
 </div>
 {% endblock %}
 
