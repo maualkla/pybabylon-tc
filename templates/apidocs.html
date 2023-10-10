@@ -1,7 +1,35 @@
 {% extends 'base.html' %}
 {% block title %}
-    API Docs - {{ super() }}
+Api Docs - {{ super() }}
 {% endblock %}
-{% block content %}
-<h1 style="color:white"> Version 0.1 <a href="/apidocs/v0-1">See more</a></h1>
+
+{% block _title %}
+Time Card
+{% endblock %}
+
+{% block _flex_box %}
+<div class="container">
+    <div class="_main _button_big _box_main" id="_v001">API V0.01</div>
+</div>
+<div class="container">
+    <div class="_main _button_big _box_main" id="_v002">API V0.02</div>
+</div>
+{% endblock %}
+
+{% block _flex_menu %}
+
+{% if _logged: %}
+<div class="_menu_box _box_main _box_main_bot" id="_dashboard">Dashboard</div>
+{% else: %}
+<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_login_en">Login</div>
+<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_signup_en">Signup</div>
+<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_login_es">Inicia Sesion</div>
+<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_signup_es">Registrate</div>
+{% endif %}
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="../static/apidocs.js"></script>
 {% endblock %}
