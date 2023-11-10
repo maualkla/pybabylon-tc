@@ -2,7 +2,7 @@
 ## Pybabylon Project.
 ## Coded by: Mauricio Alcala (@maualkla)
 ## Date: May 2023.
-## Current Version: 0.02
+## Current Version: 0.03
 ## Last Modification Date: Oct 2023.
 ## More info at @intmau in twitter or in http://maualkla.com
 ## Description: Web app to serve adminde-tc project.
@@ -284,7 +284,7 @@ def logout():
     try:
         if request.cookies.get('_id') and request.cookies.get('_un'):
             _un = request.cookies.get('_un')
-            _un = b64Encode(_un)
+            _un = Helpers.b64Encode(_un)
             _id = request.cookies.get('_id')
             ## generates the url to call the service adding the -u and _p params
             url = _alx_url+'/logout?_id='+_id+'&_username='+_un
@@ -314,7 +314,7 @@ def signup():
             _id = request.cookies.get('_id')
             _un = request.cookies.get('_un')
             ## Create a auth object with the cookie values.
-            _auth_obj = auth(_id, _un)
+            _auth_obj = Helpers.auth(_id, _un)
             ## Save the status from the auth object
             _status = _auth_obj.json().get('status')
             ## if status valid, redirect to /dashboard and delete cookie flag, otherwise redirects to /login and deletes _id and _un cookies
@@ -391,7 +391,7 @@ def account():
             _id = request.cookies.get('_id')
             _un = request.cookies.get('_un')
             ## generate a auth object and save the response in _auth_obj
-            _auth_obj = auth(_id, _un)
+            _auth_obj = Helpers.auth(_id, _un)
             ## get status 
             _status = _auth_obj.json().get('status')
             context = {
@@ -430,7 +430,7 @@ def workspace():
             _id = request.cookies.get('_id')
             _un = request.cookies.get('_un')
             ## generate a auth object and save the response in _auth_obj
-            _auth_obj = auth(_id, _un)
+            _auth_obj = Helpers.auth(_id, _un)
             _level = "2"
             ## get status 
             _status = _auth_obj.json().get('status')
@@ -471,7 +471,7 @@ def s_workspace():
             _id = request.headers.get('_id')
             _un = request.headers.get('_un')
             ## generate a auth object.
-            _auth_obj = auth(_id, _un)
+            _auth_obj = Helpers.auth(_id, _un)
             ## get the status
             _status = _auth_obj.json().get('status')
             ## validate the status
@@ -528,7 +528,7 @@ def updateUser():
             _id = request.headers.get('_id')
             _un = request.headers.get('_un')
             ## generate a auth object.
-            _auth_obj = auth(_id, _un)
+            _auth_obj = Helpers.auth(_id, _un)
             ## get the status
             _status = _auth_obj.json().get('status')
             ## validate the status
