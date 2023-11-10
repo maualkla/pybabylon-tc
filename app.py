@@ -11,6 +11,7 @@
 ## Imports
 from flask import Flask, jsonify, request, render_template, redirect, make_response
 from config import Config
+from utilities.helpers import Helpers
 import os, requests, base64
 
 ## Initialize Flask App
@@ -22,6 +23,7 @@ app.config.from_object(Config)
 ## globals
 _alx_url = str(app.config['CONF_URL']) + ":" + str(app.config['CONF_PORT'])
 
+################################################################################################################
 ## apidocs menu
 @app.route('/apidocs')
 def apidocs():
@@ -82,6 +84,8 @@ def apidocs_v0_2():
     except Exception as e:
         return {"status": "Error", "reason": str(e)}
 
+################################################################################################################
+
 # Landing page
 @app.route('/')
 def landing():
@@ -100,7 +104,7 @@ def landing():
             _id = request.cookies.get('_id')
             _un = request.cookies.get('_un')
             ## Create a auth object to validate the authentication of the user.
-            _auth_obj = auth(_id, _un)
+            _auth_obj = Helpers.auth(_id, _un, _alx_url)
             ## save status of the auth object.
             _status = _auth_obj.json().get('status')
             ## if auth obj is = valid save a True in the context _logged variable, otherwise saves a false.
@@ -115,6 +119,8 @@ def landing():
     except Exception as e:
         return {"status": "Error", "reason": str(e)}
 
+################################################################################################################
+
 ## Index page
 @app.route('/index')
 def index():
@@ -123,6 +129,8 @@ def index():
     response.set_cookie('local_ip', local_ip)
     response.delete_cookie('_u')
     return response
+
+################################################################################################################
 
 ## Login page
 @app.route('/login')
@@ -134,7 +142,7 @@ def login():
             _id = request.cookies.get('_id')
             _un = request.cookies.get('_un')
             ## Create a new auth object sending the _id and _un params
-            _auth_obj = auth(_id, _un)
+            _auth_obj = Helpers.auth(_id, _un)
             ## save the status from the auth object.
             _status = _auth_obj.json().get('status')
             ## Validate if status = valid 
@@ -165,7 +173,8 @@ def login():
             return render_template('login.html', **context)
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
-    
+
+################################################################################################################
 
 ## Login process
 @app.route('/s_login')
@@ -224,6 +233,8 @@ def s_login():
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
 
+################################################################################################################
+
 ## Dashboard Service.
 @app.route('/dashboard')
 def dashboard():
@@ -234,7 +245,7 @@ def dashboard():
             _id = request.cookies.get('_id')
             _un = request.cookies.get('_un')
             ## generate a auth object and save the response in _auth_obj
-            _auth_obj = auth(_id, _un)
+            _auth_obj = Helpers.auth(_id, _un)
             ## get status 
             _status = _auth_obj.json().get('status')
             ### @TBD get the user pin value, if null send True, else False
@@ -264,7 +275,9 @@ def dashboard():
                 
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
-    
+
+################################################################################################################
+
 ## Logout service
 @app.route('/logout')
 def logout():
@@ -288,6 +301,8 @@ def logout():
             return _out
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
+
+################################################################################################################
 
 ## Signup service
 @app.route('/signup')
@@ -363,7 +378,9 @@ def s_signup():
             return jsonify({"status": "error", "code": "403", "reason": "Missing required fields."}), 403 
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
-    
+
+################################################################################################################
+
 ## Account Service
 @app.route('/account')
 def account():
@@ -400,7 +417,9 @@ def account():
             return _log
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
-    
+
+################################################################################################################
+
 ## Workspace Service.
 @app.route('/workspace')
 def workspace():
@@ -440,6 +459,7 @@ def workspace():
             return _log
     except Exception as e: 
         return {"status": "An error Occurred", "error": str(e)}
+
 
 ## s_workspace service
 @app.route('/s_workspace', methods=['POST'])
@@ -493,6 +513,7 @@ def s_workspace():
     except Exception as e: 
         return {"status": "An error Occurred", "error": str(e)}
 
+################################################################################################################
 
 ## Update User process
 @app.route('/user', methods=['GET', 'PUT'])
@@ -549,6 +570,8 @@ def updateUser():
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
 
+################################################################################################################
+
 ## Transactions service
 @app.route('/transactions')
 def transactions():
@@ -601,6 +624,8 @@ def transactions():
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
 
+################################################################################################################
+
 ## Users Manager Service
 @app.route('/users')
 def users():
@@ -649,6 +674,8 @@ def users():
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
 
+################################################################################################################
+
 ## API Status
 @app.route('/status')
 def status():
@@ -685,40 +712,5 @@ def help():
                 "_sample": "1234",
             }
         return render_template('help.html', **context)
-    except Exception as e:
-        return {"status": "An error Occurred", "error": str(e)}
-
-########################################
-### Helpers ############################
-########################################
-
-## Base64 encode
-def b64Encode(_string):
-    try:
-        print(" >> b64Encode() helper.")
-        _out = base64.b64encode(_string.encode('utf-8'))
-        _r_out = str(_out, "utf-8")
-        return _r_out
-    except Exception as e:
-        return {"status": "An error Occurred", "error": str(e)}
-
-if __name__ == '__main__':
-    app.run(debug=True)
-
-
-## Auth
-def auth(_id, _un):
-    try:
-        import requests
-        _url = _alx_url+'/auth'
-        _headers = {'Content-type': 'application/json'}
-        _json = {
-            "id": _id,
-            "username": _un
-        }
-        print(_json)
-        _response = requests.post(_url, json=_json, headers=_headers)
-        print(_response)
-        return _response
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
