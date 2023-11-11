@@ -129,9 +129,9 @@ def index():
     _logged = True if request.cookies.get('_id') and request.cookies.get('_un') or 1 == 1 else False
     ## validate if _logged
     if _logged:
-        _data = Handlers.get_data(_alx_url, request, "transaction")
+        _data = Handlers.get_data(_alx_url, request, "user", "a@adminde.com")
         print(_data)
-        return "hola"
+        return "<div class='_menu_box _box_main _box_main_bot'> Index Testing Page </div><br><a href='/index'>Click here to Reload</a>"
     else:
         response = make_response(redirect('/'))
     return response

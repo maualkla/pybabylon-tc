@@ -42,9 +42,9 @@ class Helpers:
             print(" >> generateURL() helper.")
             _url = _base_url+"/"+_service
             if _id:
-                _url = '?id='+_id+'&filter='+_filter if _filter else '?id='+_id 
+                _url += '?id='+_id+'&filter='+_filter if _filter else '?id='+_id 
             else:
-                _url = '?filter='+_filter if _filter else _url
+                _url += '?filter='+_filter if _filter else ""
             return _url
         except Exception as e:
             print(" (!) Exception in generateURL(): ")
