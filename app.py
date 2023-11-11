@@ -740,8 +740,10 @@ def users():
 def data_ops():
     try:
         if request.method == 'GET':
-            if request.args.get('service') and request.args.get('id') and request.args.get('filter'):
-                _response = Handlers.get_data(_alx_url, request, request.args.get('service'), request.args.get('id'), request.args.get('filter'))
+            _id = request.args.get('id') if request.args.get('id') else False
+            _query = request.args.get('filter') if request.args.get('filter') else False
+            if request.args.get('service'):
+                _response = Handlers.get_data(_alx_url, request, request.args.get('service'), _id, _query)
                 if _response: 
                     return jsonify(_response), 200
                 else:
