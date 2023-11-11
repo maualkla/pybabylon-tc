@@ -124,10 +124,16 @@ def landing():
 ## Index page
 @app.route('/index')
 def index():
-    local_ip = request.remote_addr
-    response = make_response(redirect('/status'))
-    response.set_cookie('local_ip', local_ip)
-    response.delete_cookie('_u')
+    ## Set a logged variable requesting the _id and _us cookies.
+    _logged = True if request.cookies.get('_id') and request.cookies.get('_un') else False
+    ## validate if _logged
+    if _logged:
+        local_ip = request.remote_addr
+        response = make_response(redirect('/status'))
+        response.set_cookie('local_ip', local_ip)
+        response.delete_cookie('_u')
+    else:
+        response = make_response(redirect('/'))
     return response
 
 ################################################################################################################
@@ -136,8 +142,10 @@ def index():
 @app.route('/login')
 def login():
     try:
-        ## Validate if _id and _un params are in the cookies. If thats the case validate the authentucation.
-        if request.cookies.get('_id') and request.cookies.get('_un'):
+        ## Set a logged variable requesting the _id and _us cookies.
+        _logged = True if request.cookies.get('_id') and request.cookies.get('_un') else False
+        ## validate if _logged
+        if _logged:
             ## Save the cookies for _id and _un
             _id = request.cookies.get('_id')
             _un = request.cookies.get('_un')
@@ -180,8 +188,10 @@ def login():
 @app.route('/s_login')
 def s_login():
     try:
-        ## Validate if the cookies include the _u and _p 
-        if request.cookies.get('_u') and request.cookies.get('_p'):
+        ## Set a logged variable requesting the _id and _us cookies.
+        _logged = True if request.cookies.get('_u') and request.cookies.get('_p') else False
+        ## validate if _logged
+        if _logged:
             ## saves _p and _u
             _u = request.cookies.get('_u')
             _p = request.cookies.get('_p')
@@ -239,8 +249,10 @@ def s_login():
 @app.route('/dashboard')
 def dashboard():
     try:
-        ## valdiate if _id and _un present
-        if request.cookies.get('_id') and request.cookies.get('_un'):
+        ## Set a logged variable requesting the _id and _us cookies.
+        _logged = True if request.cookies.get('_id') and request.cookies.get('_un') else False
+        ## validate if _logged
+        if _logged:
             ## if present, save the _id and _un
             _id = request.cookies.get('_id')
             _un = request.cookies.get('_un')
@@ -308,8 +320,10 @@ def logout():
 @app.route('/signup')
 def signup():
     try:
-        ## validate if _id and _un cookies present
-        if request.cookies.get('_id') and request.cookies.get('_un'):
+        ## Set a logged variable requesting the _id and _us cookies.
+        _logged = True if request.cookies.get('_id') and request.cookies.get('_un') else False
+        ## validate if _logged
+        if _logged:
             ## if present, save them into vars 
             _id = request.cookies.get('_id')
             _un = request.cookies.get('_un')
@@ -385,8 +399,10 @@ def s_signup():
 @app.route('/account')
 def account():
     try:
-        ## valdiate if _id and _un present
-        if request.cookies.get('_id') and request.cookies.get('_un'):
+        ## Set a logged variable requesting the _id and _us cookies.
+        _logged = True if request.cookies.get('_id') and request.cookies.get('_un') else False
+        ## validate if _logged
+        if _logged:
             ## if present, save the _id and _un
             _id = request.cookies.get('_id')
             _un = request.cookies.get('_un')
@@ -424,8 +440,10 @@ def account():
 @app.route('/workspace')
 def workspace():
     try: 
-        ## valdiate if _id and _un present
-        if request.cookies.get('_id') and request.cookies.get('_un'):
+        ## Set a logged variable requesting the _id and _us cookies.
+        _logged = True if request.cookies.get('_id') and request.cookies.get('_un') else False
+        ## validate if _logged
+        if _logged:
             ## if present, save the _id and _un
             _id = request.cookies.get('_id')
             _un = request.cookies.get('_un')
@@ -465,8 +483,10 @@ def workspace():
 @app.route('/s_workspace', methods=['POST'])
 def s_workspace():
     try: 
-        ## Validate if _un and _id are in the headers.
-        if request.headers.get('_id') and request.headers.get('_un') and request.json['Owner'] or 1 == 1:
+        ## Set a logged variable requesting the _id and _us cookies.
+        _logged = True if request.cookies.get('_id') and request.cookies.get('_un') else False
+        ## validate if _logged
+        if _logged and request.json['Owner'] or 1 == 1:
             ## save the _id and _un values
             _id = request.headers.get('_id')
             _un = request.headers.get('_un')

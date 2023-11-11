@@ -1,11 +1,10 @@
-from config import Config
-import os, requests, base64
+import requests, base64
 
 ########################################
-### Helpers ############################
+### Class Helpers ######################
 ########################################
 class Helpers:
-    
+
     ## Base64 encode
     def b64Encode(_string):
         try:
@@ -14,12 +13,14 @@ class Helpers:
             _r_out = str(_out, "utf-8")
             return _r_out
         except Exception as e:
-            return {"status": "An error Occurred", "error": str(e)}
+            print(" (!) Exception in b64Encode(): ")
+            print(str(e))
+            return False
 
     ## Auth
     def auth(_id, _un, _alx_url):
         try:
-            import requests
+            print(" >> auth() helper.")
             _url = _alx_url+'/auth'
             _headers = {'Content-type': 'application/json'}
             _json = {
@@ -31,4 +32,6 @@ class Helpers:
             print(_response)
             return _response
         except Exception as e:
-            return {"status": "An error Occurred", "error": str(e)}
+            print(" (!) Exception in auth(): ")
+            print(str(e))
+            return False
