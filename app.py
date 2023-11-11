@@ -696,6 +696,28 @@ def users():
 
 ################################################################################################################
 
+## data operations
+@app.route('/v1/admdata', methods=['GET', 'POST', 'PUT', 'DELETE'])
+def data_ops():
+    try:
+        if request.method == 'GET':
+            _response = Handlers.get_data(_alx_url, request, request.args.get('service'), request.args.get('id'), request.args.get('filter'))
+            print(_response)
+            if _response: 
+                return jsonify(_response), 200
+            else:
+                return jsonify({"status": "error", "reason": "Service returned a invalid response.", "details": "review console logs for further details."})
+        elif request.method == 'POST':
+            return "POST METHOD"
+        elif request.method == 'PUT':
+            return "PUT METHOD"
+        elif request.method == 'DELETE':
+            return "DELETE METHOD"
+    except Exception as e:
+        return jsonify({"status": "An error Occurred", "error": str(e)}), 500
+
+################################################################################################################
+
 ## API Status
 @app.route('/status')
 def status():

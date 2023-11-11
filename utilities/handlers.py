@@ -20,6 +20,10 @@ class Handlers():
             _browser = _request.cookies.get('browserVersion') if _request.cookies.get('browserVersion') else False
             _clientIp = _request.cookies.get('clientIP') if _request.cookies.get('clientIP') else False
             ## if required cookies continue.
+            print("headers -> ")
+            print(_sessionId)
+            print( _browser)
+            print(_clientIp)
             if _sessionId and _browser and _clientIp:
                 ## call to get_session_token to retrieve the token.
                 _token = Handlers.__get_session_token(_service_url, _sessionId, _browser, _clientIp)
