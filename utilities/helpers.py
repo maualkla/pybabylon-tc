@@ -35,3 +35,18 @@ class Helpers:
             print(" (!) Exception in auth(): ")
             print(str(e))
             return False
+        
+    ## generate URL 
+    def generateURL(_base_url, _service, _id = False, _filter = False):
+        try:
+            print(" >> generateURL() helper.")
+            _url = _base_url+"/"+_service
+            if _id:
+                _url = '?id='+_id+'&filter='+_filter if _filter else '?id='+_id 
+            else:
+                _url = '?filter='+_filter if _filter else _url
+            return _url
+        except Exception as e:
+            print(" (!) Exception in generateURL(): ")
+            print(str(e))
+            return False

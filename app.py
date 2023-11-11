@@ -12,6 +12,7 @@
 from flask import Flask, jsonify, request, render_template, redirect, make_response
 from config import Config
 from utilities.helpers import Helpers
+from utilities.handlers import Handlers
 import os, requests, base64
 
 ## Initialize Flask App
@@ -125,13 +126,12 @@ def landing():
 @app.route('/index')
 def index():
     ## Set a logged variable requesting the _id and _us cookies.
-    _logged = True if request.cookies.get('_id') and request.cookies.get('_un') else False
+    _logged = True if request.cookies.get('_id') and request.cookies.get('_un') or 1 == 1 else False
     ## validate if _logged
     if _logged:
-        local_ip = request.remote_addr
-        response = make_response(redirect('/status'))
-        response.set_cookie('local_ip', local_ip)
-        response.delete_cookie('_u')
+        _data = Handlers.get_data(_alx_url, request, "transaction")
+        print(_data)
+        return "hola"
     else:
         response = make_response(redirect('/'))
     return response
