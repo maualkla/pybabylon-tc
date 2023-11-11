@@ -1,2 +1,3 @@
 # created by virtualenv automatically
-./requirements.txt
+/requirements.txt
+/config.py
