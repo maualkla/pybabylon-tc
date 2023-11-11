@@ -702,7 +702,6 @@ def data_ops():
     try:
         if request.method == 'GET':
             _response = Handlers.get_data(_alx_url, request, request.args.get('service'), request.args.get('id'), request.args.get('filter'))
-            print(_response)
             if _response: 
                 return jsonify(_response), 200
             else:
