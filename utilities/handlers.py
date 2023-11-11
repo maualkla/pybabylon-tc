@@ -1,4 +1,4 @@
-from config import Config
+
 import os, requests, base64
 from utilities.helpers import Helpers
 
