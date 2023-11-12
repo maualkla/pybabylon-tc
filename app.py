@@ -780,7 +780,19 @@ def data_ops():
                 return jsonify({}), 403
         ## delete
         elif request.method == 'DELETE':
-            return "DELETE METHOD"
+            ## get id and query params
+            _id = request.args.get('id') if request.args.get('id') else False
+            _query = request.args.get('filter') if request.args.get('filter') else False
+            ## validate service
+            if request.args.get('service'):
+                ## call handlers service
+                _response = Handlers.delete_data(_alx_url, request, request.args.get('service'), _id, _query)
+                if _response: 
+                    return jsonify(_response), 200
+                else:
+                    return jsonify({"status": "error", "reason": "Service returned a invalid response.", "details": "review console logs for further details."}), 500
+            else:
+                return jsonify({}), 403
     except Exception as e:
         return jsonify({"status": "An error Occurred", "error": str(e)}), 500
 

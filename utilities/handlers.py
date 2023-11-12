@@ -152,9 +152,9 @@ class Handlers():
     ## _service:        (requred) Service to be called /service
     ## _id:             (optional) id to search
     ## _filter:         (optional) query filter for the search.
-    def get_data(_service_url, _request, _service, _id = False, _filter = False):
+    def delete_data(_service_url, _request, _service, _id = False, _filter = False):
         try:
-            print(" >> handlers.get_data() operation: ")
+            print(" >> handlers.delete_data() operation: ")
             ## validate if present and if present, set the parameters from the cookies of the request object.
             _sessionId = _request.cookies.get('SessionId') if _request.cookies.get('SessionId') else False
             _browser = _request.cookies.get('browserVersion') if _request.cookies.get('browserVersion') else False
