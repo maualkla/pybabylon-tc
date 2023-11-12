@@ -760,7 +760,14 @@ def data_ops():
             else:
                 return jsonify({}), 403
         elif request.method == 'PUT':
-            return "PUT METHOD"
+            if request.args.get('service') and request.json['item']:
+                _response = Handlers.put_data(_alx_url, request, request.args.get('service'), request.json['item'])
+                if _response: 
+                    return jsonify(_response), 202
+                else:
+                    return jsonify({"status": "error", "reason": "Service returned a invalid response.", "details": "review console logs for further details."}), 500
+            else:
+                return jsonify({}), 403
         elif request.method == 'DELETE':
             return "DELETE METHOD"
     except Exception as e:
