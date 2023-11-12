@@ -53,8 +53,7 @@ class Handlers():
     ## gets authorized and then calls to the specificated service doing a post call.
     ## _service_url:    (required) service url ip+port
     ## _request:        (required) request object to get the headers and cookies.
-    ## _service:        (requred) Service to be called /service
-    ## _id:             (optional) id to search
+    ## _service:        (requred) Service to be called /servic
     ## _item:           (optional) query filter for the search.
     def post_data(_service_url, _request, _service, _item):
         try:
@@ -97,6 +96,17 @@ class Handlers():
             print(str(e))
             return False
     
+    ## post_daata operation
+    ## generic function to make calls to backend.
+    ## gets authorized and then calls to the specificated service doing a post call.
+    ## _service_url:    (required) service url ip+port
+    ## _request:        (required) request object to get the headers and cookies.
+    ## _service:        (requred) Service to be called /service
+    ## _id:             (optional) id to search
+    ## _item:           (optional) query filter for the search.
+    def put_data():
+        return False
+
     ## get_data operation
     ## generic function to make calls to backend.
     ## gets authorized and then calls to the specificated service.
