@@ -129,47 +129,6 @@ def index():
     _logged = True if request.cookies.get('_id') and request.cookies.get('_un') or 1 == 1 else False
     ## validate if _logged
     if _logged:
-        _user = {
-            "activate": True,
-            "username": "userUnitarias",
-            "bday": "24111995",
-            "email": "unitarias@adminde.com",
-            "fname": "usuario de unitarias",
-            "pass": "aG9sYTEyMw==",
-            "phone": "4491010011",
-            "pin": 1112,
-            "plan": 1,
-            "postalCode": "20000",
-            "terms": True,
-            "type": 1,
-            "tenant": "HOSA"
-            }
-        _ws =   {
-            "Active": True,
-            "AddressLine1": "Sandstraße 49",
-            "AddressLine2": "",
-            "AddressLine3": "",
-            "AddressLine4": "",
-            "AlterHexColor": "#5c5c5c",
-            "City": "München ",
-            "CountryCode": "Deutschland",
-            "CreationDate": "20231108",
-            "Email": "external_services@adminde.com",
-            "InformalName": "ADMINDE DE",
-            "LegalName": "ADMINDE GBM",
-            "Level": "1",
-            "LowHexColor": "#ffffff",
-            "MainHexColor": "#012f7b",
-            "Owner": "mariana@adminde.com",
-            "PhoneCountryCode": "+49",
-            "PhoneNumber": "4499283722",
-            "PostalCode": "80355",
-            "ShortCode": "ADMD_DE",
-            "State": "Bayern",
-            "TaxId": "AMDR090823JIR05"
-        }
-        _data = False ##Handlers.post_data(_alx_url, request, "workspace", "AMDR090823JIR05", _ws)
-        print(_data)
         return "<div class='_menu_box _box_main _box_main_bot'> Index Testing Page </div><br><a href='/index'>Click here to Reload</a>"
     else:
         response = make_response(redirect('/'))
