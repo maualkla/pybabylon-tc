@@ -53,9 +53,8 @@ class Handlers():
     ## gets authorized and then calls to the specificated service doing a post call.
     ## _service_url:    (required) service url ip+port
     ## _request:        (required) request object to get the headers and cookies.
-    ## _service:        (requred) Service to be called /service
-    ## _id:             (optional) id to search
-    ## _item:           (optional) query filter for the search.
+    ## _service:        (requred) Service to be called /servic
+    ## _item:           (optional) item includes all the fields required to create the item
     def post_data(_service_url, _request, _service, _item):
         try:
             print(" >> handlers.post_data() operation: ")
@@ -97,6 +96,54 @@ class Handlers():
             print(str(e))
             return False
     
+    ## put_data operation
+    ## generic function to make calls to backend.
+    ## gets authorized and then calls to the specificated service doing a put call.
+    ## _service_url:    (required) service url ip+port
+    ## _request:        (required) request object to get the headers and cookies.
+    ## _service:        (requred) Service to be called /service
+    ## _item:           (optional) _item object includes all the fields required to create the update
+    def put_data(_service_url, _request, _service, _item):
+        try:
+            print(" >> handlers.put_data() operation: ")
+            ## validate if present and if present, set the parameters from the cookies of the request object.
+            _sessionId = _request.cookies.get('SessionId') if _request.cookies.get('SessionId') else False
+            _browser = _request.cookies.get('browserVersion') if _request.cookies.get('browserVersion') else False
+            _clientIp = _request.cookies.get('clientIP') if _request.cookies.get('clientIP') else False
+            ## if required cookies continue.
+            if _sessionId and _browser and _clientIp:
+                ## call to get_session_token to retrieve the token.
+                _token = Handlers.__get_session_token(_service_url, _sessionId, _browser, _clientIp)
+                ## if token, generates a call to the service. else return null
+                if _token:
+                    _req = Handlers._models[_service]
+                    ## go and iterate to find all of them, if not _go will be false
+                    _go = False
+                    ## For Loop going for all the required fields.
+                    for req_value in _req:
+                        ## if it is not in the parameters, set flag to false.
+                        if req_value in _item:
+                            _go = True
+                    if _go:
+                        ## set the url of the service
+                        _url = Helpers.generateURL(_service_url, _service)
+                        ## set the headers
+                        _headers = {'SessionId': _sessionId, 'TokenId': _token}
+                        ## generate the get call
+                        _response = requests.put(_url, json=_item, headers=_headers)
+                        ## returns the json as response
+                        return _response.json()
+                    else:
+                        return {}
+                else:
+                    return {}
+            else:
+                return {}
+        except Exception as e:
+            print(" (!) Exception in put_data(): ")
+            print(str(e))
+            return False
+
     ## get_data operation
     ## generic function to make calls to backend.
     ## gets authorized and then calls to the specificated service.
