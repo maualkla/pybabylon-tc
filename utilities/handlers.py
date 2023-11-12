@@ -143,6 +143,44 @@ class Handlers():
             print(" (!) Exception in put_data(): ")
             print(str(e))
             return False
+    
+    ## delete_data operation
+    ## generic function to make calls to backend.
+    ## gets authorized and then calls to the specificated service.
+    ## _service_url:    (required) service url ip+port
+    ## _request:        (required) request object to get the headers and cookies.
+    ## _service:        (requred) Service to be called /service
+    ## _id:             (optional) id to search
+    ## _filter:         (optional) query filter for the search.
+    def get_data(_service_url, _request, _service, _id = False, _filter = False):
+        try:
+            print(" >> handlers.get_data() operation: ")
+            ## validate if present and if present, set the parameters from the cookies of the request object.
+            _sessionId = _request.cookies.get('SessionId') if _request.cookies.get('SessionId') else False
+            _browser = _request.cookies.get('browserVersion') if _request.cookies.get('browserVersion') else False
+            _clientIp = _request.cookies.get('clientIP') if _request.cookies.get('clientIP') else False
+            ## if required cookies continue.
+            if _sessionId and _browser and _clientIp:
+                ## call to get_session_token to retrieve the token.
+                _token = Handlers.__get_session_token(_service_url, _sessionId, _browser, _clientIp)
+                ## if token, generates a call to the service. else return null
+                if _token:
+                    ## set the url of the service
+                    _url = Helpers.generateURL(_service_url, _service, _id, _filter)
+                    ## set the headers
+                    _headers = {'SessionId': _sessionId, 'TokenId': _token}
+                    ## generate the get call
+                    _response = requests.delete(_url, headers=_headers)
+                    ## returns the json as response
+                    return _response.json()
+                else:
+                    return {}
+            else:
+                return {}
+        except Exception as e:
+            print(" (!) Exception in delete_data(): ")
+            print(str(e))
+            return False
 
     ## get_data operation
     ## generic function to make calls to backend.
