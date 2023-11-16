@@ -27,6 +27,10 @@
     --system-alert-green: #77B565;
     --system-alert-blue: #CAF5F2;
     --system-big-text: 480%;
+    --system-regular-border-width: 4px;
+    --system-light-border-width: 1px;
+    --system-thick-border-width: 6px;
+    --system-radius-value: 10px;
 }
 
 /* Text tags */ 
@@ -42,6 +46,8 @@ bold_italic{
 @media only screen and (max-width: 1000px), (pointer:none){
     /* GLOBAL */
     ._content{
+        position: fixed;
+        width: 100%;
         margin: -.9%;
         border: solid 1px var(--system-text-color);
         font-weight: lighter;
@@ -61,7 +67,7 @@ bold_italic{
             grid-template-rows: 1fr;
             grid-column-gap: 0px;
             grid-row-gap: 0px;
-            border-bottom: solid 2px var(--system-text-color);
+            border-bottom: solid var(--system-regular-border-width) var(--system-text-color);
         }
             ._title{
                 grid-area: 1 / 1 / 2 / 6; 
@@ -95,7 +101,7 @@ bold_italic{
             display: block;
         }
             #_menu_box_extender{
-                border-bottom: solid 4px;
+                border-bottom: solid var(--system-regular-border-width);
             }
             /* to fix view in mobile */ 
             ._flex_menu{
@@ -360,12 +366,12 @@ bold_italic{
     background: none;
     color: var(--system-bg-color);
     background-color: var(--system-text-color);
-    border: 5px solid var(--system-text-color) ;
+    border: var(--system-light-border-width) solid var(--system-text-color) ;
     padding: 10px;
 }
 .ib_high:hover{
     background-color: var(--system-bg-color);
-    border: 5px solid var(--system-text-color) ;
+    border: var(--system-light-border-width) solid var(--system-text-color) ;
     color: var(--system-text-color);
 }
 .ib_norm {
@@ -410,7 +416,7 @@ bold_italic{
         height: 200px;
         width: 200px;
         white-space: normal;
-        border: solid var(--system-text-color) 1px .5;
+        border: solid var(--system-text-color) var(--system-regular-border-width) .5;
     }
     #plan_radio_1{
         margin-top: 5%;
@@ -427,7 +433,7 @@ bold_italic{
     padding: 5%;
     padding-top: 5%;
     text-align: left;
-    border-bottom: 1px solid var(--system-text-color);
+    border-bottom: var(--system-light-border-width) solid var(--system-text-color);
     max-height: 11%;
 }
 
@@ -437,7 +443,7 @@ bold_italic{
     padding: 5%;
     padding-top: 5%;
     text-align: left;
-    border-bottom: 1px solid var(--system-text-color);
+    border-bottom: var(--system-light-border-width) solid var(--system-text-color);
     max-height: 11%;
     width: 89.5%;
 }
@@ -446,7 +452,7 @@ bold_italic{
 ._input_general_color{
     width: 200px;
     height: 100px;
-    border-radius: 10px;
+    border-radius: var(--system-radius-value);
 }
 
 
@@ -472,7 +478,7 @@ bold_italic{
 ._main{
     background: var(--system-bg-color);
     color:var(--system-text-color);
-    border: solid 2px var(--system-text-color);
+    border: solid var(--system-light-border-width) var(--system-text-color);
 }
 ._altern{
     background: var(--system-text-color);
@@ -489,7 +495,7 @@ bold_italic{
     ._box_main:active, ._box_main:hover{
         background: var(--system-text-color);
         color: var(--system-bg-color);
-        border: solid 2px var(--system-bg-color);
+        border: solid var(--system-light-border-width) var(--system-bg-color);
     }
 ._box_altern{
     background: var(--system-altern-color);
@@ -498,28 +504,28 @@ bold_italic{
     ._box_altern:active, ._box_altern:hover{
         background: var(--system-bg-color);
         color:var(--system-text-color);
-        border: solid 2px var(--system-text-color);
+        border: solid var(--system-light-border-width) var(--system-text-color);
     }
 ._box_main_bot{
-    border-bottom: 1px solid var(--system-text-color);
+    border-bottom: var(--system-light-border-width) solid var(--system-text-color);
 }
 ._box_altern_bot{
-    border-bottom: 1px solid var(--system-bg-color);
+    border-bottom: var(--system-light-border-width) solid var(--system-bg-color);
 }
 ._box_green{
     background: #497B5A;
     color: var(--system-bg-color);
-    border: solid 2px var(--system-bg-color);
+    border: solid var(--system-light-border-width) var(--system-bg-color);
 }
 ._box_red{
     background: #7B4949;
     color:var(--system-bg-color);
-    border: solid 2px var(--system-bg-color);
+    border: solid var(--system-light-border-width) var(--system-bg-color);
 }
 ._box_yellow{
     background: #EBD74D;
     color:var(--system-text-color);
-    border: solid 2px var(--system-text-color);
+    border: solid var(--system-light-border-width) var(--system-text-color);
 }
 
 /* status */
@@ -533,7 +539,7 @@ bold_italic{
     height: 180px;
     width: 420px;
     font-size: 400%;
-    border-radius: 10px;
+    border-radius: var(--system-radius-value);
     text-align: center;
     align-items: center;
     /* display: block; */
@@ -548,7 +554,7 @@ bold_italic{
     white-space: normal;
     margin: 0% 10% 10% 10%;
     padding: 8% 6% 8% 6%;
-    border-radius: 10px;
+    border-radius: var(--system-radius-value);
 }
 ._big_checkbox{
     height: 60px;
@@ -595,8 +601,8 @@ bold_italic{
     width: var(--burger-menu-radius);
     height: var(--burger-menu-radius);
     background: var(--system-bg-color);
-    border: solid 2px var(--system-text-color) (184, 9%, 62%, 0.4);
-    border-radius: 10%;
+    border: solid var(--system-regular-border-width) var(--system-text-color) (184, 9%, 62%, 0.4);
+    border-radius: var(--system-radius-value);
     outline: none;
     cursor: pointer;
     transition: 0.5s ease-in-out;
@@ -606,7 +612,7 @@ bold_italic{
         width: 50%;
         height: 3px;
         background: hsla(210, 29%, 24%, 0.3);
-        border-radius: 10px;
+        border-radius: var(--system-radius-value);
         overflow: hidden;
         transition: all 0.5s ease;
         &:nth-child(1) {
@@ -636,7 +642,7 @@ bold_italic{
         }
     }
     &:hover {
-        border: solid 2px var(--system-text-color);
+        border: solid var(--system-regular-border-width) var(--system-text-color);
     
         .line::after {
             transform: translateX(0);
@@ -708,7 +714,7 @@ bold_italic{
             width: 100%;
             color: white;
             margin-top: -5%;
-            border-radius: 10px;
+            border-radius: var(--system-radius-value);
         }
             ._num_button p{
                 font-size: 250%;
