@@ -1,39 +1,44 @@
-._main_bloc {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(5, 1fr);
-    grid-column-gap: 0px;
-    grid-row-gap: 0px;
-}
-    ._main_block_top{
-        grid-area: 1 / 1 / 4 / 2;
+    ._main_bloc {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(5, 1fr);
+        grid-column-gap: 0px;
+        grid-row-gap: 0px;
     }
-        ._main_block_top p{
-            font-size: 410%;
-            padding: 4% 20% 4% 4%;
+        ._main_block_top{
+            grid-area: 1 / 1 / 4 / 2;
         }
-    ._main_block_med{
-        grid-area: 4 / 1 / 5 / 2;
-        display: flex;
-    }   
-        #_signup_button{
-            margin:auto;
-            display: block;
-        }
-            #signup_button p{
-                margin: auto;
-                text-align: center;
+            ._mbt_top{
+                font-size: 800%;
+                padding: 0px 10px 0px 30px;
             }
-    ._main_block_bot{
-        grid-area: 5 / 1 / 6 / 2;
-        display: flex;
-        margin: 10%;
-    }
-        ._main_block_bot img{
-            margin: auto;
-            border: solid 2px #49547B ;
-            border-radius: 15px;
-            width:750px;
-            height:500px;
+            ._mbt_bottom{
+                font-size: 450%;
+                padding: 0px 120px 0px 30px;
+            }
+        
+        ._main_block_med{
+            grid-area: 4 / 1 / 5 / 2;
+            display: flex;
+        }   
+            #_signup_button{
+                margin:auto;
+                display: block;
+            }
+                #signup_button p{
+                    margin: auto;
+                    text-align: center;
+                }
+        ._main_block_bot{
+            grid-area: 5 / 1 / 6 / 2;
+            display: flex;
+            margin: 10%;
         }
+            ._main_block_bot img{
+                margin: auto;
+                border: solid 2px #49547B ;
+                border-radius: 15px;
+                width:750px;
+                height:500px;
+            }
 
