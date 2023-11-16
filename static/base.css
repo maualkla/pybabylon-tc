@@ -49,13 +49,12 @@ bold_italic{
         /* grid for the top and the content */ 
         display: grid;
         grid-template-columns: 1fr;
-        grid-template-rows: repeat(10, 1fr);
+        grid-template-rows: repeat(27, 1fr);
         grid-column-gap: 0px;
         grid-row-gap: 0px;
-        font-size: 10um;
     }
         ._top{
-            grid-area: 1 / 1 / 2 / 2;
+            grid-area: 1 / 1 / 3 / 2;
             /* Grid for the title and hamburger menu */
             display: grid;
             grid-template-columns: repeat(6, 1fr);
@@ -65,7 +64,7 @@ bold_italic{
             border-bottom: solid 2px var(--system-text-color);
         }
             ._title{
-                grid-area: 1 / 1 / 2 / 6;
+                grid-area: 1 / 1 / 2 / 6; 
                 font-size: var(--system-big-text);
                 padding: 5%;
                 padding-top: 5%;
@@ -77,12 +76,12 @@ bold_italic{
                 display: flex;
             }
         ._flex_box{
-            grid-area: 2 / 1 / 11 / 2;
+            grid-area: 3 / 1 / 28 / 2;
             display: grid;
         }
             /* to fix view in mobile */ 
             ._main_block{
-                height: 1600px;
+                height: 1998px;
                 overflow: scroll;
             }
             /* For help site */ 
@@ -588,9 +587,8 @@ bold_italic{
 }
 .burger-menu {
     --burger-menu-radius: 6em;
-    margin: auto;
+    margin: 32px 25px;
     padding: auto;
-    margin-top: 5%;
     position:absolute;
     z-index: 100;
     display: block;
