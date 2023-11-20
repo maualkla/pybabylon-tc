@@ -536,17 +536,19 @@ bold_italic{
 /* Special objects */ 
 /* Button big */
 ._button_big{
-    height: 180px;
-    width: 420px;
-    font-size: 400%;
+    height: 160px;
+    width: 400px;
+    font-size: 300%;
     border-radius: var(--system-radius-value);
     text-align: center;
     align-items: center;
+    display: table !important; 
     /* display: block; */
 }
     ._button_big p{
-        margin: 0;
-        padding: 13% 0% 0% 0%;
+        text-align:center; 
+        vertical-align: middle;
+        display: table-cell; 
     }
 ._big_selector{
     font-size: 450%;
