@@ -29,11 +29,4 @@
         display: flex;
         margin: 10%;
     }
-        ._main_block_bot img{
-            margin: auto;
-            border: solid 2px #49547B ;
-            border-radius: 15px;
-            width:750px;
-            height:500px;
-        }
 
