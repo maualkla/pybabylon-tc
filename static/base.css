@@ -101,15 +101,20 @@ bold_italic{
                 padding: 10%;
             }
         ._flex_menu{
-            grid-area: 2 / 1 / 11 / 2;
-            display: block;
+            grid-area: 3 / 1 / 28 / 2;
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: repeat(25, 1fr);
+            grid-column-gap: 0px;
+            grid-row-gap: 0px;
+            height: auto;
         }
             #_menu_box_extender{
                 border-bottom: solid var(--system-regular-border-width);
             }
             /* to fix view in mobile */ 
             ._flex_menu{
-                height: 1600px;
+                height: 1998px;
                 overflow: scroll;
             }
     
@@ -453,11 +458,10 @@ bold_italic{
 /* common objects */
 ._menu_box{
     font-size: var(--system-big-text);
-    padding: 5%;
-    padding-top: 5%;
+    padding: 41.85px;
     text-align: left;
     border-bottom: var(--system-light-border-width) solid var(--system-text-color);
-    max-height: 11%;
+    height: auto;
 }
 
 /* inputs */
