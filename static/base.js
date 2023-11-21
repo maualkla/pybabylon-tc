@@ -71,10 +71,10 @@ function regular(_temp){
 function extended(_temp) {
     _box = document.getElementById('_menu_box_extender');
     if(_temp){
-        _box.innerHTML = 'Less..';
+        _box.innerHTML = '<bold_italic>Hide Options </bold_italic>';
         _menu_ext_value = false;
     }else{
-        _box.innerHTML = 'More..';
+        _box.innerHTML = '<bold_italic>Show Options </bold_italic>';
         _menu_ext_value = true;
     }
     _boxes = document.getElementsByClassName('_box_altern')
