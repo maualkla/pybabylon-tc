@@ -41,6 +41,9 @@ bold_italic{
     font-weight: bold;
     font-style: italic;
 }
+._big_text{
+    font-size: 600%;
+}
 
 
 @media only screen and (max-width: 1000px), (pointer:none){
@@ -82,8 +85,9 @@ bold_italic{
                 display: flex;
             }
         ._flex_box{
+            /* grid position */
             grid-area: 3 / 1 / 28 / 2;
-            display: grid;
+            
         }
             /* to fix view in mobile */ 
             ._main_block{
@@ -360,6 +364,25 @@ bold_italic{
 }
 
 /* reutilizables */
+/* colors */
+._color_1_bg{
+    background-color: var(--system-bg-color);
+}
+.color_1_tx{
+    color: var(--system-bg-color);
+}
+._color_2_bg{
+    background-color: var(--system-text-color);
+}
+.color_2_tx{
+    color: var(--system-text-color);
+}
+._color_3_bg{
+    background-color: var(--system-altern-color);
+}
+.color_3_tx{
+    color: var(--system-altern-color);
+}
 /* buttons */
 .ib_high {
     border: none;
