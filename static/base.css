@@ -477,14 +477,15 @@ bold_italic{
 
 /* inputs */
 ._input_general{
-    font-size: 400%;
-    padding: 5%;
-    padding-top: 5%;
+    font-size: var(--system-big-text);
+    padding: 41.85px;
     text-align: left;
-    border-bottom: var(--system-light-border-width) solid var(--system-text-color);
-    max-height: 11%;
-    width: 89.5%;
+    border-bottom: var(--system-regular-border-width) solid var(--system-bg-color);
+    width: 91%;
 }
+    ._input_general::placeholder{
+        color: var(--system-bg-color)
+    }
 
 /* Input color general */
 ._input_general_color{
@@ -500,7 +501,7 @@ bold_italic{
     text-align: center;
     margin: auto;
     width: 100%;
-    height: 75%;
+    height: auto;
 }
 
 
@@ -551,17 +552,22 @@ bold_italic{
     border-bottom: var(--system-light-border-width) solid var(--system-bg-color);
 }
 ._box_green{
-    background: #497B5A;
+    background: var(--system-alert-green);
     color: var(--system-bg-color);
     border: solid var(--system-light-border-width) var(--system-bg-color);
 }
 ._box_red{
-    background: #7B4949;
+    background: var( --system-alert-red);
     color:var(--system-bg-color);
     border: solid var(--system-light-border-width) var(--system-bg-color);
 }
 ._box_yellow{
-    background: #EBD74D;
+    background: var( --system-alert-yellow);
+    color:var(--system-text-color);
+    border: solid var(--system-light-border-width) var(--system-text-color);
+}
+._box_blue{
+    background: var( --system-alert-blue);
     color:var(--system-text-color);
     border: solid var(--system-light-border-width) var(--system-text-color);
 }
