@@ -208,3 +208,13 @@ function _substract_pinpad(){
 function _display_pinpad(_message){
     document.getElementsByClassName("_numpad_box")[0].innerHTML = "<p>" + _message + "</p>";
 }
+
+// change object color.
+function _change_obj_color(document_object, current_bg_class, current_tx_class, new_bg_class, new_tx_class, border_optional = false){
+    document_object.classList.remove(current_bg_class);
+    document_object.classList.remove(current_tx_class);
+    document_object.classList.add(new_bg_class);
+    document_object.classList.add(new_tx_class);
+    document_object.classList.add(border_optional);
+}
+

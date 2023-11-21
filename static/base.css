@@ -370,24 +370,35 @@ bold_italic{
 
 /* reutilizables */
 /* colors */
-._color_1_bg{
+.color_1_bg{
     background-color: var(--system-bg-color);
 }
 .color_1_tx{
     color: var(--system-bg-color);
 }
-._color_2_bg{
+.color_1_border{
+    border: var(--system-regular-border-width) solid var(--system-bg-color) ;
+}
+.color_2_bg{
     background-color: var(--system-text-color);
 }
 .color_2_tx{
     color: var(--system-text-color);
 }
-._color_3_bg{
+.color_2_border{
+    border: var(--system-regular-border-width) solid var(--system-text-color) ;
+}
+.color_3_bg{
     background-color: var(--system-altern-color);
 }
 .color_3_tx{
     color: var(--system-altern-color);
 }
+.color_3_border{
+    border: var(--system-regular-border-width) solid var(--system-altern-color) ;
+}
+/* BORDERS */
+
 /* buttons */
 .ib_high {
     border: none;
