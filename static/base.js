@@ -21,6 +21,8 @@ let _new_lang = "_es";
 let _langs = ['_en', '_es'];
 let _pinpad_num = "";
 let _pinpad_num_alert = 0;
+let _client_ip = getIp();
+let _client_version = navigator.sayswho;
 
 // Set initial languajes for the page.
 setInitialLanguaje();
@@ -217,3 +219,45 @@ function _change_obj_color(document_object, current_bg_class, current_tx_class, 
     document_object.classList.add(border_optional);
 }
 
+// Function to get the client navigator version.
+navigator.sayswho = (function(){
+    var ua= navigator.userAgent;
+    var tem; 
+    var M= ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+    if(/trident/i.test(M[1])){
+        tem=  /\brv[ :]+(\d+)/g.exec(ua) || [];
+        _client_version = 'IE '+(tem[1] || '');
+        return 'IE '+(tem[1] || '');
+    }
+    if(M[1]=== 'Chrome'){
+        tem= ua.match(/\b(OPR|Edge)\/(\d+)/);
+        if(tem!= null) {
+            _client_version = tem.slice(1).join(' ').replace('OPR', 'Opera');
+            return tem.slice(1).join(' ').replace('OPR', 'Opera');
+        }
+    }
+    M= M[2]? [M[1], M[2]]: [navigator.appName, navigator.appVersion, '-?'];
+    if((tem= ua.match(/version\/(\d+)/i))!= null) M.splice(1, 1, tem[1]);
+    _client_version = M.join(' ');
+    return M.join(' ');
+})();
+
+// function to get ip
+function getIp(){
+    let xhr = new XMLHttpRequest();
+    let url = "https://api.ipify.org/?format=json";
+    xhr.open("GET", url);
+    xhr.onreadystatechange = function () {
+        try
+        {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                _client_ip =  JSON.parse(xhr.responseText)["ip"];
+            }
+        }
+        catch(e)
+        {
+            errors++;
+        }
+    };
+    xhr.send();
+}
