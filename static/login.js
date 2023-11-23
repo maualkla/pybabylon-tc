@@ -12,6 +12,7 @@ if(document.getElementById('_login_buttom')) document.getElementById('_login_but
 // Login function
 function login_worker(){
     cleanAlert();
+    // showWheel();
     let username = document.getElementById('i_email').value;
     let password = document.getElementById('i_word').value;
     if(username.length > 0 && password.length > 0){
@@ -21,11 +22,13 @@ function login_worker(){
 
         let xhr = new XMLHttpRequest();
         let url = "/v1/admdata";
-        let payload = {
-            "requestString": _req_string,
-            "client": {
-                "ip": _client_ip,
-                "browser": _client_version
+        let _obj = {
+            "item": {
+                "requestString": _req_string,
+                "client": {
+                    "ip": _client_ip,
+                    "browser": _client_version
+                }
             }
         }
         xhr.open("POST", url);
@@ -33,19 +36,13 @@ function login_worker(){
         xhr.onreadystatechange = function () {
             try
             {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    //console.log(" response ok ");
-                    console.log(JSON.parse(xhr.responseText));
-                    let _console = document.getElementsByClassName('_console')[0];
-                    _console.innerHTML = "<p>"+"Browser Version: " + clientVersion + "</p>";
-                    _console.innerHTML += "<p>"+"IP: " + JSON.parse(xhr.responseText)['ip'] + "</p>";
-                    _console.innerHTML += "<p>"+"Coordinates: " + JSON.parse(xhr.responseText)['loc'] + "</p>";
-                    _console.innerHTML += "<p>"+"Country Code: " + JSON.parse(xhr.responseText)['country'] + "</p>";
-                    _console.innerHTML += "<p>"+"City: " + JSON.parse(xhr.responseText)['city'] + "</p>";
-                    _console.innerHTML += "<p>"+"Postal Code: " + JSON.parse(xhr.responseText)['postal'] + "</p>";
-                    _console.innerHTML += "<p>"+"Time Zone: " + JSON.parse(xhr.responseText)['timezone'] + "</p>";
-                }else{
-                    //console.log("loading...");
+                if (xhr.readyState === 4) {
+                    if(xhr.status === 200){
+                        // hideWheel();
+                    }else if(xhr.status === 500 || xhr.status === 403){
+                        // hideWheel();
+                        // display alert error
+                    }
                 }
             }
             catch(e)
@@ -54,10 +51,6 @@ function login_worker(){
             }
         };
         xhr.send(JSON.stringify(payload));
-
-        _obj = 
-        //window.location.replace("/s_login") 
-        // Actions
     }else{
         document.getElementsByClassName('_main_block_alerts')[0].classList.add("_box_yellow");
         document.getElementsByClassName('_main_block_alerts')[0].innerHTML = "<p> Missing username or password. </p>";
