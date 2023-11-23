@@ -6,7 +6,8 @@ class Handlers():
 
     _models = {
         "user":['activate', 'username', 'bday', 'pass', 'fname', 'phone', 'pin', 'plan', 'postalCode', 'terms', 'type', 'tenant'],
-        "workspace":['Owner', 'TaxId', 'LegalName', 'InformalName', 'ShortCode', 'CountryCode', 'State', 'City', 'AddressLine1', 'AddressLine2', 'AddressLine3', 'AddressLine4', 'PhoneCountryCode', 'PhoneNumber', 'Email', 'MainHexColor', 'AlterHexColor', 'LowHexColor', 'Level', 'CreationDate', 'PostalCode']
+        "workspace":['Owner', 'TaxId', 'LegalName', 'InformalName', 'ShortCode', 'CountryCode', 'State', 'City', 'AddressLine1', 'AddressLine2', 'AddressLine3', 'AddressLine4', 'PhoneCountryCode', 'PhoneNumber', 'Email', 'MainHexColor', 'AlterHexColor', 'LowHexColor', 'Level', 'CreationDate', 'PostalCode'],
+        "session": ['requestString', 'client']
     }
 
 
@@ -90,7 +91,22 @@ class Handlers():
                 else:
                     return {}
             else:
-                return {}
+                ## Case where session is created.
+                _req = Handlers._models["session"]
+                ## go and iterate to find all of them, if not _go will be false
+                _go = False
+                ## For Loop going for all the required fields.
+                for req_value in _req:
+                    ## if it is not in the parameters, set flag to false.
+                    if req_value in _item:
+                        _go = True
+                if _go:
+                    ## set the url of the service
+                    _url = Helpers.generateURL(_service_url, "session")
+                    ## generate the get call
+                    _response = requests.post(_url, json=_item)
+                    ## returns the json as response
+                    return _response.json()
         except Exception as e:
             print(" (!) Exception in post_data(): ")
             print(str(e))
