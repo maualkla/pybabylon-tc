@@ -140,8 +140,8 @@ def index():
 @app.route('/login')
 def login():
     try:
-        ## Set a logged variable requesting the _id and _us cookies.
-        _session = True if request.cookies.get('_session_id') else False
+        ## Set a logged variable requesting the sessionId cookie.
+        _session = True if request.cookies.get('SessionId') else False
         ## validate if _logged
         if _session:
             ## in case status = valid create a redirection to the /dashboard service deleting all _flag cookies.
@@ -216,21 +216,23 @@ def dashboard():
 @app.route('/logout')
 def logout():
     try:
-        if request.cookies.get('_id') and request.cookies.get('_un'):
-            _un = request.cookies.get('_un')
-            _un = Helpers.b64Encode(_un)
-            _id = request.cookies.get('_id')
-            ## generates the url to call the service adding the -u and _p params
-            url = _alx_url+'/logout?_id='+_id+'&_username='+_un
+        ## validate if Session Id present in cookies
+        if request.cookies.get('SessionId'):
+            ## in case present in cookies, send a delete /session request
+            _session_id = request.cookies.get('SessionId')
+            url = _alx_url+'/session'
             ## Create the headers for the request
-            headers = {'Content-type': 'application/json'}
+            headers = {'SessionId': _session_id}
             ## Generates the call to the sevice. It is a GET call.
-            _response = requests.get(url, headers=headers)
+            _response = requests.delete(url, headers=headers)
+            ## makes a response where delete all cookies and redirect to home
             _out = make_response(redirect('/'))
-            _out.delete_cookie('_id')
-            _out.delete_cookie('_un')
+            _out.delete_cookie('SessionId')
+            _out.delete_cookie('browserVersion')
+            _out.delete_cookie('clientIP')
             return _out
         else:
+            ## else redirects to home
             _out = make_response(redirect('/'))
             return _out
     except Exception as e:
