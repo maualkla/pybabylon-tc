@@ -167,6 +167,34 @@ def login():
 
 ################################################################################################################
 
+## Logout service
+@app.route('/logout')
+def logout():
+    try:
+        ## validate if Session Id present in cookies
+        if request.cookies.get('SessionId'):
+            ## in case present in cookies, send a delete /session request
+            _session_id = request.cookies.get('SessionId')
+            url = _alx_url+'/session'
+            ## Create the headers for the request
+            headers = {'SessionId': _session_id}
+            ## Generates the call to the sevice. It is a GET call.
+            _response = requests.delete(url, headers=headers)
+            ## makes a response where delete all cookies and redirect to home
+            _out = make_response(redirect('/'))
+            _out.delete_cookie('SessionId')
+            _out.delete_cookie('browserVersion')
+            _out.delete_cookie('clientIP')
+            return _out
+        else:
+            ## else redirects to home
+            _out = make_response(redirect('/'))
+            return _out
+    except Exception as e:
+        return {"status": "An error Occurred", "error": str(e)}
+
+################################################################################################################
+
 ## Dashboard Service.
 @app.route('/dashboard')
 def dashboard():
@@ -207,34 +235,6 @@ def dashboard():
             _log = make_response(redirect('/login'))
             return _log
                 
-    except Exception as e:
-        return {"status": "An error Occurred", "error": str(e)}
-
-################################################################################################################
-
-## Logout service
-@app.route('/logout')
-def logout():
-    try:
-        ## validate if Session Id present in cookies
-        if request.cookies.get('SessionId'):
-            ## in case present in cookies, send a delete /session request
-            _session_id = request.cookies.get('SessionId')
-            url = _alx_url+'/session'
-            ## Create the headers for the request
-            headers = {'SessionId': _session_id}
-            ## Generates the call to the sevice. It is a GET call.
-            _response = requests.delete(url, headers=headers)
-            ## makes a response where delete all cookies and redirect to home
-            _out = make_response(redirect('/'))
-            _out.delete_cookie('SessionId')
-            _out.delete_cookie('browserVersion')
-            _out.delete_cookie('clientIP')
-            return _out
-        else:
-            ## else redirects to home
-            _out = make_response(redirect('/'))
-            return _out
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
 
