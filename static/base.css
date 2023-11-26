@@ -612,6 +612,35 @@ bold_italic{
     margin:0;
 }
 
+/* loading wheel */
+._flex_centered{
+    display: flex;
+    justify-content: center;
+    padding: 50px;
+}
+    ._loading_wheel{
+        margin: 0px 10px;
+        vertical-align: middle;
+        display: inline-block;
+        border: 6px solid #dadada;
+        border-radius: 50%;
+        border-top: 6px solid #337ab7;
+        width: 20px;
+        height: 20px;
+        -webkit-animation: spin 1.5s linear infinite; /* Safari */
+        animation: spin 1.5s linear infinite;
+    }
+        /* Safari */
+        @-webkit-keyframes spin {
+            0% { -webkit-transform: rotate(0deg); }
+            100% { -webkit-transform: rotate(360deg); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
 /* START Hamburger External CSS CODE */
 #burger-toggle {
     appearance: none;
