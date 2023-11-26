@@ -50,6 +50,12 @@
         {% block content %}
         {% endblock %}
 
+        <div class="_flex_centered _hidden">
+            <div class="_loading_wheel"></div>
+            {% block flex_elements%}
+            {% endblock%}
+        </div>
+
         {% block scripts %}
         <script src="../static/base.js"></script>
         {% endblock %}
