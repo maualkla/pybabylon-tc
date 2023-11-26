@@ -12,7 +12,7 @@ if(document.getElementById('_login_buttom')) document.getElementById('_login_but
 // Login function
 function login_worker(){
     cleanAlert();
-    // showWheel();
+    _display_wheel(true);
     let username = document.getElementById('i_email').value;
     let password = document.getElementById('i_word').value;
     if(username.length > 0 && password.length > 0){
@@ -38,9 +38,10 @@ function login_worker(){
             {
                 if (xhr.readyState === 4) {
                     if(xhr.status === 200){
-                        // hideWheel();
+                        _display_wheel(false);
+                        
                     }else if(xhr.status === 500 || xhr.status === 403){
-                        // hideWheel();
+                        _display_wheel(false);
                         // display alert error
                     }
                 }
