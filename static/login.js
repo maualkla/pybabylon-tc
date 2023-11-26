@@ -12,10 +12,10 @@ if(document.getElementById('_login_buttom')) document.getElementById('_login_but
 // Login function
 function login_worker(){
     cleanAlert();
-    _display_wheel(true);
     let username = document.getElementById('i_email').value;
     let password = document.getElementById('i_word').value;
     if(username.length > 0 && password.length > 0){
+        _display_wheel(true);
         let _req_string = window.btoa(unescape(encodeURIComponent(username)))+'_'+window.btoa(unescape(encodeURIComponent(password)));
         getIp(); 
         // call /v1/admdata POST /session
@@ -39,21 +39,22 @@ function login_worker(){
                 if (xhr.readyState === 4) {
                     if(xhr.status === 200){
                         _display_wheel(false);
-                        
+
                     }else if(xhr.status === 500 || xhr.status === 403){
                         _display_wheel(false);
                         // display alert error
+                        setAlert("_box_red", "Error login user.");  
                     }
                 }
             }
             catch(e)
             {
                 errors++;
+                setAlert("_box_red", "Error login user.");
             }
         };
         xhr.send(JSON.stringify(payload));
     }else{
-        document.getElementsByClassName('_main_block_alerts')[0].classList.add("_box_yellow");
-        document.getElementsByClassName('_main_block_alerts')[0].innerHTML = "<p> Missing username or password. </p>";
+        setAlert("_box_yellow", "Missing username or password.");    
     }
 }
