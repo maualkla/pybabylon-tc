@@ -141,12 +141,11 @@ def index():
 def login():
     try:
         ## Set a logged variable requesting the _id and _us cookies.
-        _logged = True if request.cookies.get('_id') and request.cookies.get('_un') else False
+        _logged = True if request.cookies.get('_session_id') else False
         ## validate if _logged
         if _logged:
             ## Save the cookies for _id and _un
-            _id = request.cookies.get('_id')
-            _un = request.cookies.get('_un')
+            _id = request.cookies.get('_session_id')
             ## Create a new auth object sending the _id and _un params
             _auth_obj = Helpers.auth(_id, _un)
             ## save the status from the auth object.

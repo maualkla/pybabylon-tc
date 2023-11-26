@@ -40,7 +40,10 @@ function login_worker(){
                     if(xhr.status === 202 && _parsed_data._session_id){
                         setAlert("_box_blue", "Logged"); 
                         _display_wheel(false);
-                        //window.location.replace("/dashboard")
+                        document.cookie = "SessionId="+_parsed_data._session_id;
+                        document.cookie = "browserVersion="+_client_version;
+                        document.cookie = "clientIP="+_client_ip;
+                        window.location.replace("/dashboard");
                     }else if(xhr.status === 500 || xhr.status === 403){
                         _display_wheel(false);
                         setAlert("_box_red", "System error, try again later.");  
