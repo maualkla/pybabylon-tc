@@ -141,29 +141,14 @@ def index():
 def login():
     try:
         ## Set a logged variable requesting the _id and _us cookies.
-        _logged = True if request.cookies.get('_id') and request.cookies.get('_un') else False
+        _session = True if request.cookies.get('_session_id') else False
         ## validate if _logged
-        if _logged:
-            ## Save the cookies for _id and _un
-            _id = request.cookies.get('_id')
-            _un = request.cookies.get('_un')
-            ## Create a new auth object sending the _id and _un params
-            _auth_obj = Helpers.auth(_id, _un)
-            ## save the status from the auth object.
-            _status = _auth_obj.json().get('status')
-            ## Validate if status = valid 
-            if _status == 'valid':
-                ## in case status = valid create a redirection to the /dashboard service deleting all _flag cookies.
-                _dash = make_response(redirect('/dashboard'))
-                _dash.delete_cookie('_flag_status')
-                _dash.delete_cookie('_flag_content')
-                return _dash
-            else:
-                ## in case of not valid, redirects to login and delete the _id and _un cookies
-                _log = make_response(redirect('/login'))
-                _log.delete_cookie('_id')
-                _log.delete_cookie('_un')
-                return _log
+        if _session:
+            ## in case status = valid create a redirection to the /dashboard service deleting all _flag cookies.
+            _dash = make_response(redirect('/dashboard'))
+            _dash.delete_cookie('_flag_status')
+            _dash.delete_cookie('_flag_content')
+            return _dash
         else:
             ## if _id and _un cookies are not present, validate id _flag cookies are present.
             if request.cookies.get('_flag_content') and request.cookies.get('_flag_status'):
@@ -178,68 +163,7 @@ def login():
             ## Return the login template sending the context object.
             return render_template('login.html', **context)
     except Exception as e:
-        return {"status": "An error Occurred", "error": str(e)}
-
-################################################################################################################
-
-## Login process
-@app.route('/s_login')
-def s_login():
-    try:
-        ## Set a logged variable requesting the _id and _us cookies.
-        _logged = True if request.cookies.get('_u') and request.cookies.get('_p') else False
-        ## validate if _logged
-        if _logged:
-            ## saves _p and _u
-            _u = request.cookies.get('_u')
-            _p = request.cookies.get('_p')
-            ## generates the url to call the service adding the -u and _p params
-            url = _alx_url+'/login?u='+_u+'&p='+_p
-            ## Create the headers for the request
-            headers = {'Content-type': 'application/json'}
-            ## Generates the call to the sevice. It is a GET call.
-            _response = requests.get(url, headers=headers)
-            ## Saves the response in _json_r
-            _json_r = _response.json()
-            ## Saves the status code in _status
-            _status = _response.status_code
-            ## Validate if the response status code is 200
-            if _status == 200:
-                ## Genetates a response object setting the redirection to /dashboard
-                _dash = make_response(redirect('/dashboard'))
-                ## saves the _id and _un params from the json object.
-                _id = _json_r.get('id')
-                _un = _json_r.get('username')
-                ## Set the _id and _un cookies.
-                _dash.set_cookie('_id', _id)
-                _dash.set_cookie('_un', _un)
-                ## delete any other possible cookie.
-                _dash.delete_cookie('_u')
-                _dash.delete_cookie('_p')
-                _dash.delete_cookie('_flag')
-                ## Returns the _dash response object.
-                return _dash
-            else:
-                ## Generates a response object to /login
-                _logi = make_response(redirect('/login'))
-                ## Delete the _u and _p cookies to clean the status
-                _logi.delete_cookie('_u')
-                _logi.delete_cookie('_p')
-                ## Set the _flag_content and _flag_status cookies to set a frontend alert
-                _logi.set_cookie('_flag_content', 'Wrong username or password')
-                _logi.set_cookie('_flag_status', '_box_yellow')
-                ## return the response _login object.
-                return _logi
-        else:
-            ## Generates a response object 
-            _logi = make_response(redirect('/login'))
-            ## Set the cookies for the flags to display a frontend alert.
-            _logi.set_cookie('_flag_content', 'Missing username or password')
-            _logi.set_cookie('_flag_status', '_box_red')
-            ## Returns the response.
-            return _logi
-    except Exception as e:
-        return {"status": "An error Occurred", "error": str(e)}
+        return {"status": "An earror Occurred", "error": str(e)}
 
 ################################################################################################################
 

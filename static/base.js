@@ -17,6 +17,8 @@ let _menu_value = true;
 let _menu_ext_value = true;
 let _curr_languaje = "_"+navigator.language.substring(0,2) || "_en";
 let _new_lang = "_es";
+let _errors = 0;
+let _logging = false;
 
 let _langs = ['_en', '_es'];
 let _pinpad_num = "";
@@ -260,4 +262,14 @@ function getIp(){
         }
     };
     xhr.send();
+}
+
+// function display wheel
+function _display_wheel(_state){
+    let _wheel = document.getElementsByClassName("_flex_centered")[0].classList;
+    if (_state){
+        _wheel.remove("_hidden");
+    }else{
+        _wheel.add("_hidden");
+    }
 }
