@@ -49,7 +49,7 @@ bold_italic{
 @media only screen and (max-width: 1000px), (pointer:none){
     /* GLOBAL */
     ._content{
-        position: fixed;
+        position:fixed;
         width: 100%;
         margin: -.9%;
         border: solid 1px var(--system-text-color);
@@ -87,6 +87,7 @@ bold_italic{
         ._flex_box{
             /* grid position */
             grid-area: 3 / 1 / 28 / 2;
+            overflow: scroll;
             
         }
             /* to fix view in mobile */ 
@@ -620,13 +621,14 @@ bold_italic{
 }
     ._loading_wheel{
         margin: 0px 10px;
+        margin-top: 80%;
         vertical-align: middle;
         display: inline-block;
-        border: 6px solid #dadada;
+        border: 30px solid var(--system-altern-highlight-color);
         border-radius: 50%;
-        border-top: 6px solid #337ab7;
-        width: 20px;
-        height: 20px;
+        border-top: 30px solid var(--system-text-color);
+        width: 100px;
+        height: 100px;
         -webkit-animation: spin 1.5s linear infinite; /* Safari */
         animation: spin 1.5s linear infinite;
     }
