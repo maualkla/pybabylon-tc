@@ -261,3 +261,13 @@ function getIp(){
     };
     xhr.send();
 }
+
+// function display wheel
+function _display_wheel(_state){
+    let _wheel = document.getElementsByClassName("_flex_centered")[0].classList;
+    if (_state){
+        _wheel.remove("_hidden");
+    }else{
+        _wheel.add("_hidden");
+    }
+}
