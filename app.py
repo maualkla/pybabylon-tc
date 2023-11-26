@@ -141,28 +141,14 @@ def index():
 def login():
     try:
         ## Set a logged variable requesting the _id and _us cookies.
-        _logged = True if request.cookies.get('_session_id') else False
+        _session = True if request.cookies.get('_session_id') else False
         ## validate if _logged
-        if _logged:
-            ## Save the cookies for _id and _un
-            _id = request.cookies.get('_session_id')
-            ## Create a new auth object sending the _id and _un params
-            _auth_obj = Helpers.auth(_id, _un)
-            ## save the status from the auth object.
-            _status = _auth_obj.json().get('status')
-            ## Validate if status = valid 
-            if _status == 'valid':
-                ## in case status = valid create a redirection to the /dashboard service deleting all _flag cookies.
-                _dash = make_response(redirect('/dashboard'))
-                _dash.delete_cookie('_flag_status')
-                _dash.delete_cookie('_flag_content')
-                return _dash
-            else:
-                ## in case of not valid, redirects to login and delete the _id and _un cookies
-                _log = make_response(redirect('/login'))
-                _log.delete_cookie('_id')
-                _log.delete_cookie('_un')
-                return _log
+        if _session:
+            ## in case status = valid create a redirection to the /dashboard service deleting all _flag cookies.
+            _dash = make_response(redirect('/dashboard'))
+            _dash.delete_cookie('_flag_status')
+            _dash.delete_cookie('_flag_content')
+            return _dash
         else:
             ## if _id and _un cookies are not present, validate id _flag cookies are present.
             if request.cookies.get('_flag_content') and request.cookies.get('_flag_status'):
@@ -177,7 +163,7 @@ def login():
             ## Return the login template sending the context object.
             return render_template('login.html', **context)
     except Exception as e:
-        return {"status": "An error Occurred", "error": str(e)}
+        return {"status": "An earror Occurred", "error": str(e)}
 
 ################################################################################################################
 
