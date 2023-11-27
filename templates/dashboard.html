@@ -22,7 +22,7 @@ Dashboard - {{ super() }}
 {% endblock %}
 
 {% block _title %}
-Welcome 
+Adminde Dashboard 
 {% endblock %}
 
 {% block _flex_box %}
@@ -93,17 +93,17 @@ Welcome
 {% endblock %}
 
 {% block _flex_menu %}
-<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_profile_en">Profile</div>
-<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_profile_es">Perfil</div>
-<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_create_ws_en">New Workspace</div>
-<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_create_ws_es">Crear Workspace</div>
-<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_manage_ws_en">Edit Workspace</div>
-<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_manage_ws_es">Administrar WS</div>
-<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_help_en">Request Help</div>
-<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_help_es">Ayuda</div>
+<div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% else %}_en _hidden {% endif %}" id="_profile_en">Profile</div>
+<div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% else %}_es _hidden {% endif %}" id="_profile_es">Perfil</div>
+<div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% else %}_en _hidden {% endif %}" id="_create_ws_en">New Workspace</div>
+<div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% else %}_es _hidden {% endif %}" id="_create_ws_es">Crear Workspace</div>
+<div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% else %}_en _hidden {% endif %}" id="_manage_ws_en">Edit Workspace</div>
+<div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% else %}_es _hidden {% endif %}" id="_manage_ws_es">Administrar WS</div>
+<div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% else %}_en _hidden {% endif %}" id="_help_en">Request Help</div>
+<div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% else %}_en _hidden {% endif %}" id="_help_es">Ayuda</div>
 {% if user_type > 2 %}
-<div class="_menu_box _box_main _box_main_bot" id="_trx_mgr">Trx Manager</div>
-<div class="_menu_box _box_main _box_main_bot" id="_usr_mgr">User Manager</div>
+<div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% endif %}" id="_trx_mgr">Trx Manager</div>
+<div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% endif %}" id="_usr_mgr">User Manager</div>
 {% endif %}
 <div class="_menu_box _box_main _box_main_bot _en _hidden" id="_logout_en">Close Session</div>
 <div class="_menu_box _box_main _box_main_bot _es _hidden" id="_logout_es">Cerrar Sesion</div>

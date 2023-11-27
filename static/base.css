@@ -76,6 +76,7 @@ bold_italic{
                 grid-area: 1 / 1 / 2 / 6; 
                 font-size: var(--system-big-text);
                 padding: 5%;
+                padding-right: 3%;
                 padding-top: 5%;
                 text-align: left;
                 height: 10%;
