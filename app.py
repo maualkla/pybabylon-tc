@@ -226,17 +226,17 @@ def dashboard():
                         if _trxdata:
                             ## define context
                             _user = _userdata['items'][0]
-                            _ws = _wsdata['items'][0]
-                            _llog = _trxdata['items'][0]
+                            _ws = _wsdata['items'][0] if _wsdata['containsData'] else False
+                            _llog = _trxdata['items'][0] if _trxdata['containsData'] else False
                             context = {
                                 "user_id": _user_id,
                                 "user_name": _user['username'],
                                 "user_type": _user['type'],
                                 "user_fname": _user['fname'],
                                 "user_pin": _user['pin'] if _user['pin'] > 0 else False,
-                                "ws_informal_name": _ws['InformalName'] if _ws['InformalName'] else False,
-                                "ws_tax_id": _ws['TaxId'] if _ws['TaxId'] else False,
-                                "trx_last_login_date": _llog['dateTime'] if _llog['dateTime'] else False,
+                                "ws_informal_name": _ws['InformalName'] if _ws else False,
+                                "ws_tax_id": _ws['TaxId'] if _ws else False,
+                                "trx_last_login_date": _llog['dateTime'] if _llog else False,
                                 "_flag_status": "",
                                 "_flag_content": ""
                             }
