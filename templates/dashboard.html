@@ -112,5 +112,6 @@ Adminde Dashboard
 
 {% block scripts %}
 {{ super() }}
+<script> const _context_vars = ["{{ user_id }}"]</script>
 <script src="../static/dashboard.js"></script>
 {% endblock %}

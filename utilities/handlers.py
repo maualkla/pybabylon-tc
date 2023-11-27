@@ -121,7 +121,6 @@ class Handlers():
     ## _item:           (optional) _item object includes all the fields required to create the update
     def put_data(_service_url, _request, _service, _item):
         try:
-            print(" >> handlers.put_data() operation: ")
             ## validate if present and if present, set the parameters from the cookies of the request object.
             _sessionId = _request.cookies.get('SessionId') if _request.cookies.get('SessionId') else False
             _browser = _request.cookies.get('browserVersion') if _request.cookies.get('browserVersion') else False
@@ -145,6 +144,9 @@ class Handlers():
                         _url = Helpers.generateURL(_service_url, _service)
                         ## set the headers
                         _headers = {'SessionId': _sessionId, 'TokenId': _token}
+                        print(_url)
+                        print(_headers)
+                        print(_item)
                         ## generate the get call
                         _response = requests.put(_url, json=_item, headers=_headers)
                         ## returns the json as response
