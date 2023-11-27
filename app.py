@@ -233,6 +233,7 @@ def dashboard():
                                 "user_name": _user['username'],
                                 "user_type": _user['type'],
                                 "user_fname": _user['fname'],
+                                "user_pin": _user['pin'] if len(_user['pin']) > 0 else False,
                                 "ws_informal_name": _ws['InformalName'] if _ws['InformalName'] else False,
                                 "ws_tax_id": _ws['TaxId'] if _ws['TaxId'] else False,
                                 "trx_last_login_date": _llog['dateTime'] if _llog['dateTime'] else False
