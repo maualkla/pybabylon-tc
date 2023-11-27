@@ -201,6 +201,10 @@ def dashboard():
     try:
         ## Set a logged variable requesting the _id and _us cookies.
         _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
+        _log = make_response(redirect('/login'))
+        _log.delete_cookie('SessionId')
+        _log.delete_cookie('browserVersion')
+        _log.delete_cookie('clientIP')
         ## validate if _logged
         if _required_cookies:
             ## if present, save the _id and _un
@@ -208,30 +212,47 @@ def dashboard():
             _client_bw = request.cookies.get('browserVersion')
             _client_ip = request.cookies.get('clientIP')
             ## generate a auth object and save the response in _auth_obj
-            _token_id = Handlers.__get_session_token(_alx_url, _session_id, _client_bw, _client_ip)
-            if _token_id:
+            _user_id = Handlers.get_username(_alx_url, _session_id, _client_bw, _client_ip)
+            if _user_id:
                 ## get data del useer
-                ## get data del ws del user.
-                ## get last login from the user.
-                ## define context
-                ## return view
-                context = {}
-                if context:
-                    return render_template('dashboard.html', **context)
+                _userdata = Handlers.get_data(_alx_url, request, "user", _user_id)
+                if _userdata:
+                    ## get data del ws del user.
+                    _filter = ":"+_user_id+";limit:1"
+                    _wsdata = Handlers.get_data(_alx_url, request, "workspace", False, "owner"+_filter)
+                    if _wsdata:
+                        ## get last login from the user.
+                        _trxdata = Handlers.get_data(_alx_url, request, "transaction", False, "userId"+_filter)
+                        if _trxdata:
+                            ## define context
+                            _user = _userdata['items'][0]
+                            _ws = _wsdata['items'][0]
+                            _llog = _trxdata['items'][0]
+                            context = {
+                                "user_id": _user_id,
+                                "user_name": _user['username'],
+                                "user_type": _user['type'],
+                                "user_fname": _user['fname'],
+                                "ws_informal_name": _ws['InformalName'] if _ws['InformalName'] else False,
+                                "ws_tax_id": _ws['TaxId'] if _ws['TaxId'] else False,
+                                "trx_last_login_date": _llog['dateTime'] if _llog['dateTime'] else False
+                            }
+                            print(context)
+                            return render_template('dashboard.html', **context)
+                        else:
+                            ## return to login 
+                            return _log
+                    else:
+                        ## return to login 
+                        return _log
                 else:
-                    _log = make_response(redirect('/login'))
-                    _log.delete_cookie('SessionId')
-                    _log.delete_cookie('browserVersion')
-                    _log.delete_cookie('clientIP')
+                    ## return to login 
                     return _log
             else:
-                _log = make_response(redirect('/login'))
-                _log.delete_cookie('SessionId')
-                _log.delete_cookie('browserVersion')
-                _log.delete_cookie('clientIP')
+                ## return to login 
+                return _log
         else:
             ## return to login 
-            _log = make_response(redirect('/login'))
             return _log
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
