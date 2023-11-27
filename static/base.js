@@ -180,7 +180,8 @@ function _add_pinpad(_num){
         _display_pinpad(_pinpad_num)
         if(_pinpad_num.length === 6){
             document.getElementById("_set_pin_button").classList.remove("_gray");
-            document.getElementById("_set_pin_button").classList.add("_altern");
+            document.getElementById("_set_pin_button").classList.add("color_2_bg");
+            document.getElementById("_set_pin_button").classList.add("color_1_tx");
         }
     }else if(_pinpad_num.length === 6){
         if(_pinpad_num_alert === 0){

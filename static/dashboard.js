@@ -43,6 +43,7 @@ function _send_pin(){
                 if (xhr.readyState === 4 && xhr.status === 202) {
                     document.getElementsByClassName("_main_block_numpad")[0].classList.add("_hidden");
                     document.getElementsByClassName("_main_block_content")[0].classList.remove("_hidden");
+                    setAlert("_box_green", "Pin Set Successfully");
                     _display_wheel(false);
                 }else if(xhr.readyState === 4 && (xhr.status === 500 || xhr.status === 403)){
                     setAlert("_box_red", "Error setting pin. Error code: ERR-V003-025-01");

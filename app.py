@@ -236,7 +236,7 @@ def dashboard():
                                 "user_pin": _user['pin'] if _user['pin'] > 0 else False,
                                 "ws_informal_name": _ws['InformalName'] if _ws else False,
                                 "ws_tax_id": _ws['TaxId'] if _ws else False,
-                                "trx_last_login_date": _llog['dateTime'] if _llog else False,
+                                "trx_last_login_date": _llog['dateTime'][0:2]+"-"+_llog['dateTime'][2:4]+"-"+_llog['dateTime'][4:8]+" "+_llog['dateTime'][8:] if _llog else False,
                                 "_flag_status": "",
                                 "_flag_content": ""
                             }
