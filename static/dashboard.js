@@ -7,14 +7,12 @@
 // Triggers 
 if(document.getElementById('_logout_en')) document.getElementById('_logout_en').addEventListener('click', function (){window.location.replace("/logout")});
 if(document.getElementById('_logout_es')) document.getElementById('_logout_es').addEventListener('click', function (){ window.location.replace("/logout") });
-if(document.getElementById('_manage_ws_en')) document.getElementById('_manage_ws_en').addEventListener('click', function (){window.alert("No workspaces found")});
-if(document.getElementById('_manage_ws_es')) document.getElementById('_manage_ws_es').addEventListener('click', function (){ window.alert("No hay Workspaces en tu perfil") });
 if(document.getElementById('_profile_en')) document.getElementById('_profile_en').addEventListener('click', function (){window.location.replace("/account")});
 if(document.getElementById('_profile_es')) document.getElementById('_profile_es').addEventListener('click', function (){window.location.replace("/account")});
-if(document.getElementById('_create_ws_en')) document.getElementById('_create_ws_en').addEventListener('click', function (){window.location.replace("/workspace")});
-if(document.getElementById('_create_ws_es')) document.getElementById('_create_ws_es').addEventListener('click', function (){window.location.replace("/workspace")});
-if(document.getElementById('_help_en')) document.getElementById('_help_en').addEventListener('click', function (){ window.open('/help', '_blank') });
-if(document.getElementById('_help_es')) document.getElementById('_help_es').addEventListener('click', function (){ window.open('/help', '_blank') });
+if(document.getElementById('_ws_view_en')) document.getElementById('_ws_view_en').addEventListener('click', function (){window.location.replace("/workspace")});
+if(document.getElementById('_ws_view_es')) document.getElementById('_ws_view_es').addEventListener('click', function (){window.location.replace("/workspace")});
+if(document.getElementById('_apidocs_en')) document.getElementById('_apidocs_en').addEventListener('click', function (){ window.location.replace('/apidocs') });
+if(document.getElementById('_apidocs_es')) document.getElementById('_apidocs_es').addEventListener('click', function (){ window.location.replace('/apidocs') });
 
 // Boxes triggers
 if(document.getElementById('_opt_new_ws')) document.getElementById('_opt_new_ws').addEventListener('click', function (){window.location.replace("/workspace")});
@@ -25,8 +23,10 @@ if(document.getElementById('_opt_tuto')) document.getElementById('_opt_tuto').ad
 if(document.getElementById('_set_pin_button')) document.getElementById('_set_pin_button').addEventListener('click', function (){  if(_pinpad_num.length === 6){ _send_pin() }else{window.alert("Pin has to be at least 6 digits long.")} });
 if(document.getElementById('_close_sesion_button')) document.getElementById('_close_sesion_button').addEventListener('click', function (){ window.location.replace("/logout"); });
 
-if(document.getElementById('_trx_mgr')) document.getElementById('_trx_mgr').addEventListener('click', function (){ window.location.replace("/transactions"); });
-if(document.getElementById('_usr_mgr')) document.getElementById('_usr_mgr').addEventListener('click', function (){ window.location.replace("/users"); });
+if(document.getElementById('_trx_mgr_en')) document.getElementById('_trx_mgr_en').addEventListener('click', function (){ window.location.replace("/transactions"); });
+if(document.getElementById('_trx_mgr_es')) document.getElementById('_trx_mgr_es').addEventListener('click', function (){ window.location.replace("/transactions"); });
+if(document.getElementById('_usr_mgr_en')) document.getElementById('_usr_mgr_en').addEventListener('click', function (){ window.location.replace("/users"); });
+if(document.getElementById('_usr_mgr_es')) document.getElementById('_usr_mgr_es').addEventListener('click', function (){ window.location.replace("/users"); });
 
 // send pin function
 function _send_pin(){
