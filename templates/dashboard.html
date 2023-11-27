@@ -32,35 +32,46 @@ Adminde Dashboard
     </div>
     <div class="_main_block_content {% if user_pin == False %} _hidden {% endif %} ">
         <div class="_big_menu_box  " id="_opt_new_ws">
-            <div class="_ob_text _en _hidden">
+            {% if ws_tax_id %}
+            <div class="_bbx_text _en _hidden">
+                Continue Working on <bold_italic>{% if ws_informal_name %} {{ws_informal_name}} {% else %} {{ws_tax_id}} {% endif%} </bold_italic>
+            </div>
+            <div class="_bbx_text _es _hidden">
+                Sigue Trabajando con <bold_italic>{% if ws_informal_name %} {{ws_informal_name}} {% else %} {{ws_tax_id}} {% endif%} </bold_italic>
+            </div>
+            {% else %}
+            <div class="_bbx_text _en _hidden">
                 New Workspace
             </div>
-            <div class="_ob_text _es _hidden">
+            <div class="_bbx_text _es _hidden">
                 Crear Workspace
             </div>
+            {% endif %}
         </div>
+        {% if ws_tax_id %}
         <div class="_big_menu_box  " id="_opt_manage_ws">
-            <div class="_ob_text _en _hidden">
-                Manage Profile
+            <div class="_bbx_text _en _hidden">
+                View all your <bold_italic>Workspaces</bold_italic>
             </div>
-            <div class="_ob_text _es _hidden">
-                Administrar Perfil
+            <div class="_bbx_text _es _hidden">
+                Ver todos tus <bold_italic>Workspaces</bold_italic>
             </div>
         </div>
+        {% endif %}
         <div class="_big_menu_box   " id="_opt_help">
-            <div class="_ob_text _en _hidden">
-                Request Help
+            <div class="_bbx_text _en _hidden">
+                Tutorials and <br>Guides
             </div>
-            <div class="_ob_text _es _hidden">
-                Solicitar Ayuda
+            <div class="_bbx_text _es _hidden">
+                Tutoriales y <br>Guias
             </div>
         </div>
         <div class="_big_menu_box  " id="_opt_tuto">
-            <div class="_ob_text _en _hidden">
-                Tutorials & Walkthrough
+            <div class="_bbx_text _en _hidden">
+                Request <br> <bold_italic>Help</bold_italic>
             </div>
-            <div class="_ob_text _es _hidden">
-                Tutoriales y Apoyo
+            <div class="_bbx_text _es _hidden">
+                Solicitar <br><bold_italic>Ayuda</bold_italic>
             </div>
         </div>
     </div>
