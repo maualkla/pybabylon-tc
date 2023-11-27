@@ -27,6 +27,7 @@
     --system-alert-green: #77B565;
     --system-alert-blue: #CAF5F2;
     --system-big-text: 480%;
+    --system-medium-text: 70%;
     --system-regular-border-width: 4px;
     --system-light-border-width: 1px;
     --system-thick-border-width: 6px;
@@ -476,6 +477,20 @@ bold_italic{
     border-bottom: var(--system-light-border-width) solid var(--system-text-color);
     height: auto;
 }
+._big_menu_box{
+    border: solid 5px red;
+    width: 80%;
+    height: 400px;
+    margin: auto;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    border-radius: 20px;
+    
+    font-size: var(--system-medium-text);
+    margin: auto;
+    padding: 10%;
+    text-align: left;
+}
 
 /* inputs */
 ._input_general{
@@ -790,13 +805,18 @@ bold_italic{
         ._num_button{
             height: 100%;
             width: 100%;
-            color: white;
+            color: var(--system-bg-color);
             margin-top: -5%;
+            border: solid var(--system-regular-border-width) var(--system-text-color);
             border-radius: var(--system-radius-value);
         }
             ._num_button p{
                 font-size: 250%;
                 text-align: center;
+            }
+            ._num_button:active{
+                background-color: var(--system-bg-color);
+                color: var(--system-text-color)
             }
     ._numpad_buttons{
         grid-area: 4 / 1 / 6 / 2;
