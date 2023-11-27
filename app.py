@@ -200,41 +200,39 @@ def logout():
 def dashboard():
     try:
         ## Set a logged variable requesting the _id and _us cookies.
-        _logged = True if request.cookies.get('_id') and request.cookies.get('_un') else False
+        _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
         ## validate if _logged
-        if _logged:
+        if _required_cookies:
             ## if present, save the _id and _un
-            _id = request.cookies.get('_id')
-            _un = request.cookies.get('_un')
+            _session_id = request.cookies.get('SessionId')
+            _client_bw = request.cookies.get('browserVersion')
+            _client_ip = request.cookies.get('clientIP')
             ## generate a auth object and save the response in _auth_obj
-            _auth_obj = Helpers.auth(_id, _un)
-            ## get status 
-            _status = _auth_obj.json().get('status')
-            ### @TBD get the user pin value, if null send True, else False
-            _pin_tb_set = False
-            ## sample list of values
-            _lov = ['value1', 'value2', 'value3']
-            ## settting the context vadiable.
-            context = {
-                "user_name": _un,
-                "values": _lov,
-                "pin_tb_set": _pin_tb_set,
-                "_level": 3 ### TBD wee need the level of the user available.
-            }
-            ## if the status was valid, return the dashboard.html and the context value
-            if _status == 'valid':
-                return render_template('dashboard.html', **context)
+            _token_id = Handlers.__get_session_token(_alx_url, _session_id, _client_bw, _client_ip)
+            if _token_id:
+                ## get data del useer
+                ## get data del ws del user.
+                ## get last login from the user.
+                ## define context
+                ## return view
+                context = {}
+                if context:
+                    return render_template('dashboard.html', **context)
+                else:
+                    _log = make_response(redirect('/login'))
+                    _log.delete_cookie('SessionId')
+                    _log.delete_cookie('browserVersion')
+                    _log.delete_cookie('clientIP')
+                    return _log
             else:
-                ## return the login service and delete _id and _un cookies.
                 _log = make_response(redirect('/login'))
-                _log.delete_cookie('_id')
-                _log.delete_cookie('_un')
-                return _log
+                _log.delete_cookie('SessionId')
+                _log.delete_cookie('browserVersion')
+                _log.delete_cookie('clientIP')
         else:
             ## return to login 
             _log = make_response(redirect('/login'))
             return _log
-                
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
 
