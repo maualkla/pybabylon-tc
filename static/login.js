@@ -14,6 +14,7 @@ function login_worker(){
     cleanAlert();
     let username = document.getElementById('i_email').value;
     let password = document.getElementById('i_word').value;
+    let counter = 0
     if(username.length > 0 && password.length > 0){
         _display_wheel(true);
         let _req_string = window.btoa(unescape(encodeURIComponent(username+"_"+password)));
@@ -39,7 +40,6 @@ function login_worker(){
                 if (xhr.readyState === 4) {
                     if(xhr.status === 202 && _parsed_data._session_id){
                         setAlert("_box_blue", "Logged"); 
-                        _display_wheel(false);
                         document.cookie = "SessionId="+_parsed_data._session_id;
                         document.cookie = "browserVersion="+_client_version;
                         document.cookie = "clientIP="+_client_ip;
@@ -57,15 +57,19 @@ function login_worker(){
             }
             catch(e)
             {
-                if(_logging){
-                    console.log("-------------------")
-                    console.log(e)
-                    console.log("-------------------")
+                if(counter === 1){
+                    if(_logging){
+                        console.log("-------------------")
+                        console.log(e)
+                        console.log("-------------------")
+                    }
+                    _errors++;
+                    _change_obj_color(document.getElementById('_login_buttom'), "color_1_bg", "color_2_tx", "color_2_bg", "color_1_tx"); 
+                    setAlert("_box_red", "Error login user.");
+                    _display_wheel(false);
+                }else{
+                    counter++;
                 }
-                _errors++;
-                _change_obj_color(document.getElementById('_login_buttom'), "color_1_bg", "color_2_tx", "color_2_bg", "color_1_tx"); 
-                setAlert("_box_red", "Error login user.");
-                _display_wheel(false);
             }
         };
         xhr.send(JSON.stringify(_obj));

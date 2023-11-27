@@ -121,7 +121,6 @@ class Handlers():
     ## _item:           (optional) _item object includes all the fields required to create the update
     def put_data(_service_url, _request, _service, _item):
         try:
-            print(" >> handlers.put_data() operation: ")
             ## validate if present and if present, set the parameters from the cookies of the request object.
             _sessionId = _request.cookies.get('SessionId') if _request.cookies.get('SessionId') else False
             _browser = _request.cookies.get('browserVersion') if _request.cookies.get('browserVersion') else False
@@ -145,6 +144,9 @@ class Handlers():
                         _url = Helpers.generateURL(_service_url, _service)
                         ## set the headers
                         _headers = {'SessionId': _sessionId, 'TokenId': _token}
+                        print(_url)
+                        print(_headers)
+                        print(_item)
                         ## generate the get call
                         _response = requests.put(_url, json=_item, headers=_headers)
                         ## returns the json as response
@@ -230,3 +232,37 @@ class Handlers():
             print(" (!) Exception in __get_session_token(): ")
             print(str(e))
             return False
+        
+    ## get_username custom operation
+    ## custom function to make calls to session.
+    ## gets authorized and then calls to the specificated service.
+    ## _service_url:    (required) service url ip+port
+    ## _sessionid:      (required) Sessionid to be sent as header
+    ## _browser:        (requred) browser version
+    ## _clientIp:       (optional)ip from client.
+    def get_username(_service_url, _session_id, _browser, _clientIp):
+        try:
+            print(" >> handlers.get_username() operation: ")
+            url = Helpers.generateURL(_service_url, "session")
+            ## Create the headers for the request
+            headers = {'SessionId': _session_id, 'browserVersion': _browser, 'clientIP': _clientIp}
+            ## Generates the call to the sevice. It is a GET call.
+            _response = requests.get(url, headers=headers)
+            ## Saves the response in _json_r
+            _session = _response.json()
+            ## Saves the status code in _status
+            _status = _response.status_code
+            ## Validate if the response status code is 200
+            if _status == 200:
+                ## gets the specific username
+                _session = _session['items'][0]
+                _token = _session['userId']
+            else:
+                _token = False
+            ## returns _token
+            return _token
+        except Exception as e:
+            print(" (!) Exception in get_username(): ")
+            print(str(e))
+            return False
+        

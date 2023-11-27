@@ -21,6 +21,10 @@
                 padding: 10%;
                 text-align: center;
             }
+            #_redirect_last_login{
+                font-size: 50%;
+                border: none;
+            }
     
     ._main_block_numpad{
         display: grid;

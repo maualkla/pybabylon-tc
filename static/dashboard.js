@@ -30,27 +30,38 @@ if(document.getElementById('_usr_mgr')) document.getElementById('_usr_mgr').addE
 
 // send pin function
 function _send_pin(){
-    if(1 === 2){
-        let x = document.cookie;
-        _id = x()
+    if(_pinpad_num.length === 6){
+        _display_wheel(true);
         let xhr = new XMLHttpRequest();
-        let url = "/user";
+        let url = "/v1/admdata?service=user";
         xhr.open("PUT", url);
         xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.setRequestHeader("_id", "_id");
-        xhr.setRequestHeader("_un", "_un");
+        let _obj = {"item":{"pin": parseInt(_pinpad_num), "email": _context_vars[0]}};
         xhr.onreadystatechange = function () {
             try
             {
                 if (xhr.readyState === 4 && xhr.status === 202) {
-                    // Actions in case pin was updated.
+                    document.getElementsByClassName("_main_block_numpad")[0].classList.add("_hidden");
+                    document.getElementsByClassName("_main_block_content")[0].classList.remove("_hidden");
+                    setAlert("_box_green", "Pin Set Successfully");
+                    _display_wheel(false);
+                }else if(xhr.readyState === 4 && (xhr.status === 500 || xhr.status === 403)){
+                    setAlert("_box_red", "Error setting pin. Error code: ERR-V003-025-01");
+                    _display_wheel(false);
                 }
             }
             catch(e)
             {
+                if(_logging){
+                    console.log("-------------------")
+                    console.log(e)
+                    console.log("-------------------")
+                }
                 errors++;
+                setAlert("_box_red", "Error setting pin. Error code: ERR-V003-025-02");
+                _display_wheel(false);
             }
         };
+        xhr.send(JSON.stringify(_obj));
     }
-    console.log(" Saving pin: "+_pinpad_num)
 }
