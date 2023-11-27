@@ -233,10 +233,12 @@ def dashboard():
                                 "user_name": _user['username'],
                                 "user_type": _user['type'],
                                 "user_fname": _user['fname'],
-                                "user_pin": _user['pin'] if len(_user['pin']) > 0 else False,
+                                "user_pin": _user['pin'] if _user['pin'] > 0 else False,
                                 "ws_informal_name": _ws['InformalName'] if _ws['InformalName'] else False,
                                 "ws_tax_id": _ws['TaxId'] if _ws['TaxId'] else False,
-                                "trx_last_login_date": _llog['dateTime'] if _llog['dateTime'] else False
+                                "trx_last_login_date": _llog['dateTime'] if _llog['dateTime'] else False,
+                                "_flag_status": "",
+                                "_flag_content": ""
                             }
                             print(context)
                             return render_template('dashboard.html', **context)
@@ -318,7 +320,7 @@ def s_signup():
                 i += 1
             ## Add extra values fixed.
             _payload['type'] = '2'
-            _payload['pin'] = ''
+            _payload['pin'] = 0
             _payload['activate'] = True
             ## Set the url to be called.
             _url = _alx_url+'/user'
