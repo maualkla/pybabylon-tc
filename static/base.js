@@ -60,10 +60,12 @@ if(document.getElementById('_x_account')) document.getElementById('_x_account').
 function regular(_temp){
     if(_temp){
         document.getElementsByClassName('_flex_box')[0].classList.add("_hidden");
+        document.getElementsByClassName('_floating_buttons')[0].classList.add("_hidden");
         document.getElementsByClassName('_flex_menu')[0].classList.remove("_hidden");
         _menu_value = false;
     }else{
         document.getElementsByClassName('_flex_menu')[0].classList.add("_hidden");
+        document.getElementsByClassName('_floating_buttons')[0].classList.remove("_hidden");
         document.getElementsByClassName('_flex_box')[0].classList.remove("_hidden");
         extended(false);
         _menu_value = true;

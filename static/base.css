@@ -473,6 +473,7 @@
     ._menu_box{
         font-size: var(--system-big-text);
         padding: 41.85px;
+        height: 70.5px;
         text-align: left;
         border-bottom: var(--system-light-border-width) solid var(--system-text-color);
         height: auto;
@@ -506,6 +507,7 @@
     ._input_general{
         font-size: var(--system-big-text);
         padding: 41.85px;
+        height: 70.5px;
         text-align: left;
         border-bottom: var(--system-regular-border-width) solid var(--system-bg-color);
         width: 91%;
@@ -607,7 +609,7 @@
     /* Special objects */ 
     /* Button big */
     ._button_big{
-        height: 160px;
+        height: 152px;
         width: 400px;
         font-size: 300%;
         border-radius: var(--system-radius-value);
@@ -621,6 +623,31 @@
             vertical-align: middle;
             display: table-cell; 
         }
+    
+    ._floating_buttons{
+        /*position*/
+        position:absolute;
+        margin: 139.5% 0% 0% 30%;
+    }
+        ._floating_button{
+            /* style and internal text*/
+            font-family: Roboto, Arial, Helvetica, sans-serif; 
+            vertical-align: middle;
+            height: 152px;
+            width: 400px;
+            font-size: 300%;
+            border-radius: var(--system-radius-value);
+            text-align: center;
+            align-items: center;
+            display: table !important;
+            margin-bottom: 20px; 
+        }
+            ._floating_button p{
+                text-align:center; 
+                vertical-align: middle;
+                display: table-cell; 
+            }
+    
     ._big_selector{
         font-size: 450%;
         width: 80%;
