@@ -648,7 +648,7 @@ a{
         border-radius: var(--system-radius-value);
         text-align: center;
         align-items: center;
-        display: table !important;
+        display: table ;
         margin-bottom: 20px; 
     }
         ._floating_button p{
