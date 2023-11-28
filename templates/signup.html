@@ -25,21 +25,21 @@ Adminde Signup
             <input class="_input_general color_2_bg color_1_tx" type="password" placeholder="Password" id="i_pass">
             <input class="_input_general color_2_bg color_1_tx" type="password" placeholder="Password" id="i_pass_repeat">
         </div>
-        <div class="_mbc_inputs " id="_stage_1">
+        <div class="_mbc_inputs _hidden" id="_stage_1">
             <input class="_input_general color_2_bg color_1_tx" type="number" placeholder="Phone" id="i_phone">
             <input class="_input_general color_2_bg color_1_tx" type="text" placeholder="Birthday DD.MM.YYYY" id="i_birthday">
             <input class="_input_general color_2_bg color_1_tx" type="text" placeholder="Postal Code" id="i_postal_code">
         </div>
         <div class="_mbc_inputs _hidden" id="_stage_2">
-            <input class="_big_selector _s_main _s_box_main" type="button" id="_plan_op1" value="Free Plan (5 users) $0.00 USD / month">
-            <input class="_big_selector _s_main _s_box_main" type="button" id="_plan_op2" value="Standard (25 users) $5.00 USD / month">
-            <input class="_big_selector _s_main _s_box_main" type="button" id="_plan_op3" value="Pro Plan (50 users) $9.00 / month">
+            <div class="_big_selector color_1_bg color_2_tx color_2_border" id="_plan_op1"><bold>Free Plan</bold> (5 Users)<br> <italic>$0.00 USD / month</italic></div>
+            <div class="_big_selector color_1_bg color_2_tx color_2_border" id="_plan_op2"><bold>Standard</bold> (20 Users)<br> <italic>$5.00 USD / month</italic></div>
+            <div class="_big_selector color_1_bg color_2_tx color_2_border" id="_plan_op3"><bold>Pro Plan</bold> (50 Users)<br> <italic>$15.00 USD / month</italic></div>
         </div>
-        <div class="_mbc_inputs _hidden" id="_stage_3">
+        <div class="_mbc_inputs " id="_stage_3">
             <div class="_terms_box">
-                <input class="_big_checkbox _main" type="checkbox" class="" required placeholder="terms" value="1" id="i_terms">
-                <label class="_label _en _hidden" for="i_terms"> I have read and accept the <a href="/legal" target="_blank">terms and conditions </a> of use. </label>
-                <label class="_label _es _hidden" for="i_terms"> He leido y acepto los <a href="/legal" target="_blank">terminos y condiciones </a> de uso. </label>
+                <input class="_big_checkbox _main" type="checkbox" class="" required placeholder="terms" value="1" id="i_terms_check">
+                <label class="_label _en _hidden" for="i_terms_text_en"><bold>I have read and accept the <a href="/legal" target="_blank">terms and conditions </a> of use.</bold>  </label>
+                <label class="_label _es _hidden" for="i_terms_text_es"><bold>He leido y acepto los <a href="/legal" target="_blank">terminos y condiciones </a> de uso.</bold> </label>
             </div>
         </div>
         <!--div class="_button_big _gray" id="_next_button">

@@ -15,10 +15,10 @@ if(document.getElementById('_apidocs_en')) document.getElementById('_apidocs_en'
 if(document.getElementById('_apidocs_es')) document.getElementById('_apidocs_es').addEventListener('click', function (){ window.location.replace('/apidocs') });
 
 // Boxes triggers
-if(document.getElementById('_opt_new_ws')) document.getElementById('_opt_new_ws').addEventListener('click', function (){window.location.replace("/workspace")});
-if(document.getElementById('_opt_manage_ws')) document.getElementById('_opt_manage_ws').addEventListener('click', function (){window.location.replace("/account")});
-if(document.getElementById('_opt_help')) document.getElementById('_opt_help').addEventListener('click', function (){ window.open('/help', '_blank') });
-if(document.getElementById('_opt_tuto')) document.getElementById('_opt_tuto').addEventListener('click', function (){  window.alert("No tutorials found, Try later again.")  });
+if(document.getElementById('_redirect_last_ws')) document.getElementById('_redirect_last_ws').addEventListener('click', function (){window.location.replace("/workspace")});
+if(document.getElementById('_redirect_wss')) document.getElementById('_redirect_wss').addEventListener('click', function (){window.location.replace("/workspace")});
+if(document.getElementById('_redirect_help')) document.getElementById('_redirect_help').addEventListener('click', function (){ window.open('/help', '_blank') });
+if(document.getElementById('_redirect_tutorials')) document.getElementById('_redirect_tutorials').addEventListener('click', function (){  window.alert("No tutorials found, Try later again.")  });
 
 if(document.getElementById('_set_pin_button')) document.getElementById('_set_pin_button').addEventListener('click', function (){  if(_pinpad_num.length === 6){ _send_pin() }else{window.alert("Pin has to be at least 6 digits long.")} });
 if(document.getElementById('_close_sesion_button')) document.getElementById('_close_sesion_button').addEventListener('click', function (){ window.location.replace("/logout"); });

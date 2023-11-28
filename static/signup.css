@@ -35,8 +35,10 @@
                 grid-area: 3 / 1 / 13 / 2;
             }
             #_stage_1{
+                grid-area: 3 / 1 / 9 / 2;
             }
             #_stage_2{
+                grid-area: 2 / 1 / 24 / 2; 
             }
                 ._big_selector{
                     margin: auto;
@@ -72,9 +74,17 @@
                 height: 50%;
             }
                 ._terms_box{
+                    height: 400px;
                     margin: 20% 4% 0% 4%;
                     text-align: left;
+                    display:  flex;
                 }
+                    #i_terms{
+                    }
+                    #i_terms_text_en{
+                    }
+                    #i_terms_text_es{
+                    }
         #_next_button{
             margin: auto;
         }
