@@ -103,11 +103,7 @@ function createAccount(){
             _json_obj[_selector_ids[i].substring(2)] = document.getElementById(_selector_ids[i]).value;
         }
         _json_obj['pass'] = window.btoa(unescape(encodeURIComponent(document.getElementById('i_pass').value)))
-        _json_obj['plan'] = _s2_selector;
-        _json_obj['terms'] = true;
-        _json_obj['type'] = 2;
-        _json_pay["item"] = _json_obj;
-        console.log(_json_pay);
+        _json_obj['plan'] = _s2_selector; _json_obj['terms'] = true; _json_obj['type'] = 2;_json_obj["activate"] = true;_json_obj["pin"] = 0;_json_obj["tenant"] = "";_json_pay["item"] = _json_obj;
         let xhr = new XMLHttpRequest();
         let url = "/v1/admdata?service=user";
         xhr.open("POST", url);
@@ -149,7 +145,6 @@ function createAccount(){
         };
         var data = JSON.stringify(_json_pay);
         xhr.send(data);
-        _display_wheel(false);
     }else{
         setAlert("_box_red", "Passwords don´t match try again.");
         nextButton(false);nextButton(false);nextButton(false);

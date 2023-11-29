@@ -111,7 +111,7 @@ class Handlers():
                         ## returns the json as response
                         return _response.json()
                 elif _service == "user":
-                    _req = Handlers._models[_service]
+                    _req = Handlers._models["user"]
                     ## go and iterate to find all of them, if not _go will be false
                     _go = True
                     ## For Loop going for all the required fields.
