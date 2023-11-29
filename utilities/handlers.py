@@ -91,22 +91,47 @@ class Handlers():
                 else:
                     return {}
             else:
-                ## Case where session is created.
-                _req = Handlers._models["session"]
-                ## go and iterate to find all of them, if not _go will be false
-                _go = False
-                ## For Loop going for all the required fields.
-                for req_value in _req:
-                    ## if it is not in the parameters, set flag to false.
-                    if req_value in _item:
-                        _go = True
-                if _go:
-                    ## set the url of the service
-                    _url = Helpers.generateURL(_service_url, "session")
-                    ## generate the get call
-                    _response = requests.post(_url, json=_item)
-                    ## returns the json as response
-                    return _response.json()
+                if _service == "session":
+                    ## Case where session is created.
+                    _req = Handlers._models["session"]
+                    ## go and iterate to find all of them, if not _go will be false
+                    _go = False
+                    ## For Loop going for all the required fields.
+                    for req_value in _req:
+                        ## if it is not in the parameters, set flag to false.
+                        if req_value in _item:
+                            _go = True
+                    if _go:
+                        ## set the url of the service
+                        _url = Helpers.generateURL(_service_url, "session")
+                        ## headers
+                        _headers = {'Content-Type': "application/json"}
+                        ## generate the get call
+                        _response = requests.post(_url, json=_item, headers = _headers)
+                        ## returns the json as response
+                        return _response.json()
+                elif _service == "user":
+                    _req = Handlers._models[_service]
+                    ## go and iterate to find all of them, if not _go will be false
+                    _go = True
+                    ## For Loop going for all the required fields.
+                    for req_value in _req:
+                        ## if it is not in the parameters, set flag to false.
+                        if req_value not in _item:
+                            _go = False
+                    if _go:
+                        ## set the url of the service
+                        _url = Helpers.generateURL(_service_url, _service)
+                        ## set the headers
+                        _headers = {'Content-Type': "application/json"}
+                        ## generate the get call
+                        _response = requests.post(_url, json=_item, headers=_headers)
+                        ## returns the json as response
+                        return _response.json()
+                    else:
+                        return {}
+                else:
+                    return {}
         except Exception as e:
             print(" (!) Exception in post_data(): ")
             print(str(e))
