@@ -1,17 +1,3 @@
-<!--
-context = {
-    "user_id": _user_id,
-    "user_name": _user['username'],
-    "user_type": _user['type'],
-    "user_fname": _user['fname'],
-    "user_pin": _user['pin'] if len(_user['pin']) > 0 else False,
-    "ws_informal_name": _ws['InformalName'] if _ws['InformalName'] else False,
-    "ws_tax_id": _ws['TaxId'] if _ws['TaxId'] else False,
-    "trx_last_login_date": _llog['dateTime'] if _llog['dateTime'] else False
-}
--->
-
-
 {% extends 'base.html' %}
 {% block title %}
 Dashboard - {{ super() }}
@@ -41,15 +27,15 @@ Adminde Dashboard
             </div>
             {% else %}
             <div class="_bbx_text _en _hidden">
-                New Workspace
+                New <br>Workspace
             </div>
             <div class="_bbx_text _es _hidden">
-                Crear Workspace
+                Crear <br>Workspace
             </div>
             {% endif %}
         </div>
         {% if ws_tax_id %}
-        <div class="_big_menu_box  " id="_redirect_wss">
+        <div class="_big_menu_box" id="_redirect_wss">
             <div class="_bbx_text _en _hidden">
                 View all your <bold_italic>Workspaces</bold_italic>
             </div>
@@ -58,7 +44,7 @@ Adminde Dashboard
             </div>
         </div>
         {% endif %}
-        <div class="_big_menu_box   " id="_redirect_tutorials">
+        <div class="_big_menu_box" id="_redirect_tutorials">
             <div class="_bbx_text _en _hidden">
                 Tutorials and <br>Guides
             </div>
@@ -66,7 +52,7 @@ Adminde Dashboard
                 Tutoriales y <br>Guias
             </div>
         </div>
-        <div class="_big_menu_box  " id="_redirect_help">
+        <div class="_big_menu_box" id="_redirect_help">
             <div class="_bbx_text _en _hidden">
                 Request <br> <bold_italic>Help</bold_italic>
             </div>
@@ -74,7 +60,7 @@ Adminde Dashboard
                 Solicitar <br><bold_italic>Ayuda</bold_italic>
             </div>
         </div>
-        <div class="_big_menu_box  " id="_redirect_last_login">
+        <div class="_big_menu_box" id="_last_login">
             <div class="_bbx_text _en _hidden">
                 Last Login: <br> Date: {{ trx_last_login_date }}
             </div>
@@ -113,17 +99,17 @@ Adminde Dashboard
 {% endblock %}
 
 {% block _flex_menu %}
-<div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% else %}_en _hidden {% endif %}" id="_profile_en">Profile</div>
-<div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% else %}_es _hidden {% endif %}" id="_profile_es">Perfil</div>
-<div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% else %}_en _hidden {% endif %}" id="_create_ws_en">New Workspace</div>
-<div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% else %}_es _hidden {% endif %}" id="_create_ws_es">Crear Workspace</div>
-<div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% else %}_en _hidden {% endif %}" id="_manage_ws_en">Edit Workspace</div>
-<div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% else %}_es _hidden {% endif %}" id="_manage_ws_es">Administrar WS</div>
-<div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% else %}_en _hidden {% endif %}" id="_help_en">Request Help</div>
-<div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% else %}_es _hidden {% endif %}" id="_help_es">Ayuda</div>
+<div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% else %}_en _hidden {% endif %}" id="_profile_en">Account</div>
+<div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% else %}_es _hidden {% endif %}" id="_profile_es">Cuenta</div>
+<div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% else %}_en _hidden {% endif %}" id="_ws_view_en">Workspaces</div>
+<div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% else %}_es _hidden {% endif %}" id="_ws_view_es">Workspaces</div>
+<div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% else %}_en _hidden {% endif %}" id="_apidocs_en">API Docs</div>
+<div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% else %}_es _hidden {% endif %}" id="_apidocs_es">API Docs</div>
 {% if user_type > 2 %}
-<div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% endif %}" id="_trx_mgr">Trx Manager</div>
-<div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% endif %}" id="_usr_mgr">User Manager</div>
+<div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% else %}_en _hidden {% endif %}" id="_trx_mgr_en">Transactions</div>
+<div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% else %}_es _hidden {% endif %}" id="_trx_mgr_es">Transacciones</div>
+<div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% else %}_en _hidden {% endif %}" id="_usr_mgr_en">Users</div>
+<div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% else %}_es _hidden {% endif %}" id="_usr_mgr_es">Usuarios</div>
 {% endif %}
 <div class="_menu_box _box_main _box_main_bot _en _hidden" id="_logout_en">Close Session</div>
 <div class="_menu_box _box_main _box_main_bot _es _hidden" id="_logout_es">Cerrar Sesion</div>
