@@ -267,75 +267,30 @@ def dashboard():
 def signup():
     try:
         ## Set a logged variable requesting the _id and _us cookies.
-        _logged = True if request.cookies.get('_id') and request.cookies.get('_un') else False
+        _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
         ## validate if _logged
-        if _logged:
-            ## if present, save them into vars 
-            _id = request.cookies.get('_id')
-            _un = request.cookies.get('_un')
-            ## Create a auth object with the cookie values.
-            _auth_obj = Helpers.auth(_id, _un)
-            ## Save the status from the auth object
-            _status = _auth_obj.json().get('status')
+        if _required_cookies:
+            ## if present, save the _id and _un
+            _session_id = request.cookies.get('SessionId')
+            _client_bw = request.cookies.get('browserVersion')
+            _client_ip = request.cookies.get('clientIP')
+            ## user search
+            _user_id = Handlers.get_username(_alx_url, _session_id, _client_bw, _client_ip)
             ## if status valid, redirect to /dashboard and delete cookie flag, otherwise redirects to /login and deletes _id and _un cookies
-            if _status == 'valid':
+            if _user_id:
                 _dash = make_response(redirect('/dashboard'))
-                _dash.delete_cookie('_flag')
+                _dash.delete_cookie('_flag_status')
+                _dash.delete_cookie('_flag_content')
                 return _dash
             else:
                 _log = make_response(redirect('/login'))
-                _log.delete_cookie('_id')
-                _log.delete_cookie('_un')
-                _log.delete_cookie('_flag')
+                _log.delete_cookie('SessionId')
+                _log.delete_cookie('browserVersion')
+                _log.delete_cookie('clientIP')
                 return _log
         else:
             ### In case _id and _un not presnt, renders signup.html page.
             return render_template('signup.html')
-    except Exception as e:
-        return {"status": "An error Occurred", "error": str(e)}
-
-## Login process
-@app.route('/s_signup', methods=['POST'])
-def s_signup():
-    try:
-        ## Validate required values, first creating a list of all required
-        req_fields = ['i_full_name', 'i_username', 'i_email', 'i_phone', 'i_birthday', 'i_postal_code', 'i_pass', 'i_plan', 'i_terms']
-        ## go and iterate to find all of them, if not _go will be false
-        _go = True
-        for req_value in req_fields:
-            if req_value not in request.json:
-                _go = False
-        ## Initialize the payload object
-        _payload = {}
-        ## validate if all the required params are present
-        if _go:
-            ## Create a list of the correct names 
-            _correct_fields_name = ['fname', 'username', 'email', 'phone', 'bday', 'postalCode', 'pass', 'plan', 'terms']
-            ## initialize a counter
-            i = 0
-            ## Create a for each in the _correct_fields
-            for _corr in _correct_fields_name:
-                ## for each loop, add a parameter and value to the payload object. Adds 1 to the counter for each iteration
-                _payload[_corr] = request.json[req_fields[i]]
-                i += 1
-            ## Add extra values fixed.
-            _payload['type'] = '2'
-            _payload['pin'] = 0
-            _payload['activate'] = True
-            ## Set the url to be called.
-            _url = _alx_url+'/user'
-            ## Set the headers to call the service
-            _headers = {'Content-type': 'application/json'}
-            ## create a post request sending the _payload and headers
-            _response = requests.post(_url, json=_payload, headers=_headers)
-            ## Validate the response and if same as 202 retrieves a success and 202 status
-            if str(_response.status_code) == str(202):
-                return jsonify({"message": "user successfully created"}), 202
-            ## Else, return a error message and the same error message returned by the alexandria api
-            else:
-                return jsonify({"status": "error", "code": _response.status_code, "reason": _response.json().get('reason')}), 200
-        else: 
-            return jsonify({"status": "error", "code": "403", "reason": "Missing required fields."}), 403 
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
 
