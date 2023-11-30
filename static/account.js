@@ -2,8 +2,8 @@
     JS functions for the account.html file.
 */
 // Triggers
-if(document.getElementById('_save_button')) document.getElementById('_save_button').addEventListener('click', function (){ _pinpad_visibility(true); console.log(" Sent to update. ")});
-if(document.getElementById('_cancel_button')) document.getElementById('_cancel_button').addEventListener('click', function (){ window.location.replace("/dashboard") });
+if(document.getElementById('_fb_1')) document.getElementById('_fb_1').addEventListener('click', function (){ _pinpad_visibility(true); console.log(" Sent to update. ")});
+if(document.getElementById('_fb_2')) document.getElementById('_fb_2').addEventListener('click', function (){ window.location.replace("/dashboard") });
 if(document.getElementById('_back_dash_en')) document.getElementById('_back_dash_en').addEventListener('click', function (){ window.location.replace("/dashboard") });
 if(document.getElementById('_back_dash_es')) document.getElementById('_back_dash_es').addEventListener('click', function (){ window.location.replace("/dashboard") });
 if(document.getElementById('_close_sesion_en')) document.getElementById('_close_sesion_en').addEventListener('click', function (){ window.location.replace("/logout") });
@@ -18,9 +18,11 @@ if(document.getElementsByClassName("_floating_buttons")[0])document.getElementsB
 // display pinpad
 function _pinpad_visibility(action){
     if(action){
+        floating_buttons(false)
         document.getElementsByClassName("_main_block_content")[0].classList.add("_hidden");
         document.getElementsByClassName("_main_block_numpad")[0].classList.remove("_hidden");
     }else{
+        floating_buttons(true)
         document.getElementsByClassName("_main_block_content")[0].classList.remove("_hidden");
         document.getElementsByClassName("_main_block_numpad")[0].classList.add("_hidden");
     }
@@ -59,5 +61,14 @@ function _send_user_update(){
         };
         var data = JSON.stringify(_json_obj);
         xhr.send(data);
+    }
+}
+
+/* show/hide floating buttons function */
+function floating_buttons(show){
+    if (show){
+        document.getElementsByClassName("_floating_buttons")[0].classList.remove("_hidden");
+    }else{
+        document.getElementsByClassName("_floating_buttons")[0].classList.add("_hidden");
     }
 }
