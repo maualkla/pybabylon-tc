@@ -301,36 +301,38 @@ def signup():
 def account():
     try:
         ## Set a logged variable requesting the _id and _us cookies.
-        _logged = True if request.cookies.get('_id') and request.cookies.get('_un') else False
+        _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
+        _log = make_response(redirect('/login'))
+        _log.delete_cookie('SessionId')
+        _log.delete_cookie('browserVersion')
+        _log.delete_cookie('clientIP')
         ## validate if _logged
-        if _logged:
+        if _required_cookies:
             ## if present, save the _id and _un
-            _id = request.cookies.get('_id')
-            _un = request.cookies.get('_un')
-            ## generate a auth object and save the response in _auth_obj
-            _auth_obj = Helpers.auth(_id, _un)
-            ## get status 
-            _status = _auth_obj.json().get('status')
-            context = {
-                "_fullname": "Full Name",## requires to get the fullname
-                "_username": "username",
-                "_phone": 4491042429,
-                "_birthday": "2023-10-01", ## format YYYY-MM-DD
-                "_postcode": 20115,
-                "_pin": "Pin",
-                "_password": "Password"
-            }
-            if _status == 'valid':
+            _session_id = request.cookies.get('SessionId')
+            _client_bw = request.cookies.get('browserVersion')
+            _client_ip = request.cookies.get('clientIP')
+            ## user search
+            _user_id = Handlers.get_username(_alx_url, _session_id, _client_bw, _client_ip)
+            ## if status valid, redirect to /dashboard and delete cookie flag, otherwise redirects to /login and deletes _id and _un cookies
+            if _user_id:
+                ## get status 
+                _full_user_data = Handlers.get_data(_alx_url, request, "user", _user_id)
+                _user_data = _full_user_data["items"][0]
+                context = {
+                    "email": _user_id,
+                    "fname": _user_data["fname"],
+                    "username": _user_data["username"],
+                    "phone": _user_data["phone"],
+                    "bday": _user_data["bday"], 
+                    "postalCode": _user_data["postalCode"]
+                }
                 return render_template('account.html', **context)
             else:
-                ## return the login service and delete _id and _un cookies.
-                _log = make_response(redirect('/login'))
-                _log.delete_cookie('_id')
-                _log.delete_cookie('_un')
+                ## return to login 
                 return _log
         else:
             ## return to login 
-            _log = make_response(redirect('/login'))
             return _log
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}

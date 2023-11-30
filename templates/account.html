@@ -8,7 +8,7 @@ Account - {{ super() }}
 {% endblock %}
 
 {% block _title %}
-Account 
+Adminde Account 
 {% endblock %}
 
 {% block _flex_box %}
@@ -18,15 +18,15 @@ Account
     </div>
     <div class="_main_block_content">
         <div class="_main_boxes">
-            <input class="_input_general _main" type="text" id="_input_fname" placeholder="Full name" value="{{ _fullname }}"/> 
-            <input class="_input_general _main" type="text" id="_input_username" placeholder="{{_username }}" value="{{_username }}"/> 
-            <input class="_input_general _main" type="number" id="_input_phone" placeholder="{{_phone }}" value="{{_phone }}"/> 
-            <input class="_input_general _main" type="date" id="_input_bday" placeholder="{{_birthday }}" value="{{_birthday }}"/> 
-            <input class="_input_general _main" type="number" id="_input_postalCode" placeholder="{{_postcode }}" value="{{_postcode }}"/> 
-            <input class="_input_general _main" type="password" id="_input_pin" placeholder="New Pin" value=""/> 
-            <input class="_input_general _main" type="password" id="_input_pass" placeholder="New Password" value=""/> 
+            <input class="_input_general color_2_bg color_1_tx" type="text" id="_input_fname" placeholder="Full name" value="{{ fname }}"/> 
+            <input class="_input_general color_2_bg color_1_tx" type="text" id="_input_username" placeholder="{{_username }}" value="{{username }}"/> 
+            <input class="_input_general color_2_bg color_1_tx" type="number" id="_input_phone" placeholder="{{_phone }}" value="{{phone }}"/> 
+            <input class="_input_general color_2_bg color_1_tx" type="text" id="_input_bday" placeholder="{{_birthday }}" value="{{bday }}"/> 
+            <input class="_input_general color_2_bg color_1_tx" type="number" id="_input_postalCode" placeholder="{{_postcode }}" value="{{postalCode }}"/> 
+            <div class="_menu_box _custom_mb color_3_bg color_1_tx color_1_border_bottom" id="_input_pin" ><bold_italic>Change Password</bold_italic></div>
+            <div class="_menu_box _custom_mb color_3_bg color_1_tx color_1_border_bottom" id="_input_pass" ><bold_italic>Change Pin</bold_italic></div>
         </div>
-        <div class="_main_buttons">
+        <!--div class="_main_buttons">
             <div class="_button_big _altern" id="_save_button">
                 <p class="_en _hidden">Save</p>
                 <p class="_es _hidden">Guardar</p>
@@ -35,7 +35,7 @@ Account
                 <p class="_en _hidden">Back</p>
                 <p class="_es _hidden">Regresar</p>
             </div>
-        </div>
+        </div-->
     </div>
     <div class="_hidden _main_block_numpad">
         <div class="_big_numpad" id="_set_pin">
@@ -72,6 +72,10 @@ Account
 <div class="_menu_box _box_main _box_main_bot _es _hidden" id="_close_sesion_es">Cerrar Sesion</div>
 {% endblock %}
 
+{% block floating_button_1_style %} color_2_bg color_1_tx color_2_border {% endblock %}
+{% block floating_button_1 %} <p class="_en _hidden"><bold>Save</bold></p><p class="_es _hidden"><bold>Guardar</bold></p> {% endblock %}
+{% block floating_button_2_style %} color_1_bg color_2_tx color_2_border{% endblock %}
+{% block floating_button_2 %} <p class="_en _hidden"><bold>Cancel</bold></p><p class="_es _hidden">Cancelar</p> {% endblock %}
 
 {% block scripts %}
 {{ super() }}

@@ -3,6 +3,7 @@ let errors = 0;
 // Vars to be used
 let _stage = 0, _valid = false, _s2_selector = 0, _s3_selector = false, counter = 0;
 
+/* floating buttons activation */
 if(document.getElementsByClassName("_floating_buttons")[0])document.getElementsByClassName("_floating_buttons")[0].classList.remove("_hidden");
 
 // Triggers 

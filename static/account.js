@@ -12,7 +12,8 @@ if(document.getElementById('_close_sesion_es')) document.getElementById('_close_
 if(document.getElementById('_set_pin_button')) document.getElementById('_set_pin_button').addEventListener('click', function (){  if(_pinpad_num.length === 6){ _send_user_update() }else{window.alert("Pin has to be at least 6 digits long.")}});
 if(document.getElementById('_close_sesion_button')) document.getElementById('_close_sesion_button').addEventListener('click', function (){ _pinpad_visibility(false); _pinpad_num = " "; _substract_pinpad();});
 
-
+/* floating buttons activation */
+if(document.getElementsByClassName("_floating_buttons")[0])document.getElementsByClassName("_floating_buttons")[0].classList.remove("_hidden");
 
 // display pinpad
 function _pinpad_visibility(action){

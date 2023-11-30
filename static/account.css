@@ -22,3 +22,9 @@
             margin: auto;
             margin-top: 5%;
         }
+
+
+/* custom menu_box style */
+._custom_mb{
+    margin-bottom: 4px;
+}

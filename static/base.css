@@ -391,6 +391,9 @@ a{
 .color_1_border{
     border: var(--system-regular-border-width) solid var(--system-bg-color) ;
 }
+.color_1_border_bottom{
+    border-bottom: var(--system-regular-border-width) solid var(--system-bg-color) ;
+}
 .color_2_bg{
     background-color: var(--system-text-color);
 }
@@ -399,6 +402,9 @@ a{
 }
 .color_2_border{
     border: var(--system-regular-border-width) solid var(--system-text-color) ;
+}
+.color_2_border_bottom{
+    border-bottom: var(--system-regular-border-width) solid var(--system-text-color) ;
 }
 .color_3_bg{
     background-color: var(--system-altern-color);
@@ -516,10 +522,10 @@ a{
 ._input_general{
     font-size: var(--system-big-text);
     padding: 41.85px;
-    height: 70.5px;
+    height: 86.5px;
     text-align: left;
     border-bottom: var(--system-regular-border-width) solid var(--system-bg-color);
-    width: 91%;
+    width: 91.5%;
 }
     ._input_general::placeholder{
         color: var(--system-bg-color)
