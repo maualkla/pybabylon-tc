@@ -22,7 +22,16 @@
             margin: auto;
             margin-top: 5%;
         }
-
+    ._main_block_content_pwd{
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(23, 1fr);
+        grid-column-gap: 0px;
+        grid-row-gap: 0px;
+    }
+        ._main_boxes_pwd{
+            grid-area: 7 / 1 / 13 / 2;
+        }
 
 /* custom menu_box style */
 ._custom_mb{

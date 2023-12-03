@@ -1,9 +1,12 @@
 /* 
     JS functions for the account.html file.
 */
+
+let _view = 0;
+
 // Triggers
-if(document.getElementById('_fb_1')) document.getElementById('_fb_1').addEventListener('click', function (){ _pinpad_visibility(true); console.log(" Sent to update. ")});
-if(document.getElementById('_fb_2')) document.getElementById('_fb_2').addEventListener('click', function (){ window.location.replace("/dashboard") });
+if(document.getElementById('_fb_1')) document.getElementById('_fb_1').addEventListener('click', function (){ if(_view === 0) {_pinpad_visibility(true); console.log(" Sent to update. "); } if (_view === 1) { console.log(" actions for save password! ")}});
+if(document.getElementById('_fb_2')) document.getElementById('_fb_2').addEventListener('click', function (){ if(_view === 0) { window.location.replace("/dashboard") } if (_view === 1) { display_pass_component(false); _view = 0; } });
 if(document.getElementById('_back_dash_en')) document.getElementById('_back_dash_en').addEventListener('click', function (){ window.location.replace("/dashboard") });
 if(document.getElementById('_back_dash_es')) document.getElementById('_back_dash_es').addEventListener('click', function (){ window.location.replace("/dashboard") });
 if(document.getElementById('_close_sesion_en')) document.getElementById('_close_sesion_en').addEventListener('click', function (){ window.location.replace("/logout") });
@@ -14,6 +17,10 @@ if(document.getElementById('_close_sesion_button')) document.getElementById('_cl
 
 /* floating buttons activation */
 if(document.getElementsByClassName("_floating_buttons")[0])document.getElementsByClassName("_floating_buttons")[0].classList.remove("_hidden");
+
+/* Actions */
+if(document.getElementById("_input_pin")) document.getElementById("_input_pin").addEventListener('click', function(){ _view = 1; display_pass_component(true); });
+if(document.getElementById("_cancel_pass")) document.getElementById("_cancel_pass").addEventListener("click", function(){ display_pass_component(false); floating_buttons(true); })
 
 // display pinpad
 function _pinpad_visibility(action){
@@ -70,5 +77,16 @@ function floating_buttons(show){
         document.getElementsByClassName("_floating_buttons")[0].classList.remove("_hidden");
     }else{
         document.getElementsByClassName("_floating_buttons")[0].classList.add("_hidden");
+    }
+}
+
+/* show / hide password change component */
+function display_pass_component(show){
+    if(show){
+        document.getElementsByClassName("_main_block_content")[0].classList.add("_hidden");
+        document.getElementsByClassName("_main_block_content_pwd")[0].classList.remove("_hidden");
+    }else{
+        document.getElementsByClassName("_main_block_content_pwd")[0].classList.add("_hidden");
+        document.getElementsByClassName("_main_block_content")[0].classList.remove("_hidden");
     }
 }
