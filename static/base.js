@@ -155,7 +155,7 @@ function cleanAlert(){
     document.getElementsByClassName('_main_block_alerts')[0].classList.remove("_box_yellow");
     document.getElementsByClassName('_main_block_alerts')[0].classList.remove("_box_green");
     document.getElementsByClassName('_main_block_alerts')[0].classList.remove("_box_red");
-    deleteAllCookies();
+    //deleteAllCookies();
 }
 
 /// Pinpad functions and triggers 

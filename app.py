@@ -326,7 +326,8 @@ def account():
                     "username": _user_data["username"],
                     "phone": _user_data["phone"],
                     "bday": _user_data["bday"], 
-                    "postalCode": _user_data["postalCode"]
+                    "postalCode": _user_data["postalCode"],
+                    "pin": _user_data["pin"]
                 }
                 return render_template('account.html', **context)
             else:

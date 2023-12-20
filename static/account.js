@@ -30,9 +30,9 @@ if(document.getElementById('_close_sesion_es')) document.getElementById('_close_
 
 if(document.getElementById('_set_pin_button')) document.getElementById('_set_pin_button').addEventListener('click', function (){  
     if(_pinpad_num.length === 6 && _view === 0){ 
-        _send_user_update(_view_0_params()); 
-    } else if(pinpad_num.length === 6 && _view === 2){
-        _send_user_update(_view_2_params());
+       if (_pinpad_num == _context_vars[2]) _send_user_update(_view_0_params()); else setAlert("_box_red", "Pin Incorrect");
+    } else if(_pinpad_num.length === 6 && _view === 2){
+        if (_pinpad_num == _context_vars[2]) _send_user_update(_view_2_params()); else setAlert("_box_red", "Pin Incorrect");
     }else{
         window.alert("Pin has to be at least 6 digits long.")
     }
