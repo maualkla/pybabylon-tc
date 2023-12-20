@@ -13,7 +13,7 @@ if(document.getElementById('_fb_1')) document.getElementById('_fb_1').addEventLi
     if(_view === 0) {
         _pinpad_visibility(true); 
     } 
-    if (_view === 1 && _npass.value.length > 3 && _opass.value.length > 3 && _npass.value == _rnpass.value) 
+    else if (_view === 1 && _npass.value.length > 3 && _opass.value.length > 3 && _npass.value == _rnpass.value) 
     { 
         _send_user_update(_view_1_params());
     }else{
@@ -28,7 +28,15 @@ if(document.getElementById('_back_dash_es')) document.getElementById('_back_dash
 if(document.getElementById('_close_sesion_en')) document.getElementById('_close_sesion_en').addEventListener('click', function (){ window.location.replace("/logout") });
 if(document.getElementById('_close_sesion_es')) document.getElementById('_close_sesion_es').addEventListener('click', function (){ window.location.replace("/logout") });
 
-if(document.getElementById('_set_pin_button')) document.getElementById('_set_pin_button').addEventListener('click', function (){  if(_pinpad_num.length === 6 && _view === 0){ _send_user_update(_view_0_params()); } if(pinpad_num.length === 6 && _vew === 2){_send_user_update(_view_2_params());}else{window.alert("Pin has to be at least 6 digits long.")}});
+if(document.getElementById('_set_pin_button')) document.getElementById('_set_pin_button').addEventListener('click', function (){  
+    if(_pinpad_num.length === 6 && _view === 0){ 
+        _send_user_update(_view_0_params()); 
+    } else if(pinpad_num.length === 6 && _view === 2){
+        _send_user_update(_view_2_params());
+    }else{
+        window.alert("Pin has to be at least 6 digits long.")
+    }
+});
 if(document.getElementById('_close_sesion_button')) document.getElementById('_close_sesion_button').addEventListener('click', function (){ _pinpad_visibility(false); _pinpad_num = " "; _substract_pinpad();});
     
 /* floating buttons activation */
