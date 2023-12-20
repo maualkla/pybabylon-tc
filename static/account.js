@@ -12,16 +12,10 @@ if(document.getElementById('_fb_1')) document.getElementById('_fb_1').addEventLi
     let _opass = document.getElementById("_input_old_pass");
     if(_view === 0) {
         _pinpad_visibility(true); 
-        console.log(" Sent to update. "); 
     } 
-    console.log(_npass.value.length);
-    console.log(_opass.value.length);
-    console.log(_npass.value);
-    console.log(_rnpass.value);
-    if (_view === 1 && _npass.value.length < 3 && _opass.value.length > 3 && _npass.value == _rnpass.value) 
+    if (_view === 1 && _npass.value.length > 3 && _opass.value.length > 3 && _npass.value == _rnpass.value) 
     { 
-        console.log(" actions for save password! ")
-
+        _send_user_update(_view_1_params());
     }else{
         setAlert("_box_yellow", "New password dont match.");
         _npass.value = "";
