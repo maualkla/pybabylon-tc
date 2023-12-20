@@ -316,6 +316,7 @@ def account():
             _user_id = Handlers.get_username(_alx_url, _session_id, _client_bw, _client_ip)
             ## if status valid, redirect to /dashboard and delete cookie flag, otherwise redirects to /login and deletes _id and _un cookies
             if _user_id:
+                print(_user_id)
                 ## get status 
                 _full_user_data = Handlers.get_data(_alx_url, request, "user", _user_id)
                 _user_data = _full_user_data["items"][0]
@@ -632,8 +633,10 @@ def data_ops():
                 return jsonify({}), 403
         ## method PUT
         elif request.method == 'PUT':
+            print("put generic service")
             ## validate service
             if request.args.get('service') and request.json['item']:
+                print(" contains required args")
                 ## call handlers service
                 _response = Handlers.put_data(_alx_url, request, request.args.get('service'), request.json['item'])
                 if _response: 

@@ -91,15 +91,20 @@ function _send_user_update(_json_obj = False){
     if(_json_obj){
         _display_wheel(true);
         _json_obj['email'] = _context_vars[0];
+        let json_out = {};
+        json_out["item"] = _json_obj;
         let xhr = new XMLHttpRequest();
-        let url = "/v1/admdata";
+        let url = "/v1/admdata?service=user";
+        console.log(json_out);
+        console.log(url);
         xhr.open("PUT", url);
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.onreadystatechange = function () {
             try
             {
                 if (xhr.readyState === 4 && xhr.status === 202) {
-                    window.location.replace("/dashboard");
+                    //window.location.replace("/dashboard");
+                    setAlert("_box_green", "UPDATED");
                 }
             }
             catch(e)
@@ -118,7 +123,7 @@ function _send_user_update(_json_obj = False){
                 }
             }
         };
-        var data = JSON.stringify(_json_obj);
+        var data = JSON.stringify(json_out);
         xhr.send(data);
     }
 }
