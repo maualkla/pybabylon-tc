@@ -118,6 +118,7 @@ function _send_user_update(_json_obj = False){
                     _view_2 = 0;
                     _pinpad_num = "";
                     // clean textboxes
+                    _display_pinpad("Type Pin");
                     document.getElementById("_input_old_pass").value = "";
                     document.getElementById("_input_new_pass").value = "";
                     document.getElementById("_input_new_pass_repeat").value = "";
