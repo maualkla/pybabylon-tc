@@ -345,18 +345,18 @@ def account():
 @app.route('/workspace')
 def workspace():
     try: 
-        ## Set a logged variable requesting the _id and _us cookies.
-        _logged = True if request.cookies.get('_id') and request.cookies.get('_un') else False
+         ## Set a logged variable requesting the _id and _us cookies.
+        _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
+        _log = make_response(redirect('/login'))
+        _log.delete_cookie('SessionId')
+        _log.delete_cookie('browserVersion')
+        _log.delete_cookie('clientIP')
         ## validate if _logged
-        if _logged:
-            ## if present, save the _id and _un
-            _id = request.cookies.get('_id')
-            _un = request.cookies.get('_un')
-            ## generate a auth object and save the response in _auth_obj
-            _auth_obj = Helpers.auth(_id, _un)
+        if _required_cookies:
+            ## level 2 fixed
             _level = "2"
             ## get status 
-            _status = _auth_obj.json().get('status')
+            _status = "valid"
             context = {
                 "_logged": "Full Name",## requires to get the fullname
                 "_username": "username",
@@ -378,9 +378,8 @@ def workspace():
                 return _log
         else:
             ## return to login 
-            _log = make_response(redirect('/login'))
             return _log
-    except Exception as e: 
+    except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
 
 
