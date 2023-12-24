@@ -24,7 +24,7 @@ if(document.getElementById('_fb_1')) document.getElementById('_fb_1').addEventLi
         _rnpass.value = ""; 
     }
 });
-if(document.getElementById('_fb_2')) document.getElementById('_fb_2').addEventListener('click', function (){ if(_view === 0) { window.location.replace("/dashboard") } if (_view === 1) { display_pass_component(false); _view = 0; } });
+if(document.getElementById('_fb_2')) document.getElementById('_fb_2').addEventListener('click', function (){ if(_view === 0) { window.location.replace("/dashboard") } else if (_view === 1) { display_pass_component(false); _view = 0; } });
 if(document.getElementById('_back_dash_en')) document.getElementById('_back_dash_en').addEventListener('click', function (){ window.location.replace("/dashboard") });
 if(document.getElementById('_back_dash_es')) document.getElementById('_back_dash_es').addEventListener('click', function (){ window.location.replace("/dashboard") });
 if(document.getElementById('_close_sesion_en')) document.getElementById('_close_sesion_en').addEventListener('click', function (){ window.location.replace("/logout") });
@@ -80,8 +80,8 @@ function _view_0_params(){
 // prepare passw params
 function _view_1_params(){
     let _json_obj = {};
-    _json_obj["oldPass"] = document.getElementById("_input_old_pass").value;
-    _json_obj["pass"] = document.getElementById("_input_new_pass").value;
+    _json_obj["oldPass"] = window.btoa(unescape(encodeURIComponent(document.getElementById("_input_old_pass").value)));
+    _json_obj["pass"] = window.btoa(unescape(encodeURIComponent(document.getElementById("_input_new_pass").value)));
     return _json_obj;
 }
 
@@ -109,8 +109,22 @@ function _send_user_update(_json_obj = False){
             try
             {
                 if (xhr.readyState === 4 && xhr.status === 202) {
-                    window.location.replace("/dashboard");
-                    //setAlert("_box_green", "Data Updated");
+                    //window.location.replace("/dashboard");
+                    // hide views
+                    display_pass_component(false);
+                    _pinpad_visibility(false);
+                    // clean vars
+                    _view = 0;
+                    _view_2 = 0;
+                    _pinpad_num = "";
+                    // clean textboxes
+                    document.getElementById("_input_old_pass").value = "";
+                    document.getElementById("_input_new_pass").value = "";
+                    document.getElementById("_input_new_pass_repeat").value = "";
+                    // show alert
+                    setAlert("_box_green", "Changes Saved");
+                    // hide wheel
+                    _display_wheel(false);
                 }
             }
             catch(e)
