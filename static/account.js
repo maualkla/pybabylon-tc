@@ -3,6 +3,8 @@
 */
 
 let _view = 0;
+let _view_2 = 0;
+_pinpad_num = "";
 
 // Triggers
 if(document.getElementById('_fb_1')) document.getElementById('_fb_1').addEventListener('click', function ()
@@ -30,9 +32,13 @@ if(document.getElementById('_close_sesion_es')) document.getElementById('_close_
 
 if(document.getElementById('_set_pin_button')) document.getElementById('_set_pin_button').addEventListener('click', function (){  
     if(_pinpad_num.length === 6 && _view === 0){ 
-       if (_pinpad_num == _context_vars[2]) _send_user_update(_view_0_params()); else setAlert("_box_red", "Pin Incorrect");
+        console.log(1)
+       if (parseInt(_pinpad_num) == _context_vars[1]) _send_user_update(_view_0_params()); else setAlert("_box_red", "Pin Incorrect");
     } else if(_pinpad_num.length === 6 && _view === 2){
-        if (_pinpad_num == _context_vars[2]) _send_user_update(_view_2_params()); else setAlert("_box_red", "Pin Incorrect");
+        console.log(2); let pass = false;
+        if (_view_2 === 0 ){ 
+            if (parseInt(_pinpad_num) == _context_vars[1]) { pass = true; _view_2 = 1; _display_pinpad("Type New Pin"); _pinpad_num = "";} else { pass = true; setAlert("_box_red", "Pin typed is incorrect. Try again."); }
+        }else if (_view_2 === 1 && pass == false) {_send_user_update(_view_2_params());_view_2 = 0;}
     }else{
         window.alert("Pin has to be at least 6 digits long.")
     }
@@ -44,7 +50,7 @@ if(document.getElementsByClassName("_floating_buttons")[0])document.getElementsB
 
 /* Actions */
 if(document.getElementById("_input_pass")) document.getElementById("_input_pass").addEventListener('click', function(){ _view = 1; display_pass_component(true); });
-if(document.getElementById("_input_pin")) document.getElementById("_input_pin").addEventListener("click", function(){ _view = 2; _pinpad_visibility(true); })
+if(document.getElementById("_input_pin")) document.getElementById("_input_pin").addEventListener("click", function(){ _display_pinpad("Type Old Pin"); _view = 2; _pinpad_visibility(true); })
 
 // display pinpad
 function _pinpad_visibility(action){
@@ -82,7 +88,7 @@ function _view_1_params(){
 // prepare pin params
 function _view_2_params(){
     let _json_obj = {};
-    _json_obj['pin'] = _pinpad_num;
+    _json_obj['pin'] = parseInt(_pinpad_num);
     return _json_obj;
 }
 
@@ -103,8 +109,8 @@ function _send_user_update(_json_obj = False){
             try
             {
                 if (xhr.readyState === 4 && xhr.status === 202) {
-                    //window.location.replace("/dashboard");
-                    setAlert("_box_green", "UPDATED");
+                    window.location.replace("/dashboard");
+                    //setAlert("_box_green", "Data Updated");
                 }
             }
             catch(e)
