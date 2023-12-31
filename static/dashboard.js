@@ -15,7 +15,7 @@ if(document.getElementById('_apidocs_en')) document.getElementById('_apidocs_en'
 if(document.getElementById('_apidocs_es')) document.getElementById('_apidocs_es').addEventListener('click', function (){ window.location.replace('/apidocs') });
 
 // Boxes triggers
-if(document.getElementById('_redirect_last_ws')) document.getElementById('_redirect_last_ws').addEventListener('click', function (){window.location.replace("/workspace")});
+// a inline onclick added //if(document.getElementById('_redirect_last_ws')) document.getElementById('_redirect_last_ws').addEventListener('click', function (){window.location.replace("/workspace")});
 if(document.getElementById('_redirect_wss')) document.getElementById('_redirect_wss').addEventListener('click', function (){window.location.replace("/workspace")});
 if(document.getElementById('_redirect_help')) document.getElementById('_redirect_help').addEventListener('click', function (){ window.open('/help', '_blank') });
 if(document.getElementById('_redirect_tutorials')) document.getElementById('_redirect_tutorials').addEventListener('click', function (){  window.alert("No tutorials found, Try later again.")  });
