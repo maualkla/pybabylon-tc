@@ -341,6 +341,16 @@ def account():
 
 ################################################################################################################
 
+@app.route('/workspace/<id>')
+def word_up(id):
+    ## validate the user is allowed to see this page. 
+    ## check username
+    ## check if workspace id is of this user.
+    ## if it is, display info
+    ## if not, return to /worspace
+    return id
+
+
 ## Workspace Service.
 @app.route('/workspace')
 def workspace():
