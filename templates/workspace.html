@@ -18,7 +18,7 @@ Adminde Workspcs
     </div>
     <div class="_main_block_content {% if user_pin == False %} _hidden {% endif %} ">
         {% if ws_list %}
-        <div class="_big_menu_box _box_main_bot" id="">
+        <div class="_big_menu_box _box_main_bot" id="_create_ws">
             <div class="_menu_box_clon _en _hidden">
                 <bold_italic>Create</bold_italic> a Workspace
             </div>
@@ -43,7 +43,7 @@ Adminde Workspcs
         </div>
         {% endfor %}
         {% else %}
-        <div class="_big_menu_box color_3_bg color_1_tx _box_main_bot" id="">
+        <div class="_big_menu_box color_3_bg color_1_tx _box_main_bot" id="_no_workspaces">
             <div class="_bbx_text _en _hidden">
                 No Workspaces created yet. <bold_italic>Create Workspace </bold_italic>
             </div>
