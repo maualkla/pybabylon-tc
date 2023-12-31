@@ -354,17 +354,12 @@ def workspace_option(_id):
         _client_ip = request.cookies.get('clientIP')
         _user_id = Handlers.get_username(_alx_url, _session_id, _client_bw, _client_ip)
         if _user_id:
-            print("(1) userid")
             if _id == 'new':
-                print("(2) id")
                 return render_template('new_workspace.html')
             else:
-                print("(3) wsdata")
                 ##_userdata = Handlers.get_data(_alx_url, request, "user", _user_id)
                 _filter = ":"+_user_id
                 _wsdata = Handlers.get_data(_alx_url, request, "workspace", _id, "owner"+_filter)
-                print(_wsdata['containsData'])
-                print(True)
                 if _wsdata['containsData'] == True:
                     return _id
                 else: 
