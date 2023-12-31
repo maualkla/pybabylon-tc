@@ -55,11 +55,11 @@ Adminde Workspce
             <div class="_num_button _altern" id="_num_button_del"><p><</p></div>
         </div>
         <div class="_numpad_buttons">
-            <div class="_button_big _gray" id="_set_pin_button">
+            <div class="_floating_button color_2_bg color_1_tx color_2_border" id="_set_pin_button">
                 <p class="_en _hidden">Create</p>
                 <p class="_es _hidden">Crear</p>
             </div>
-            <div class="_button_big _main _box_main" id="_close_sesion_button">
+            <div class="_floating_button color_1_bg color_2_tx color_2_border" id="_close_sesion_button">
                 <p class="_en _hidden">Cancel</p>
                 <p class="_es _hidden">Cancelar</p>
             </div>
@@ -86,5 +86,6 @@ Adminde Workspce
 
 {% block scripts %}
 {{ super() }}
+<script> const _context_vars = ["{{ user_id }}", {{ user_pin }}]</script>
 <script src="../static/new_workspace.js"></script>
 {% endblock %}

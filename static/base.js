@@ -282,3 +282,13 @@ const _redirect = (target) => {
     _display_wheel(true);
     window.location.replace("/"+target);
 }
+
+// show/hide floating buttons
+const _display_fbuttons = (_state) => {
+    let _fb = document.getElementsByClassName("_floating_buttons")[0]
+    if(_state){
+        _fb.classList.remove("_hidden")
+    }else{
+        _fb.classList.add("_hidden")
+    }
+}

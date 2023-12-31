@@ -354,16 +354,28 @@ def workspace_option(_id):
         _client_ip = request.cookies.get('clientIP')
         _user_id = Handlers.get_username(_alx_url, _session_id, _client_bw, _client_ip)
         if _user_id:
+            print(_user_id)
+            _userdata = Handlers.get_data(_alx_url, request, "user", _user_id)
+            _user = _userdata['items'][0]
+            print(_user)
+            context = {
+                "user_id": _user_id,
+                "user_name": _user['username'],
+                "user_type": _user['type'],
+                "user_fname": _user['fname'],
+                "user_pin": _user['pin'],
+                "_flag_status": "",
+                "_flag_content": ""
+            }
             if _id == 'new':
-                return render_template('new_workspace.html')
+                return render_template('new_workspace.html', **context)
             else:
-                ##_userdata = Handlers.get_data(_alx_url, request, "user", _user_id)
                 _filter = ":"+_user_id
                 _wsdata = Handlers.get_data(_alx_url, request, "workspace", _id, "owner"+_filter)
                 if _wsdata['containsData'] == True:
                     return _id
                 else: 
-                    _ws = make_response(redirect('/workspace'))
+                    _ws = make_response(redirect('/workspace'), **context)
                     return _ws
     ## validate the user is allowed to see this page. 
     ## check username
