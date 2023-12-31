@@ -26,13 +26,13 @@ Adminde Workspcs
         {% for ws in ws_list %}
         <div class="_box_custom_ws _box_main_bot" id="">
             <div class="_bc_ws_inf">
-                {{ws['InformalName']}}
+                {{ws['InformalName'][:15]}}{% if ws['InformalName']|length > 15 %}..{% endif %}
             </div>
             <div class="_bc_ws_tax">
                 {{ws['TaxId']}}
             </div>
             <div class="_bc_ws_cit">
-                {{ws['City']}}
+                {{ws['City'][:15]}}{% if ws['City']|length > 15 %}..{% endif %}
             </div>
             <div class="_bc_ws_pos">
                 {{ws['PostalCode']}}

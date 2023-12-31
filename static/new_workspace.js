@@ -84,15 +84,15 @@ function _create_workspace(){
     if(document.getElementById("_input_TaxId").value.length > 0){
         if(parseInt(_pinpad_num) === _context_vars[1]){ 
             _display_wheel(true);
-            let fields = ['Owner', 'Email', 'TaxId', 'LegalName', 'InformalName', 'ShortCode', 'CountryCode', 'State', 'City', 'AddressLine1', 'AddressLine2', 'AddressLine3', 'AddressLine4', 'PhoneCountryCode', 'PhoneNumber', 'MainHexColor', 'AlterHexColor', 'LowHexColor', 'Level', 'Active', 'CreationDate', 'PostalCode']
+            let fields = [ 'Email', 'TaxId', 'LegalName', 'InformalName', 'ShortCode', 'CountryCode', 'State', 'City', 'AddressLine1', 'AddressLine2', 'AddressLine3', 'AddressLine4', 'PhoneCountryCode', 'PhoneNumber', 'MainHexColor', 'AlterHexColor', 'LowHexColor', 'Level', 'Active', 'CreationDate', 'PostalCode']
             _json_payload = {};
             _payload = {};
             for(let i = 0; i < fields.length; i++){
                 _json_payload[fields[i]] = (document.getElementById('_input_'+fields[i])) ? document.getElementById('_input_'+fields[i]).value : '';
             }
             _json_payload['Owner'] = _context_vars[0];
-            console.log(_json_payload);
-            _payload["items"] = _json_payload;
+            _payload["item"] = _json_payload;
+            console.log(_payload);
             let xhr = new XMLHttpRequest();
             let url = "/v1/admdata?service=workspace";
             xhr.open("POST", url);
@@ -103,6 +103,8 @@ function _create_workspace(){
                     let _data = xhr.responseText;
                     let _parsed_data = JSON.parse(_data);
                     if (xhr.readyState === 4 && xhr.status === 202) {
+                        setAlert("_box_green", "Workspace Successfully Creted");
+                        document.getElementById("_xpc_ws_alert").style.height = '170px';
                         window.location.replace('/dashboard');
                     }else if(xhr.status === 409){
                         setAlert("_box_red",_parsed_data["reason"]);

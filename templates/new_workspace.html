@@ -13,7 +13,7 @@ Adminde Workspce
 
 {% block _flex_box %}
 <div class="_main_block">
-    <div class="_main_block_alerts {% if _flag_status %} {{ _flag_status }} {% else %} _hidden {% endif %} ">
+    <div class="_main_block_alerts {% if _flag_status %} {{ _flag_status }} {% else %} _hidden {% endif %} " id="_xpc_ws_alert">
         {% if _flag_content%} <p>{{ _flag_content }} </p> {% endif %}
     </div>
     <div class="_main_block_content">

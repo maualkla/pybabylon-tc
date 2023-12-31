@@ -25,6 +25,7 @@
         ._bc_ws_cit{
             grid-area: 4 / 1 / 5 / 3;
             font-size: 55%;
+            white-space: nowrap;
         }
         ._bc_ws_pos{
             grid-area: 5 / 1 / 6 / 3;
