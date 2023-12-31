@@ -5,10 +5,14 @@
 // control variables
 let _ws_stage = 0, errors = 0;
 
+/* floating buttons activation */
+if(document.getElementsByClassName("_floating_buttons")[0])document.getElementsByClassName("_floating_buttons")[0].classList.remove("_hidden");
+
+
 // Triggers
-if(document.getElementById('_next_button')) document.getElementById('_next_button').addEventListener('click', function (){ _change_view(true) });
-if(document.getElementById('_back_button')) document.getElementById('_back_button').addEventListener('click', function (){ _change_view(false) });
-if(document.getElementById('_create_button')) document.getElementById('_create_button').addEventListener('click', function (){ if(_required_check()){_ws_switch_pinpad(true);} });
+if(document.getElementById('_fb_1')) document.getElementById('_fb_1').addEventListener('click', function (){ _change_view(true) });
+if(document.getElementById('_fb_3')) document.getElementById('_fb_3').addEventListener('click', function (){ _change_view(false) });
+if(document.getElementById('_fb_2')) document.getElementById('_fb_2').addEventListener('click', function (){ if(_required_check()){_ws_switch_pinpad(true);} });
 if(document.getElementById('_back_dash_en')) document.getElementById('_back_dash_en').addEventListener('click', function (){ window.location.replace("/dashboard") });
 if(document.getElementById('_back_dash_es')) document.getElementById('_back_dash_es').addEventListener('click', function (){ window.location.replace("/dashboard") });
 if(document.getElementById('_close_sesion_en')) document.getElementById('_close_sesion_en').addEventListener('click', function (){ window.location.replace("/logout") });
@@ -23,11 +27,11 @@ if(document.getElementById('_close_sesion_button')) document.getElementById('_cl
 function _change_view(_direction){
     if (_direction && _ws_stage < 2 ){ 
         if(_ws_stage === 0){
-            document.getElementById("_back_button").classList.remove("_hidden");
+            document.getElementById("_fb_3").classList.remove("_hidden");
         }
         if(_ws_stage === 1){
-            document.getElementById("_next_button").classList.add("_hidden");
-            document.getElementById("_create_button").classList.remove("_hidden");
+            document.getElementById("_fb_1").classList.add("_hidden");
+            document.getElementById("_fb_2").classList.remove("_hidden");
         }
         _ws_stage++;
         _hide_all_ws_views();
@@ -35,11 +39,11 @@ function _change_view(_direction){
     }
     if (!_direction && _ws_stage > 0){
         if(_ws_stage === 2){
-            document.getElementById("_create_button").classList.add("_hidden");
-            document.getElementById("_next_button").classList.remove("_hidden");
+            document.getElementById("_fb_2").classList.add("_hidden");
+            document.getElementById("_fb_1").classList.remove("_hidden");
         }
         if(_ws_stage === 1){
-            document.getElementById("_back_button").classList.add("_hidden");
+            document.getElementById("_fb_3").classList.add("_hidden");
         }
         _ws_stage--;
         _hide_all_ws_views();
