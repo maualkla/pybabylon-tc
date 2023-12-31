@@ -548,6 +548,32 @@ a{
     height: auto;
 }
 
+/* custom boxes */
+/* workspace manage box */
+._box_custom_ws{
+    font-size: 90px;
+    max-height: 343.4px;
+    min-height: 342.4px;
+    /* grid design */
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+}
+    ._box_custom_ws:active, ._box_custom_ws:hover{
+        background-color: var(--system-altern-color);
+        color: var(--system-bg-color);
+    }
+
+._menu_box_clon{
+    font-size: var(--system-big-text);
+    padding: 41.85px;
+    height: 70.5px;
+    text-align: left;
+    border-bottom: var(--system-regular-border-width) solid var(--system-text-color);
+    height: auto;
+}
 
 /* Languaje */
 ._en{

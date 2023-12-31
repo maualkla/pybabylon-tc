@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block title %}
+Workspace - {{ super() }}
+{% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="../static/workspace.css">
+{{ super() }}
+{% endblock %}
+
+{% block _title %}
+Adminde Workspce 
+{% endblock %}
+
+{% block _flex_box %}
+<div class="_main_block">
+    <div class="_main_block_alerts {% if _flag_status %} {{ _flag_status }} {% else %} _hidden {% endif %} ">
+        {% if _flag_content%} <p>{{ _flag_content }} </p> {% endif %}
+    </div>
+    <div class="_main_block_content">
+        <div class="_main_boxes" id="_mb_stage_0">
+            <input class="_input_general _altern _ws_input" type="text" id="_input_LegalName" placeholder="Business Legal Name" value=""/> 
+            <input class="_input_general _altern _ws_input" type="text" id="_input_InformalName" placeholder="Informal Name" value=""/> 
+            <input class="_input_general _altern _ws_input" type="text" id="_input_ShortCode" placeholder="Short Code" value=""/> 
+            <input class="_input_general _altern _ws_input" type="text" id="_input_TaxId" placeholder="Tax Id" value=""/> 
+            <input class="_input_general _altern _ws_input" type="email" id="_input_Email" placeholder="Business Email" value=""/> 
+        </div>
+        <div class="_main_boxes _hidden" id="_mb_stage_1">
+            <input class="_input_general _altern _ws_input" type="text" id="_input_CountryCode" placeholder="Country" value=""/> 
+            <input class="_input_general _altern _ws_input" type="text" id="_input_State" placeholder="State" value=""/> 
+            <input class="_input_general _altern _ws_input" type="text" id="_input_City" placeholder="City" value=""/> 
+            <input class="_input_general _altern _ws_input" type="text" id="_input_AddressLine1" placeholder="Address Line 1" value=""/> 
+            <input class="_input_general _altern _ws_input" type="text" id="_input_PostalCode" placeholder="Postal Code" value=""/> 
+        </div>
+        <div class="_main_boxes _hidden" id="_mb_stage_2">
+            <input class="_input_general _altern _ws_input" type="text" id="_input_PhoneCountryCode" placeholder="Phone Country Code" value=""/> 
+            <input class="_input_general _altern _ws_input" type="number" id="_input_PhoneNumber" placeholder="Phone Number" value=""/> 
+            <p class="_label _en _hidden"> Pick Main Color</p><p class="_label _es _hidden"> Color Principal</p><input class="_input_general_color _altern _ws_input" type="color" id="_input_MainHexColor" placeholder="Main Hex Color"> 
+            <p class="_label _en _hidden"> Pick Low Color</p><p class="_label _es _hidden"> Color de Fondo</p><input class="_input_general_color _altern _ws_input" type="color" id="_input_LowHexColor" placeholder="Contrast Hex Color" /> 
+            <p class="_label _en _hidden"> Pick Altern Color</p><p class="_label _es _hidden"> Color Alterno</p><input class="_input_general_color _altern _ws_input" type="color" id="_input_AlterHexColor" placeholder="Alternate Hex Color" /> 
+        </div>
+        <div class="_main_buttons">
+            <div class="_button_big _altern" id="_next_button">
+                <p class="_en _hidden">Next</p>
+                <p class="_es _hidden">Siguiente</p>
+            </div>
+            <div class="_button_big _altern _hidden" id="_create_button">
+                <p class="_en _hidden">Create</p>
+                <p class="_es _hidden">Crear</p>
+            </div>
+            <div class="_button_big _main _box_main _hidden" id="_back_button">
+                <p class="_en _hidden">Back</p>
+                <p class="_es _hidden">Regresar</p>
+            </div>
+        </div>
+    </div>
+    <div class="_hidden _main_block_numpad">
+        <div class="_big_numpad" id="_set_pin">
+            <div class="_numpad_box _altern" id=""><p>Type Pin</p></div>
+            <div class="_num_button _altern" id="_num_button_1"><p>1</p></div>
+            <div class="_num_button _altern" id="_num_button_2"><p>2</p></div>
+            <div class="_num_button _altern" id="_num_button_3"><p>3</p></div>
+            <div class="_num_button _altern" id="_num_button_4"><p>4</p></div>
+            <div class="_num_button _altern" id="_num_button_5"><p>5</p></div>
+            <div class="_num_button _altern" id="_num_button_6"><p>6</p></div>
+            <div class="_num_button _altern" id="_num_button_7"><p>7</p></div>
+            <div class="_num_button _altern" id="_num_button_8"><p>8</p></div>
+            <div class="_num_button _altern" id="_num_button_9"><p>9</p></div>
+            <div class="_num_button _altern" id="_num_button_0"><p>0</p></div>
+            <div class="_num_button _altern" id="_num_button_del"><p><</p></div>
+        </div>
+        <div class="_numpad_buttons">
+            <div class="_button_big _gray" id="_set_pin_button">
+                <p class="_en _hidden">Create</p>
+                <p class="_es _hidden">Crear</p>
+            </div>
+            <div class="_button_big _main _box_main" id="_close_sesion_button">
+                <p class="_en _hidden">Cancel</p>
+                <p class="_es _hidden">Cancelar</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block _flex_menu %}
+<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_back_dash_en">Back to Dashboard</div>
+<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_back_dash_es">Regresar a Dashboard </div>
+<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_close_sesion_en">Close Session</div>
+<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_close_sesion_es">Cerrar Sesion</div>
+{% endblock %}
+
+
+{% block scripts %}
+{{ super() }}
+<script src="../static/workspace.js"></script>
+{% endblock %}
