@@ -341,21 +341,49 @@ def account():
 
 ################################################################################################################
 
-@app.route('/workspace/<id>')
-def word_up(id):
+@app.route('/workspace/<_id>')
+def workspace_option(_id):
+    ## Set a logged variable requesting the _id and _us cookies.
+    _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
+    _out = make_response(redirect('/logout'))
+    ## validate if _logged
+    if _required_cookies:
+        ## if present, save the _id and _un
+        _session_id = request.cookies.get('SessionId')
+        _client_bw = request.cookies.get('browserVersion')
+        _client_ip = request.cookies.get('clientIP')
+        _user_id = Handlers.get_username(_alx_url, _session_id, _client_bw, _client_ip)
+        if _user_id:
+            print("(1) userid")
+            if _id == 'new':
+                print("(2) id")
+                return render_template('new_workspace.html')
+            else:
+                print("(3) wsdata")
+                ##_userdata = Handlers.get_data(_alx_url, request, "user", _user_id)
+                _filter = ":"+_user_id
+                _wsdata = Handlers.get_data(_alx_url, request, "workspace", _id, "owner"+_filter)
+                print(_wsdata['containsData'])
+                print(True)
+                if _wsdata['containsData'] == True:
+                    return _id
+                else: 
+                    _ws = make_response(redirect('/workspace'))
+                    return _ws
     ## validate the user is allowed to see this page. 
     ## check username
     ## check if workspace id is of this user.
     ## if it is, display info
     ## if not, return to /worspace
-    return id
+    else:
+        return _id
 
 
 ## Workspace Service.
 @app.route('/workspace')
 def workspace():
     try: 
-         ## Set a logged variable requesting the _id and _us cookies.
+        ## Set a logged variable requesting the _id and _us cookies.
         _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
         _out = make_response(redirect('/logout'))
         ## validate if _logged
@@ -372,7 +400,6 @@ def workspace():
                     _filter = ":"+_user_id
                     _wsdata = Handlers.get_data(_alx_url, request, "workspace", False, "owner"+_filter)
                     _user = _userdata['items'][0]
-                    print(_wsdata['items'])
                     _ws = _wsdata['items'] if _wsdata['containsData'] else False
                     context = {
                         "user_id": _user_id,
