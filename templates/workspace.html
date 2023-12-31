@@ -17,57 +17,36 @@ Adminde Workspcs
         {% if _flag_content%} <p>{{ _flag_content }} </p> {% endif %}
     </div>
     <div class="_main_block_content {% if user_pin == False %} _hidden {% endif %} ">
-        <div class="_big_menu_box  " id="_redirect_last_ws">
-            {% if ws_tax_id %}
+        {% if false %}
+        <div class="_big_menu_box color_3_bg color_1_tx _box_main_bot" id="">
             <div class="_bbx_text _en _hidden">
-                Continue Working on <bold_italic>{% if ws_informal_name %} {{ws_informal_name}} {% else %} {{ws_tax_id}} {% endif%} </bold_italic>
+                No Workspaces created yet. <bold_italic>Create Workspace </bold_italic>
             </div>
-            <div class="_bbx_text _es _hidden">
-                Sigue Trabajando con <bold_italic>{% if ws_informal_name %} {{ws_informal_name}} {% else %} {{ws_tax_id}} {% endif%} </bold_italic>
-            </div>
-            {% else %}
-            <div class="_bbx_text _en _hidden">
-                New <br>Workspace
-            </div>
-            <div class="_bbx_text _es _hidden">
-                Crear <br>Workspace
-            </div>
-            {% endif %}
         </div>
-        {% if ws_tax_id %}
-        <div class="_big_menu_box" id="_redirect_wss">
-            <div class="_bbx_text _en _hidden">
-                View all your <bold_italic>Workspaces</bold_italic>
+        {% else %}
+        <div class="_big_menu_box _box_main_bot" id="">
+            <div class="_menu_box_clon _en _hidden">
+                <bold_italic>Create</bold_italic> a Workspace
             </div>
-            <div class="_bbx_text _es _hidden">
-                Ver todos tus <bold_italic>Workspaces</bold_italic>
+        </div>
+        <div class="_box_custom_ws _box_main_bot" id="">
+            <div class="_bc_ws_inf">
+                informalName
+            </div>
+            <div class="_bc_ws_tax">
+                taxId
+            </div>
+            <div class="_bc_ws_cit">
+                city
+            </div>
+            <div class="_bc_ws_pos">
+                postCode
+            </div>
+            <div class="_bc_ws_man">
+                <bold_italic>Manage</bold_italic>
             </div>
         </div>
         {% endif %}
-        <div class="_big_menu_box" id="_redirect_tutorials">
-            <div class="_bbx_text _en _hidden">
-                Tutorials and <br>Guides
-            </div>
-            <div class="_bbx_text _es _hidden">
-                Tutoriales y <br>Guias
-            </div>
-        </div>
-        <div class="_big_menu_box" id="_redirect_help">
-            <div class="_bbx_text _en _hidden">
-                Request <br> <bold_italic>Help</bold_italic>
-            </div>
-            <div class="_bbx_text _es _hidden">
-                Solicitar <br><bold_italic>Ayuda</bold_italic>
-            </div>
-        </div>
-        <div class="_big_menu_box" id="_last_login">
-            <div class="_bbx_text _en _hidden">
-                Last Login: <br> Date: {{ trx_last_login_date }}
-            </div>
-            <div class="_bbx_text _es _hidden">
-                Ultimo inicio de sesion: <br> Fecha: {{ trx_last_login_date }}
-            </div>
-        </div>
     </div>
 </div>
 {% endblock %}
