@@ -17,33 +17,35 @@ Adminde Workspcs
         {% if _flag_content%} <p>{{ _flag_content }} </p> {% endif %}
     </div>
     <div class="_main_block_content {% if user_pin == False %} _hidden {% endif %} ">
-        {% if false %}
-        <div class="_big_menu_box color_3_bg color_1_tx _box_main_bot" id="">
-            <div class="_bbx_text _en _hidden">
-                No Workspaces created yet. <bold_italic>Create Workspace </bold_italic>
-            </div>
-        </div>
-        {% else %}
+        {% if ws_list %}
         <div class="_big_menu_box _box_main_bot" id="">
             <div class="_menu_box_clon _en _hidden">
                 <bold_italic>Create</bold_italic> a Workspace
             </div>
         </div>
+        {% for ws in ws_list %}
         <div class="_box_custom_ws _box_main_bot" id="">
             <div class="_bc_ws_inf">
-                informalName
+                {{ws['InformalName']}}
             </div>
             <div class="_bc_ws_tax">
-                taxId
+                {{ws['TaxId']}}
             </div>
             <div class="_bc_ws_cit">
-                city
+                {{ws['City']}}
             </div>
             <div class="_bc_ws_pos">
-                postCode
+                {{ws['PostalCode']}}
             </div>
-            <div class="_bc_ws_man">
+            <div class="_bc_ws_man" onClick="console.log('Hello buddy {{ws['TaxId']}}');">
                 <bold_italic>Manage</bold_italic>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="_big_menu_box color_3_bg color_1_tx _box_main_bot" id="">
+            <div class="_bbx_text _en _hidden">
+                No Workspaces created yet. <bold_italic>Create Workspace </bold_italic>
             </div>
         </div>
         {% endif %}

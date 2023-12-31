@@ -9,20 +9,13 @@
         padding-right: 50px !important;
     }
     ._box_custom_ws{
-        font-size: 65px;
-        max-height: 343.4px;
-        min-height: 250px;
-        /* grid design */
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        grid-template-rows: repeat(5, 1fr);
-        grid-column-gap: 0px;
-        grid-row-gap: 0px;
+        
     }
         ._box_custom_ws div{
             padding-left: 50px;
         }
         ._bc_ws_inf{
+            padding-top: 30px;
             grid-area: 1 / 1 / 3 / 6;
         }
         ._bc_ws_tax{
@@ -36,15 +29,14 @@
         ._bc_ws_pos{
             grid-area: 5 / 1 / 6 / 3;
             font-size: 55%;
+            padding-bottom: 30px;
         }
         ._bc_ws_man{
             grid-area: 4 / 4 / 6 / 6;
+            font-size: 90%;
+            padding: auto;
+            margin: auto;
         }
     ._menu_box_clon{
-        font-size: var(--system-big-text);
-        padding: 41.85px;
-        height: 70.5px;
-        text-align: left;
-        border-bottom: var(--system-light-border-width) solid var(--system-text-color);
-        height: auto;
+        
     }

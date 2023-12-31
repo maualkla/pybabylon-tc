@@ -195,6 +195,40 @@ def logout():
 
 ################################################################################################################
 
+## Signup service
+@app.route('/signup')
+def signup():
+    try:
+        ## Set a logged variable requesting the _id and _us cookies.
+        _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
+        ## validate if _logged
+        if _required_cookies:
+            ## if present, save the _id and _un
+            _session_id = request.cookies.get('SessionId')
+            _client_bw = request.cookies.get('browserVersion')
+            _client_ip = request.cookies.get('clientIP')
+            ## user search
+            _user_id = Handlers.get_username(_alx_url, _session_id, _client_bw, _client_ip)
+            ## if status valid, redirect to /dashboard and delete cookie flag, otherwise redirects to /login and deletes _id and _un cookies
+            if _user_id:
+                _dash = make_response(redirect('/dashboard'))
+                _dash.delete_cookie('_flag_status')
+                _dash.delete_cookie('_flag_content')
+                return _dash
+            else:
+                _log = make_response(redirect('/login'))
+                _log.delete_cookie('SessionId')
+                _log.delete_cookie('browserVersion')
+                _log.delete_cookie('clientIP')
+                return _log
+        else:
+            ### In case _id and _un not presnt, renders signup.html page.
+            return render_template('signup.html')
+    except Exception as e:
+        return {"status": "An error Occurred", "error": str(e)}
+
+################################################################################################################
+
 ## Dashboard Service.
 @app.route('/dashboard')
 def dashboard():
@@ -261,41 +295,7 @@ def dashboard():
         return {"status": "An error Occurred", "error": str(e)}
 
 ################################################################################################################
-
-## Signup service
-@app.route('/signup')
-def signup():
-    try:
-        ## Set a logged variable requesting the _id and _us cookies.
-        _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
-        ## validate if _logged
-        if _required_cookies:
-            ## if present, save the _id and _un
-            _session_id = request.cookies.get('SessionId')
-            _client_bw = request.cookies.get('browserVersion')
-            _client_ip = request.cookies.get('clientIP')
-            ## user search
-            _user_id = Handlers.get_username(_alx_url, _session_id, _client_bw, _client_ip)
-            ## if status valid, redirect to /dashboard and delete cookie flag, otherwise redirects to /login and deletes _id and _un cookies
-            if _user_id:
-                _dash = make_response(redirect('/dashboard'))
-                _dash.delete_cookie('_flag_status')
-                _dash.delete_cookie('_flag_content')
-                return _dash
-            else:
-                _log = make_response(redirect('/login'))
-                _log.delete_cookie('SessionId')
-                _log.delete_cookie('browserVersion')
-                _log.delete_cookie('clientIP')
-                return _log
-        else:
-            ### In case _id and _un not presnt, renders signup.html page.
-            return render_template('signup.html')
-    except Exception as e:
-        return {"status": "An error Occurred", "error": str(e)}
-
-################################################################################################################
-
+    
 ## Account Service
 @app.route('/account')
 def account():
@@ -347,38 +347,43 @@ def workspace():
     try: 
          ## Set a logged variable requesting the _id and _us cookies.
         _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
-        _log = make_response(redirect('/login'))
-        _log.delete_cookie('SessionId')
-        _log.delete_cookie('browserVersion')
-        _log.delete_cookie('clientIP')
+        _out = make_response(redirect('/logout'))
         ## validate if _logged
         if _required_cookies:
-            ## level 2 fixed
-            _level = "2"
-            ## get status 
-            _status = "valid"
-            context = {
-                "_logged": "Full Name",## requires to get the fullname
-                "_username": "username",
-                "_email": "email",
-                "_level": _level,
-                "_context": "no_context"
-            }
-            if _status == 'valid':
-                if int(_level) >= int(2):
+            ## if present, save the _id and _un
+            _session_id = request.cookies.get('SessionId')
+            _client_bw = request.cookies.get('browserVersion')
+            _client_ip = request.cookies.get('clientIP')
+            _user_id = Handlers.get_username(_alx_url, _session_id, _client_bw, _client_ip)
+            if _user_id:
+                _userdata = Handlers.get_data(_alx_url, request, "user", _user_id)
+                if _userdata:
+                    ## get data del ws del user.
+                    _filter = ":"+_user_id
+                    _wsdata = Handlers.get_data(_alx_url, request, "workspace", False, "owner"+_filter)
+                    _user = _userdata['items'][0]
+                    print(_wsdata['items'])
+                    _ws = _wsdata['items'] if _wsdata['containsData'] else False
+                    context = {
+                        "user_id": _user_id,
+                        "user_name": _user['username'],
+                        "user_type": _user['type'],
+                        "user_fname": _user['fname'],
+                        "user_pin": _user['pin'] if _user['pin'] > 0 else False,
+                        "ws_list": _ws if _ws else False,
+                        "_flag_status": "",
+                        "_flag_content": ""
+                    }
                     return render_template('workspace.html', **context)
                 else:
                     _dash = make_response(redirect('/dashboard'))
-                    return _log
-            else:
-                ## return the login service and delete _id and _un cookies.
-                _log = make_response(redirect('/login'))
-                _log.delete_cookie('_id')
-                _log.delete_cookie('_un')
-                return _log
+                    return _dash
+            else: 
+                _out = make_response(redirect('/logout'))
+                return _out
         else:
-            ## return to login 
-            return _log
+            ## return to login
+            return _out
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
 

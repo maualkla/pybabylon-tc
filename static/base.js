@@ -45,10 +45,10 @@ if(document.getElementsByClassName('_main_block_alerts').length > 0) document.ge
 
 // triggers for the extended links
 document.getElementById('_contac').addEventListener('click', function (){location.href = "https://www.twitter.com/intmau";});
-document.getElementById('_legal').addEventListener('click', function (){window.location.replace("/legal")});
-document.getElementById('_about').addEventListener('click', function (){window.location.replace("/about")});
-document.getElementById('_jobs').addEventListener('click', function (){window.location.replace("/jobs")});
-document.getElementById('_home').addEventListener('click', function (){window.location.replace("/")});
+document.getElementById('_legal').addEventListener('click', function (){_redirect("legal");});
+document.getElementById('_about').addEventListener('click', function (){_redirect("about");});
+document.getElementById('_jobs').addEventListener('click', function (){_redirect("jobs");});
+document.getElementById('_home').addEventListener('click', function (){_redirect("");});
 document.getElementById('_trans').addEventListener('click', function (){ changeLanguaje(_new_lang); });
 
 // TBD Extra triggers
@@ -275,4 +275,10 @@ function _display_wheel(_state){
     }else{
         _wheel.add("_hidden");
     }
+}
+
+// function to redirect to another location. 
+const _redirect = (target) => {
+    _display_wheel(true);
+    window.location.replace("/"+target);
 }
