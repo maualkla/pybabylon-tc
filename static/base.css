@@ -83,6 +83,7 @@ a{
             border-bottom: solid var(--system-regular-border-width) var(--system-text-color);
         }
             ._title{
+                white-space: nowrap;
                 grid-area: 1 / 1 / 2 / 6; 
                 font-size: var(--system-big-text);
                 padding: 5%;
