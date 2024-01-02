@@ -32,6 +32,10 @@ if(document.getElementById('_input_AlterHexColor_tx')) document.getElementById('
 if(document.getElementById('_input_AlterHexColor')) document.getElementById('_input_AlterHexColor').addEventListener('change', function (){ changeColorTextValue(document.getElementById('_input_AlterHexColor').value, '_input_AlterHexColor_tx', '_cp_3'); });
 
 
+// title name change
+if(document.getElementById('_input_InformalName')) document.getElementById('_input_InformalName').addEventListener('change', function (){ _change_system_title(document.getElementById('_input_InformalName').value);});
+
+
 
 // Functions
 // 

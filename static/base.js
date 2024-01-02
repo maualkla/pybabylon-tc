@@ -318,3 +318,14 @@ const _change_system_colors = (_color, _value) => {
         }
     }
 }
+
+// SYSTEM tittle change
+const _change_system_title = (_tittle) => {
+    if(_tittle.length > 0){
+        let _nt = (_tittle.length > 15) ? _tittle.substring(0,15)+".." : _tittle;
+        document.getElementsByClassName("_title")[0].innerHTML = "<bold_italic>"+_nt+"</bold_italic>";
+    }else{
+        document.getElementsByClassName("_title")[0].innerHTML = "<bold_italic>Adminde Time Card</bold_italic>";
+    }
+    
+}
