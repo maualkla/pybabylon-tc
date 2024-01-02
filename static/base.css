@@ -531,6 +531,44 @@ a{
         color: var(--system-bg-color)
     }
 
+/* color picker */
+._color_picker{
+    width: auto;
+    border: solid 4px black;
+    display: flex;
+    background-color: white;
+    border-radius: 5px;
+}
+    ._color_text::placeholder{
+        color: black;
+    }
+    ._color_text{
+        /*border: solid 4px white; */
+        padding: 2px;
+        border: none;  
+        font-size: var(--system-big-text);
+        padding: 41.85px;
+        height: 82.5px;
+        text-align: left;
+        border-bottom: var(--system-regular-border-width) solid var(--system-bg-color);
+        width: 70.5%;
+    }
+    ._color_text:active{
+        /*border: solid 2px #000 !important;*/
+        border: none;
+    }
+    input[type="color"]{
+        height: auto !important ;
+        width: 300px !important ;
+        border-radius: var(--burger-menu-radius);
+    }
+    ._color_input{
+        border: none;
+        padding: 0;
+        height: 500px ;
+        width: 500px ;
+    }
+
 /* Input color general */
 ._input_general_color{
     width: 200px;

@@ -20,6 +20,18 @@ if(document.getElementById('_close_sesion_es')) document.getElementById('_close_
 if(document.getElementById('_set_pin_button')) document.getElementById('_set_pin_button').addEventListener('click', function (){ _create_workspace(); });
 if(document.getElementById('_close_sesion_button')) document.getElementById('_close_sesion_button').addEventListener('click', function (){ window.location.replace("/dashboard") });
 
+// pickers changes
+// color 1
+if(document.getElementById('_input_MainHexColor_tx')) document.getElementById('_input_MainHexColor_tx').addEventListener('change', function (){ changeColorPickerValue(document.getElementById('_input_MainHexColor_tx').value, '_input_MainHexColor', '_cp_1'); });
+if(document.getElementById('_input_MainHexColor')) document.getElementById('_input_MainHexColor').addEventListener('change', function (){ changeColorTextValue(document.getElementById('_input_MainHexColor').value, '_input_MainHexColor_tx', '_cp_1'); });
+// color 2
+if(document.getElementById('_input_LowHexColor_tx')) document.getElementById('_input_LowHexColor_tx').addEventListener('change', function (){ changeColorPickerValue(document.getElementById('_input_LowHexColor_tx').value, '_input_LowHexColor', '_cp_2'); });
+if(document.getElementById('_input_LowHexColor')) document.getElementById('_input_LowHexColor').addEventListener('change', function (){ changeColorTextValue(document.getElementById('_input_LowHexColor').value, '_input_LowHexColor_tx', '_cp_2'); });
+// color 3
+if(document.getElementById('_input_AlterHexColor_tx')) document.getElementById('_input_AlterHexColor_tx').addEventListener('change', function (){ changeColorPickerValue(document.getElementById('_input_AlterHexColor_tx').value, '_input_AlterHexColor', '_cp_3'); });
+if(document.getElementById('_input_AlterHexColor')) document.getElementById('_input_AlterHexColor').addEventListener('change', function (){ changeColorTextValue(document.getElementById('_input_AlterHexColor').value, '_input_AlterHexColor_tx', '_cp_3'); });
+
+
 
 // Functions
 // 
@@ -155,3 +167,24 @@ function _required_check(){
     }
     return _go;
 }
+
+
+// Color picker functions 
+// function change color picker value.
+function changeColorPickerValue(_value, _id, _num){
+    if (validateHex(_value)){  
+        document.getElementById(_id).value = _value;
+        document.getElementById(_num).style.borderColor = _value;
+        _change_system_colors(_num.substring(_num.length -1), _value);
+    }else{
+        document.getElementById(_id+"_tx").value = "";
+    }
+}
+
+// function change color text value
+function changeColorTextValue(_value, _id, _num){
+    _change_system_colors(_num.substring(_num.length -1), _value);
+    document.getElementById(_id).value = _value;
+    document.getElementById(_num).style.borderColor = _value;
+}
+

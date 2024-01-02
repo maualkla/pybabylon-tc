@@ -292,3 +292,29 @@ const _display_fbuttons = (_state) => {
         _fb.classList.add("_hidden")
     }
 }
+
+// function validate value hex
+const validateHex = (_value) => {
+    let regex = new RegExp(/^#([A-Fa-f0-9]{6})$/);
+    if (_value == null) {
+        return "false";
+    }
+    return (regex.test(_value) == true) ? true : false;
+}
+
+
+/* SYSTEM color change */
+// color = 1,2,3
+// value = HEX color value
+const _change_system_colors = (_color, _value) => {
+    if (validateHex(_value)){
+        let _root = document.querySelector(':root');
+        if (_color == 1){
+            _root.style.setProperty('--system-bg-color', _value);
+        }else if (_color == 2){
+            _root.style.setProperty('--system-text-color', _value);
+        }else if (_color == 3){
+            _root.style.setProperty('--system-altern-color', _value);
+        }
+    }
+}
