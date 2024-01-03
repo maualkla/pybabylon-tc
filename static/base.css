@@ -599,6 +599,7 @@ a{
     grid-template-rows: repeat(5, 1fr);
     grid-column-gap: 0px;
     grid-row-gap: 0px;
+    border-bottom-width: var(--system-regular-border-width) !important ;
 }
     ._box_custom_ws:active, ._box_custom_ws:hover{
         background-color: var(--system-altern-color);
