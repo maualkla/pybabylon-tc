@@ -172,13 +172,11 @@ function _required_check(){
     return _go;
 }
 
-
 // Color picker functions 
 // function change color picker value.
 function changeColorPickerValue(_value, _id, _num){
     if (validateHex(_value)){  
         document.getElementById(_id).value = _value;
-        //document.getElementById(_num).style.borderColor = _value;
         _change_system_colors(_num.substring(_num.length -1), _value);
     }else{
         document.getElementById(_id+"_tx").value = "";
@@ -189,6 +187,5 @@ function changeColorPickerValue(_value, _id, _num){
 function changeColorTextValue(_value, _id, _num){
     _change_system_colors(_num.substring(_num.length -1), _value);
     document.getElementById(_id).value = _value;
-    //document.getElementById(_num).style.borderColor = _value;
 }
 
