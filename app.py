@@ -91,30 +91,25 @@ def apidocs_v0_2():
 @app.route('/')
 def landing():
     try:
-        ## Set context values. 
-        ## _logged is true in case the user is logged
-        ## _sample is a test value.
+        _logged = False
+        _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
+        ## validate if _logged
+        if _required_cookies:
+            ## if present, save the _id and _un
+            _session_id = request.cookies.get('SessionId')
+            _client_bw = request.cookies.get('browserVersion')
+            _client_ip = request.cookies.get('clientIP')
+            ## user search
+            _user_id = Handlers.get_username(_alx_url, _session_id, _client_bw, _client_ip)
+            if _user_id:
+                _logged = True
+            else:
+                _log = make_response(redirect('/logout'))
+                return _log
         context = {
-            "_logged": True,
+            "_logged": _logged,
             "_sample": "1234",
         }
-        ## Set logged values in case the user is logged.
-        _logged = True if request.cookies.get('_id') and request.cookies.get('_un') else False
-        if _logged:
-            ## Case where user is logged, save the _id and _un 
-            _id = request.cookies.get('_id')
-            _un = request.cookies.get('_un')
-            ## Create a auth object to validate the authentication of the user.
-            _auth_obj = Helpers.auth(_id, _un, _alx_url)
-            ## save status of the auth object.
-            _status = _auth_obj.json().get('status')
-            ## if auth obj is = valid save a True in the context _logged variable, otherwise saves a false.
-            if _status == 'valid':
-                context['_logged'] = True
-            else:
-                context['_logged'] = False
-        else:
-            context['_logged'] = False
         ## render and return the home page including the context variables.
         return render_template('home.html', **context)
     except Exception as e:
@@ -373,7 +368,7 @@ def workspace_option(_id):
                 _filter = ":"+_user_id
                 _wsdata = Handlers.get_data(_alx_url, request, "workspace", _id, "owner"+_filter)
                 if _wsdata['containsData'] == True:
-                    return _id
+                    return render_template('manage_workspace.html')
                 else: 
                     _ws = make_response(redirect('/workspace'), **context)
                     return _ws
@@ -429,61 +424,6 @@ def workspace():
             ## return to login
             return _out
     except Exception as e:
-        return {"status": "An error Occurred", "error": str(e)}
-
-
-## s_workspace service
-@app.route('/s_workspace', methods=['POST'])
-def s_workspace():
-    try: 
-        ## Set a logged variable requesting the _id and _us cookies.
-        _logged = True if request.cookies.get('_id') and request.cookies.get('_un') else False
-        ## validate if _logged
-        if _logged and request.json['Owner'] or 1 == 1:
-            ## save the _id and _un values
-            _id = request.headers.get('_id')
-            _un = request.headers.get('_un')
-            ## generate a auth object.
-            _auth_obj = Helpers.auth(_id, _un)
-            ## get the status
-            _status = _auth_obj.json().get('status')
-            ## validate the status
-            if _status == 'valid' or 1 == 1:
-                ## Create the json object
-                _json = {}
-                ## Add email as a mandatory value
-                _json['Owner'] = request.json['Owner']
-                ## define the not mandatory fields
-                req_fields = ['Email', 'TaxId', 'LegalName', 'InformalName', 'ShortCode', 'CountryCode', 'State', 'City', 'AddressLine1', 'AddressLine2', 'AddressLine3', 'AddressLine4', 'PhoneCountryCode', 'PhoneNumber', 'MainHexColor', 'AlterHexColor', 'LowHexColor', 'Level', 'Active', 'CreationDate', 'PostalCode']
-                ## Set _go flag to false.
-                _go = False
-                ## go for all the possible fields to be send
-                for req_value in req_fields:
-                    ## In case required field in json payload 
-                    if req_value in request.json:
-                        ## update _json_payload object adding current field.
-                        _json[req_value] = request.json[req_value]
-                        ## update flag to update user
-                        _go = True
-                ## if any of the fields were processed and added to the json object, the _go flag will be true, else it will end the flow
-                if _go:
-                    ## preparate, the url, headers
-                    _url = _alx_url+'/workspace'
-                    _headers = {'Content-type': 'application/json'}
-                    ## save the response of sending a put request to the service to update user.
-                    _response = requests.post(_url, json=_json, headers=_headers)
-                   ## Validate the status code as 202
-                    if str(_response.status_code) == str(200):
-                        return jsonify({"code": "202", "reason": "user successfully created"}), 202
-                    else:
-                        return jsonify({"code": str(_response.status_code), "reason": _response.json().get('reason')}), 409
-                else:
-                    return jsonify({"code": 403, "reason": "Missing required parameters"}), 403
-            else:
-                return jsonify({"code": 400, "reason": "Invalid authorization"}), 400
-        else: 
-            return jsonify({"code": 400, "reason": "Missing authorization."}), 400
-    except Exception as e: 
         return {"status": "An error Occurred", "error": str(e)}
 
 ################################################################################################################
