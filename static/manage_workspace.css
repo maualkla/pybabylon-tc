@@ -1,0 +1,23 @@
+/* 
+
+CSS styles for manage_workspace
+
+*/
+._bbx_text_cust{
+    width: 1000px;
+    height: 253.4px;
+    padding:0;
+    text-align: left;
+    font-size: var(--system-big-text);
+    vertical-align: middle;
+    display: table-cell; 
+
+}
+    .bbtx_top{
+        font-size: 90%;
+        margin: 50px 30px 0 50px;
+    }
+    .bbtx_bottom{
+        font-size: 60%;
+        padding: 20px 50px 10px 50px;
+    }

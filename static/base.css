@@ -518,6 +518,9 @@ a{
         color: var(--system-bg-color);
         font-weight: bold;
     }
+    ._bbx_text_cust{
+        border-bottom:solid var(--system-regular-border-width) var(--system-text-color);
+    }
 
 /* inputs */
 ._input_general{
@@ -614,6 +617,11 @@ a{
     border-bottom: var(--system-regular-border-width) solid var(--system-text-color);
     height: auto;
 }
+    ._menu_box_clon:active{
+        background-color: var(--system-altern-color);
+        color: var(--system-bg-color);
+    }
+
 
 /* Languaje */
 ._en{

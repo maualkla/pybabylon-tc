@@ -336,8 +336,15 @@ def account():
 
 ################################################################################################################
 
+@app.route('/workspace/')
+def workspace_empty():
+    print(" (4) workspace redirect")
+    _ws = make_response(redirect('/workspace'))
+    return _ws
+
+
 @app.route('/workspace/<_id>')
-def workspace_option(_id):
+def workspace_option(_id = False):
     ## Set a logged variable requesting the _id and _us cookies.
     _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
     _out = make_response(redirect('/logout'))
@@ -349,29 +356,50 @@ def workspace_option(_id):
         _client_ip = request.cookies.get('clientIP')
         _user_id = Handlers.get_username(_alx_url, _session_id, _client_bw, _client_ip)
         if _user_id:
-            print(_user_id)
+            print(_id)
             _userdata = Handlers.get_data(_alx_url, request, "user", _user_id)
             _user = _userdata['items'][0]
-            print(_user)
-            context = {
-                "user_id": _user_id,
-                "user_name": _user['username'],
-                "user_type": _user['type'],
-                "user_fname": _user['fname'],
-                "user_pin": _user['pin'],
-                "_flag_status": "",
-                "_flag_content": ""
-            }
             if _id == 'new':
+                print(" (1) new")
+                context = {
+                    "user_id": _user_id,
+                    "user_name": _user['username'],
+                    "user_type": _user['type'],
+                    "user_fname": _user['fname'],
+                    "user_pin": _user['pin'],
+                    "_flag_status": "",
+                    "_flag_content": ""
+                }
                 return render_template('new_workspace.html', **context)
-            else:
+            elif _id:
+                print(" (2) manage")
                 _filter = ":"+_user_id
                 _wsdata = Handlers.get_data(_alx_url, request, "workspace", _id, "owner"+_filter)
+                _ws = _wsdata["items"][0]
                 if _wsdata['containsData'] == True:
-                    return render_template('manage_workspace.html')
+                    print(" (3) contains data")
+                    context = {
+                        "user_id": _user_id,
+                        "user_name": _user['username'],
+                        "user_type": _user['type'],
+                        "user_fname": _user['fname'],
+                        "user_pin": _user['pin'],
+                        "wsdata": _ws,
+                        "_flag_status": "",
+                        "_flag_content": ""
+                    }
+                    print("-----------------------")
+                    print(context)
+                    print("-----------------------")
+                    return render_template('manage_workspace.html', **context)
                 else: 
+                    print(" (4) workspace redirect")
                     _ws = make_response(redirect('/workspace'), **context)
                     return _ws
+            else: 
+                print(" (4) workspace redirect")
+                _ws = make_response(redirect('/workspace'), **context)
+                return _ws
     ## validate the user is allowed to see this page. 
     ## check username
     ## check if workspace id is of this user.
