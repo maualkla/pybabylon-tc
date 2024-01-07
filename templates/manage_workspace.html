@@ -25,23 +25,23 @@ Workspace - {{ super() }}
             <div class="_menu_box_clon" id="_personalization_view_box"><bold_italic>Personalization Settings</bold_italic></div> 
         </div>
         <div class="_main_boxes _hidden" id="_ws_1">
-            <input class="_input_general color_2_bg color_1_tx" type="text" id="" placeholder="Business Legal Name" value=""/> 
-            <input class="_input_general color_2_bg color_1_tx" type="text" id="" placeholder="Informal Name" value=""/> 
-            <input class="_input_general color_2_bg color_1_tx" type="text" id="" placeholder="Short Code" value=""/>
+            <input class="_input_general color_2_bg color_1_tx" type="text" id="" placeholder="Business Legal Name" value="{{wsdata['LegalName']}}"/> 
+            <input class="_input_general color_2_bg color_1_tx" type="text" id="" placeholder="Informal Name" value="{{wsdata['InformalName']}}"/> 
+            <input class="_input_general color_2_bg color_1_tx" type="text" id="" placeholder="Short Code" value="{{wsdata['ShortCode']}}"/>
         </div>
         <div class="_main_boxes _hidden" id="_ws_2">
-            <input class="_input_general color_2_bg color_1_tx" type="text" id="" placeholder="Address Line 1" value=""/> 
-            <input class="_input_general color_2_bg color_1_tx" type="text" id="" placeholder="Address Line 2" value=""/> 
-            <input class="_input_general color_2_bg color_1_tx" type="text" id="" placeholder="Address Line 3" value=""/> 
-            <input class="_input_general color_2_bg color_1_tx" type="text" id="" placeholder="Address Line 4" value=""/> 
-            <input class="_input_general color_2_bg color_1_tx" type="text" id="" placeholder="State" value=""/> 
-            <input class="_input_general color_2_bg color_1_tx" type="text" id="" placeholder="City" value=""/> 
-            <input class="_input_general color_2_bg color_1_tx" type="text" id="" placeholder="Postal Code" value=""/> 
+            <input class="_input_general color_2_bg color_1_tx" type="text" id="" placeholder="Address Line 1" value="{{wsdata['AddressLine1']}}"/> 
+            <input class="_input_general color_2_bg color_1_tx" type="text" id="" placeholder="Address Line 2" value="{{wsdata['AddressLine2']}}"/> 
+            <input class="_input_general color_2_bg color_1_tx" type="text" id="" placeholder="Address Line 3" value="{{wsdata['AddressLine3']}}"/> 
+            <input class="_input_general color_2_bg color_1_tx" type="text" id="" placeholder="Address Line 4" value="{{wsdata['AddressLine4']}}"/> 
+            <input class="_input_general color_2_bg color_1_tx" type="text" id="" placeholder="State" value="{{wsdata['State']}}"/> 
+            <input class="_input_general color_2_bg color_1_tx" type="text" id="" placeholder="City" value="{{wsdata['City']}}"/> 
+            <input class="_input_general color_2_bg color_1_tx" type="text" id="" placeholder="Postal Code" value="{{wsdata['PostalCode']}}"/> 
         </div>
         <div class="_main_boxes _hidden" id="_ws_3">
-            <input class="_input_general color_2_bg color_1_tx" type="text" id="" placeholder="Company Email" value=""/> 
-            <input class="_input_general color_2_bg color_1_tx" type="text" id="" placeholder="Country Phone Code" value=""/> 
-            <input class="_input_general color_2_bg color_1_tx" type="text" id="" placeholder="Phone" value=""/> 
+            <input class="_input_general color_2_bg color_1_tx" type="text" id="" placeholder="Company Email" value="{{wsdata['Email']}}"/> 
+            <input class="_input_general color_2_bg color_1_tx" type="text" id="" placeholder="Country Phone Code" value="{{wsdata['PhoneCountryCode']}}"/> 
+            <input class="_input_general color_2_bg color_1_tx" type="text" id="" placeholder="Phone" value="{{wsdata['PhoneNumber']}}"/> 
         </div>
         <div class="_main_boxes _hidden" id="_ws_4">
             <div class="_color_picker" id="_cp_1">

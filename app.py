@@ -406,7 +406,8 @@ def workspace_option(_id = False):
     ## if it is, display info
     ## if not, return to /worspace
     else:
-        return _id
+        _ws = make_response(redirect('/workspace'))
+        return _ws
 
 
 ## Workspace Service.

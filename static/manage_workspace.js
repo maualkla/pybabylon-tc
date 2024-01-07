@@ -11,6 +11,7 @@ if(_context_vars[2] && _context_vars[3] && _context_vars[4]) {
     _change_system_colors(1, _context_vars[2]);
     _change_system_colors(2, _context_vars[3]);
     _change_system_colors(3, _context_vars[4]);
+    
 }
 
 // triggers for options
