@@ -293,6 +293,17 @@ const _display_fbuttons = (_state) => {
     }
 }
 
+// common floating buttons custom 
+const _common_fbuttons_change_display_text = (_values = false, _displayed = false) => {
+    if(_values && _displayed){
+        for (let i = 1; i<4 ; i++){
+            let x = document.getElementById("_fb_"+i);
+            if (_values[i-1]) x.innerHTML = '<p class="'+_curr_languaje+'"><bold>'+_values[i-1]+'</bold></p>';
+            if (_displayed[i-1]) x.classList.remove("_hidden"); else x.classList.add("_hidden");
+        }
+    }
+};
+
 // function validate value hex
 const validateHex = (_value) => {
     let regex = new RegExp(/^#([A-Fa-f0-9]{6})$/);

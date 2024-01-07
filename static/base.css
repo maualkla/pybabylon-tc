@@ -731,6 +731,10 @@ a{
         display: table ;
         margin-bottom: 20px; 
     }
+    ._floating_button:active{
+        background: var(--system-text-color);
+        color: var(--system-bg-color);
+    }
         ._floating_button p{
             text-align:center; 
             vertical-align: middle;
