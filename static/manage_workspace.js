@@ -7,6 +7,11 @@ let _window = 0;
 
 // initialization of the floating buttons
 _display_fbuttons(true);
+if(_context_vars[2] && _context_vars[3] && _context_vars[4]) {
+    _change_system_colors(1, _context_vars[2]);
+    _change_system_colors(2, _context_vars[3]);
+    _change_system_colors(3, _context_vars[4]);
+}
 
 // triggers for options
 if(document.getElementById("_basic_view_box")) document.getElementById("_basic_view_box").addEventListener('click', function(){ 

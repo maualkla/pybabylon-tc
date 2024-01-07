@@ -544,7 +544,7 @@ a{
     border-radius: 5px;
 }
     ._color_text::placeholder{
-        color: black;
+        color: var(--system-tx-color)
     }
     ._color_text{
         /*border: solid 4px white; */

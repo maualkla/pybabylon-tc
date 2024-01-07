@@ -46,15 +46,15 @@ Workspace - {{ super() }}
         <div class="_main_boxes _hidden" id="_ws_4">
             <div class="_color_picker" id="_cp_1">
                 <input type="text" class="color_1_bg color_2_tx _color_text" id="_input_MainHexColor_tx" value="" placeholder="Background Color">
-                <input class="" type="color" class="_color_input" id="_input_MainHexColor" value="#F5F5F2"> 
+                <input class="" type="color" class="_color_input" id="_input_MainHexColor" value="{{wsdata['MainHexColor']}}"> 
             </div>
             <div class="_color_picker" id="_cp_2">
                 <input type="text" class="color_1_bg color_2_tx _color_text" id="_input_LowHexColor_tx" value="" placeholder="Text Color">
-                <input class="" type="color" class="_color_input" id="_input_LowHexColor" value="#2A2900"> 
+                <input class="" type="color" class="_color_input" id="_input_LowHexColor" value="{{ wsdata['LowHexColor'] }}"> 
             </div>
             <div class="_color_picker" id="_cp_3">
                 <input type="text" class="color_1_bg color_2_tx _color_text" id="_input_AlterHexColor_tx" value="" placeholder="Altern Color">
-                <input class="" type="color" class="_color_input" id="_input_AlterHexColor" value="#754CA0"> 
+                <input class="" type="color" class="_color_input" id="_input_AlterHexColor" value="{{ wsdata['AlterHexColor'] }}"> 
             </div>
         </div>
         <div class="_main_boxes _hidden" id="_ws_5">
@@ -109,6 +109,6 @@ Workspace - {{ super() }}
 
 {% block scripts %}
 {{ super() }}
-<script> const _context_vars = ["{{ user_id }}", {{ user_pin }}]</script>
+<script> const _context_vars = ["{{ user_id }}", {{ user_pin }}, "{{wsdata['MainHexColor']}}", "{{ wsdata['LowHexColor'] }}", "{{ wsdata['AlterHexColor'] }}"]; </script>
 <script src="../static/manage_workspace.js"></script>
 {% endblock %}
