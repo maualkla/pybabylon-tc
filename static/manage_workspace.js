@@ -11,7 +11,7 @@ if(_context_vars[2] && _context_vars[3] && _context_vars[4]) {
     _change_system_colors(1, _context_vars[2]);
     _change_system_colors(2, _context_vars[3]);
     _change_system_colors(3, _context_vars[4]);
-    
+
 }
 
 // triggers for options
@@ -41,7 +41,7 @@ if(document.getElementById("_personalization_view_box")) document.getElementById
 if(document.getElementById("_fb_1")) document.getElementById("_fb_1").addEventListener('click', function(){
     switch (_window){
         case 0:
-
+            setAlert("_box_yellow", "Users cant be added yet, try again later.");
             break;
         case 1: 
             break;
@@ -50,6 +50,9 @@ if(document.getElementById("_fb_1")) document.getElementById("_fb_1").addEventLi
         case 3: 
             break; 
         case 4: 
+            break; 
+        case 5: 
+            setAlert("_box_yellow", "Something went wrong, try again later");
             break; 
     }
 });
@@ -57,7 +60,7 @@ if(document.getElementById("_fb_1")) document.getElementById("_fb_1").addEventLi
 if(document.getElementById("_fb_2")) document.getElementById("_fb_2").addEventListener('click', function(){
     switch (_window){
         case 0:
-            
+            setAlert("_box_yellow", "Option not yet available.");
             break;
         case 1: 
             break;
@@ -66,6 +69,11 @@ if(document.getElementById("_fb_2")) document.getElementById("_fb_2").addEventLi
         case 3: 
             break; 
         case 4: 
+            break; 
+        case 5: 
+            _cust_butt_data(2);
+            _ws_manage_change_view("_ws_"+_window, "_ws_0");
+            _window = 0;
             break; 
     }
 });
@@ -73,22 +81,29 @@ if(document.getElementById("_fb_2")) document.getElementById("_fb_2").addEventLi
 if(document.getElementById("_fb_3")) document.getElementById("_fb_3").addEventListener('click', function(){
     switch (_window){
         case 0:
+            _cust_butt_data(3);
+            _ws_manage_change_view("_ws_"+_window, "_ws_5");
+            _window = 5;
             break;
         case 1: 
             _cust_butt_data(2);
             _ws_manage_change_view("_ws_"+_window, "_ws_0");
+            _window = 0;
             break;
         case 2: 
             _cust_butt_data(2);
             _ws_manage_change_view("_ws_"+_window, "_ws_0");
+            _window = 0;
             break;
         case 3: 
             _cust_butt_data(2);
             _ws_manage_change_view("_ws_"+_window, "_ws_0");
+            _window = 0;
             break; 
         case 4: 
             _cust_butt_data(2);
             _ws_manage_change_view("_ws_"+_window, "_ws_0");
+            _window = 0;
             break; 
     }
 });
@@ -115,6 +130,10 @@ const _cust_butt_data = (_case = false) => {
     }
     if(_case == 2){
         _values = ["Add Users", "Delete Workspace", "Workspace Live"], _disp = [true, true, true];
+        _common_fbuttons_change_display_text(_values,_disp); 
+    }
+    if(_case == 3){
+        _values = ["Check In", "Return to Manage", false], _disp = [true, true, false];
         _common_fbuttons_change_display_text(_values,_disp); 
     }
 }

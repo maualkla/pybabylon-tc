@@ -17,7 +17,7 @@ Adminde Dashboard
         {% if _flag_content%} <p>{{ _flag_content }} </p> {% endif %}
     </div>
     <div class="_main_block_content {% if user_pin == False %} _hidden {% endif %} ">
-        <div class="_big_menu_box  " id="_redirect_last_ws" onClick="_redirect('workspace/'+'{{ws_tax_id}}');">
+        <div class="_big_menu_box  " id="_redirect_last_ws" onClick="_redirect('workspace/'+'{% if ws_tax_id %}{{ws_tax_id}}{% else %}new{% endif %}');">
             {% if ws_tax_id %}
             <div class="_bbx_text _en _hidden">
                 Continue Working on <bold_italic>{% if ws_informal_name %} {{ws_informal_name}} {% else %} {{ws_tax_id}} {% endif%} </bold_italic>

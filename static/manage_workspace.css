@@ -21,3 +21,7 @@ CSS styles for manage_workspace
         font-size: 60%;
         padding: 20px 50px 10px 50px;
     }
+    ._main_boxes_live{
+        display: block;
+        max-height: 500px;
+    }

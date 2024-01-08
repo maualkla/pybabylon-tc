@@ -57,9 +57,9 @@ Workspace - {{ super() }}
                 <input class="" type="color" class="_color_input" id="_input_AlterHexColor" value="{{ wsdata['AlterHexColor'] }}"> 
             </div>
         </div>
-        <div class="_main_boxes _hidden" id="_ws_5">
-            <div><p>Current time</p><p>Current Date</p></div>
-            <div><p>Informal Name</p><p>Welcome to your shift</p></div>
+        <div class="_main_boxes_live _hidden" id="_ws_5">
+            <div class="_bbx_text_cust color_3_bg color_1_tx"><div class="bbtx_top"> <bold>{{currentDate}}</bold></div><div class="bbtx_bottom">{{ currentTime }}</div></div>
+            <div class="_bbx_text_cust color_3_bg color_1_tx"><div class="bbtx_top"> <bold>{{wsdata['InformalName'][:42]}}{% if wsdata['InformalName']|length > 42 %}..{% endif %}</bold></div><div class="bbtx_bottom">Welcome to your Shift</div></div>
         </div>
     </div>
     <div class="_hidden _main_block_numpad">

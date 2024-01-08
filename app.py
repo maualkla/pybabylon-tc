@@ -375,9 +375,9 @@ def workspace_option(_id = False):
                 print(" (2) manage")
                 _filter = ":"+_user_id
                 _wsdata = Handlers.get_data(_alx_url, request, "workspace", _id, "owner"+_filter)
-                _ws = _wsdata["items"][0]
                 if _wsdata['containsData'] == True:
                     print(" (3) contains data")
+                    _ws = _wsdata["items"][0]
                     context = {
                         "user_id": _user_id,
                         "user_name": _user['username'],
@@ -386,7 +386,9 @@ def workspace_option(_id = False):
                         "user_pin": _user['pin'],
                         "wsdata": _ws,
                         "_flag_status": "",
-                        "_flag_content": ""
+                        "_flag_content": "",
+                        "currentDate": "January 20, 2023",
+                        "currentTime": "20:24:03 CST (CENTRAL MEXICO)"
                     }
                     print("-----------------------")
                     print(context)
@@ -394,11 +396,11 @@ def workspace_option(_id = False):
                     return render_template('manage_workspace.html', **context)
                 else: 
                     print(" (4) workspace redirect")
-                    _ws = make_response(redirect('/workspace'), **context)
+                    _ws = make_response(redirect('/workspace'))
                     return _ws
             else: 
                 print(" (4) workspace redirect")
-                _ws = make_response(redirect('/workspace'), **context)
+                _ws = make_response(redirect('/workspace'))
                 return _ws
     ## validate the user is allowed to see this page. 
     ## check username
