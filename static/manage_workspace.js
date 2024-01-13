@@ -44,12 +44,20 @@ if(document.getElementById("_fb_1")) document.getElementById("_fb_1").addEventLi
             setAlert("_box_yellow", "Users cant be added yet, try again later.");
             break;
         case 1: 
+            _display_fbuttons(false);
+            _ws_switch_pinpad(true);
             break;
         case 2: 
+            _display_fbuttons(false);
+            _ws_switch_pinpad(true);
             break;
         case 3: 
+            _display_fbuttons(false);
+            _ws_switch_pinpad(true);
             break; 
         case 4: 
+            _display_fbuttons(false);
+            _ws_switch_pinpad(true);
             break; 
         case 5: 
             setAlert("_box_yellow", "Something went wrong, try again later");
@@ -135,5 +143,84 @@ const _cust_butt_data = (_case = false) => {
     if(_case == 3){
         _values = ["Check In", "Return to Manage", false], _disp = [true, true, false];
         _common_fbuttons_change_display_text(_values,_disp); 
+    }
+}
+
+
+
+/// logic to get the fields to be updated.  
+
+// Function to update the workspace
+function _update_workspace(){
+    if(parseInt(_pinpad_num) === _context_vars[1]){ 
+        _display_wheel(true);
+        let fields = ['LegalName', 'InformalName', 'ShortCode', 'State', 'City', 'PostalCode', 'AddressLine1', 'AddressLine2', 'AddressLine3', 'AddressLine4', 'Email', 'PhoneCountryCode', 'PhoneNumber', 'MainHexColor', 'AlterHexColor', 'LowHexColor']
+        _json_payload = {};
+        _payload = {};
+        for(let i = 0; i < fields.length; i++){
+            _json_payload[fields[i]] = (document.getElementById('_i_'+fields[i])) ? document.getElementById('_i_'+fields[i]).value : '';
+        }
+        _payload["item"] = _json_payload;
+        console.log(_payload);
+        let xhr = new XMLHttpRequest();
+        let url = "/v1/admdata?service=workspace";
+        xhr.open("PUT", url);
+        xhr.setRequestHeader("Content-Type", "application/json");   
+        xhr.onreadystatechange = function () {
+            try
+            {
+                let _data = xhr.responseText;
+                let _parsed_data = JSON.parse(_data);
+                if (xhr.readyState === 4 && xhr.status === 202) {
+                    setAlert("_box_green", "Workspace Successfully Creted");
+                    document.getElementById("_xpc_ws_alert").style.height = '170px';
+                    window.location.replace('/dashboard');
+                }else if(xhr.status === 409){
+                    setAlert("_box_red",_parsed_data["reason"]);
+                    _display_wheel(false);
+                }
+            }
+            catch(e)
+            {
+                if(counter === 1){
+                    if(_logging){
+                        console.log("-------------------")
+                        console.log(e)
+                        console.log("-------------------")
+                    }
+                    _errors++;
+                    _change_obj_color(document.getElementById('_login_buttom'), "color_1_bg", "color_2_tx", "color_2_bg", "color_1_tx"); 
+                    setAlert("_box_red", "Error login user.");
+                    _display_wheel(false);
+                }else{
+                    counter++;
+                }
+            }
+        };
+        var data = JSON.stringify(_payload);
+        xhr.send(data);
+    }else{
+        setAlert("_box_red", "Incorrect Pin");_display_wheel(false);
+    }
+    
+    _pinpad_num = ""; _display_pinpad(_pinpad_num);
+}
+
+/// pinpad
+
+if(document.getElementById('_set_pin_button')) document.getElementById('_set_pin_button').addEventListener('click', function (){_update_workspace(); });
+if(document.getElementById('_close_sesion_button')) document.getElementById('_close_sesion_button').addEventListener('click', function (){ _pinpad_num = ""; _ws_switch_pinpad(false); });
+
+
+// pinpad display
+function _ws_switch_pinpad(_show){
+    if(_show){
+        _display_fbuttons(false);
+        document.getElementsByClassName('_main_block_content')[0].classList.add("_hidden");
+        document.getElementsByClassName('_main_block_numpad')[0].classList.remove("_hidden");
+    }else{
+        _display_fbuttons(true);
+        document.getElementsByClassName('_main_block_numpad')[0].classList.add("_hidden");
+        document.getElementsByClassName('_main_block_content')[0].classList.remove("_hidden");
     }
 }
