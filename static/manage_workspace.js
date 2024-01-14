@@ -7,12 +7,7 @@ let _window = 0, counter = 0;
 
 // initialization of the floating buttons
 _display_fbuttons(true);
-if(_context_vars[2] && _context_vars[3] && _context_vars[4]) {
-    _change_system_colors(1, _context_vars[2]);
-    _change_system_colors(2, _context_vars[3]);
-    _change_system_colors(3, _context_vars[4]);
-
-}
+_common_system_auto_change_color();
 
 // triggers for options
 if(document.getElementById("_basic_view_box")) document.getElementById("_basic_view_box").addEventListener('click', function(){ 
@@ -133,7 +128,7 @@ const _ws_manage_change_view = (_hide = false, _show = false) => {
 /// custom save changes and cancel buttons 
 const _cust_butt_data = (_case = false) => {
     if(_case == 1){
-        _values = ["Save Changes", false, "Cancel"], _disp = [true, false, true];
+        _values = ["Save Changes", false, "Back"], _disp = [true, false, true];
         _common_fbuttons_change_display_text(_values,_disp); 
     }
     if(_case == 2){
@@ -168,13 +163,10 @@ function _update_workspace(){
     if(parseInt(_pinpad_num) === _context_vars[1]){ 
         _display_wheel(true);
         _json_payload = _update_workspace_get_params();
-        console.log(_json_payload)
-        console.log("-----------------")
         _json_payload["TaxId"] = _context_vars[5];
         _json_payload["Owner"] = _context_vars[0];
         _payload = {};
         _payload["item"] = _json_payload;
-        console.log(_payload);
         let xhr = new XMLHttpRequest();
         let url = "/v1/admdata?service=workspace";
         xhr.open("PUT", url);
@@ -230,9 +222,38 @@ function _ws_switch_pinpad(_show){
         _display_fbuttons(false);
         document.getElementsByClassName('_main_block_content')[0].classList.add("_hidden");
         document.getElementsByClassName('_main_block_numpad')[0].classList.remove("_hidden");
+        _display_pinpad("Type Pin")
     }else{
         _display_fbuttons(true);
         document.getElementsByClassName('_main_block_numpad')[0].classList.add("_hidden");
         document.getElementsByClassName('_main_block_content')[0].classList.remove("_hidden");
+    }
+}
+
+// pickers changes
+// color 1
+if(document.getElementById('_input_MainHexColor_tx')) document.getElementById('_input_MainHexColor_tx').addEventListener('change', function (){ changeColorPickerValue(document.getElementById('_input_MainHexColor_tx').value, '_i_MainHexColor', '_cp_1'); });
+if(document.getElementById('_i_MainHexColor')) document.getElementById('_i_MainHexColor').addEventListener('change', function (){ changeColorTextValue(document.getElementById('_i_MainHexColor').value, '_input_MainHexColor_tx', '_cp_1'); });
+// color 2
+if(document.getElementById('_input_LowHexColor_tx')) document.getElementById('_input_LowHexColor_tx').addEventListener('change', function (){ changeColorPickerValue(document.getElementById('_input_LowHexColor_tx').value, '_i_LowHexColor', '_cp_2'); });
+if(document.getElementById('_i_LowHexColor')) document.getElementById('_i_LowHexColor').addEventListener('change', function (){ changeColorTextValue(document.getElementById('_i_LowHexColor').value, '_i_LowHexColor_tx', '_cp_2'); });
+// color 3
+if(document.getElementById('_input_AlterHexColor_tx')) document.getElementById('_input_AlterHexColor_tx').addEventListener('change', function (){ changeColorPickerValue(document.getElementById('_input_AlterHexColor_tx').value, '_i_AlterHexColor', '_cp_3'); });
+if(document.getElementById('_i_AlterHexColor')) document.getElementById('_i_AlterHexColor').addEventListener('change', function (){ changeColorTextValue(document.getElementById('_i_AlterHexColor').value, '_input_AlterHexColor_tx', '_cp_3'); });
+
+
+// title name change
+if(document.getElementById('_i_InformalName')) document.getElementById('_i_InformalName').addEventListener('change', function (){ _change_system_title(document.getElementById('_i_InformalName').value);});
+
+
+// cust reset input colors: 
+const _cust_reset_input_colors = () =>{
+    if(_context_vars[2] && _context_vars[3] && _context_vars[4]) {
+        changeColorPickerValue(_context_vars[2], '_i_MainHexColor', '_cp_1');
+        changeColorTextValue(_context_vars[2], '_input_MainHexColor_tx', '_cp_1');
+        changeColorPickerValue(_context_vars[3], '_i_LowHexColor', '_cp_2');
+        changeColorTextValue(_context_vars[3], '_input_LowHexColor_tx', '_cp_2');
+        changeColorPickerValue(_context_vars[4], '_i_AlterHexColor', '_cp_3');
+        changeColorTextValue(_context_vars[4], '_input_AlterHexColor_tx', '_cp_3');
     }
 }

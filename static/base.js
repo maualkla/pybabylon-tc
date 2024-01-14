@@ -340,3 +340,29 @@ const _change_system_title = (_tittle) => {
     }
     
 }
+
+// Color picker functions 
+// function change color picker value.
+const changeColorPickerValue = (_value, _id, _num) => {
+    if (validateHex(_value)){  
+        document.getElementById(_id).value = _value;
+        _change_system_colors(_num.substring(_num.length -1), _value);
+    }else{
+        document.getElementById(_id+"_tx").value = "";
+    }
+}
+
+// function change color text value
+const changeColorTextValue = (_value, _id, _num) => {
+    _change_system_colors(_num.substring(_num.length -1), _value);
+    document.getElementById(_id).value = _value;
+}
+
+//  system auto change color 
+const _common_system_auto_change_color = () => {
+    if(_context_vars[2] && _context_vars[3] && _context_vars[4]) {
+        _change_system_colors(1, _context_vars[2]);
+        _change_system_colors(2, _context_vars[3]);
+        _change_system_colors(3, _context_vars[4]);
+    }
+}
