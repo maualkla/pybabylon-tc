@@ -171,6 +171,3 @@ function _required_check(){
     }
     return _go;
 }
-
-
-

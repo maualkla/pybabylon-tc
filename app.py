@@ -269,7 +269,6 @@ def dashboard():
                                 "_flag_status": "",
                                 "_flag_content": ""
                             }
-                            print(context)
                             return render_template('dashboard.html', **context)
                         else:
                             ## return to login 
@@ -311,7 +310,6 @@ def account():
             _user_id = Handlers.get_username(_alx_url, _session_id, _client_bw, _client_ip)
             ## if status valid, redirect to /dashboard and delete cookie flag, otherwise redirects to /login and deletes _id and _un cookies
             if _user_id:
-                print(_user_id)
                 ## get status 
                 _full_user_data = Handlers.get_data(_alx_url, request, "user", _user_id)
                 _user_data = _full_user_data["items"][0]
@@ -338,7 +336,6 @@ def account():
 
 @app.route('/workspace/')
 def workspace_empty():
-    print(" (4) workspace redirect")
     _ws = make_response(redirect('/workspace'))
     return _ws
 
@@ -356,11 +353,9 @@ def workspace_option(_id = False):
         _client_ip = request.cookies.get('clientIP')
         _user_id = Handlers.get_username(_alx_url, _session_id, _client_bw, _client_ip)
         if _user_id:
-            print(_id)
             _userdata = Handlers.get_data(_alx_url, request, "user", _user_id)
             _user = _userdata['items'][0]
             if _id == 'new':
-                print(" (1) new")
                 context = {
                     "user_id": _user_id,
                     "user_name": _user['username'],
@@ -372,11 +367,9 @@ def workspace_option(_id = False):
                 }
                 return render_template('new_workspace.html', **context)
             elif _id:
-                print(" (2) manage")
                 _filter = ":"+_user_id
                 _wsdata = Handlers.get_data(_alx_url, request, "workspace", _id, "owner"+_filter)
                 if _wsdata['containsData'] == True:
-                    print(" (3) contains data")
                     _ws = _wsdata["items"][0]
                     context = {
                         "user_id": _user_id,
@@ -390,16 +383,11 @@ def workspace_option(_id = False):
                         "currentDate": "January 20, 2023",
                         "currentTime": "20:24:03 CST (CENTRAL MEXICO)"
                     }
-                    print("-----------------------")
-                    print(context)
-                    print("-----------------------")
                     return render_template('manage_workspace.html', **context)
                 else: 
-                    print(" (4) workspace redirect")
                     _ws = make_response(redirect('/workspace'))
                     return _ws
             else: 
-                print(" (4) workspace redirect")
                 _ws = make_response(redirect('/workspace'))
                 return _ws
     ## validate the user is allowed to see this page. 
@@ -653,10 +641,8 @@ def data_ops():
                 return jsonify({}), 403
         ## method PUT
         elif request.method == 'PUT':
-            print("put generic service")
             ## validate service
             if request.args.get('service') and request.json['item']:
-                print(" contains required args")
                 ## call handlers service
                 _response = Handlers.put_data(_alx_url, request, request.args.get('service'), request.json['item'])
                 if _response: 

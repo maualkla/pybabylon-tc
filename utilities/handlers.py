@@ -146,41 +146,33 @@ class Handlers():
     ## _item:           (optional) _item object includes all the fields required to create the update
     def put_data(_service_url, _request, _service, _item):
         try:
+            print(" >> handlers.put_data() operation: ")
             ## validate if present and if present, set the parameters from the cookies of the request object.
             _sessionId = _request.cookies.get('SessionId') if _request.cookies.get('SessionId') else False
             _browser = _request.cookies.get('browserVersion') if _request.cookies.get('browserVersion') else False
             _clientIp = _request.cookies.get('clientIP') if _request.cookies.get('clientIP') else False
             ## if required cookies continue.
             if _sessionId and _browser and _clientIp:
-                print(1)
                 ## call to get_session_token to retrieve the token.
                 _token = Handlers.__get_session_token(_service_url, _sessionId, _browser, _clientIp)
                 ## if token, generates a call to the service. else return null
                 if _token:
-                    print(2)
                     _req = Handlers._models[_service]
                     ## go and iterate to find all of them, if not _go will be false
                     _go = False
                     ## For Loop going for all the required fields.
                     for req_value in _req:
-                        print(2.1)
                         ## if it is not in the parameters, set flag to false.
                         if req_value in _item:
                             _go = True
                     if _go:
-                        print(3)
                         ## set the url of the service
                         _url = Helpers.generateURL(_service_url, _service)
                         ## set the headers
                         _headers = {'SessionId': _sessionId, 'TokenId': _token}
-                        print(_url)
-                        print(_headers)
-                        print(_item)
                         ## generate the get call
                         _response = requests.put(_url, json=_item, headers=_headers)
-                        ## returns the json as response
-                        print(4)
-                        print(_response.json())
+                        ## returns the json as respons
                         return _response.json()
                     else:
                         return {}
