@@ -3,7 +3,7 @@
 */
 
 // params
-let _window = 0;
+let _window = 0, counter = 0;
 
 // initialization of the floating buttons
 _display_fbuttons(true);
@@ -149,17 +149,30 @@ const _cust_butt_data = (_case = false) => {
 
 
 /// logic to get the fields to be updated.  
+const _update_workspace_get_params = () => {
+    let _fields = [[],['LegalName', 'InformalName', 'ShortCode'],[ 'State', 'City', 'PostalCode', 'AddressLine1', 'AddressLine2', 'AddressLine3', 'AddressLine4'],[ 'Email', 'PhoneCountryCode', 'PhoneNumber'],[ 'MainHexColor', 'AlterHexColor', 'LowHexColor']]
+    let _rullete = _fields[_window];
+    let _output = {};
+    let _go = false;
+    for(let i = 0; i<_rullete.length;i++){
+        if(document.getElementById("_i_"+_rullete[i])){
+            _output[_rullete[i]] = document.getElementById("_i_"+_rullete[i]).value;
+            _go = true;
+        }
+    }
+    return (_go) ? _output: {};
+}
 
 // Function to update the workspace
 function _update_workspace(){
     if(parseInt(_pinpad_num) === _context_vars[1]){ 
         _display_wheel(true);
-        let fields = ['LegalName', 'InformalName', 'ShortCode', 'State', 'City', 'PostalCode', 'AddressLine1', 'AddressLine2', 'AddressLine3', 'AddressLine4', 'Email', 'PhoneCountryCode', 'PhoneNumber', 'MainHexColor', 'AlterHexColor', 'LowHexColor']
-        _json_payload = {};
+        _json_payload = _update_workspace_get_params();
+        console.log(_json_payload)
+        console.log("-----------------")
+        _json_payload["TaxId"] = _context_vars[5];
+        _json_payload["Owner"] = _context_vars[0];
         _payload = {};
-        for(let i = 0; i < fields.length; i++){
-            _json_payload[fields[i]] = (document.getElementById('_i_'+fields[i])) ? document.getElementById('_i_'+fields[i]).value : '';
-        }
         _payload["item"] = _json_payload;
         console.log(_payload);
         let xhr = new XMLHttpRequest();
@@ -172,9 +185,9 @@ function _update_workspace(){
                 let _data = xhr.responseText;
                 let _parsed_data = JSON.parse(_data);
                 if (xhr.readyState === 4 && xhr.status === 202) {
-                    setAlert("_box_green", "Workspace Successfully Creted");
-                    document.getElementById("_xpc_ws_alert").style.height = '170px';
-                    window.location.replace('/dashboard');
+                    setAlert("_box_green", "Workspace Successfully Updated");
+                    _pinpad_num = ""; _ws_switch_pinpad(false);
+                    _display_wheel(false);
                 }else if(xhr.status === 409){
                     setAlert("_box_red",_parsed_data["reason"]);
                     _display_wheel(false);
@@ -202,7 +215,6 @@ function _update_workspace(){
     }else{
         setAlert("_box_red", "Incorrect Pin");_display_wheel(false);
     }
-    
     _pinpad_num = ""; _display_pinpad(_pinpad_num);
 }
 

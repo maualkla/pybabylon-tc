@@ -179,6 +179,7 @@ class Handlers():
                         ## generate the get call
                         _response = requests.put(_url, json=_item, headers=_headers)
                         ## returns the json as response
+                        print(4)
                         print(_response.json())
                         return _response.json()
                     else:
