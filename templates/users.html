@@ -8,7 +8,7 @@ Users Manager - {{ super() }}
 {% endblock %}
 
 {% block _title %}
-Users 
+Adminde Users 
 {% endblock %}
 
 {% block _flex_box %}
@@ -17,34 +17,38 @@ Users
         {% if _flag_content%} <p>{{ _flag_content }} </p> {% endif %}
     </div>
     <div class="_main_block_content ">
-        <div class="_main_block_upper">
-            {% for _item in _items %}
-            <div class="_mbu_item">
-                <div class="_mbu_item_title">
-                    {{ _item["username"][:18] }}
-                </div>
-                <div class="_mbu_item_date">
-                    {{ _item["email"][:20] }}
-                </div>
-                <div class="_mbu_item_user">
-                    {{ _item["postalCode"][:20] }}
-                </div>
-                <div class="_mbu_item_btn" id="_mib_{{_item['email']}}" onclick="_delete_user( '{{_item['email']}}' )">
-                    Delete
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        <div class="_main_block_lower">
-            <div class="_button_big _altern" id="_next_button">
-                <p class="_en _hidden">Search</p>
-                <p class="_es _hidden">Buscar</p>
-            </div>
-            <div class="_button_big _main " id="_create_button">
-                <p class="_en _hidden">Refresh</p>
-                <p class="_es _hidden">Actualizar</p>
+        {% if ws_list %}
+        <div class="_big_menu_box _box_main_bot" id="_create_ws">
+            <div class="_menu_box_clon _en _hidden">
+                <bold_italic>Create</bold_italic> a Workspace
             </div>
         </div>
+        {% for ws in ws_list %}
+        <div class="_box_custom_ws _box_main_bot" id="">
+            <div class="_bc_ws_inf">
+                {{ws['InformalName'][:15]}}{% if ws['InformalName']|length > 15 %}..{% endif %}
+            </div>
+            <div class="_bc_ws_tax">
+                {{ws['TaxId']}}
+            </div>
+            <div class="_bc_ws_cit">
+                {{ws['City'][:15]}}{% if ws['City']|length > 15 %}..{% endif %}
+            </div>
+            <div class="_bc_ws_pos">
+                {{ws['PostalCode']}}
+            </div>
+            <div class="_bc_ws_man" onClick="_view_workspace('{{ws['TaxId']}}');">
+                <bold_italic>Manage</bold_italic>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="_big_menu_box color_3_bg color_1_tx _box_main_bot" id="_no_workspaces">
+            <div class="_bbx_text _en _hidden">
+                No Workspaces created yet. <bold_italic>Create Workspace </bold_italic>
+            </div>
+        </div>
+        {% endif %}
     </div>
     <div class="_main_block_search _hidden">
         <div class="_mbs_upper">

@@ -30,11 +30,12 @@ _alx_url = str(app.config['CONF_URL']) + ":" + str(app.config['CONF_PORT'])
 def apidocs():
     try:
         ## Set a logged variable requesting the _id and _us cookies.
-        _logged = True if request.cookies.get('_id') and request.cookies.get('_un') else False
+        _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
+        _out = make_response(redirect('/logout'))
         ## validate if _logged
-        if _logged:
+        if _required_cookies:
             context= {
-                "_logged" : _logged
+                "_logged" : True if _required_cookies else False
             }
             return render_template('apidocs.html', **context)
         else:
@@ -50,11 +51,12 @@ def apidocs():
 def apidocs_v0_1():
     try:
         ## Set a logged variable requesting the _id and _us cookies.
-        _logged = True if request.cookies.get('_id') and request.cookies.get('_un') else False
+        _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
+        _out = make_response(redirect('/logout'))
         ## validate if _logged
-        if _logged:
+        if _required_cookies:
             context= {
-                "_logged" : _logged
+                "_logged" : True if _required_cookies else False
             }
             return render_template('apidocs_v0_1.html', **context)
         else:
@@ -70,11 +72,12 @@ def apidocs_v0_1():
 def apidocs_v0_2():
     try:
         ## Set a logged variable requesting the _id and _us cookies.
-        _logged = True if request.cookies.get('_id') and request.cookies.get('_un') else False
+        _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
+        _out = make_response(redirect('/logout'))
         ## validate if _logged
-        if _logged:
+        if _required_cookies:
             context= {
-                "_logged" : _logged
+                "_logged" : True if _required_cookies else False
             }
             return render_template('apidocs_v0_2.html', **context)
         else:
@@ -447,71 +450,15 @@ def workspace():
 
 ################################################################################################################
 
-## Update User process
-@app.route('/user', methods=['GET', 'PUT'])
-def updateUser():
-    try:
-        if request.method == 'GET':
-            _dash = make_response(redirect('/dashboard'))
-            return _dash
-        ## Validate if _un and _id are in the headers.
-        if request.headers.get('_id') and request.headers.get('_un') and request.json['email']:
-            ## save the _id and _un values
-            _id = request.headers.get('_id')
-            _un = request.headers.get('_un')
-            ## generate a auth object.
-            _auth_obj = Helpers.auth(_id, _un)
-            ## get the status
-            _status = _auth_obj.json().get('status')
-            ## validate the status
-            if _status == 'valid':
-                ## Create the json object
-                _json = {}
-                ## Add email as a mandatory value
-                _json['email'] = request.json['email']
-                ## define the not mandatory fields
-                req_fields = ['pass','activate', 'username', 'bday', 'fname', 'phone', 'pin', 'plan', 'postalCode', 'type']
-                ## Set _go flag to false.
-                _go = False
-                ## go for all the possible fields to be send
-                for req_value in req_fields:
-                    ## In case required field in json payload 
-                    if req_value in request.json:
-                        ## update _json_payload object adding current field.
-                        _json[req_value] = request.json[req_value]
-                        ## update flag to update user
-                        _go = True
-                ## if any of the fields were processed and added to the json object, the _go flag will be true, else it will end the flow
-                if _go:
-                    ## preparate, the url, headers
-                    _url = _alx_url+'/user'
-                    _headers = {'Content-type': 'application/json'}
-                    ## save the response of sending a put request to the service to update user.
-                    _response = requests.put(_url, json=_json, headers=_headers)
-                    ## Validate the status code as 202
-                    if str(_response.status_code) == str(202):
-                        return jsonify({"code": "202", "reason": "user successfully updated"}), 202
-                    else:
-                        return jsonify({"code": str(_response.status_code), "reason": "Error updating user"}), 500
-                else:
-                    return jsonify({"code": 403, "reason": "Missing required parameters"}), 403
-            else:
-                return jsonify({"code": 400, "reason": "Invalid authorization"}), 400
-        else: 
-            return jsonify({"code": 400, "reason": "Missing authorization."}), 400
-    except Exception as e:
-        return {"status": "An error Occurred", "error": str(e)}
-
-################################################################################################################
-
 ## Transactions service
 @app.route('/transactions')
 def transactions():
     try: 
         ## Set a logged variable requesting the _id and _us cookies.
-        _logged = True if request.cookies.get('_id') and request.cookies.get('_un') else False
+        _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
+        _out = make_response(redirect('/logout'))
         ## validate if _logged
-        if _logged:
+        if _required_cookies:
             ## we need a function to know the user level...
             ## for now, we define the user level to 3
             _level = 3
@@ -562,9 +509,11 @@ def transactions():
 @app.route('/users')
 def users():
     try: 
-        ## Valdiate if logged.
-        _logged = True if request.cookies.get('_id') and request.cookies.get('_un') else False
-        if _logged:
+        ## Set a logged variable requesting the _id and _us cookies.
+        _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
+        _out = make_response(redirect('/logout'))
+        ## validate if _logged
+        if _required_cookies:
             ## we need a function to know the user level...
             _level = 3
             if _level > 2:
