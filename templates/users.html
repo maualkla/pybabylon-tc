@@ -75,5 +75,11 @@ Adminde Users
 
 {% block scripts %}
 {{ super() }}
+<script>
+    {% set ns = namespace() %}
+    _levels = [{% for level in levels %} {% if ns.value %} ,"{{level[1]}}" {% else %} {% set ns.value = 1 %} "{{level[1]}}" {% endif %} {% endfor %}];
+    {% set ns = namespace() %}
+    _plans = [{% for plan in plans %} {% if ns.value %} ,"{{plan[0]}}" {% else %} {% set ns.value = 1 %} "{{plan[0]}}"  {% endif %} {% endfor %}];
+</script>
 <script src="../static/users.js"></script>
 {% endblock %}

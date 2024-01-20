@@ -554,6 +554,8 @@ def users():
                             "user_fname": _user['fname'],
                             "user_pin": _user['pin'] if _user['pin'] > 0 else False,
                             "users_list": _items if _items else False,
+                            "levels": levels._type_all(), 
+                            "plans": plans._plan_all(),
                             "_flag_status": "",
                             "_flag_content": ""
                         }

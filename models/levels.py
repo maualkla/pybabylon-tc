@@ -24,3 +24,6 @@ class levels:
                 return levels._models[5]
             case _:
                 return False
+            
+    def _type_all():
+        return levels._models

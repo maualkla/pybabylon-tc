@@ -15,3 +15,6 @@ class plans:
                 return plans._models[2]
             case _:
                 return False
+            
+    def _plan_all():
+        return plans._models
