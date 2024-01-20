@@ -3,6 +3,9 @@
 */
 // System vars
 
+// initial triggers
+_display_fbuttons(true);
+
 // Service buttons
 if(document.getElementById('_dash_en')) document.getElementById('_dash_en').addEventListener('click', function (){window.location.replace("/dashboard")});
 if(document.getElementById('_dash_es')) document.getElementById('_dash_es').addEventListener('click', function (){ window.location.replace("/dashboard") });
