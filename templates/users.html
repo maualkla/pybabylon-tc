@@ -17,27 +17,22 @@ Adminde Users
         {% if _flag_content%} <p>{{ _flag_content }} </p> {% endif %}
     </div>
     <div class="_main_block_content ">
-        {% if ws_list %}
-        <div class="_big_menu_box _box_main_bot" id="_create_ws">
-            <div class="_menu_box_clon _en _hidden">
-                <bold_italic>Create</bold_italic> a Workspace
-            </div>
-        </div>
-        {% for ws in ws_list %}
+        {% if users_list %}
+        {% for usr in users_list %}
         <div class="_box_custom_ws _box_main_bot" id="">
             <div class="_bc_ws_inf">
-                {{ws['InformalName'][:15]}}{% if ws['InformalName']|length > 15 %}..{% endif %}
+                {{usr['username'][:15]}}{% if usr['username']|length > 15 %}..{% endif %}
             </div>
             <div class="_bc_ws_tax">
-                {{ws['TaxId']}}
+                {{usr['email'][:22]}}{% if usr['email']|length > 22 %}..{% endif %}
             </div>
             <div class="_bc_ws_cit">
-                {{ws['City'][:15]}}{% if ws['City']|length > 15 %}..{% endif %}
+                {{usr['plan'][:22]}}{% if usr['plan']|length > 22 %}..{% endif %}
             </div>
             <div class="_bc_ws_pos">
-                {{ws['PostalCode']}}
+                {{usr['type'][:22]}}{% if usr['type']|length > 22 %}..{% endif %}
             </div>
-            <div class="_bc_ws_man" onClick="_view_workspace('{{ws['TaxId']}}');">
+            <div class="_bc_ws_man" onClick="_view_workspace('{{usr['email']}}');">
                 <bold_italic>Manage</bold_italic>
             </div>
         </div>

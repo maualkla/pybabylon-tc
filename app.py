@@ -13,6 +13,8 @@ from flask import Flask, jsonify, request, render_template, redirect, make_respo
 from config import Config
 from utilities.helpers import Helpers
 from utilities.handlers import Handlers
+from models.levels import levels
+from models.plans import plans
 import os, requests, base64
 
 ## Initialize Flask App
@@ -514,44 +516,62 @@ def users():
         _out = make_response(redirect('/logout'))
         ## validate if _logged
         if _required_cookies:
-            ## we need a function to know the user level...
-            _level = 3
-            if _level > 2:
-                
-                ## preparate, the url, headers
-                _url = _alx_url+'/user'
-                _headers = {'Content-type': 'application/json'}
-                ## save the response of sending a put request to the service to update user.
-                _response = requests.get(_url, headers=_headers)
-                ## Validate the status code as 202
-                if str(_response.status_code) == str(200):
-                    ## return items 
-                    _items = _response.json().get('items')
+            ## if present, save the _id and _un
+            _session_id = request.cookies.get('SessionId')
+            _client_bw = request.cookies.get('browserVersion')
+            _client_ip = request.cookies.get('clientIP')
+            _user_id = Handlers.get_username(_alx_url, _session_id, _client_bw, _client_ip)
+            if _user_id:
+                _userdata = Handlers.get_data(_alx_url, request, "user", _user_id)
+                if _userdata: 
+                    print("Entramos en userdata...")
+                    _user = _userdata['items'][0]
+                    if int(_user['type']) > 2: 
+                        print(_user['type'])
+                        ## preparate, the url, headers
+                        _users = Handlers.get_data(_alx_url, request, "user")
+                        ## Validate the status code as 202
+                        if _users:
+                            ## return items
+                            i = 0
+                            for _u in _users['items']:
+                                _users['items'][i]['type'] = levels._type_info(_u['type'])[1]
+                                _users['items'][i]['plan'] = plans._plan_info(_u['plan'])[0]
+                                i += 1
+                            _items = _users['items']
+                        else:
+                            ## define sample json
+                            _items = [{
+                                "username": "No users found",
+                                "email": "Try again later",
+                                "type": "0",
+                                "plan": "0"
+                            }]
+                        context = {
+                            "user_id": _user_id,
+                            "user_name": _user['username'],
+                            "user_type": _user['type'],
+                            "user_fname": _user['fname'],
+                            "user_pin": _user['pin'] if _user['pin'] > 0 else False,
+                            "users_list": _items if _items else False,
+                            "_flag_status": "",
+                            "_flag_content": ""
+                        }
+                        ## return users view
+                        return render_template('users.html', **context)
+                    else: 
+                        ## return to dashboard service
+                        _dash = make_response(redirect('/dashboard'))
+                        return _dash
                 else:
-                    ## define sample json
-                    _items = [{
-                        "username": "NO USERS FOUND",
-                        "email": "",
-                        "postalCode": ""
-                    }]
-                context = {
-                    '_level': _level,
-                    '_logged': '',
-                    '_add': '', 
-                    '_items': _items
-                }
-                ## return users view
-                return render_template('users.html', **context)
-            else: 
-                ## return to dashboard service
-                _dash = make_response(redirect('/dashboard'))
-                return _dash
+                    ## return to login service.
+                    return _out
+            else:
+                ## return to login service.
+                return _out
         else:
             ## return to login service.
-            _log = make_response(redirect('/login'))
-            _log.delete_cookie('_id')
-            _log.delete_cookie('_un')
-            return _log
+            return _out
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
 

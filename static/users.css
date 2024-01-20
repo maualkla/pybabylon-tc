@@ -46,6 +46,7 @@
             grid-area: 5 / 1 / 6 / 3;
             font-size: 55%;
             padding-bottom: 30px;
+            white-space: nowrap;
         }
         ._bc_ws_man{
             grid-area: 4 / 4 / 6 / 6;
