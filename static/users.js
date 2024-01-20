@@ -2,6 +2,7 @@
     JS functions for the transactions.html file.
 */
 // System vars
+_stage = 0;
 
 // initial triggers
 _display_fbuttons(true);
@@ -13,12 +14,26 @@ if(document.getElementById('_logout_en')) document.getElementById('_logout_en').
 if(document.getElementById('_logout_es')) document.getElementById('_logout_es').addEventListener('click', function (){ window.location.replace("/logout") });
 
 // mainblock buttons
-if(document.getElementById('_next_button')) document.getElementById('_next_button').addEventListener('click', function (){ _display_search(true); });
-if(document.getElementById('_create_button')) document.getElementById('_create_button').addEventListener('click', function (){ _refresh_list(); });
+if(document.getElementById('_fb_1')) document.getElementById('_fb_1').addEventListener('click', function (){ 
+    if(_stage == 0){
+        _stage = 1;
+        _common_fbuttons_change_display_text(["Search", "", "Cancel"], [true, false, true]);
+        _display_search(true);
+    }else if(_stage == 1){
+        // search action
+    }
+});
+if(document.getElementById('_fb_3')) document.getElementById('_fb_3').addEventListener('click', function (){ 
+    if(_stage == 0){
+        // refresh action
+    }else if(_stage == 1){
+        _stage = 0;
+        _common_fbuttons_change_display_text(["Search", "", "Refresh"], [true, false, true]);
+        _display_search(false);
+    }
+});
 
 // search buttons
-if(document.getElementById('_next_button_2')) document.getElementById('_next_button_2').addEventListener('click', function (){ _refresh_list();});
-if(document.getElementById('_create_button_2')) document.getElementById('_create_button_2').addEventListener('click', function (){ _display_search(false); });
 
 // functions
 function _display_search(_show){
