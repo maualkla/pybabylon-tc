@@ -461,47 +461,53 @@ def transactions():
         _out = make_response(redirect('/logout'))
         ## validate if _logged
         if _required_cookies:
-            ## we need a function to know the user level...
-            ## for now, we define the user level to 3
-            _level = 3
-            ## validate user level
-            if _level > 2:
-                ## If level > 2 request the data from last 10 trxs
-                ## preparate, the url, headers
-                _url = _alx_url+'/transaction'
-                _headers = {'Content-type': 'application/json'}
-                ## save the response of sending a put request to the service to update user.
-                _response = requests.get(_url, headers=_headers)
-                ## Validate the status code as 202
-                if str(_response.status_code) == str(200):
-                    ## save the items from backend in to the _items variable.
-                    _items = _response.json().get('items')
+            ## if present, save the _id and _un
+            _session_id = request.cookies.get('SessionId')
+            _client_bw = request.cookies.get('browserVersion')
+            _client_ip = request.cookies.get('clientIP')
+            _user_id = Handlers.get_username(_alx_url, _session_id, _client_bw, _client_ip)
+            if _user_id:
+                _userdata = Handlers.get_data(_alx_url, request, "user", _user_id)
+                if _userdata:
+                    _user = _userdata['items'][0]
+                    if int(_user['type']) > 2: 
+                        _trxs = Handlers.get_data(_alx_url, request, "transaction")
+                        if _trxs:
+                            ## save the items from backend in to the _items variable.
+                            _items = _trxs['items']
+                        else:
+                            ## set a dummy trx variable.
+                            _items = [{
+                                "date": "-",
+                                "id": "NO TRX Available",
+                                "user": "-"
+                            }]
+                        ## Set the context variable.
+                        context = {
+                            "user_id": _user_id,
+                            "user_name": _user['username'],
+                            "user_type": _user['type'],
+                            "user_fname": _user['fname'],
+                            "user_pin": _user['pin'] if _user['pin'] > 0 else False,
+                            "transactions_list": _items if _items else False,
+                            "_flag_status": "",
+                            "_flag_content": ""
+                        }
+                        ## returns the transactions.html view.
+                        return render_template('transactions.html', **context)
+                    else: 
+                        ## return to dashboard service
+                        _dash = make_response(redirect('/dashboard'))
+                        return _dash
                 else:
-                    ## set a dummy trx variable.
-                    _items = [{
-                        "date": "-",
-                        "id": "NO TRX Available",
-                        "user": "-"
-                    }]
-                ## Set the context variable.
-                context = {
-                    '_level': _level,
-                    '_logged': '',
-                    '_add': '', 
-                    '_items': _items
-                }
-                ## returns the transactions.html view.
-                return render_template('transactions.html', **context)
-            else: 
-                ## if not level 2> returns you to dasboard-
-                _dash = make_response(redirect('/dashboard'))
-                return _dash
+                    ## return to login service.
+                    return _out
+            else:
+                ## return to login service.
+                return _out
         else:
-            ## if not logged, returns you to login.
-            _log = make_response(redirect('/login'))
-            _log.delete_cookie('_id')
-            _log.delete_cookie('_un')
-            return _log
+            ## return to login service.
+            return _out
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
 
@@ -524,10 +530,8 @@ def users():
             if _user_id:
                 _userdata = Handlers.get_data(_alx_url, request, "user", _user_id)
                 if _userdata: 
-                    print("Entramos en userdata...")
                     _user = _userdata['items'][0]
                     if int(_user['type']) > 2: 
-                        print(_user['type'])
                         ## preparate, the url, headers
                         _users = Handlers.get_data(_alx_url, request, "user")
                         ## Validate the status code as 202

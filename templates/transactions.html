@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}
-Transactions Manager - {{ super() }}
+Users Manager - {{ super() }}
 {% endblock %}
 {% block styles %}
 <link rel="stylesheet" href="../static/transactions.css">
@@ -8,7 +8,7 @@ Transactions Manager - {{ super() }}
 {% endblock %}
 
 {% block _title %}
-Transactions 
+Adminde TRX 
 {% endblock %}
 
 {% block _flex_box %}
@@ -17,46 +17,38 @@ Transactions
         {% if _flag_content%} <p>{{ _flag_content }} </p> {% endif %}
     </div>
     <div class="_main_block_content ">
-        <div class="_main_block_upper">
-            {% for _item in _items %}
-            <div class="_mbu_item">
-                <div class="_mbu_item_title">
-                    {{ _item["id"][:18] }}
-                </div>
-                <div class="_mbu_item_date">
-                    {{ _item["date"][:20] }}
-                </div>
-                <div class="_mbu_item_user">
-                    {{ _item["user"][:20] }}
-                </div>
+        {% if transactions_list %}
+        {% for usr in transactions_list %}
+        <div class="_box_custom_ws _box_main_bot" id="">
+            <div class="_bc_ws_inf">
+                {{usr['action']}}
             </div>
-            {% endfor %}
-        </div>
-        <div class="_main_block_lower">
-            <div class="_button_big _altern" id="_next_button">
-                <p class="_en _hidden">Search</p>
-                <p class="_es _hidden">Buscar</p>
+            <div class="_bc_ws_tax">
+                {{usr['dateTime']}}
             </div>
-            <div class="_button_big _main " id="_create_button">
-                <p class="_en _hidden">Refresh</p>
-                <p class="_es _hidden">Actualizar</p>
+            <div class="_bc_ws_cit">
+                {{usr['userId']}}
+            </div>
+            <div class="_bc_ws_pos">
+                {{usr['severity']}}
+            </div>
+            <div class="_bc_ws_man" onClick="_delete_transaction('{{usr['id']}}');">
+                <bold_italic>Manage</bold_italic>
             </div>
         </div>
+        {% endfor %}
+        {% else %}
+        <div class="_big_menu_box color_3_bg color_1_tx _box_main_bot" id="_no_workspaces">
+            <div class="_bbx_text _en _hidden">
+                No Transactions created yet.
+            </div>
+        </div>
+        {% endif %}
     </div>
     <div class="_main_block_search _hidden">
         <div class="_mbs_upper">
             <div class="_mbc_inputs">
-                <input class="_input_general _altern" type="text" placeholder="Search by Email" id="i_email">
-            </div>
-        </div>
-        <div class="_mbs_lower">
-            <div class="_button_big _altern" id="_next_button_2">
-                <p class="_en _hidden">Find</p>
-                <p class="_es _hidden">Encontrar</p>
-            </div>
-            <div class="_button_big _main " id="_create_button_2">
-                <p class="_en _hidden">Cancel</p>
-                <p class="_es _hidden">Cancelar</p>
+                <input class="_input_general color_1_tx color_2_bg" type="text" placeholder="Search by Email or Username" id="_search_input">
             </div>
         </div>
     </div>
@@ -71,7 +63,21 @@ Transactions
 {% endblock %}
 
 
+{% block floating_button_1_style %} color_2_bg color_1_tx color_2_border {% endblock %}
+{% block floating_button_1 %} <p class="_en _hidden"><bold>Search</bold></p><p class="_es _hidden"><bold>Buscar</bold></p> {% endblock %}
+{% block floating_button_2_style %} _hidden color_2_bg color_1_tx color_2_border{% endblock %}
+{% block floating_button_2 %} <p class="_en _hidden"><bold></bold></p><p class="_es _hidden"><bold></bold></p> {% endblock %}
+{% block floating_button_3_style %}  color_1_bg color_2_tx color_2_border{% endblock %}
+{% block floating_button_3 %} <p class="_en _hidden"><bold>Refresh</bold></p><p class="_es _hidden"><bold>Actualizar</bold></p> {% endblock %}
+
+
 {% block scripts %}
 {{ super() }}
+<script>
+    {% set ns = namespace() %}
+    _levels = [{% for level in levels %} {% if ns.value %} ,"{{level[1]}}" {% else %} {% set ns.value = 1 %} "{{level[1]}}" {% endif %} {% endfor %}];
+    {% set ns = namespace() %}
+    _plans = [{% for plan in plans %} {% if ns.value %} ,"{{plan[0]}}" {% else %} {% set ns.value = 1 %} "{{plan[0]}}"  {% endif %} {% endfor %}];
+</script>
 <script src="../static/transactions.js"></script>
 {% endblock %}

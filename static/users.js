@@ -1,5 +1,5 @@
     /* 
-        JS functions for the transactions.html file.
+        JS functions for the users.html file.
     */
     // System vars
     let _stage = 0, counter = 0;
