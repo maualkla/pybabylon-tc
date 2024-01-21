@@ -76,7 +76,7 @@
                     if(_parsed_data.containsData){
                         _display_items(_parsed_data.items);
                     }else{
-                        setAlert("_box_red", "No user(s) found.");
+                        setAlert("_box_red", "No user(s) found, try again");
                     }
                     _display_wheel(false);
                     counter = 0;
@@ -114,7 +114,7 @@
     const _display_items = (_items) =>{
         let _object = "";
         _items.forEach((item) => {
-            _object += '<div class="_box_custom_ws _box_main_bot" id=""><div class="_bc_ws_inf">'+item["username"]+'</div><div class="_bc_ws_tax">'+item["username"]+'</div><div class="_bc_ws_cit">'+_plans[item["plan"]-1]+'</div><div class="_bc_ws_pos">'+_levels[item["type"]]+'</div><div class="_bc_ws_man" onClick="_manage_user("'+item["email"]+'");"><bold_italic>Manage</bold_italic></div></div>';
+            _object += '<div class="_box_custom_ws _box_main_bot" id=""><div class="_bc_ws_inf">'+item["username"].substring(0, 15)+'</div><div class="_bc_ws_tax">'+item["email"].substring(0, 30)+'</div><div class="_bc_ws_cit">'+_plans[item["plan"]-1].substring(0, 22)+'</div><div class="_bc_ws_pos">'+_levels[item["type"]].substring(0, 22)+'</div><div class="_bc_ws_man" onClick="_manage_user("'+item["email"]+'");"><bold_italic>Manage</bold_italic></div></div>';
         })
         document.getElementsByClassName("_main_block_content")[0].innerHTML = _object;
     }
