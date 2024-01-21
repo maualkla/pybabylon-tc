@@ -32,7 +32,7 @@ Adminde Users
             <div class="_bc_ws_pos">
                 {{usr['type'][:22]}}{% if usr['type']|length > 22 %}..{% endif %}
             </div>
-            <div class="_bc_ws_man" onClick="_view_workspace('{{usr['email']}}');">
+            <div class="_bc_ws_man" onClick="_manage_user('{{usr['email']}}');">
                 <bold_italic>Manage</bold_italic>
             </div>
         </div>
@@ -48,7 +48,7 @@ Adminde Users
     <div class="_main_block_search _hidden">
         <div class="_mbs_upper">
             <div class="_mbc_inputs">
-                <input class="_input_general color_1_tx color_2_bg" type="text" placeholder="Search by Email or Username" id="i_email">
+                <input class="_input_general color_1_tx color_2_bg" type="text" placeholder="Search by Email or Username" id="_search_input">
             </div>
         </div>
     </div>

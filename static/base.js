@@ -18,7 +18,7 @@ let _menu_ext_value = true;
 let _curr_languaje = "_"+navigator.language.substring(0,2) || "_en";
 let _new_lang = "_es";
 let _errors = 0;
-let _logging = false;
+let _logging = true;
 
 let _langs = ['_en', '_es'];
 let _pinpad_num = "";

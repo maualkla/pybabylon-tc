@@ -7,15 +7,11 @@
 }
    
 /* button from the find stage */
-#i_email{
+#_search_input{
     margin-top: 43%;
     margin-bottom: 42%;
 }
 
-
-._main_block_alerts{
-    height: 200px !important;
-}
 
 ._main_block_content{
     
