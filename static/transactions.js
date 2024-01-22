@@ -4,6 +4,8 @@
     // System vars
     let _stage = 0, counter = 0;
 
+    let _model = ["low", "medium", "high", "critical"]  
+
     // initial triggers
     _display_fbuttons(true);
 

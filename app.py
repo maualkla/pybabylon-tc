@@ -15,6 +15,7 @@ from utilities.helpers import Helpers
 from utilities.handlers import Handlers
 from models.levels import levels
 from models.plans import plans
+from models.severityLevels import severityLevels
 import os, requests, base64
 
 ## Initialize Flask App
@@ -474,6 +475,11 @@ def transactions():
                         _trxs = Handlers.get_data(_alx_url, request, "transaction")
                         if _trxs:
                             ## save the items from backend in to the _items variable.
+                            ## return items
+                            i = 0
+                            for _u in _trxs['items']:
+                                _trxs['items'][i]['severity'] = severityLevels._secutiryLevel_info(_trxs['items'][i]['severity'])
+                                i += 1
                             _items = _trxs['items']
                         else:
                             ## set a dummy trx variable.
