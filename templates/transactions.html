@@ -48,7 +48,7 @@ Adminde TRX
     <div class="_main_block_search _hidden">
         <div class="_mbs_upper">
             <div class="_mbc_inputs">
-                <input class="_input_general color_1_tx color_2_bg" type="text" placeholder="Search by Email or Username" id="_search_input">
+                <input class="_input_general color_1_tx color_2_bg" type="text" placeholder="Search by Id" id="_search_input">
             </div>
         </div>
     </div>
@@ -75,9 +75,7 @@ Adminde TRX
 {{ super() }}
 <script>
     {% set ns = namespace() %}
-    _levels = [{% for level in levels %} {% if ns.value %} ,"{{level[1]}}" {% else %} {% set ns.value = 1 %} "{{level[1]}}" {% endif %} {% endfor %}];
-    {% set ns = namespace() %}
-    _plans = [{% for plan in plans %} {% if ns.value %} ,"{{plan[0]}}" {% else %} {% set ns.value = 1 %} "{{plan[0]}}"  {% endif %} {% endfor %}];
-</script>
+    _severityes = [{% for level in severityLevels %} {% if ns.value %} ,"{{level}}" {% else %} {% set ns.value = 1 %} "{{level}}" {% endif %} {% endfor %}];
+   </script>
 <script src="../static/transactions.js"></script>
 {% endblock %}

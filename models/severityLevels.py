@@ -5,3 +5,5 @@ class severityLevels:
     def _secutiryLevel_info(sl):
         return severityLevels._model[sl-1]
     
+    def _secutiryLevel_all():
+        return severityLevels._model

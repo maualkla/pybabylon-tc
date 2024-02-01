@@ -478,6 +478,7 @@ def transactions():
                             ## return items
                             i = 0
                             for _u in _trxs['items']:
+                                x = severityLevels._secutiryLevel_info(_trxs['items'][i]['severity'])
                                 _trxs['items'][i]['severity'] = severityLevels._secutiryLevel_info(_trxs['items'][i]['severity'])
                                 i += 1
                             _items = _trxs['items']
@@ -496,6 +497,7 @@ def transactions():
                             "user_fname": _user['fname'],
                             "user_pin": _user['pin'] if _user['pin'] > 0 else False,
                             "transactions_list": _items if _items else False,
+                            "severityLevels": severityLevels._secutiryLevel_all(),
                             "_flag_status": "",
                             "_flag_content": ""
                         }
