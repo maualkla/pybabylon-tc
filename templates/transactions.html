@@ -19,7 +19,7 @@ Adminde TRX
     <div class="_main_block_content ">
         {% if transactions_list %}
         {% for usr in transactions_list %}
-        <div class="_box_custom_ws _box_main_bot" id="">
+        <div class="_box_custom_ws _box_main_bot" id="_cut_{{usr['id']}}">
             <div class="_bc_ws_inf">
                 {{usr['action']}}
             </div>
@@ -33,7 +33,7 @@ Adminde TRX
                 {{usr['severity']}}
             </div>
             <div class="_bc_ws_man" onClick="_delete_transaction('{{usr['id']}}');">
-                <bold_italic>Manage</bold_italic>
+                <bold_italic>Delete</bold_italic>
             </div>
         </div>
         {% endfor %}
