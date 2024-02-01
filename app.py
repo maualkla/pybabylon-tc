@@ -13,6 +13,9 @@ from flask import Flask, jsonify, request, render_template, redirect, make_respo
 from config import Config
 from utilities.helpers import Helpers
 from utilities.handlers import Handlers
+from models.levels import levels
+from models.plans import plans
+from models.severityLevels import severityLevels
 import os, requests, base64
 
 ## Initialize Flask App
@@ -30,11 +33,12 @@ _alx_url = str(app.config['CONF_URL']) + ":" + str(app.config['CONF_PORT'])
 def apidocs():
     try:
         ## Set a logged variable requesting the _id and _us cookies.
-        _logged = True if request.cookies.get('_id') and request.cookies.get('_un') else False
+        _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
+        _out = make_response(redirect('/logout'))
         ## validate if _logged
-        if _logged:
+        if _required_cookies:
             context= {
-                "_logged" : _logged
+                "_logged" : True if _required_cookies else False
             }
             return render_template('apidocs.html', **context)
         else:
@@ -50,11 +54,12 @@ def apidocs():
 def apidocs_v0_1():
     try:
         ## Set a logged variable requesting the _id and _us cookies.
-        _logged = True if request.cookies.get('_id') and request.cookies.get('_un') else False
+        _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
+        _out = make_response(redirect('/logout'))
         ## validate if _logged
-        if _logged:
+        if _required_cookies:
             context= {
-                "_logged" : _logged
+                "_logged" : True if _required_cookies else False
             }
             return render_template('apidocs_v0_1.html', **context)
         else:
@@ -70,11 +75,12 @@ def apidocs_v0_1():
 def apidocs_v0_2():
     try:
         ## Set a logged variable requesting the _id and _us cookies.
-        _logged = True if request.cookies.get('_id') and request.cookies.get('_un') else False
+        _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
+        _out = make_response(redirect('/logout'))
         ## validate if _logged
-        if _logged:
+        if _required_cookies:
             context= {
-                "_logged" : _logged
+                "_logged" : True if _required_cookies else False
             }
             return render_template('apidocs_v0_2.html', **context)
         else:
@@ -447,112 +453,69 @@ def workspace():
 
 ################################################################################################################
 
-## Update User process
-@app.route('/user', methods=['GET', 'PUT'])
-def updateUser():
-    try:
-        if request.method == 'GET':
-            _dash = make_response(redirect('/dashboard'))
-            return _dash
-        ## Validate if _un and _id are in the headers.
-        if request.headers.get('_id') and request.headers.get('_un') and request.json['email']:
-            ## save the _id and _un values
-            _id = request.headers.get('_id')
-            _un = request.headers.get('_un')
-            ## generate a auth object.
-            _auth_obj = Helpers.auth(_id, _un)
-            ## get the status
-            _status = _auth_obj.json().get('status')
-            ## validate the status
-            if _status == 'valid':
-                ## Create the json object
-                _json = {}
-                ## Add email as a mandatory value
-                _json['email'] = request.json['email']
-                ## define the not mandatory fields
-                req_fields = ['pass','activate', 'username', 'bday', 'fname', 'phone', 'pin', 'plan', 'postalCode', 'type']
-                ## Set _go flag to false.
-                _go = False
-                ## go for all the possible fields to be send
-                for req_value in req_fields:
-                    ## In case required field in json payload 
-                    if req_value in request.json:
-                        ## update _json_payload object adding current field.
-                        _json[req_value] = request.json[req_value]
-                        ## update flag to update user
-                        _go = True
-                ## if any of the fields were processed and added to the json object, the _go flag will be true, else it will end the flow
-                if _go:
-                    ## preparate, the url, headers
-                    _url = _alx_url+'/user'
-                    _headers = {'Content-type': 'application/json'}
-                    ## save the response of sending a put request to the service to update user.
-                    _response = requests.put(_url, json=_json, headers=_headers)
-                    ## Validate the status code as 202
-                    if str(_response.status_code) == str(202):
-                        return jsonify({"code": "202", "reason": "user successfully updated"}), 202
-                    else:
-                        return jsonify({"code": str(_response.status_code), "reason": "Error updating user"}), 500
-                else:
-                    return jsonify({"code": 403, "reason": "Missing required parameters"}), 403
-            else:
-                return jsonify({"code": 400, "reason": "Invalid authorization"}), 400
-        else: 
-            return jsonify({"code": 400, "reason": "Missing authorization."}), 400
-    except Exception as e:
-        return {"status": "An error Occurred", "error": str(e)}
-
-################################################################################################################
-
 ## Transactions service
 @app.route('/transactions')
 def transactions():
     try: 
         ## Set a logged variable requesting the _id and _us cookies.
-        _logged = True if request.cookies.get('_id') and request.cookies.get('_un') else False
+        _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
+        _out = make_response(redirect('/logout'))
         ## validate if _logged
-        if _logged:
-            ## we need a function to know the user level...
-            ## for now, we define the user level to 3
-            _level = 3
-            ## validate user level
-            if _level > 2:
-                ## If level > 2 request the data from last 10 trxs
-                ## preparate, the url, headers
-                _url = _alx_url+'/transaction'
-                _headers = {'Content-type': 'application/json'}
-                ## save the response of sending a put request to the service to update user.
-                _response = requests.get(_url, headers=_headers)
-                ## Validate the status code as 202
-                if str(_response.status_code) == str(200):
-                    ## save the items from backend in to the _items variable.
-                    _items = _response.json().get('items')
+        if _required_cookies:
+            ## if present, save the _id and _un
+            _session_id = request.cookies.get('SessionId')
+            _client_bw = request.cookies.get('browserVersion')
+            _client_ip = request.cookies.get('clientIP')
+            _user_id = Handlers.get_username(_alx_url, _session_id, _client_bw, _client_ip)
+            if _user_id:
+                _userdata = Handlers.get_data(_alx_url, request, "user", _user_id)
+                if _userdata:
+                    _user = _userdata['items'][0]
+                    if int(_user['type']) > 2: 
+                        _trxs = Handlers.get_data(_alx_url, request, "transaction")
+                        if _trxs:
+                            ## save the items from backend in to the _items variable.
+                            ## return items
+                            i = 0
+                            for _u in _trxs['items']:
+                                x = severityLevels._secutiryLevel_info(_trxs['items'][i]['severity'])
+                                _trxs['items'][i]['severity'] = severityLevels._secutiryLevel_info(_trxs['items'][i]['severity'])
+                                i += 1
+                            _items = _trxs['items']
+                        else:
+                            ## set a dummy trx variable.
+                            _items = [{
+                                "date": "-",
+                                "id": "NO TRX Available",
+                                "user": "-"
+                            }]
+                        ## Set the context variable.
+                        context = {
+                            "user_id": _user_id,
+                            "user_name": _user['username'],
+                            "user_type": _user['type'],
+                            "user_fname": _user['fname'],
+                            "user_pin": _user['pin'] if _user['pin'] > 0 else False,
+                            "transactions_list": _items if _items else False,
+                            "severityLevels": severityLevels._secutiryLevel_all(),
+                            "_flag_status": "",
+                            "_flag_content": ""
+                        }
+                        ## returns the transactions.html view.
+                        return render_template('transactions.html', **context)
+                    else: 
+                        ## return to dashboard service
+                        _dash = make_response(redirect('/dashboard'))
+                        return _dash
                 else:
-                    ## set a dummy trx variable.
-                    _items = [{
-                        "date": "-",
-                        "id": "NO TRX Available",
-                        "user": "-"
-                    }]
-                ## Set the context variable.
-                context = {
-                    '_level': _level,
-                    '_logged': '',
-                    '_add': '', 
-                    '_items': _items
-                }
-                ## returns the transactions.html view.
-                return render_template('transactions.html', **context)
-            else: 
-                ## if not level 2> returns you to dasboard-
-                _dash = make_response(redirect('/dashboard'))
-                return _dash
+                    ## return to login service.
+                    return _out
+            else:
+                ## return to login service.
+                return _out
         else:
-            ## if not logged, returns you to login.
-            _log = make_response(redirect('/login'))
-            _log.delete_cookie('_id')
-            _log.delete_cookie('_un')
-            return _log
+            ## return to login service.
+            return _out
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
 
@@ -562,47 +525,67 @@ def transactions():
 @app.route('/users')
 def users():
     try: 
-        ## Valdiate if logged.
-        _logged = True if request.cookies.get('_id') and request.cookies.get('_un') else False
-        if _logged:
-            ## we need a function to know the user level...
-            _level = 3
-            if _level > 2:
-                
-                ## preparate, the url, headers
-                _url = _alx_url+'/user'
-                _headers = {'Content-type': 'application/json'}
-                ## save the response of sending a put request to the service to update user.
-                _response = requests.get(_url, headers=_headers)
-                ## Validate the status code as 202
-                if str(_response.status_code) == str(200):
-                    ## return items 
-                    _items = _response.json().get('items')
+        ## Set a logged variable requesting the _id and _us cookies.
+        _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
+        _out = make_response(redirect('/logout'))
+        ## validate if _logged
+        if _required_cookies:
+            ## if present, save the _id and _un
+            _session_id = request.cookies.get('SessionId')
+            _client_bw = request.cookies.get('browserVersion')
+            _client_ip = request.cookies.get('clientIP')
+            _user_id = Handlers.get_username(_alx_url, _session_id, _client_bw, _client_ip)
+            if _user_id:
+                _userdata = Handlers.get_data(_alx_url, request, "user", _user_id)
+                if _userdata: 
+                    _user = _userdata['items'][0]
+                    if int(_user['type']) > 2: 
+                        ## preparate, the url, headers
+                        _users = Handlers.get_data(_alx_url, request, "user")
+                        ## Validate the status code as 202
+                        if _users:
+                            ## return items
+                            i = 0
+                            for _u in _users['items']:
+                                _users['items'][i]['type'] = levels._type_info(_u['type'])[1]
+                                _users['items'][i]['plan'] = plans._plan_info(_u['plan'])[0]
+                                i += 1
+                            _items = _users['items']
+                        else:
+                            ## define sample json
+                            _items = [{
+                                "username": "No users found",
+                                "email": "Try again later",
+                                "type": "0",
+                                "plan": "0"
+                            }]
+                        context = {
+                            "user_id": _user_id,
+                            "user_name": _user['username'],
+                            "user_type": _user['type'],
+                            "user_fname": _user['fname'],
+                            "user_pin": _user['pin'] if _user['pin'] > 0 else False,
+                            "users_list": _items if _items else False,
+                            "levels": levels._type_all(), 
+                            "plans": plans._plan_all(),
+                            "_flag_status": "",
+                            "_flag_content": ""
+                        }
+                        ## return users view
+                        return render_template('users.html', **context)
+                    else: 
+                        ## return to dashboard service
+                        _dash = make_response(redirect('/dashboard'))
+                        return _dash
                 else:
-                    ## define sample json
-                    _items = [{
-                        "username": "NO USERS FOUND",
-                        "email": "",
-                        "postalCode": ""
-                    }]
-                context = {
-                    '_level': _level,
-                    '_logged': '',
-                    '_add': '', 
-                    '_items': _items
-                }
-                ## return users view
-                return render_template('users.html', **context)
-            else: 
-                ## return to dashboard service
-                _dash = make_response(redirect('/dashboard'))
-                return _dash
+                    ## return to login service.
+                    return _out
+            else:
+                ## return to login service.
+                return _out
         else:
             ## return to login service.
-            _log = make_response(redirect('/login'))
-            _log.delete_cookie('_id')
-            _log.delete_cookie('_un')
-            return _log
+            return _out
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
 

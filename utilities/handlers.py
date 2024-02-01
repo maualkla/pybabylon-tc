@@ -21,7 +21,7 @@ class Handlers():
     ## _filter:         (optional) query filter for the search.
     def get_data(_service_url, _request, _service, _id = False, _filter = False):
         try:
-            print(" >> handlers.get_data() operation: ")
+            print(" >> handlers.get_data("+_service+") operation: ")
             ## validate if present and if present, set the parameters from the cookies of the request object.
             _sessionId = _request.cookies.get('SessionId') if _request.cookies.get('SessionId') else False
             _browser = _request.cookies.get('browserVersion') if _request.cookies.get('browserVersion') else False
@@ -58,7 +58,7 @@ class Handlers():
     ## _item:           (optional) item includes all the fields required to create the item
     def post_data(_service_url, _request, _service, _item):
         try:
-            print(" >> handlers.post_data() operation: ")
+            print(" >> handlers.post_data("+_service+") operation: ")
             ## validate if present and if present, set the parameters from the cookies of the request object.
             _sessionId = _request.cookies.get('SessionId') if _request.cookies.get('SessionId') else False
             _browser = _request.cookies.get('browserVersion') if _request.cookies.get('browserVersion') else False
@@ -146,7 +146,7 @@ class Handlers():
     ## _item:           (optional) _item object includes all the fields required to create the update
     def put_data(_service_url, _request, _service, _item):
         try:
-            print(" >> handlers.put_data() operation: ")
+            print(" >> handlers.put_data("+_service+") operation: ")
             ## validate if present and if present, set the parameters from the cookies of the request object.
             _sessionId = _request.cookies.get('SessionId') if _request.cookies.get('SessionId') else False
             _browser = _request.cookies.get('browserVersion') if _request.cookies.get('browserVersion') else False
@@ -195,7 +195,7 @@ class Handlers():
     ## _filter:         (optional) query filter for the search.
     def delete_data(_service_url, _request, _service, _id = False, _filter = False):
         try:
-            print(" >> handlers.delete_data() operation: ")
+            print(" >> handlers.delete_data("+_service+") operation: ")
             ## validate if present and if present, set the parameters from the cookies of the request object.
             _sessionId = _request.cookies.get('SessionId') if _request.cookies.get('SessionId') else False
             _browser = _request.cookies.get('browserVersion') if _request.cookies.get('browserVersion') else False
@@ -265,7 +265,7 @@ class Handlers():
     ## _clientIp:       (optional)ip from client.
     def get_username(_service_url, _session_id, _browser, _clientIp):
         try:
-            print(" >> handlers.get_username() operation: ")
+            print(" >> handlers.get_username("+_session_id+") operation: ")
             url = Helpers.generateURL(_service_url, "session")
             ## Create the headers for the request
             headers = {'SessionId': _session_id, 'browserVersion': _browser, 'clientIP': _clientIp}
