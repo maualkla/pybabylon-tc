@@ -8,7 +8,7 @@ Signup - {{ super() }}
 {% endblock %}
 
 {% block _title %}
-Signup
+Adminde Signup
 {% endblock %}
 
 
@@ -18,42 +18,29 @@ Signup
         {% if _flag_content %} <p>{{ _flag_content }} </p> {% endif %}
     </div>
     <div class="_main_block_content">
-        <div class="_mbc_inputs" id="_stage_0">
-            <input class="_input_general _main" type="text" placeholder="Full Name" id="i_full_name">
-            <input class="_input_general _main" type="text" placeholder="Username" id="i_username">
-            <input class="_input_general _main" type="email" placeholder="Email" id="i_email">
-            <input class="_input_general _main" type="password" placeholder="Password" id="i_pass">
-            <input class="_input_general _main" type="password" placeholder="Password" id="i_pass_repeat">
+        <div class="_mbc_inputs " id="_stage_0">
+            <input class="_input_general color_2_bg color_1_tx" type="text" placeholder="Full Name" id="i_fname">
+            <input class="_input_general color_2_bg color_1_tx" type="text" placeholder="Username" id="i_username">
+            <input class="_input_general color_2_bg color_1_tx" type="email" placeholder="Email" id="i_email">
+            <input class="_input_general color_2_bg color_1_tx" type="password" placeholder="Password" id="i_pass">
+            <input class="_input_general color_2_bg color_1_tx" type="password" placeholder="Repeat Password" id="i_pass_repeat">
         </div>
         <div class="_mbc_inputs _hidden" id="_stage_1">
-            <input class="_input_general _main" type="number" placeholder="Phone" id="i_phone">
-            <div class="_menu_box _box_main _box_main_bot" style="color: grey;">Birthday</div>
-            <input class="_input_general _main" type="date" placeholder="Birthday" id="i_birthday">
-            <input class="_input_general _main" type="text" placeholder="Postal Code" id="i_postal_code">
+            <input class="_input_general color_2_bg color_1_tx" type="number" placeholder="Phone" id="i_phone">
+            <input class="_input_general color_2_bg color_1_tx" type="text" placeholder="Birthday DD.MM.YYYY" id="i_bday">
+            <input class="_input_general color_2_bg color_1_tx" type="text" placeholder="Postal Code" id="i_postalCode">
         </div>
         <div class="_mbc_inputs _hidden" id="_stage_2">
-            <input class="_big_selector _s_main _s_box_main" type="button" id="_plan_op1" value="Free Plan (5 users) $0.00 USD / month">
-            <input class="_big_selector _s_main _s_box_main" type="button" id="_plan_op2" value="Standard (25 users) $5.00 USD / month">
-            <input class="_big_selector _s_main _s_box_main" type="button" id="_plan_op3" value="Pro Plan (50 users) $9.00 / month">
+            <div class="_big_selector color_1_bg color_2_tx color_2_border" id="_plan_op1"><bold>Free Plan</bold> (5 Users)<br> <italic>$0.00 USD / month</italic></div>
+            <div class="_big_selector color_1_bg color_2_tx color_2_border" id="_plan_op2"><bold>Standard</bold> (20 Users)<br> <italic>$5.00 USD / month</italic></div>
+            <div class="_big_selector color_1_bg color_2_tx color_2_border" id="_plan_op3"><bold>Pro Plan</bold> (50 Users)<br> <italic>$15.00 USD / month</italic></div>
         </div>
         <div class="_mbc_inputs _hidden" id="_stage_3">
             <div class="_terms_box">
                 <input class="_big_checkbox _main" type="checkbox" class="" required placeholder="terms" value="1" id="i_terms">
-                <label class="_label _en _hidden" for="i_terms"> I have read and accept the <a href="/legal" target="_blank">terms and conditions </a> of use. </label>
-                <label class="_label _es _hidden" for="i_terms"> He leido y acepto los <a href="/legal" target="_blank">terminos y condiciones </a> de uso. </label>
+                <label class="_label _en _hidden" for="i_terms_text_en"><bold>I have read and accept the <a href="/legal" target="_blank">terms and conditions </a> of use.</bold>  </label>
+                <label class="_label _es _hidden" for="i_terms_text_es"><bold>He leido y acepto los <a href="/legal" target="_blank">terminos y condiciones </a> de uso.</bold> </label>
             </div>
-        </div>
-        <div class="_button_big _gray" id="_next_button">
-            <p class="_en _hidden">Next</p>
-            <p class="_es _hidden">Siguiente</p>
-        </div>
-        <div class="_button_big _altern _hidden" id="_create_button">
-            <p class="_en _hidden">Create Account</p>
-            <p class="_es _hidden">Crear Cuenta</p>
-        </div>
-        <div class="_button_big _main _box_main _hidden" id="_back_button">
-            <p class="_en _hidden">Back</p>
-            <p class="_es _hidden">Atras</p>
         </div>
     </div>
 </div>
@@ -67,7 +54,12 @@ Signup
 <div class="_menu_box _box_main _box_main_bot _es _hidden" id="_login_es">Iniciar Sesion</div>
 {% endif %}
 {% endblock %}
-
+{% block floating_button_1_style %} color_2_bg color_1_tx color_2_border {% endblock %}
+{% block floating_button_1 %} <p class="_en _hidden"><bold>Next</bold></p><p class="_es _hidden"><bold>Siguiente</bold></p> {% endblock %}
+{% block floating_button_2_style %} _hidden color_2_bg color_1_tx color_2_border{% endblock %}
+{% block floating_button_2 %} <p class="_en _hidden"><bold>Create User</bold></p><p class="_es _hidden">Crear Usuario</p> {% endblock %}
+{% block floating_button_3_style %} _hidden color_1_bg color_2_tx color_2_border{% endblock %}
+{% block floating_button_3 %} <p class="_en _hidden"><bold>Back</bold></p><p class="_es _hidden">Atras</p> {% endblock %}
 {% block scripts %}
 {{ super() }}
 <script src="../static/signup.js"></script>

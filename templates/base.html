@@ -12,9 +12,11 @@
         <div class="_content _main">
             <div class="_top">
                 <div class="_title">
+                    <bold_italic>
                     {% block _title %}
-                    <p> _title</p>
+                    Adminde.com
                     {% endblock %}
+                    </bold_italic>
                 </div>
                 <div class="_menu_button">   
                     <input type="checkbox" id="burger-toggle" value="1">
@@ -35,20 +37,33 @@
                 {% block _flex_menu %}
                 <p> _flex_menu</p>
                 {% endblock %}
-                <div class="_menu_box _box_main _box_main_bot" id="_menu_box_extender">More..</div>
+                <div class="_menu_box _box_main _box_main_bot" id="_menu_box_extender"><bold_italic>Show Options</bold_italic></div>
                 <div class="_menu_box _box_altern _box_altern_bot _hidden" id="_contac">Contact</div>
                 <div class="_menu_box _box_altern _box_altern_bot _hidden" id="_legal">Legal</div>
                 <div class="_menu_box _box_altern _box_altern_bot _hidden" id="_about">About</div>
                 <div class="_menu_box _box_altern _box_altern_bot _hidden" id="_jobs">Jobs</div>
                 <div class="_menu_box _box_altern _box_altern_bot _hidden" id="_home">Home</div>
-                <div class="_menu_box _box_altern _box_altern_bot _hidden" id="_apidocs">API</div>
                 <div class="_menu_box _box_altern _box_altern_bot _hidden" id="_trans">🇺🇸En/🇲🇽Es</div>
             </div>
         </div>
-
+        
         {% block content %}
         {% endblock %}
+        <div class="_floating_buttons _hidden">
+            <div class="_floating_button {% block floating_button_1_style %} {% endblock %}" id="_fb_1">
+                {% block floating_button_1%} {% endblock%}
+            </div>
+            <div class="_floating_button {% block floating_button_2_style %} {% endblock %}" id="_fb_2">
+                {% block floating_button_2%} {% endblock%}
+            </div>
+            <div class="_floating_button {% block floating_button_3_style %} {% endblock %}" id="_fb_3">
+                {% block floating_button_3%} {% endblock%}
+            </div>
+        </div>
 
+        <div class="_flex_centered _hidden">
+            <div class="_loading_wheel"></div>
+        </div>
         {% block scripts %}
         <script src="../static/base.js"></script>
         {% endblock %}

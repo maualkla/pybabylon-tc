@@ -1,19 +1,36 @@
-._main_bloc {
+
+._main_block {
+    /* grind desing*/
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: repeat(5, 1fr);
+    grid-template-rows: repeat(25, 1fr);
     grid-column-gap: 0px;
     grid-row-gap: 0px;
+    height: auto;
 }
     ._main_block_top{
-        grid-area: 1 / 1 / 4 / 2;
+        margin:0%;
+        height: auto;
+        /* grid position */
+        grid-area: 1 / 1 / 17 / 2;
+        /* grid definition */
     }
-        ._main_block_top p{
-            font-size: 410%;
-            padding: 4% 20% 4% 4%;
+        ._mbt_top{
+            /*grid position */
+            font-size: 800%;
+            padding: 0px 10px 0px 30px;
+            margin: 30px 0px 0px 0px;
         }
+        ._mbt_bottom{
+            font-size: 410%;
+            padding: 0px 190px 0px 30px;
+        }
+    
     ._main_block_med{
-        grid-area: 4 / 1 / 5 / 2;
+        margin:0%;
+        height: auto;
+        /*grid position */
+        grid-area: 17 / 1 / 21 / 2;
         display: flex;
     }   
         #_signup_button{
@@ -25,8 +42,16 @@
                 text-align: center;
             }
     ._main_block_bot{
-        grid-area: 5 / 1 / 6 / 2;
+        /*grid position */
+        margin: 0;
+        height: auto;
+        grid-area: 21 / 1 / 26 / 2;
         display: flex;
-        margin: 10%;
     }
+        #_mbb_text{
+            height: auto;
+        }
+        ._main_block_bot ._big_text{
+            margin: 60px 100px 0px 30px;
+        }
 

@@ -5,7 +5,7 @@
 ## Coded by: Mauricio Alcala (@maualkla)
 ## Date: May 2023.
 ## Current Version: 0.02
-## Last Modification Date: Aug 2023.
+## Last Modification Date: Dec 2023.
 ## More info at @intmau in twitter or in http://maualkla.com
 ## Description: Web app to serve adminde-tc project.
 */
@@ -17,10 +17,14 @@ let _menu_value = true;
 let _menu_ext_value = true;
 let _curr_languaje = "_"+navigator.language.substring(0,2) || "_en";
 let _new_lang = "_es";
+let _errors = 0;
+let _logging = true;
 
 let _langs = ['_en', '_es'];
 let _pinpad_num = "";
 let _pinpad_num_alert = 0;
+let _client_ip = getIp();
+let _client_version = navigator.sayswho;
 
 // Set initial languajes for the page.
 setInitialLanguaje();
@@ -41,11 +45,10 @@ if(document.getElementsByClassName('_main_block_alerts').length > 0) document.ge
 
 // triggers for the extended links
 document.getElementById('_contac').addEventListener('click', function (){location.href = "https://www.twitter.com/intmau";});
-document.getElementById('_legal').addEventListener('click', function (){window.location.replace("/legal")});
-document.getElementById('_about').addEventListener('click', function (){window.location.replace("/about")});
-document.getElementById('_jobs').addEventListener('click', function (){window.location.replace("/jobs")});
-document.getElementById('_home').addEventListener('click', function (){window.location.replace("/")});
-document.getElementById('_apidocs').addEventListener('click', function (){window.location.replace("/apidocs")});
+document.getElementById('_legal').addEventListener('click', function (){_redirect("legal");});
+document.getElementById('_about').addEventListener('click', function (){_redirect("about");});
+document.getElementById('_jobs').addEventListener('click', function (){_redirect("jobs");});
+document.getElementById('_home').addEventListener('click', function (){_redirect("");});
 document.getElementById('_trans').addEventListener('click', function (){ changeLanguaje(_new_lang); });
 
 // TBD Extra triggers
@@ -57,10 +60,12 @@ if(document.getElementById('_x_account')) document.getElementById('_x_account').
 function regular(_temp){
     if(_temp){
         document.getElementsByClassName('_flex_box')[0].classList.add("_hidden");
+        document.getElementsByClassName('_floating_buttons')[0].classList.add("_hidden");
         document.getElementsByClassName('_flex_menu')[0].classList.remove("_hidden");
         _menu_value = false;
     }else{
         document.getElementsByClassName('_flex_menu')[0].classList.add("_hidden");
+        document.getElementsByClassName('_floating_buttons')[0].classList.remove("_hidden");
         document.getElementsByClassName('_flex_box')[0].classList.remove("_hidden");
         extended(false);
         _menu_value = true;
@@ -71,10 +76,10 @@ function regular(_temp){
 function extended(_temp) {
     _box = document.getElementById('_menu_box_extender');
     if(_temp){
-        _box.innerHTML = 'Less..';
+        _box.innerHTML = '<bold_italic>Hide Options </bold_italic>';
         _menu_ext_value = false;
     }else{
-        _box.innerHTML = 'More..';
+        _box.innerHTML = '<bold_italic>Show Options </bold_italic>';
         _menu_ext_value = true;
     }
     _boxes = document.getElementsByClassName('_box_altern')
@@ -150,7 +155,7 @@ function cleanAlert(){
     document.getElementsByClassName('_main_block_alerts')[0].classList.remove("_box_yellow");
     document.getElementsByClassName('_main_block_alerts')[0].classList.remove("_box_green");
     document.getElementsByClassName('_main_block_alerts')[0].classList.remove("_box_red");
-    deleteAllCookies();
+    //deleteAllCookies();
 }
 
 /// Pinpad functions and triggers 
@@ -177,7 +182,8 @@ function _add_pinpad(_num){
         _display_pinpad(_pinpad_num)
         if(_pinpad_num.length === 6){
             document.getElementById("_set_pin_button").classList.remove("_gray");
-            document.getElementById("_set_pin_button").classList.add("_altern");
+            document.getElementById("_set_pin_button").classList.add("color_2_bg");
+            document.getElementById("_set_pin_button").classList.add("color_1_tx");
         }
     }else if(_pinpad_num.length === 6){
         if(_pinpad_num_alert === 0){
@@ -207,4 +213,156 @@ function _substract_pinpad(){
 // display pinpad
 function _display_pinpad(_message){
     document.getElementsByClassName("_numpad_box")[0].innerHTML = "<p>" + _message + "</p>";
+}
+
+// change object color.
+function _change_obj_color(document_object, current_bg_class, current_tx_class, new_bg_class, new_tx_class, border_optional = false){
+    document_object.classList.remove(current_bg_class);
+    document_object.classList.remove(current_tx_class);
+    document_object.classList.add(new_bg_class);
+    document_object.classList.add(new_tx_class);
+    document_object.classList.add(border_optional);
+}
+
+// Function to get the client navigator version.
+navigator.sayswho = (function(){
+    var ua= navigator.userAgent;
+    var tem; 
+    var M= ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+    if(/trident/i.test(M[1])){
+        tem=  /\brv[ :]+(\d+)/g.exec(ua) || [];
+        _client_version = 'IE '+(tem[1] || '');
+        return 'IE '+(tem[1] || '');
+    }
+    if(M[1]=== 'Chrome'){
+        tem= ua.match(/\b(OPR|Edge)\/(\d+)/);
+        if(tem!= null) {
+            _client_version = tem.slice(1).join(' ').replace('OPR', 'Opera');
+            return tem.slice(1).join(' ').replace('OPR', 'Opera');
+        }
+    }
+    M= M[2]? [M[1], M[2]]: [navigator.appName, navigator.appVersion, '-?'];
+    if((tem= ua.match(/version\/(\d+)/i))!= null) M.splice(1, 1, tem[1]);
+    _client_version = M.join(' ');
+    return M.join(' ');
+})();
+
+// function to get ip
+function getIp(){
+    let xhr = new XMLHttpRequest();
+    let url = "https://api.ipify.org/?format=json";
+    xhr.open("GET", url);
+    xhr.onreadystatechange = function () {
+        try
+        {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                _client_ip =  JSON.parse(xhr.responseText)["ip"];
+            }
+        }
+        catch(e)
+        {
+            errors++;
+        }
+    };
+    xhr.send();
+}
+
+// function display wheel
+function _display_wheel(_state){
+    let _wheel = document.getElementsByClassName("_flex_centered")[0].classList;
+    if (_state){
+        _wheel.remove("_hidden");
+    }else{
+        _wheel.add("_hidden");
+    }
+}
+
+// function to redirect to another location. 
+const _redirect = (target) => {
+    _display_wheel(true);
+    window.location.replace("/"+target);
+}
+
+// show/hide floating buttons
+const _display_fbuttons = (_state) => {
+    let _fb = document.getElementsByClassName("_floating_buttons")[0]
+    if(_state){
+        _fb.classList.remove("_hidden")
+    }else{
+        _fb.classList.add("_hidden")
+    }
+}
+
+// common floating buttons custom 
+const _common_fbuttons_change_display_text = (_values = false, _displayed = false) => {
+    if(_values && _displayed){
+        for (let i = 1; i<4 ; i++){
+            let x = document.getElementById("_fb_"+i);
+            if (_values[i-1]) x.innerHTML = '<p class="'+_curr_languaje+'"><bold>'+_values[i-1]+'</bold></p>';
+            if (_displayed[i-1]) x.classList.remove("_hidden"); else x.classList.add("_hidden");
+        }
+    }
+};
+
+// function validate value hex
+const validateHex = (_value) => {
+    let regex = new RegExp(/^#([A-Fa-f0-9]{6})$/);
+    if (_value == null) {
+        return "false";
+    }
+    return (regex.test(_value) == true) ? true : false;
+}
+
+
+/* SYSTEM color change */
+// color = 1,2,3
+// value = HEX color value
+const _change_system_colors = (_color, _value) => {
+    if (validateHex(_value)){
+        let _root = document.querySelector(':root');
+        if (_color == 1){
+            _root.style.setProperty('--system-bg-color', _value);
+        }else if (_color == 2){
+            _root.style.setProperty('--system-text-color', _value);
+        }else if (_color == 3){
+            _root.style.setProperty('--system-altern-color', _value);
+        }
+    }
+}
+
+// SYSTEM tittle change
+const _change_system_title = (_tittle) => {
+    if(_tittle.length > 0){
+        let _nt = (_tittle.length > 17) ? _tittle.substring(0,17)+".." : _tittle;
+        document.getElementsByClassName("_title")[0].innerHTML = "<bold_italic>"+_nt+"</bold_italic>";
+    }else{
+        document.getElementsByClassName("_title")[0].innerHTML = "<bold_italic>Adminde Time Card</bold_italic>";
+    }
+    
+}
+
+// Color picker functions 
+// function change color picker value.
+const changeColorPickerValue = (_value, _id, _num) => {
+    if (validateHex(_value)){  
+        document.getElementById(_id).value = _value;
+        _change_system_colors(_num.substring(_num.length -1), _value);
+    }else{
+        document.getElementById(_id+"_tx").value = "";
+    }
+}
+
+// function change color text value
+const changeColorTextValue = (_value, _id, _num) => {
+    _change_system_colors(_num.substring(_num.length -1), _value);
+    document.getElementById(_id).value = _value;
+}
+
+//  system auto change color 
+const _common_system_auto_change_color = () => {
+    if(_context_vars[2] && _context_vars[3] && _context_vars[4]) {
+        _change_system_colors(1, _context_vars[2]);
+        _change_system_colors(2, _context_vars[3]);
+        _change_system_colors(3, _context_vars[4]);
+    }
 }
