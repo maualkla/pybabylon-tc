@@ -764,6 +764,10 @@ a{
     margin:0;
     margin-right: 10%;
 }
+._general_text{
+    font-size: 500%;
+    margin: 6%;
+}
 
 /* loading wheel */
 ._flex_centered{
