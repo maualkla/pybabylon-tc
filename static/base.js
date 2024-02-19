@@ -366,3 +366,13 @@ const _common_system_auto_change_color = () => {
         _change_system_colors(3, _context_vars[4]);
     }
 }
+
+// Screen Size: 
+const _desktop_view =  () => {
+    if (window.screen.width >= 1024 && window.screen.height >= 768) {
+        _redirect('desktop');
+    }
+}
+
+// js function redirect if desktop view
+_desktop_view();

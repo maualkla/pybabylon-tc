@@ -659,6 +659,10 @@ def data_ops():
 def page_not_found(e):
     return render_template('404.html'), 404
 
+@app.route('/desktop')
+def desktop():
+    return render_template('desktop.html')
+
 
 
 ################################################################################################################
