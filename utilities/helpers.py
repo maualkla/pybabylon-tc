@@ -44,7 +44,7 @@ class Helpers:
     ## _filter:     (optional) parameter to be added to the url
     def generateURL(_base_url, _service, _id = False, _filter = False):
         try:
-            print(" >> generateURL() helper.")
+            print(" >> generateURL("+_base_url+"/ "+_service+") helper.")
             ## sets base url w/o parameters
             _url = _base_url+"/"+_service
             if _id:

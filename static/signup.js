@@ -113,17 +113,20 @@ function createAccount(){
             try
             {
                 if (xhr.readyState === 4 && xhr.status === 202) {
-                    document.cookie = '_flag_content=User succesfully created! Login to start.';
-                    document.cookie = '_flag_status=_box_green';
-                    window.location.replace("/login");
+                    let _data = xhr.responseText;
+                    let _parsed_data = JSON.parse(_data);
+                    if (_parsed_data["code"] == 202){
+                        document.cookie = '_flag_content=User succesfully created! Login to start.';
+                        document.cookie = '_flag_status=_box_green';
+                        _redirect("/login");
+                    }else{
+                        signupjs_customAlert(_parsed_data["reason"]);
+                        _display_wheel(false);
+                    }
                 }else if( xhr.status === 200 || xhr.status === 403){
                     let _data = xhr.responseText;
                     let _parsed_data = JSON.parse(_data);
-                    document.getElementById("_xpc_signup_alert").style.height = '10%';
-                    document.getElementsByClassName("_main_block")[0].style.display = 'block';
-                    document.getElementsByClassName('_main_block_alerts')[0].classList.add("_box_red");
-                    document.getElementsByClassName('_main_block_alerts')[0].classList.remove("_hidden");
-                    document.getElementsByClassName('_main_block_alerts')[0].innerHTML = "<p> Error creating user, "+ _parsed_data["reason"] +" </p>";
+                    signupjs_customAlert(_parsed_data["reason"]);
                     _display_wheel(false);
                 }
             }
@@ -152,4 +155,14 @@ function createAccount(){
         _display_wheel(false);
     }
     
+}
+
+
+// display custom alert
+const signupjs_customAlert = (message) => {
+    document.getElementById("_xpc_signup_alert").style.height = '10%';
+    document.getElementsByClassName("_main_block")[0].style.display = 'block';
+    document.getElementsByClassName('_main_block_alerts')[0].classList.add("_box_red");
+    document.getElementsByClassName('_main_block_alerts')[0].classList.remove("_hidden");
+    document.getElementsByClassName('_main_block_alerts')[0].innerHTML = "<p> Error creating user, "+ message +" </p>";
 }

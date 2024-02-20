@@ -132,7 +132,7 @@ function changeLanguaje(_languaje){
 // Delele all cookies alert
 function deleteAllCookies() {
     const cookies = document.cookie.split(";");
-    console.log("Delete all cookies");
+    if (_logging) console.log("Delete all cookies");
     for (let i = 0; i < cookies.length; i++) {
         const cookie = cookies[i];
         const eqPos = cookie.indexOf("=");
@@ -149,7 +149,7 @@ function setAlert(_class, _text){
 
 // Clean alert function
 function cleanAlert(){
-    console.log(" Entramos a clean alerts")
+    if (_logging) console.log(" Entramos a clean alerts")
     document.getElementsByClassName('_main_block_alerts')[0].innerHTML = "";
     document.getElementsByClassName('_main_block_alerts')[0].classList.add("_hidden");
     document.getElementsByClassName('_main_block_alerts')[0].classList.remove("_box_yellow");
@@ -175,10 +175,10 @@ if(document.getElementById('_num_button_del')) document.getElementById('_num_but
 
 // add pinpad num function
 function _add_pinpad(_num){
-    console.log(_pinpad_num.length)
+    if (_logging) console.log(_pinpad_num.length)
     if(_pinpad_num.length < 6 && _pinpad_num.length > -1){
         _pinpad_num = _pinpad_num.toString() + _num.toString();
-        console.log(_pinpad_num);
+        if (_logging) console.log(_pinpad_num);
         _display_pinpad(_pinpad_num)
         if(_pinpad_num.length === 6){
             document.getElementById("_set_pin_button").classList.remove("_gray");
@@ -207,7 +207,7 @@ function _substract_pinpad(){
             _display_pinpad(_pinpad_num)
         }
     }
-    console.log(_pinpad_num)
+    if (_logging) console.log(_pinpad_num)
 }
 
 // display pinpad
