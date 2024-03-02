@@ -374,5 +374,26 @@ const _desktop_view =  () => {
     }
 }
 
+//// Validations
+//// functions for data validations
+/// validations of email string
+const _common_email_string_validation = (_email) => {
+    const re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    return re.test(_email);
+}
+
+/// Validation of phone number
+const _common_number_validation = (_phone_num) => {
+    const re = /^\d{10}$/;
+    return re.test(_phone_num);
+}
+
+/// Validation of the date format   
+const _common_date_validation = (_date) => {
+    const regex = /^\d{4}\.\d{2}\.\d{2}$/;
+    return regex.test(str);
+}
+
 // js function redirect if desktop view
 _desktop_view();
+

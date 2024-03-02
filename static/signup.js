@@ -166,3 +166,13 @@ const signupjs_customAlert = (message) => {
     document.getElementsByClassName('_main_block_alerts')[0].classList.remove("_hidden");
     document.getElementsByClassName('_main_block_alerts')[0].innerHTML = "<p> Error creating user, "+ message +" </p>";
 }
+
+
+/// Form validation
+const _signupjs_form_validation = () =>{
+    // validar pass
+    // validar 'i_fname', 'i_username', 'i_email', 'i_phone', 'i_bday', 'i_postalCode' 
+    if (document.getElementById('i_pass').value !== document.getElementById('i_pass_repeat').value && document.getElementById('i_fname').value.length > 3 && document.getElementById('i_username').value.length > 3  && document.getElementById('i_username').value.length < 20 && _common_email_string_validation(document.getElementById('i_email').value) &&  )
+    let form_values = [''] 
+    return true
+}

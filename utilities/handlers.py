@@ -119,6 +119,7 @@ class Handlers():
                         ## if it is not in the parameters, set flag to false.
                         if req_value not in _item:
                             _go = False
+                        
                     if _go:
                         ## set the url of the service
                         _url = Helpers.generateURL(_service_url, _service)
