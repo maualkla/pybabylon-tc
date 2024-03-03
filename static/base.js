@@ -376,9 +376,20 @@ const _desktop_view =  () => {
 
 //// Validations
 //// functions for data validations
+
+/// validations for password format.
+const _common_password_validation = (_pass, _copy_pass) => {
+    const re = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{12,}$/; //P@ssw0rd!234
+    if(_pass == _copy_pass){
+        return re.test(_pass);
+    }else{
+        return false
+    }
+}
+
 /// validations of email string
 const _common_email_string_validation = (_email) => {
-    const re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    const re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/; // john.doe123@example.com
     return re.test(_email);
 }
 
@@ -390,10 +401,51 @@ const _common_number_validation = (_phone_num) => {
 
 /// Validation of the date format   
 const _common_date_validation = (_date) => {
-    const regex = /^\d{4}\.\d{2}\.\d{2}$/;
-    return regex.test(str);
+    const regex = /^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[012])\.(19|20)\d\d$/; //dd.mm.yyyy
+    return regex.test(_date);
+}
+
+/// Validation of postal code
+const _common_postal_code_validation = (_postal_code, _country_code) => {
+    let regex = null;
+    switch (_country_code) {
+        case "US": 
+            regex = /^[0-9]{5}(?:-[0-9]{4})?$/;  // Basic US postal code
+            break;
+        case "MX":
+            regex = /^[0-9]{5}$/;  // Basic Mexican postal code
+            break;
+        case "DE":
+            regex = /^[0-9]{5}$/;  // Basic German postal code
+            break;  
+        default: 
+            return false; // No validation if the country is not supported
+    }
+    return regex.test(_postal_code);
 }
 
 // js function redirect if desktop view
 _desktop_view();
 
+
+// Dictionaries
+// Errors dictionary
+let _common_dictionary_errors = {}
+_common_dictionary_errors['_en'] = {
+    "001": "Passwords do not match or is invalid.",
+    "002": "Invalid Name, If must have more than 3 characters",
+    "003": "Invalid Username, must have more thatn 3 and less than 20 characters",
+    "004": "Invalid Email",
+    "005": "Invalid Birthday Date (DD.MM.YYYY)",
+    "006": "Invalid Postal Code",
+    "007": "Invalid Phone Number"
+}
+_common_dictionary_errors['_es'] = {
+    "001": "Contraseña no coincide o es invalida",
+    "002": "Nombre Invalido, Debe ser mayor de 3 caracteres",
+    "003": "Username invalido, debe tener mas de 3 y menos de 20 caracteres",
+    "004": "Email invalido",
+    "005": "Cumpleaños invalido, formato (DD.MM.AAAA)",
+    "006": "Correo postal incorrecto",
+    "007": "Numero de telefono incorrecto"
+}
