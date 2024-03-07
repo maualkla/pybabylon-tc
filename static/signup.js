@@ -115,13 +115,16 @@ function createAccount(){
         xhr.onreadystatechange = function () {
             try
             {
+                console.log(xhr.status)
+                console.log(xhr.readyState)
                 if (xhr.readyState === 4 && xhr.status === 202) {
                     let _data = xhr.responseText;
                     let _parsed_data = JSON.parse(_data);
+                    console.log(_parsed_data)
                     if (_parsed_data["code"] == 202){
                         document.cookie = '_flag_content=User succesfully created! Login to start.';
                         document.cookie = '_flag_status=_box_green';
-                        _redirect("/login");
+                        _redirect("login");
                     }else{
                         signupjs_customAlert(_parsed_data["reason"]);
                         _display_wheel(false);
