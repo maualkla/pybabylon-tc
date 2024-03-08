@@ -379,12 +379,13 @@ const _desktop_view =  () => {
 
 /// validations for password format.
 const _common_password_validation = (_pass, _copy_pass) => {
-    const re = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{12,}$/; //P@ssw0rd!234
+    /*const re = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{12,}$/; //P@ssw0rd!234
     if(_pass == _copy_pass){
         return re.test(_pass);
     }else{
         return false
-    }
+    }*/
+    return (_pass == _copy_pass && _pass.length >= 10) ? true : false ; 
 }
 
 /// validations of email string
@@ -432,7 +433,7 @@ _desktop_view();
 // Errors dictionary
 let _common_dictionary_errors = {}
 _common_dictionary_errors['_en'] = {
-    "001": "Passwords do not match or is invalid.",
+    "001": "Passwords do not match or is invalid. It must be at least 10 characteres",
     "002": "Invalid Name, If must have more than 3 characters",
     "003": "Invalid Username, must have more thatn 3 and less than 20 characters",
     "004": "Invalid Email",
