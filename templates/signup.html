@@ -21,14 +21,14 @@ Adminde Signup
         <div class="_mbc_inputs " id="_stage_0">
             <input class="_input_general color_2_bg color_1_tx" type="text" placeholder="Full Name" id="i_fname">
             <input class="_input_general color_2_bg color_1_tx" type="text" placeholder="Username" id="i_username">
-            <input class="_input_general color_2_bg color_1_tx" type="email" placeholder="Email" id="i_email">
-            <input class="_input_general color_2_bg color_1_tx" type="password" placeholder="Password" id="i_pass">
-            <input class="_input_general color_2_bg color_1_tx" type="password" placeholder="Repeat Password" id="i_pass_repeat">
+            <input class="_input_general color_2_bg color_1_tx" type="email" placeholder="Email" id="i_email" pattern="^[a-zA-Z0-9-_.]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9]+)*$">
+            <input class="_input_general color_2_bg color_1_tx" type="password" placeholder="Password" id="i_pass" pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{12,}$">
+            <input class="_input_general color_2_bg color_1_tx" type="password" placeholder="Repeat Password" id="i_pass_repeat" pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{12,}$">
         </div>
         <div class="_mbc_inputs _hidden" id="_stage_1">
-            <input class="_input_general color_2_bg color_1_tx" type="number" placeholder="Phone" id="i_phone">
-            <input class="_input_general color_2_bg color_1_tx" type="text" placeholder="Birthday DD.MM.YYYY" id="i_bday">
-            <input class="_input_general color_2_bg color_1_tx" type="text" placeholder="Postal Code" id="i_postalCode">
+            <input class="_input_general color_2_bg color_1_tx" type="number" placeholder="Phone" id="i_phone" pattern="^\d{10}$">
+            <input class="_input_general color_2_bg color_1_tx" type="text" placeholder="Birthday DD.MM.YYYY" id="i_bday" pattern="^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[012])\.(19|20)\d\d$">
+            <input class="_input_general color_2_bg color_1_tx" type="text" placeholder="Postal Code" id="i_postalCode" pattern="^\d{5}$">
         </div>
         <div class="_mbc_inputs _hidden" id="_stage_2">
             <div class="_big_selector color_1_bg color_2_tx color_2_border" id="_plan_op1"><bold>Free Plan</bold> (5 Users)<br> <italic>$0.00 USD / month</italic></div>
