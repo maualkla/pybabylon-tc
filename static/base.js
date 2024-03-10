@@ -439,7 +439,11 @@ _common_dictionary_errors['_en'] = {
     "004": "Invalid Email",
     "005": "Invalid Birthday Date (DD.MM.YYYY)",
     "006": "Invalid Postal Code",
-    "007": "Invalid Phone Number"
+    "007": "Invalid Phone Number",
+    "008": "Invalid Tax Id",
+    "009": "Invalid Legal Name",
+    "010": "Invalid Short Code, must have more than 3 and less than 7 characters.",
+    "011": "Invalid Country, State, City or Address Line, Please fill all the values"
 }
 _common_dictionary_errors['_es'] = {
     "001": "Contraseña no coincide o es invalida",
@@ -448,5 +452,9 @@ _common_dictionary_errors['_es'] = {
     "004": "Email invalido",
     "005": "Cumpleaños invalido, formato (DD.MM.AAAA)",
     "006": "Correo postal incorrecto",
-    "007": "Numero de telefono incorrecto"
+    "007": "Numero de telefono incorrecto",
+    "008": "Codigo de impuestos invalido",
+    "009": "Nombre legal invalido",
+    "010": "Nombre corto invalido, debe tener mas de 3 y menos de 7 caracteres",
+    "011": "Pais, Estado, Ciudad o Direccion invalidas. Llena todos los campos"
 }

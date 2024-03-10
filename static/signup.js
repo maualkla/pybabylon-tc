@@ -107,7 +107,6 @@ function createAccount(){
         }
         _json_obj['pass'] = window.btoa(unescape(encodeURIComponent(_params['i_pass'])))
         _json_obj['plan'] = _s2_selector; _json_obj['terms'] = true; _json_obj['type'] = 2;_json_obj["activate"] = true;_json_obj["pin"] = 0;_json_obj["tenant"] = "";_json_pay["item"] = _json_obj;
-        console.log(_json_pay);
         let xhr = new XMLHttpRequest();
         let url = "/v1/admdata?service=user";
         xhr.open("POST", url);
@@ -115,12 +114,9 @@ function createAccount(){
         xhr.onreadystatechange = function () {
             try
             {
-                console.log(xhr.status)
-                console.log(xhr.readyState)
                 if (xhr.readyState === 4 && xhr.status === 202) {
                     let _data = xhr.responseText;
                     let _parsed_data = JSON.parse(_data);
-                    console.log(_parsed_data)
                     if (_parsed_data["code"] == 202){
                         document.cookie = '_flag_content=User succesfully created! Login to start.';
                         document.cookie = '_flag_status=_box_green';
