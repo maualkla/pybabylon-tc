@@ -405,6 +405,22 @@ def workspace_option(_id = False):
         _ws = make_response(redirect('/workspace'))
         return _ws
 
+@app.route('/workspace/<_id>/users')
+def workspace_users(_id = False):
+    try: 
+         ## Set a logged variable requesting the _id and _us cookies.
+        _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
+        _out = make_response(redirect('/logout'))
+        ## validate if _logged
+        if _required_cookies:
+            ## if present, save the _id and _un
+            _session_id = request.cookies.get('SessionId')
+            _client_bw = request.cookies.get('browserVersion')
+            _client_ip = request.cookies.get('clientIP')
+            _user_id = Handlers.get_username(_alx_url, _session_id, _client_bw, _client_ip)
+        return "<p>Id: "+_id+"</p><p>UserId: "+_user_id+"</p>"
+    except Exception as e:
+        return {"status": "An error Occurred", "error": str(e)}
 
 ## Workspace Service.
 @app.route('/workspace')
