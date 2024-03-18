@@ -8,7 +8,7 @@ Workspace Users Management - {{ super() }}
 {% endblock %}
 
 {% block _title %}
-Workspace Users Management
+Users / {{wsdata['InformalName'][:9]}}{% if wsdata['InformalName']|length > 9 %}..{% endif %}
 {% endblock %}
 
 {% block _flex_box %}
@@ -16,11 +16,41 @@ Workspace Users Management
     <div class="_main_block_alerts {% if _flag_status %} {{ _flag_status }} {% else %} _hidden {% endif %} " id="_xpc_ws_alert">
         {% if _flag_content%} <p>{{ _flag_content }} </p> {% endif %}
     </div>
-    <div class="_main_block_content">
-        <p>id  {{id }}</p>
-        <p>
-           User id {{ userId}}
-        </p>
+    <div class="_main_block_content ">
+        {% if users_list %}
+        {% for usr in users_list %}
+        <div class="_box_custom_ws _box_main_bot" id="">
+            <div class="_bc_ws_inf">
+                {{usr['username'][:15]}}{% if usr['username']|length > 15 %}..{% endif %}
+            </div>
+            <div class="_bc_ws_tax">
+                {{usr['email'][:22]}}{% if usr['email']|length > 22 %}..{% endif %}
+            </div>
+            <div class="_bc_ws_cit">
+                {{usr['plan'][:22]}}{% if usr['plan']|length > 22 %}..{% endif %}
+            </div>
+            <div class="_bc_ws_pos">
+                {{usr['type'][:22]}}{% if usr['type']|length > 22 %}..{% endif %}
+            </div>
+            <div class="_bc_ws_man" onClick="_manage_user('{{usr['email']}}');">
+                <bold_italic>Manage</bold_italic>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="_big_menu_box color_3_bg color_1_tx _box_main_bot" id="_no_workspaces">
+            <div class="_bbx_text _en _hidden">
+                No Users created yet. 
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    <div class="_main_block_search _hidden">
+        <div class="_mbs_upper">
+            <div class="_mbc_inputs">
+                <input class="_input_general color_1_tx color_2_bg" type="text" placeholder="Search by Email or Username" id="_search_input">
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
