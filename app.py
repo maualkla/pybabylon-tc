@@ -431,11 +431,24 @@ def workspace_users(_id = False):
             if _user_id:
                 _userdata = Handlers.get_data(_alx_url, request, "user", _user_id)
                 _user = _userdata['items'][0]
+                print(" --------- user ------------")
+                print(_user)
                 if _id:
                     _filter = ":"+_user_id
                     _wsdata = Handlers.get_data(_alx_url, request, "workspace", _id, "owner"+_filter)
                     if _wsdata['containsData'] == True:
                         _ws = _wsdata["items"][0]
+                        _teanntuserdata = Handlers.get_data(_alx_url, request, "tenantUser", False, "tenant:"+_ws['TaxId'])
+                        if _teanntuserdata:
+                            i = 0
+                            for _u in _teanntuserdata['items']:
+                                _teanntuserdata['items'][i]['Type'] = levels._type_info(_u['Type'])[1]
+                                i += 1
+                            _items = _teanntuserdata['items']
+                        else:
+                            _items = False
+                        print(" --------- items ------------")
+                        print(_items)
                         context = {
                             "user_id": _user_id,
                             "user_name": _user['username'],
@@ -443,12 +456,16 @@ def workspace_users(_id = False):
                             "user_fname": _user['fname'],
                             "user_pin": _user['pin'],
                             "wsdata": _ws,
+                            "users_list": _items ,
+                            "levels": levels._type_all(), 
                             "_flag_status": "",
                             "_flag_content": "",
                             "currentDate": "January 20, 2023",
                             "currentTime": "20:24:03 CST (CENTRAL MEXICO)",
                             "host_url": request.host_url
                         }
+                        print(" --------- context ------------")
+                        print(context)
                         return render_template('workspace_users_manage.html', **context)
                     else:
                         _ws = make_response(redirect('/workspace'))

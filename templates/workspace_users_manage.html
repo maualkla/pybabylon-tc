@@ -3,7 +3,7 @@
 Workspace Users Management - {{ super() }}
 {% endblock %}
 {% block styles %}
-<link rel="stylesheet" href="http://127.0.0.1:3001/static/workspace_users_manage.css">
+<link rel="stylesheet" href="{{host_url}}/static/workspace_users_manage.css">
 {{ super() }}
 {% endblock %}
 
@@ -21,18 +21,18 @@ Users / {{wsdata['InformalName'][:9]}}{% if wsdata['InformalName']|length > 9 %}
         {% for usr in users_list %}
         <div class="_box_custom_ws _box_main_bot" id="">
             <div class="_bc_ws_inf">
-                {{usr['username'][:15]}}{% if usr['username']|length > 15 %}..{% endif %}
+                {{usr['Username'][:15]}}{% if usr['Username']|length > 15 %}..{% endif %}
             </div>
             <div class="_bc_ws_tax">
-                {{usr['email'][:22]}}{% if usr['email']|length > 22 %}..{% endif %}
+                {{usr['Email'][:22]}}{% if usr['Email']|length > 22 %}..{% endif %}
             </div>
             <div class="_bc_ws_cit">
-                {{usr['plan'][:22]}}{% if usr['plan']|length > 22 %}..{% endif %}
+                {{usr['CreatedBy'][:22]}}{% if usr['CreatedBy']|length > 22 %}..{% endif %}
             </div>
             <div class="_bc_ws_pos">
-                {{usr['type'][:22]}}{% if usr['type']|length > 22 %}..{% endif %}
+                {{usr['Type'][:22]}}{% if usr['Type']|length > 22 %}..{% endif %}
             </div>
-            <div class="_bc_ws_man" onClick="_manage_user('{{usr['email']}}');">
+            <div class="_bc_ws_man" onClick="window.alert(usr['Id']);">
                 <bold_italic>Manage</bold_italic>
             </div>
         </div>
@@ -64,15 +64,13 @@ Users / {{wsdata['InformalName'][:9]}}{% if wsdata['InformalName']|length > 9 %}
 
 
 {% block floating_button_1_style %} color_2_bg color_1_tx color_2_border {% endblock %}
-{% block floating_button_1 %} <p class="_en _hidden"><bold>Manage Users</bold></p><p class="_es _hidden"><bold>Administrar Usuarios</bold></p> {% endblock %}
-{% block floating_button_2_style %}  color_2_bg     color_1_tx color_2_border{% endblock %}
-{% block floating_button_2 %} <p class="_en _hidden"><bold>Delete Workspace</bold></p><p class="_es _hidden">Borrar Workspace</p> {% endblock %}
-{% block floating_button_3_style %}  color_1_bg color_2_tx color_2_border{% endblock %}
-{% block floating_button_3 %} <p class="_en _hidden"><bold>Workspace Live</bold></p><p class="_es _hidden">En Vivo</p> {% endblock %}
+{% block floating_button_1 %} <p class="_en _hidden"><bold>Create User</bold></p><p class="_es _hidden"><bold>Administrar Usuarios</bold></p> {% endblock %}
+{% block floating_button_2_style %}  color_1_bg color_2_tx color_2_border{% endblock %}
+{% block floating_button_2 %} <p class="_en _hidden"><bold>Search User</bold></p><p class="_es _hidden">Buscar Usuario</p> {% endblock %}
 
 
 {% block scripts %}
 {{ super() }}
 <script> const _context_vars = ["{{ user_id }}", {{ user_pin }}, "{{wsdata['MainHexColor']}}", "{{ wsdata['LowHexColor'] }}", "{{ wsdata['AlterHexColor'] }}", "{{ wsdata['TaxId'] }}"]; </script>
-<script src="http://127.0.0.1:3001/static/workspace_users_manage.js"></script>
+<script src="{{host_url}}/static/workspace_users_manage.js"></script>
 {% endblock %}
