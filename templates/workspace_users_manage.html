@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}
+Workspace Users Management - {{ super() }}
+{% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="http://127.0.0.1:3001/static/workspace_users_manage.css">
+{{ super() }}
+{% endblock %}
+
+{% block _title %}
+Workspace Users Management
+{% endblock %}
+
+{% block _flex_box %}
+<div class="_main_block">
+    <div class="_main_block_alerts {% if _flag_status %} {{ _flag_status }} {% else %} _hidden {% endif %} " id="_xpc_ws_alert">
+        {% if _flag_content%} <p>{{ _flag_content }} </p> {% endif %}
+    </div>
+    <div class="_main_block_content">
+        <p>id  {{id }}</p>
+        <p>
+           User id {{ userId}}
+        </p>
+    </div>
+</div>
+{% endblock %}
+
+{% block _flex_menu %}
+<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_back_dash_en">Back to Workspaces</div>
+<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_back_dash_es">Regresar a Workspaces </div>
+<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_close_sesion_en">Close Session</div>
+<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_close_sesion_es">Cerrar Sesion</div>
+{% endblock %}
+
+
+{% block floating_button_1_style %} color_2_bg color_1_tx color_2_border {% endblock %}
+{% block floating_button_1 %} <p class="_en _hidden"><bold>Manage Users</bold></p><p class="_es _hidden"><bold>Administrar Usuarios</bold></p> {% endblock %}
+{% block floating_button_2_style %}  color_2_bg     color_1_tx color_2_border{% endblock %}
+{% block floating_button_2 %} <p class="_en _hidden"><bold>Delete Workspace</bold></p><p class="_es _hidden">Borrar Workspace</p> {% endblock %}
+{% block floating_button_3_style %}  color_1_bg color_2_tx color_2_border{% endblock %}
+{% block floating_button_3 %} <p class="_en _hidden"><bold>Workspace Live</bold></p><p class="_es _hidden">En Vivo</p> {% endblock %}
+
+
+{% block scripts %}
+{{ super() }}
+<script> const _context_vars = ["{{ user_id }}", {{ user_pin }}, "{{wsdata['MainHexColor']}}", "{{ wsdata['LowHexColor'] }}", "{{ wsdata['AlterHexColor'] }}", "{{ wsdata['TaxId'] }}"]; </script>
+<script src="http://127.0.0.1:3001/static/workspace_users_manage.js"></script>
+{% endblock %}

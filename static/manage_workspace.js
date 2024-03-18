@@ -36,7 +36,8 @@ if(document.getElementById("_personalization_view_box")) document.getElementById
 if(document.getElementById("_fb_1")) document.getElementById("_fb_1").addEventListener('click', function(){
     switch (_window){
         case 0:
-            setAlert("_box_yellow", "Users cant be added yet, try again later.");
+            _display_wheel();
+            _redirect(window.location.pathname.substring(1)+'/users');
             break;
         case 1: 
             _display_fbuttons(false);

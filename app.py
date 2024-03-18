@@ -38,7 +38,8 @@ def apidocs():
         ## validate if _logged
         if _required_cookies:
             context= {
-                "_logged" : True if _required_cookies else False
+                "_logged" : True if _required_cookies else False,
+                "host_url": request.host_url
             }
             return render_template('apidocs.html', **context)
         else:
@@ -59,7 +60,8 @@ def apidocs_v0_1():
         ## validate if _logged
         if _required_cookies:
             context= {
-                "_logged" : True if _required_cookies else False
+                "_logged" : True if _required_cookies else False,
+                "host_url": request.host_url
             }
             return render_template('apidocs_v0_1.html', **context)
         else:
@@ -80,7 +82,8 @@ def apidocs_v0_2():
         ## validate if _logged
         if _required_cookies:
             context= {
-                "_logged" : True if _required_cookies else False
+                "_logged" : True if _required_cookies else False,
+                "host_url": request.host_url
             }
             return render_template('apidocs_v0_2.html', **context)
         else:
@@ -115,6 +118,7 @@ def landing():
         context = {
             "_logged": _logged,
             "_sample": "1234",
+            "host_url": request.host_url
         }
         ## render and return the home page including the context variables.
         return render_template('home.html', **context)
@@ -156,7 +160,8 @@ def login():
                 ## if _flag cookies are present, set the context object to the content of the cookies.
                 context = {
                     "_flag_content": request.cookies.get('_flag_content'),
-                    "_flag_status": request.cookies.get('_flag_status')
+                    "_flag_status": request.cookies.get('_flag_status'),
+                    "host_url": request.host_url
                 }
             else:
                 ## Else, set the context object as empty.
@@ -223,8 +228,9 @@ def signup():
                 _log.delete_cookie('clientIP')
                 return _log
         else:
+            context = {"host_url": request.host_url}
             ### In case _id and _un not presnt, renders signup.html page.
-            return render_template('signup.html')
+            return render_template('signup.html', **context)
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
 
@@ -273,7 +279,8 @@ def dashboard():
                                 "ws_tax_id": _ws['TaxId'] if _ws else False,
                                 "trx_last_login_date": _llog['dateTime'][0:2]+"-"+_llog['dateTime'][2:4]+"-"+_llog['dateTime'][4:8]+" "+_llog['dateTime'][8:] if _llog else False,
                                 "_flag_status": "",
-                                "_flag_content": ""
+                                "_flag_content": "",
+                                "host_url": request.host_url
                             }
                             return render_template('dashboard.html', **context)
                         else:
@@ -326,7 +333,8 @@ def account():
                     "phone": _user_data["phone"],
                     "bday": _user_data["bday"], 
                     "postalCode": _user_data["postalCode"],
-                    "pin": _user_data["pin"]
+                    "pin": _user_data["pin"],
+                    "host_url": request.host_url
                 }
                 return render_template('account.html', **context)
             else:
@@ -369,7 +377,8 @@ def workspace_option(_id = False):
                     "user_fname": _user['fname'],
                     "user_pin": _user['pin'],
                     "_flag_status": "",
-                    "_flag_content": ""
+                    "_flag_content": "",
+                    "host_url": request.host_url
                 }
                 return render_template('new_workspace.html', **context)
             elif _id:
@@ -387,7 +396,8 @@ def workspace_option(_id = False):
                         "_flag_status": "",
                         "_flag_content": "",
                         "currentDate": "January 20, 2023",
-                        "currentTime": "20:24:03 CST (CENTRAL MEXICO)"
+                        "currentTime": "20:24:03 CST (CENTRAL MEXICO)",
+                        "host_url": request.host_url
                     }
                     return render_template('manage_workspace.html', **context)
                 else: 
@@ -418,7 +428,41 @@ def workspace_users(_id = False):
             _client_bw = request.cookies.get('browserVersion')
             _client_ip = request.cookies.get('clientIP')
             _user_id = Handlers.get_username(_alx_url, _session_id, _client_bw, _client_ip)
-        return "<p>Id: "+_id+"</p><p>UserId: "+_user_id+"</p>"
+            if _user_id:
+                _userdata = Handlers.get_data(_alx_url, request, "user", _user_id)
+                _user = _userdata['items'][0]
+                if _id:
+                    _filter = ":"+_user_id
+                    _wsdata = Handlers.get_data(_alx_url, request, "workspace", _id, "owner"+_filter)
+                    if _wsdata['containsData'] == True:
+                        _ws = _wsdata["items"][0]
+                        context = {
+                            "user_id": _user_id,
+                            "user_name": _user['username'],
+                            "user_type": _user['type'],
+                            "user_fname": _user['fname'],
+                            "user_pin": _user['pin'],
+                            "wsdata": _ws,
+                            "_flag_status": "",
+                            "_flag_content": "",
+                            "currentDate": "January 20, 2023",
+                            "currentTime": "20:24:03 CST (CENTRAL MEXICO)",
+                            "host_url": request.host_url
+                        }
+                        return render_template('workspace_users_manage.html', **context)
+                    else:
+                        _ws = make_response(redirect('/workspace'))
+                        return _ws
+                else:
+                    _ws = make_response(redirect('/workspace'))
+                    return _ws
+            else:
+                _ws = make_response(redirect('/workspace'))
+                return _ws
+        else:
+            _ws = make_response(redirect('/workspace'))
+            return _ws
+        
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
 
@@ -452,7 +496,8 @@ def workspace():
                         "user_pin": _user['pin'] if _user['pin'] > 0 else False,
                         "ws_list": _ws if _ws else False,
                         "_flag_status": "",
-                        "_flag_content": ""
+                        "_flag_content": "",
+                        "host_url": request.host_url
                     }
                     return render_template('workspace.html', **context)
                 else:
@@ -515,7 +560,8 @@ def transactions():
                             "transactions_list": _items if _items else False,
                             "severityLevels": severityLevels._secutiryLevel_all(),
                             "_flag_status": "",
-                            "_flag_content": ""
+                            "_flag_content": "",
+                            "host_url": request.host_url
                         }
                         ## returns the transactions.html view.
                         return render_template('transactions.html', **context)
@@ -585,7 +631,8 @@ def users():
                             "levels": levels._type_all(), 
                             "plans": plans._plan_all(),
                             "_flag_status": "",
-                            "_flag_content": ""
+                            "_flag_content": "",
+                            "host_url": request.host_url
                         }
                         ## return users view
                         return render_template('users.html', **context)
@@ -704,6 +751,7 @@ def help():
         context = {
                 "_logged": _logged,
                 "_sample": "1234",
+                "host_url": request.host_url
             }
         return render_template('help.html', **context)
     except Exception as e:
