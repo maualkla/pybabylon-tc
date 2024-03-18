@@ -415,6 +415,7 @@ def workspace_option(_id = False):
         _ws = make_response(redirect('/workspace'))
         return _ws
 
+## Tenant Users Overview
 @app.route('/workspace/<_id>/users')
 def workspace_users(_id = False):
     try: 
@@ -431,8 +432,6 @@ def workspace_users(_id = False):
             if _user_id:
                 _userdata = Handlers.get_data(_alx_url, request, "user", _user_id)
                 _user = _userdata['items'][0]
-                print(" --------- user ------------")
-                print(_user)
                 if _id:
                     _filter = ":"+_user_id
                     _wsdata = Handlers.get_data(_alx_url, request, "workspace", _id, "owner"+_filter)
@@ -447,8 +446,6 @@ def workspace_users(_id = False):
                             _items = _teanntuserdata['items']
                         else:
                             _items = False
-                        print(" --------- items ------------")
-                        print(_items)
                         context = {
                             "user_id": _user_id,
                             "user_name": _user['username'],
@@ -464,8 +461,6 @@ def workspace_users(_id = False):
                             "currentTime": "20:24:03 CST (CENTRAL MEXICO)",
                             "host_url": request.host_url
                         }
-                        print(" --------- context ------------")
-                        print(context)
                         return render_template('workspace_users_manage.html', **context)
                     else:
                         _ws = make_response(redirect('/workspace'))
@@ -480,6 +475,72 @@ def workspace_users(_id = False):
             _ws = make_response(redirect('/workspace'))
             return _ws
         
+    except Exception as e:
+        return {"status": "An error Occurred", "error": str(e)}
+
+## Tenant Users Management
+@app.route('/workspace/<_id>/users/<_tusername>')
+def tusers_management(_id = False, _tusername = False):
+    try: 
+        ## Set a logged variable requesting the _id and _us cookies.
+        _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
+        _out = make_response(redirect('/logout'))
+        ## validate if _logged
+        if _required_cookies:
+            ## if present, save the _id and _un
+            _session_id = request.cookies.get('SessionId')
+            _client_bw = request.cookies.get('browserVersion')
+            _client_ip = request.cookies.get('clientIP')
+            _user_id = Handlers.get_username(_alx_url, _session_id, _client_bw, _client_ip)
+            if _user_id:
+                _userdata = Handlers.get_data(_alx_url, request, "user", _user_id)
+                _user = _userdata['items'][0]
+                if _id and _tusername:
+                    _filter = ":"+_user_id
+                    _wsdata = Handlers.get_data(_alx_url, request, "workspace", _id, "owner"+_filter)
+                    if _wsdata['containsData']:
+                        _ws = _wsdata['items'][0]
+                        _filter = "tenant:"+_id
+                        _tudata = Handlers.get_data(_alx_url, request, "tenantUser", _id+"."+_tusername, _filter)
+                        if _tudata:
+                            ## save tenant user data
+                            _tuserdata = _tudata['items'][0]
+                            context = {
+                                "user_id": _user_id,
+                                "user_name": _user['username'],
+                                "user_type": _user['type'],
+                                "user_fname": _user['fname'],
+                                "user_pin": _user['pin'],
+                                "wsdata": _ws,
+                                "users_list": _tuserdata ,
+                                "levels": levels._type_all(), 
+                                "_flag_status": "",
+                                "_flag_content": "",
+                                "currentDate": "January 20, 2023",
+                                "currentTime": "20:24:03 CST (CENTRAL MEXICO)",
+                                "host_url": request.host_url
+                            }
+                            """context = {
+                                "email": _user_id,
+                                "fname": _user_data["fname"],
+                                "username": _user_data["username"],
+                                "phone": _user_data["phone"],
+                                "bday": _user_data["bday"], 
+                                "postalCode": _user_data["postalCode"],
+                                "pin": _user_data["pin"],
+                                "host_url": request.host_url
+                            }"""
+                            return render_template('workspace_users_update.html', **context)
+                        else:
+                            return _out
+                    else:
+                        return _out
+                else:
+                    return _out
+            else:
+                return _out
+        else:
+            return _out
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
 
