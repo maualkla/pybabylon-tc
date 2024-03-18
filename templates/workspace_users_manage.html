@@ -32,7 +32,7 @@ Users / {{wsdata['InformalName'][:9]}}{% if wsdata['InformalName']|length > 9 %}
             <div class="_bc_ws_pos">
                 {{usr['Type'][:22]}}{% if usr['Type']|length > 22 %}..{% endif %}
             </div>
-            <div class="_bc_ws_man" onClick="window.alert(usr['Id']);">
+            <div class="_bc_ws_man" onClick="window.alert('{{usr['Id']}}');">
                 <bold_italic>Manage</bold_italic>
             </div>
         </div>
