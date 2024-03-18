@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}
+{{ super() }}
+{% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="../static/home.css">
+{{ super() }}
+{% endblock %}
+
+{% block _title %}
+Adminde Time Card
+{% endblock %}
+
+{% block _flex_box %}
+<div class="_main_block">
+    <p class="_general_text">
+        404<br>
+        The site<br>
+        you are<br>
+        looking for<br>
+        is not here.
+    </p>
+</div>
+{% endblock %}
+
+{% block _flex_menu %}
+{% if _logged: %}
+<div class="_menu_box _box_main _box_main_bot" id="_dashboard">Dashboard</div>
+{% else: %}
+<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_login_en">Login</div>
+<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_signup_en">Signup</div>
+<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_login_es">Inicia Sesion</div>
+<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_signup_es">Registrate</div>
+{% endif %}
+{% endblock %}
+
+
+{% block scripts %}
+{{ super() }}
+<script src="../static/home.js"></script>
+{% endblock %}

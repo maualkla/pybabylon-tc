@@ -204,6 +204,7 @@ function _update_workspace(){
             }
         };
         var data = JSON.stringify(_payload);
+        console.log(data);
         xhr.send(data);
     }else{
         setAlert("_box_red", "Incorrect Pin");_display_wheel(false);
@@ -237,7 +238,7 @@ if(document.getElementById('_input_MainHexColor_tx')) document.getElementById('_
 if(document.getElementById('_i_MainHexColor')) document.getElementById('_i_MainHexColor').addEventListener('change', function (){ changeColorTextValue(document.getElementById('_i_MainHexColor').value, '_input_MainHexColor_tx', '_cp_1'); });
 // color 2
 if(document.getElementById('_input_LowHexColor_tx')) document.getElementById('_input_LowHexColor_tx').addEventListener('change', function (){ changeColorPickerValue(document.getElementById('_input_LowHexColor_tx').value, '_i_LowHexColor', '_cp_2'); });
-if(document.getElementById('_i_LowHexColor')) document.getElementById('_i_LowHexColor').addEventListener('change', function (){ changeColorTextValue(document.getElementById('_i_LowHexColor').value, '_i_LowHexColor_tx', '_cp_2'); });
+if(document.getElementById('_i_LowHexColor')) document.getElementById('_i_LowHexColor').addEventListener('change', function (){ changeColorTextValue(document.getElementById('_i_LowHexColor').value, '_input_LowHexColor_tx', '_cp_2'); });
 // color 3
 if(document.getElementById('_input_AlterHexColor_tx')) document.getElementById('_input_AlterHexColor_tx').addEventListener('change', function (){ changeColorPickerValue(document.getElementById('_input_AlterHexColor_tx').value, '_i_AlterHexColor', '_cp_3'); });
 if(document.getElementById('_i_AlterHexColor')) document.getElementById('_i_AlterHexColor').addEventListener('change', function (){ changeColorTextValue(document.getElementById('_i_AlterHexColor').value, '_input_AlterHexColor_tx', '_cp_3'); });

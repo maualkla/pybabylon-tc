@@ -132,7 +132,7 @@ function changeLanguaje(_languaje){
 // Delele all cookies alert
 function deleteAllCookies() {
     const cookies = document.cookie.split(";");
-    console.log("Delete all cookies");
+    if (_logging) console.log("Delete all cookies");
     for (let i = 0; i < cookies.length; i++) {
         const cookie = cookies[i];
         const eqPos = cookie.indexOf("=");
@@ -149,7 +149,7 @@ function setAlert(_class, _text){
 
 // Clean alert function
 function cleanAlert(){
-    console.log(" Entramos a clean alerts")
+    if (_logging) console.log(" Entramos a clean alerts")
     document.getElementsByClassName('_main_block_alerts')[0].innerHTML = "";
     document.getElementsByClassName('_main_block_alerts')[0].classList.add("_hidden");
     document.getElementsByClassName('_main_block_alerts')[0].classList.remove("_box_yellow");
@@ -175,10 +175,10 @@ if(document.getElementById('_num_button_del')) document.getElementById('_num_but
 
 // add pinpad num function
 function _add_pinpad(_num){
-    console.log(_pinpad_num.length)
+    if (_logging) console.log(_pinpad_num.length)
     if(_pinpad_num.length < 6 && _pinpad_num.length > -1){
         _pinpad_num = _pinpad_num.toString() + _num.toString();
-        console.log(_pinpad_num);
+        if (_logging) console.log(_pinpad_num);
         _display_pinpad(_pinpad_num)
         if(_pinpad_num.length === 6){
             document.getElementById("_set_pin_button").classList.remove("_gray");
@@ -207,7 +207,7 @@ function _substract_pinpad(){
             _display_pinpad(_pinpad_num)
         }
     }
-    console.log(_pinpad_num)
+    if (_logging) console.log(_pinpad_num)
 }
 
 // display pinpad
@@ -365,4 +365,96 @@ const _common_system_auto_change_color = () => {
         _change_system_colors(2, _context_vars[3]);
         _change_system_colors(3, _context_vars[4]);
     }
+}
+
+// Screen Size: 
+const _desktop_view =  () => {
+    if (window.screen.width >= 1024 && window.screen.height >= 768) {
+        _redirect('desktop');
+    }
+}
+
+//// Validations
+//// functions for data validations
+
+/// validations for password format.
+const _common_password_validation = (_pass, _copy_pass) => {
+    /*const re = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{12,}$/; //P@ssw0rd!234
+    if(_pass == _copy_pass){
+        return re.test(_pass);
+    }else{
+        return false
+    }*/
+    return (_pass == _copy_pass && _pass.length >= 10) ? true : false ; 
+}
+
+/// validations of email string
+const _common_email_string_validation = (_email) => {
+    const re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/; // john.doe123@example.com
+    return re.test(_email);
+}
+
+/// Validation of phone number
+const _common_number_validation = (_phone_num) => {
+    const re = /^\d{10}$/;
+    return re.test(_phone_num);
+}
+
+/// Validation of the date format   
+const _common_date_validation = (_date) => {
+    const regex = /^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[012])\.(19|20)\d\d$/; //dd.mm.yyyy
+    return regex.test(_date);
+}
+
+/// Validation of postal code
+const _common_postal_code_validation = (_postal_code, _country_code) => {
+    let regex = null;
+    switch (_country_code) {
+        case "US": 
+            regex = /^[0-9]{5}(?:-[0-9]{4})?$/;  // Basic US postal code
+            break;
+        case "MX":
+            regex = /^[0-9]{5}$/;  // Basic Mexican postal code
+            break;
+        case "DE":
+            regex = /^[0-9]{5}$/;  // Basic German postal code
+            break;  
+        default: 
+            return false; // No validation if the country is not supported
+    }
+    return regex.test(_postal_code);
+}
+
+// js function redirect if desktop view
+_desktop_view();
+
+
+// Dictionaries
+// Errors dictionary
+let _common_dictionary_errors = {}
+_common_dictionary_errors['_en'] = {
+    "001": "Passwords do not match or is invalid. It must be at least 10 characteres",
+    "002": "Invalid Name, If must have more than 3 characters",
+    "003": "Invalid Username, must have more thatn 3 and less than 20 characters",
+    "004": "Invalid Email",
+    "005": "Invalid Birthday Date (DD.MM.YYYY)",
+    "006": "Invalid Postal Code",
+    "007": "Invalid Phone Number",
+    "008": "Invalid Tax Id",
+    "009": "Invalid Legal Name",
+    "010": "Invalid Short Code, must have more than 3 and less than 7 characters.",
+    "011": "Invalid Country, State, City or Address Line, Please fill all the values"
+}
+_common_dictionary_errors['_es'] = {
+    "001": "Contraseña no coincide o es invalida",
+    "002": "Nombre Invalido, Debe ser mayor de 3 caracteres",
+    "003": "Username invalido, debe tener mas de 3 y menos de 20 caracteres",
+    "004": "Email invalido",
+    "005": "Cumpleaños invalido, formato (DD.MM.AAAA)",
+    "006": "Correo postal incorrecto",
+    "007": "Numero de telefono incorrecto",
+    "008": "Codigo de impuestos invalido",
+    "009": "Nombre legal invalido",
+    "010": "Nombre corto invalido, debe tener mas de 3 y menos de 7 caracteres",
+    "011": "Pais, Estado, Ciudad o Direccion invalidas. Llena todos los campos"
 }

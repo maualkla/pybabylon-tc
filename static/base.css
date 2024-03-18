@@ -57,6 +57,11 @@ a{
 }
 
 @media only screen and (max-width: 1000px), (pointer:none){
+    
+    ._desktop_view{
+        display: none;
+    }
+
     /* GLOBAL */
     ._content{
         position:fixed;
@@ -152,7 +157,7 @@ a{
     }
     
     body{
-        background-image: url("bg_v3.jpg");/**/
+        /* background-image: url("bg_v3.jpg");/**/
         background-color: var(--system-bg-color);
         /*background-position: center; */
         background-size: cover; 
@@ -763,6 +768,10 @@ a{
     font-size: 350%;
     margin:0;
     margin-right: 10%;
+}
+._general_text{
+    font-size: 500%;
+    margin: 6%;
 }
 
 /* loading wheel */

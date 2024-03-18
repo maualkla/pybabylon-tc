@@ -96,14 +96,16 @@ function stage3terms(){
 // stage 3 create account
 function createAccount(){
     _display_wheel(true);
-    if(document.getElementById('i_pass').value === document.getElementById('i_pass_repeat').value){
+    let _validated_params = _signupjs_form_validation();
+    if(_validated_params[0]){
         let _json_obj = {}
         let _json_pay = {}
         _selector_ids = ['i_fname', 'i_username', 'i_email', 'i_phone', 'i_bday', 'i_postalCode' ];
+        _params = _validated_params[1];
         for(let i = 0; i < _selector_ids.length; i++){
-            _json_obj[_selector_ids[i].substring(2)] = document.getElementById(_selector_ids[i]).value;
+            _json_obj[_selector_ids[i].substring(2)] = _params[_selector_ids[i]];
         }
-        _json_obj['pass'] = window.btoa(unescape(encodeURIComponent(document.getElementById('i_pass').value)))
+        _json_obj['pass'] = window.btoa(unescape(encodeURIComponent(_params['i_pass'])))
         _json_obj['plan'] = _s2_selector; _json_obj['terms'] = true; _json_obj['type'] = 2;_json_obj["activate"] = true;_json_obj["pin"] = 0;_json_obj["tenant"] = "";_json_pay["item"] = _json_obj;
         let xhr = new XMLHttpRequest();
         let url = "/v1/admdata?service=user";
@@ -113,17 +115,20 @@ function createAccount(){
             try
             {
                 if (xhr.readyState === 4 && xhr.status === 202) {
-                    document.cookie = '_flag_content=User succesfully created! Login to start.';
-                    document.cookie = '_flag_status=_box_green';
-                    window.location.replace("/login");
+                    let _data = xhr.responseText;
+                    let _parsed_data = JSON.parse(_data);
+                    if (_parsed_data["code"] == 202){
+                        document.cookie = '_flag_content=User succesfully created! Login to start.';
+                        document.cookie = '_flag_status=_box_green';
+                        _redirect("login");
+                    }else{
+                        signupjs_customAlert(_parsed_data["reason"]);
+                        _display_wheel(false);
+                    }
                 }else if( xhr.status === 200 || xhr.status === 403){
                     let _data = xhr.responseText;
                     let _parsed_data = JSON.parse(_data);
-                    document.getElementById("_xpc_signup_alert").style.height = '10%';
-                    document.getElementsByClassName("_main_block")[0].style.display = 'block';
-                    document.getElementsByClassName('_main_block_alerts')[0].classList.add("_box_red");
-                    document.getElementsByClassName('_main_block_alerts')[0].classList.remove("_hidden");
-                    document.getElementsByClassName('_main_block_alerts')[0].innerHTML = "<p> Error creating user, "+ _parsed_data["reason"] +" </p>";
+                    signupjs_customAlert(_parsed_data["reason"]);
                     _display_wheel(false);
                 }
             }
@@ -147,9 +152,96 @@ function createAccount(){
         var data = JSON.stringify(_json_pay);
         xhr.send(data);
     }else{
-        setAlert("_box_red", "Passwords don´t match try again.");
-        nextButton(false);nextButton(false);nextButton(false);
+        setAlert("_box_red", _common_dictionary_errors[_curr_languaje][_validated_params[1]]);
         _display_wheel(false);
     }
     
+}
+
+
+// display custom alert
+const signupjs_customAlert = (message) => {
+    document.getElementById("_xpc_signup_alert").style.height = '10%';
+    document.getElementsByClassName("_main_block")[0].style.display = 'block';
+    document.getElementsByClassName('_main_block_alerts')[0].classList.add("_box_red");
+    document.getElementsByClassName('_main_block_alerts')[0].classList.remove("_hidden");
+    document.getElementsByClassName('_main_block_alerts')[0].innerHTML = "<p> Error creating user, "+ message +" </p>";
+}
+
+
+/// Form validation
+const _signupjs_form_validation = () =>{
+    // validar pass
+    // validar 'i_fname', 'i_username', 'i_email', 'i_phone', 'i_bday', 'i_postalCode' 
+    if ( _common_password_validation(document.getElementById('i_pass_repeat').value, document.getElementById('i_pass').value  ) )
+    {
+        if(document.getElementById('i_fname').value.length > 3)
+        {
+            if(document.getElementById('i_username').value.length > 3  && document.getElementById('i_username').value.length < 20)
+            {
+                if(_common_email_string_validation(document.getElementById('i_email').value))
+                {
+                    if(_common_date_validation(document.getElementById('i_bday').value))
+                    {
+                        if(_common_postal_code_validation(document.getElementById('i_postalCode').value, 'MX') )
+                        {
+                            if(_common_number_validation(document.getElementById('i_phone').value))
+                            {
+                                let form_values = {}
+                                form_values['i_fname'] = document.getElementById('i_fname').value;
+                                form_values['i_username'] = document.getElementById('i_username').value;
+                                form_values['i_email'] = document.getElementById('i_email').value;
+                                form_values['i_phone'] = document.getElementById('i_phone').value;
+                                form_values['i_bday'] = document.getElementById('i_bday').value;
+                                form_values['i_postalCode'] = document.getElementById('i_postalCode').value;
+                                form_values['i_pass'] = document.getElementById('i_pass').value;
+                                return [true,form_values];
+                            }else{
+                                _signupjs_clean_field('i_phone');
+                                _signupjs_leaps(2);
+                                return [false,'007'];
+                            }
+                        }else{
+                            _signupjs_clean_field('i_postalCode');
+                            _signupjs_leaps(2);
+                            return [false,'006'];
+                        }
+                    }else{
+                        _signupjs_clean_field('i_bday');
+                        _signupjs_leaps(2);
+                        return [false,'005'];
+                    }
+                }else{
+                    _signupjs_clean_field('i_email');
+                    _signupjs_leaps(3);
+                    return [false,'004'];
+                }
+            }else{
+                _signupjs_clean_field('i_username');
+                _signupjs_leaps(3);
+                return [false,'003'];
+            }    
+        }else{
+            _signupjs_clean_field('i_fname');
+            _signupjs_leaps(3);
+            return [false,'002'];
+        }
+    }else{
+        _signupjs_clean_field('i_pass_repeat');_signupjs_clean_field('i_pass');
+        _signupjs_leaps(3);
+        return [false,'001'];
+        
+    }
+}
+
+// back 1 or 2 or 3 steps
+const _signupjs_leaps = (_num) => {
+    for (let i = 0; i < _num; i++){
+        nextButton(false);
+    }
+}
+
+// clean field 
+const _signupjs_clean_field = (_id) => {
+    document.getElementById(_id).value = "";
 }
