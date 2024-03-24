@@ -3,7 +3,7 @@
 Account - {{ super() }}
 {% endblock %}
 {% block styles %}
-<link rel="stylesheet" href="{{host_url}}/static/account.css">
+<link rel="stylesheet" href="{{host_url}}/static/workspace_users_update.css">
 {{ super() }}
 {% endblock %}
 
@@ -19,10 +19,10 @@ Account - {{ super() }}
     <div class="_main_block_content">
         <div class="_main_boxes">
             <input class="_input_general color_2_bg color_1_tx" type="text" id="_input_fname" placeholder="Full name" value="{{ users_list['FullName'] }}"/> 
-            <input class="_input_general color_2_bg color_1_tx" type="text" id="_input_username" placeholder="{{_username }}" value="{{users_list['Username'] }}"/> 
-            <input class="_input_general color_2_bg color_1_tx" type="number" id="_input_phone" placeholder="{{_phone }}" value="{{ users_list['Email'] }}"/> 
+            <div class="_input_general color_2_bg color_1_tx" id="_input_username" > <p style="margin:0;font-size: 80%;">{{users_list['Username'] }}</p> </div> 
+            <input class="_input_general color_2_bg color_1_tx" type="text" id="_input_phone" placeholder="{{_phone }}" value="{{ users_list['Email'] }}"/> 
             <input class="_input_general color_2_bg color_1_tx" type="text" id="_input_bday" placeholder="{{_birthday }}" value="{{ users_list['CreatedBy'] }}"/> 
-            <input class="_input_general color_2_bg color_1_tx" type="number" id="_input_postalCode" placeholder="{{_postcode }}" value="{{users_list['Id'] }}"/> 
+            <div class="_input_general color_2_bg color_1_tx" id="_input_postalCode"> <p style="margin:0;font-size: 80%;">{{users_list['Id'] }}</p> </div>
             <div class="_menu_box _custom_mb color_3_bg color_1_tx color_1_border_bottom" id="_input_pass" ><bold_italic>Change Password</bold_italic></div>
             <div class="_menu_box _custom_mb color_3_bg color_1_tx color_1_border_bottom" id="_input_pin" ><bold_italic>Change Pin</bold_italic></div>
         </div>
@@ -76,6 +76,6 @@ Account - {{ super() }}
 
 {% block scripts %}
 {{ super() }}
-<script> const _context_vars = ["{{ email }}", {{ pin }}]</script>
-<script src="{{host_url}}/static/account.js"></script>
+<script> const _context_vars = ["{{ user_id }}", {{ user_pin }}, "{{wsdata['MainHexColor']}}", "{{ wsdata['LowHexColor'] }}", "{{ wsdata['AlterHexColor'] }}", "{{ wsdata['TaxId'] }}"]; </script>
+<script src="{{host_url}}/static/workspace_users_update.js"></script>
 {% endblock %}
