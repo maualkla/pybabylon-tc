@@ -21,10 +21,19 @@ Account - {{ super() }}
             <input class="_input_general color_2_bg color_1_tx" type="text" id="_input_fname" placeholder="Full name" value="{{ users_list['FullName'] }}"/> 
             <div class="_input_general color_2_bg color_1_tx" id="_input_username" > <p style="margin:0;font-size: 80%;">{{users_list['Username'] }}</p> </div> 
             <input class="_input_general color_2_bg color_1_tx" type="text" id="_input_phone" placeholder="{{_phone }}" value="{{ users_list['Email'] }}"/> 
-            <input class="_input_general color_2_bg color_1_tx" type="text" id="_input_bday" placeholder="{{_birthday }}" value="{{ users_list['CreatedBy'] }}"/> 
+            <div class="_input_general color_2_bg color_1_tx" id="_input_bday"> <p style="margin:0;font-size: 70%;">Created By: {{ users_list['CreatedBy'] }}</p></div>
             <div class="_input_general color_2_bg color_1_tx" id="_input_postalCode"> <p style="margin:0;font-size: 80%;">{{users_list['Id'] }}</p> </div>
+            <div class="_input_general color_2_bg color_1_tx" id="_input_admin" >
+                <label for="switch" title="Is Admin" class="switch-container">
+                    <!--span id="switch-label" class="label">Type od User: </span-->
+                    <div class="toggle-container">
+                        <input id="switch" type="checkbox" role="switch" aria-labelledby="switch-label" {% if users_list['Type'] == 1 %} checked {% endif %} />
+                        <span class="slider"></span>
+                    </div>
+                    <span id="switch-status" class="toggle-status" aria-hidden="true">{% if users_list['Type'] == 1 %} Admin User {% else %} Regular User {% endif %} </span>
+                </label>
+            </div> 
             <div class="_menu_box _custom_mb color_3_bg color_1_tx color_1_border_bottom" id="_input_pass" ><bold_italic>Change Password</bold_italic></div>
-            <div class="_menu_box _custom_mb color_3_bg color_1_tx color_1_border_bottom" id="_input_pin" ><bold_italic>Change Pin</bold_italic></div>
         </div>
     </div>
     <div class="_main_block_content_pwd _hidden" >
