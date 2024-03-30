@@ -18,9 +18,9 @@ Account - {{ super() }}
     </div>
     <div class="_main_block_content">
         <div class="_main_boxes">
-            <input class="_input_general color_2_bg color_1_tx" type="text" id="_input_fname" placeholder="Full name" value="{{ users_list['FullName'] }}"/> 
+            <input class="_input_general color_2_bg color_1_tx" type="text" id="_input_fname" placeholder="Full Name" value="{{ users_list['FullName'] }}"/> 
             <div class="_input_general color_2_bg color_1_tx" id="_input_username" > <p style="margin:0;font-size: 80%;">{{users_list['Username'] }}</p> </div> 
-            <input class="_input_general color_2_bg color_1_tx" type="text" id="_input_phone" placeholder="{{_phone }}" value="{{ users_list['Email'] }}"/> 
+            <input class="_input_general color_2_bg color_1_tx" type="text" id="_input_email" placeholder="Email" value="{{ users_list['Email'] }}"/> 
             <div class="_input_general color_2_bg color_1_tx" id="_input_bday"> <p style="margin:0;font-size: 70%;">Created By: {{ users_list['CreatedBy'] }}</p></div>
             <div class="_input_general color_2_bg color_1_tx" id="_input_postalCode"> <p style="margin:0;font-size: 80%;">{{users_list['Id'] }}</p> </div>
             <div class="_input_general color_2_bg color_1_tx" id="_input_admin" >
@@ -84,6 +84,6 @@ Account - {{ super() }}
 
 {% block scripts %}
 {{ super() }}
-<script> const _context_vars = ["{{ user_id }}", {{ user_pin }}, "{{wsdata['MainHexColor']}}", "{{ wsdata['LowHexColor'] }}", "{{ wsdata['AlterHexColor'] }}", "{{ wsdata['TaxId'] }}"]; </script>
+<script> const _context_vars = ["{{ user_id }}", {{ user_pin }}, "{{wsdata['MainHexColor']}}", "{{ wsdata['LowHexColor'] }}", "{{ wsdata['AlterHexColor'] }}", "{{ wsdata['TaxId'] }}", "{{users_list['Id']}}"]; </script>
 <script src="{{host_url}}/static/workspace_users_update.js"></script>
 {% endblock %}

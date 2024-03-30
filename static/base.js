@@ -278,9 +278,13 @@ function _display_wheel(_state){
 }
 
 // function to redirect to another location. 
-const _redirect = (target) => {
+const _redirect = (target, version = false) => {
     _display_wheel(true);
-    window.location.replace("/"+target);
+    if (version){
+        window.location.replace(window.location.origin+target);
+    }else{
+        window.location.replace("/"+target);
+    }
 }
 
 // show/hide floating buttons

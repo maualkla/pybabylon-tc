@@ -5,7 +5,7 @@ _common_system_auto_change_color();
 
 
 // required view variables
-let _view = 0;
+let _view = 0, counter = 0;
 
 
 /// triggers: 
@@ -13,14 +13,16 @@ if(document.getElementById('_input_pass')) document.getElementById('_input_pass'
 // floating buttons 
 if(document.getElementById('_fb_1')) document.getElementById('_fb_1').addEventListener('click', function (){ 
     if(_view === 0) { 
-        // something here 
+        _ws_users_update_data(1);
     } else if(_view === 1){
-        // something else here
+        _ws_users_update_data(2);
     }
 });
 if(document.getElementById('_fb_2')) document.getElementById('_fb_2').addEventListener('click', function (){ 
     if(_view === 0) { 
-        // something here 
+        let x = window.location.pathname;
+        x = x.substr(0, x.indexOf('/users/'));
+        _redirect(x+'/users', 1);
     } else if(_view === 1){
         _ws_users_update_display_passview(false);
     }
@@ -57,4 +59,80 @@ const _ws_users_update_display_passview = ( action ) => {
         document.getElementsByClassName("_main_block_content")[0].classList.remove("_hidden");
         _view = 0;
     }
+}
+
+
+// get main params: 
+const _ws_users_update_get_params = () => {
+    if(document.getElementById("_input_fname").value && document.getElementById("_input_email").value){
+        let _json_obj = {};
+        _json_obj['FullName'] = document.getElementById("_input_fname").value;
+        _json_obj['Email'] = document.getElementById("_input_email").value;
+        _json_obj['Type'] = (document.getElementById("switch").hasAttribute("checked")) ? 1 : 0;
+        return _json_obj;
+    }else{
+        setAlert("_box_red", "Please fill all required fields"); 
+        return false;
+    }
+}
+
+// get pass resseet params
+const _ws_users_update_get_restpassparams = () => {
+    if(document.getElementById("_input_new_pass") === document.getElementById("_input_new_pass_repeat")){
+        let _json_obj = {};
+        _json_obj['Password'] = document.getElementById("_input_new_pass").value;
+        return _json_obj;
+    }else{
+        setAlert("_box_red", "Passwords not match"); 
+        return false;
+    }
+}
+
+// update user
+const _ws_users_update_data = ( path ) => {
+    let _params = {};
+    if (path === 1 ){
+        _params =  _ws_users_update_get_params();
+    }else if (path === 2 ){
+        _params =  _ws_users_update_get_restpassparams();
+    }else{
+        _params = false;
+    }
+    if(_params){
+        _display_wheel(true);
+        _params['Id'] = _context_vars[6];
+        let _json_out = {};
+        _json_out["item"] = _params;
+        let xhr = new XMLHttpRequest();
+        let url = "/v1/admdata?service=tenantUser";
+        xhr.open("PUT", url);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function () {
+            try
+            {
+                if (xhr.readyState === 4 && xhr.status === 202) {
+                    _display_wheel(false);
+                    setAlert("_box_green", "Changes Saved");
+                }
+            }
+            catch(e)
+            {
+                if(counter === 1){
+                    if(_logging){
+                        console.log("-------------------")
+                        console.log(e)
+                        console.log("-------------------")
+                    }
+                    _errors++;
+                    setAlert("_box_red", "Error updating Tenant User.");
+                    _display_wheel(false);
+                }else{
+                    counter++;
+                }
+            }
+        };
+        var data = JSON.stringify(_json_out);
+        xhr.send(data);
+    }
+
 }
