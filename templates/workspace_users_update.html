@@ -8,7 +8,7 @@ Account - {{ super() }}
 {% endblock %}
 
 {% block _title %}
-{{users_list['Username'] }} / {{wsdata['ShortCode']}}
+{{wsdata['ShortCode']}} / {{users_list['Username'] }}
 {% endblock %}
 
 {% block _flex_box %}
@@ -38,7 +38,6 @@ Account - {{ super() }}
     </div>
     <div class="_main_block_content_pwd _hidden" >
         <div class="_main_boxes_pwd">
-            <input class="_input_general color_2_bg color_1_tx" type="password" id="_input_old_pass" placeholder="Old Password" value=""/> 
             <input class="_input_general color_2_bg color_1_tx" type="password" id="_input_new_pass" placeholder="New Password" value=""/> 
             <input class="_input_general color_2_bg color_1_tx" type="password" id="_input_new_pass_repeat" placeholder="Repeat New Password" value=""/> 
         </div>
