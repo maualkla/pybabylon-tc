@@ -156,13 +156,10 @@ class Handlers():
             _clientIp = _request.cookies.get('clientIP') if _request.cookies.get('clientIP') else False
             ## if required cookies continue.
             if _sessionId and _browser and _clientIp:
-                print(" (!) session params ok")
                 ## call to get_session_token to retrieve the token.
                 _token = Handlers.__get_session_token(_service_url, _sessionId, _browser, _clientIp)
-                print(_token)
                 ## if token, generates a call to the service. else return null
                 if _token:
-                    print(" (!) Token ok ")
                     _req = Handlers._models[_service]
                     ## go and iterate to find all of them, if not _go will be false
                     _go = False
@@ -172,7 +169,10 @@ class Handlers():
                         if req_value in _item:
                             _go = True
                     if _go:
-                        print(" (!) GO ")
+                        ## get the current username from the session id.
+                        _currentUsername = Handlers.get_username(_service_url, _sessionId,  _browser, _clientIp)
+                        ## set the current username in the item object. 
+                        _item["currentUser"] = _currentUsername
                         ## set the url of the service
                         _url = Helpers.generateURL(_service_url, _service)
                         ## set the headers
@@ -184,7 +184,6 @@ class Handlers():
                     else:
                         return {}
                 else:
-                    print("(!) Token not ok ")
                     return {}
             else:
                 return {}

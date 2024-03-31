@@ -101,6 +101,7 @@ const _ws_users_update_data = ( path ) => {
     if(_params){
         _display_wheel(true);
         _params['Id'] = _context_vars[6];
+        _params['Tenant'] = _context_vars[5];
         let _json_out = {};
         _json_out["item"] = _params;
         let xhr = new XMLHttpRequest();
