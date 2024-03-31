@@ -478,6 +478,47 @@ def workspace_users(_id = False):
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
 
+@app.route('/workspace/<_id>/users/new')
+def tusers_new(_id = False):
+    try: 
+        ## Set a logged variable requesting the _id and _us cookies.
+        _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
+        _out = make_response(redirect('/logout'))
+        ## validate if _logged
+        if _required_cookies:
+            ## if present, save the _id and _un
+            _session_id = request.cookies.get('SessionId')
+            _client_bw = request.cookies.get('browserVersion')
+            _client_ip = request.cookies.get('clientIP')
+            _user_id = Handlers.get_username(_alx_url, _session_id, _client_bw, _client_ip)
+            if _user_id and _id:
+                _userdata = Handlers.get_data(_alx_url, request, "user", _user_id)
+                _user = _userdata['items'][0]
+                _filter = ":"+_user_id
+                _wsdata = Handlers.get_data(_alx_url, request, "workspace", _id, "owner"+_filter)
+                if _wsdata['containsData']:
+                    _ws = _wsdata['items'][0]
+                    context = {
+                        "user_id": _user_id,
+                        "user_name": _user['username'],
+                        "user_type": _user['type'],
+                        "user_fname": _user['fname'],
+                        "user_pin": _user['pin'],
+                        "wsdata": _ws,
+                        "_flag_status": "",
+                        "_flag_content": "",
+                        "currentDate": "January 20, 2023",
+                        "currentTime": "20:24:03 CST (CENTRAL MEXICO)",
+                        "host_url": request.host_url
+                    }
+                    return render_template('workspace_users_create.html', **context)
+            else:
+                return make_response(redirect('/workspace'))
+        else:
+            return _out
+    except Exception as e:
+        return {"status": "An error Occurred", "error": str(e)}
+
 ## Tenant Users Management
 @app.route('/workspace/<_id>/users/<_tusername>')
 def tusers_management(_id = False, _tusername = False):

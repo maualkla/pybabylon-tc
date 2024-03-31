@@ -9,7 +9,12 @@ let _view = 0, counter = 0;
 
 
 /// triggers: 
+if(document.getElementById('_back_ws_en')) document.getElementById('_back_ws_en').addEventListener('click', function (){ _ws_users_update_goback(); });
+if(document.getElementById('_back_ws_es')) document.getElementById('_back_ws_es').addEventListener('click', function (){ _ws_users_update_goback(); });
+if(document.getElementById('_close_sesion_en')) document.getElementById('_close_sesion_en').addEventListener('click', function (){ _ws_users_update_goback(); });
+if(document.getElementById('_close_sesion_es')) document.getElementById('_close_sesion_es').addEventListener('click', function (){ _ws_users_update_goback(); });
 if(document.getElementById('_input_pass')) document.getElementById('_input_pass').addEventListener('click', function (){ if(_view === 0) { _ws_users_update_display_passview(true); } });
+
 // floating buttons 
 if(document.getElementById('_fb_1')) document.getElementById('_fb_1').addEventListener('click', function (){ 
     if(_view === 0) { 
@@ -20,9 +25,7 @@ if(document.getElementById('_fb_1')) document.getElementById('_fb_1').addEventLi
 });
 if(document.getElementById('_fb_2')) document.getElementById('_fb_2').addEventListener('click', function (){ 
     if(_view === 0) { 
-        let x = window.location.pathname;
-        x = x.substr(0, x.indexOf('/users/'));
-        _redirect(x+'/users', 1);
+        _ws_users_update_goback();
     } else if(_view === 1){
         _ws_users_update_display_passview(false);
     }
@@ -78,9 +81,9 @@ const _ws_users_update_get_params = () => {
 
 // get pass resseet params
 const _ws_users_update_get_restpassparams = () => {
-    if(document.getElementById("_input_new_pass") === document.getElementById("_input_new_pass_repeat")){
+    if(document.getElementById("_input_new_pass").value == document.getElementById("_input_new_pass_repeat").value){
         let _json_obj = {};
-        _json_obj['Password'] = document.getElementById("_input_new_pass").value;
+        _json_obj['Password'] = window.btoa(unescape(encodeURIComponent(document.getElementById("_input_new_pass").value)))
         return _json_obj;
     }else{
         setAlert("_box_red", "Passwords not match"); 
@@ -114,6 +117,10 @@ const _ws_users_update_data = ( path ) => {
                 if (xhr.readyState === 4 && xhr.status === 202) {
                     _display_wheel(false);
                     setAlert("_box_green", "Changes Saved");
+                    if(path === 2 ){
+                        _ws_users_update_clean_password_params();
+                        _ws_users_update_display_passview(false);
+                    }
                 }
             }
             catch(e)
@@ -136,4 +143,18 @@ const _ws_users_update_data = ( path ) => {
         xhr.send(data);
     }
 
+}
+
+// clean params 
+const _ws_users_update_clean_password_params = () => {
+    document.getElementById("_input_new_pass").value = "";
+    document.getElementById("_input_new_pass_repeat").value = "";
+}
+
+
+const _ws_users_update_goback = () => {
+    _display_wheel(true);
+    let x = window.location.pathname;
+    x = x.substr(0, x.indexOf('/users/'));
+    _redirect(x+'/users', 1);
 }
