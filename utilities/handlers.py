@@ -7,7 +7,9 @@ class Handlers():
     _models = {
         "user":['activate', 'username', 'bday', 'pass', 'fname', 'phone', 'pin', 'plan', 'postalCode', 'terms', 'type', 'tenant'],
         "workspace":['Owner', 'TaxId', 'LegalName', 'InformalName', 'ShortCode', 'CountryCode', 'State', 'City', 'AddressLine1', 'AddressLine2', 'AddressLine3', 'AddressLine4', 'PhoneCountryCode', 'PhoneNumber', 'Email', 'MainHexColor', 'AlterHexColor', 'LowHexColor', 'Level', 'CreationDate', 'PostalCode'],
-        "session": ['requestString', 'client']
+        "session": ['requestString', 'client'],
+        "tenantUser": ['Username', 'Id', 'Password', 'FullName', 'Email', 'Manager', 'Tenant', 'Type', 'CreatedBy'],
+        "timeLog": ['Active', 'Edited', 'EditedBy', 'EditionDate', 'EditionTime', 'EndDate', 'EndTime', 'Id', 'OriginalEndDate', 'OriginalEndTime', 'OriginalStartDate', 'OriginalStartTime', 'StartDate', 'StartTime', 'UserId']
     }
 
 
@@ -154,10 +156,13 @@ class Handlers():
             _clientIp = _request.cookies.get('clientIP') if _request.cookies.get('clientIP') else False
             ## if required cookies continue.
             if _sessionId and _browser and _clientIp:
+                print(" (!) session params ok")
                 ## call to get_session_token to retrieve the token.
                 _token = Handlers.__get_session_token(_service_url, _sessionId, _browser, _clientIp)
+                print(_token)
                 ## if token, generates a call to the service. else return null
                 if _token:
+                    print(" (!) Token ok ")
                     _req = Handlers._models[_service]
                     ## go and iterate to find all of them, if not _go will be false
                     _go = False
@@ -167,6 +172,7 @@ class Handlers():
                         if req_value in _item:
                             _go = True
                     if _go:
+                        print(" (!) GO ")
                         ## set the url of the service
                         _url = Helpers.generateURL(_service_url, _service)
                         ## set the headers
@@ -178,6 +184,7 @@ class Handlers():
                     else:
                         return {}
                 else:
+                    print("(!) Token not ok ")
                     return {}
             else:
                 return {}
