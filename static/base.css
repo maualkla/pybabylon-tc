@@ -28,6 +28,7 @@
     --system-alert-blue: #CAF5F2;
     --system-big-text: 480%;
     --system-medium-text: 70%;
+    --system-small-text: 30%;
     --system-regular-border-width: 4px;
     --system-light-border-width: 1px;
     --system-thick-border-width: 6px;
@@ -538,6 +539,23 @@ a{
 }
     ._input_general::placeholder{
         color: var(--system-bg-color)
+    }
+
+/* select general */
+._select_general{
+    height: 170.2px;
+    width: 100%;
+    border-bottom: solid var(--system-regular-border-width) var(--system-bg-color);
+    font-size: var(--system-big-text);
+    padding-left: 5%;
+    border-radius: 0;
+}
+    optgroup{
+        font-size: var(--system-small-text);
+        --webkit-appearance: none;
+    }
+    ._text_little{
+        font-size: var(--system-small-text);
     }
 
 /* color picker */

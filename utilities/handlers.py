@@ -8,7 +8,7 @@ class Handlers():
         "user":['activate', 'username', 'bday', 'pass', 'fname', 'phone', 'pin', 'plan', 'postalCode', 'terms', 'type', 'tenant'],
         "workspace":['Owner', 'TaxId', 'LegalName', 'InformalName', 'ShortCode', 'CountryCode', 'State', 'City', 'AddressLine1', 'AddressLine2', 'AddressLine3', 'AddressLine4', 'PhoneCountryCode', 'PhoneNumber', 'Email', 'MainHexColor', 'AlterHexColor', 'LowHexColor', 'Level', 'CreationDate', 'PostalCode'],
         "session": ['requestString', 'client'],
-        "tenantUser": ['Username', 'Id', 'Password', 'FullName', 'Email', 'Manager', 'Tenant', 'Type', 'CreatedBy'],
+        "tenantUser": ['Active', 'Username', 'Id', 'Password', 'FullName', 'Email', 'Manager', 'Tenant', 'Type', 'CreatedBy'],
         "timeLog": ['Active', 'Edited', 'EditedBy', 'EditionDate', 'EditionTime', 'EndDate', 'EndTime', 'Id', 'OriginalEndDate', 'OriginalEndTime', 'OriginalStartDate', 'OriginalStartTime', 'StartDate', 'StartTime', 'UserId']
     }
 
@@ -71,6 +71,7 @@ class Handlers():
                 _token = Handlers.__get_session_token(_service_url, _sessionId, _browser, _clientIp)
                 ## if token, generates a call to the service. else return null
                 if _token:
+                    print(1)
                     _req = Handlers._models[_service]
                     ## go and iterate to find all of them, if not _go will be false
                     _go = True
@@ -78,8 +79,11 @@ class Handlers():
                     for req_value in _req:
                         ## if it is not in the parameters, set flag to false.
                         if req_value not in _item:
+                            print(2)
                             _go = False
+                    print(_go)
                     if _go:
+                        print(3)
                         ## set the url of the service
                         _url = Helpers.generateURL(_service_url, _service)
                         ## set the headers
