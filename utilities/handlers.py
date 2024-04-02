@@ -7,7 +7,9 @@ class Handlers():
     _models = {
         "user":['activate', 'username', 'bday', 'pass', 'fname', 'phone', 'pin', 'plan', 'postalCode', 'terms', 'type', 'tenant'],
         "workspace":['Owner', 'TaxId', 'LegalName', 'InformalName', 'ShortCode', 'CountryCode', 'State', 'City', 'AddressLine1', 'AddressLine2', 'AddressLine3', 'AddressLine4', 'PhoneCountryCode', 'PhoneNumber', 'Email', 'MainHexColor', 'AlterHexColor', 'LowHexColor', 'Level', 'CreationDate', 'PostalCode'],
-        "session": ['requestString', 'client']
+        "session": ['requestString', 'client'],
+        "tenantUser": ['Active', 'Username', 'Id', 'Password', 'FullName', 'Email', 'Manager', 'Tenant', 'Type', 'CreatedBy'],
+        "timeLog": ['Active', 'Edited', 'EditedBy', 'EditionDate', 'EditionTime', 'EndDate', 'EndTime', 'Id', 'OriginalEndDate', 'OriginalEndTime', 'OriginalStartDate', 'OriginalStartTime', 'StartDate', 'StartTime', 'UserId']
     }
 
 
@@ -167,6 +169,10 @@ class Handlers():
                         if req_value in _item:
                             _go = True
                     if _go:
+                        ## get the current username from the session id.
+                        _currentUsername = Handlers.get_username(_service_url, _sessionId,  _browser, _clientIp)
+                        ## set the current username in the item object. 
+                        _item["currentUser"] = _currentUsername
                         ## set the url of the service
                         _url = Helpers.generateURL(_service_url, _service)
                         ## set the headers

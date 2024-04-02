@@ -278,9 +278,13 @@ function _display_wheel(_state){
 }
 
 // function to redirect to another location. 
-const _redirect = (target) => {
+const _redirect = (target, version = false) => {
     _display_wheel(true);
-    window.location.replace("/"+target);
+    if (version){
+        window.location.replace(window.location.origin+target);
+    }else{
+        window.location.replace("/"+target);
+    }
 }
 
 // show/hide floating buttons
@@ -443,7 +447,8 @@ _common_dictionary_errors['_en'] = {
     "008": "Invalid Tax Id",
     "009": "Invalid Legal Name",
     "010": "Invalid Short Code, must have more than 3 and less than 7 characters.",
-    "011": "Invalid Country, State, City or Address Line, Please fill all the values"
+    "011": "Invalid Country, State, City or Address Line, Please fill all the values",
+    "012": "Invalid Full Name value. Must have 3 or more characters."
 }
 _common_dictionary_errors['_es'] = {
     "001": "Contraseña no coincide o es invalida",
@@ -456,5 +461,6 @@ _common_dictionary_errors['_es'] = {
     "008": "Codigo de impuestos invalido",
     "009": "Nombre legal invalido",
     "010": "Nombre corto invalido, debe tener mas de 3 y menos de 7 caracteres",
-    "011": "Pais, Estado, Ciudad o Direccion invalidas. Llena todos los campos"
+    "011": "Pais, Estado, Ciudad o Direccion invalidas. Llena todos los campos",
+    "012": "Nombre completo invalido. Debe tener mas de 3 caracteres."
 }

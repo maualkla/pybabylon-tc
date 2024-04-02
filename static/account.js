@@ -101,8 +101,6 @@ function _send_user_update(_json_obj = False){
         json_out["item"] = _json_obj;
         let xhr = new XMLHttpRequest();
         let url = "/v1/admdata?service=user";
-        console.log(json_out);
-        console.log(url);
         xhr.open("PUT", url);
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.onreadystatechange = function () {
