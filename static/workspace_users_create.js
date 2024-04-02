@@ -59,6 +59,7 @@ const _ws_users_create_get_params = () => {
                     _json_obj['Manager'] = document.getElementById('selectManager').value;
                     _json_obj['Active'] = true;
                     _json_obj['Tenant'] = _context_vars[5];
+                    _json_obj['Password'] = window.btoa(unescape(encodeURIComponent(document.getElementById("_input_password").value)));
                     if (_logging) console.log(_json_obj);
                     return _json_obj;
                 }else{

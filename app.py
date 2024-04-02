@@ -526,6 +526,7 @@ def tusers_management(_id = False, _tusername = False):
         ## Set a logged variable requesting the _id and _us cookies.
         _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
         _out = make_response(redirect('/logout'))
+        _redirect = make_response(redirect('/workspace'))
         ## validate if _logged
         if _required_cookies:
             ## if present, save the _id and _un
@@ -543,9 +544,18 @@ def tusers_management(_id = False, _tusername = False):
                         _ws = _wsdata['items'][0]
                         _filter = "tenant:"+_id
                         _tudata = Handlers.get_data(_alx_url, request, "tenantUser", _id+"."+_tusername, _filter)
-                        if _tudata:
+                        if _tudata['containsData']:
                             ## save tenant user data
                             _tuserdata = _tudata['items'][0]
+                            _filter = "tenant:"+_id+";type:1"
+                            print("search for managers")
+                            print(_filter)
+                            _managers = Handlers.get_data(_alx_url, request, "tenantUser", False, _filter)
+                            print(_managers)
+                            if _managers['containsData']:
+                                _managers = _managers['items']
+                            else:
+                                _managers = False
                             context = {
                                 "user_id": _user_id,
                                 "user_name": _user['username'],
@@ -553,6 +563,7 @@ def tusers_management(_id = False, _tusername = False):
                                 "user_fname": _user['fname'],
                                 "user_pin": _user['pin'],
                                 "wsdata": _ws,
+                                "tmanagers_list": _managers,
                                 "users_list": _tuserdata ,
                                 "levels": levels._type_all(), 
                                 "_flag_status": "",
@@ -573,11 +584,11 @@ def tusers_management(_id = False, _tusername = False):
                             }"""
                             return render_template('workspace_users_update.html', **context)
                         else:
-                            return _out
+                            return _redirect
                     else:
-                        return _out
+                        return _redirect
                 else:
-                    return _out
+                    return _redirect
             else:
                 return _out
         else:

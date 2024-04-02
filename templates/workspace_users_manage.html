@@ -8,7 +8,7 @@ Workspace Users Management - {{ super() }}
 {% endblock %}
 
 {% block _title %}
-Users / {{wsdata['InformalName'][:9]}}{% if wsdata['InformalName']|length > 9 %}..{% endif %}
+{{wsdata['ShortCode']}} / Users
 {% endblock %}
 
 {% block _flex_box %}

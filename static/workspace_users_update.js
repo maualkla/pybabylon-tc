@@ -25,6 +25,13 @@ if(document.getElementById('_fb_1')) document.getElementById('_fb_1').addEventLi
 });
 if(document.getElementById('_fb_2')) document.getElementById('_fb_2').addEventListener('click', function (){ 
     if(_view === 0) { 
+        //
+    } else if(_view === 1){
+        //
+    }
+});
+if(document.getElementById('_fb_3')) document.getElementById('_fb_3').addEventListener('click', function (){ 
+    if(_view === 0) { 
         _ws_users_update_goback();
     } else if(_view === 1){
         _ws_users_update_display_passview(false);
@@ -98,6 +105,8 @@ const _ws_users_update_data = ( path ) => {
         _params =  _ws_users_update_get_params();
     }else if (path === 2 ){
         _params =  _ws_users_update_get_restpassparams();
+    }else if (path === 3){
+        _params = false;
     }else{
         _params = false;
     }

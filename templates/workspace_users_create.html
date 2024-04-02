@@ -24,7 +24,12 @@ New {{wsdata['ShortCode']}} User - {{ super() }}
             <select class="color_2_bg color_1_tx _select_general" name="selectManager" id="selectManager">
                 <optgroup>
                     <option value="0" class="_text_little" selected>Select Manager..</option>
-                    <option value="value2">Value 2</option>
+                    {{tmanagers_list}}
+                    {% if tmanagers_list %}
+                    {% for mgr in tmanagers_list %}
+                    <option value="{{mgr['Id']}}">{{mgr['FullName']}}</option>
+                    {% endfor %}
+                    {% endif %}
                 </optgroup>
             </select>
             <div class="_input_general color_2_bg color_1_tx" id="_input_admin" >

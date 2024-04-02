@@ -422,6 +422,16 @@ a{
 .color_3_border{
     border: var(--system-regular-border-width) solid var(--system-altern-color) ;
 }
+.color_red_tx{
+    color: var(--system-alert-red);
+}
+.color_red_bg{
+    background-color: var(--system-alert-red);
+}
+.color_red_border{
+    border: var(--system-regular-border-width) solid var(--system-alert-red) ;
+}
+
 /* BORDERS */
 
 /* buttons */
