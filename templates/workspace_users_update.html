@@ -26,11 +26,10 @@ Account - {{ super() }}
             <!--div class="_input_general color_2_bg color_1_tx" id="_input_manager"> <p style="margin:0;font-size: 80%;">Manager: {{users_list['Manager'] }}</p> </div-->
             <select class="color_2_bg color_1_tx _select_general" name="selectManager" id="_input_manager">
                 <optgroup>
-                    <option value="0" class="_text_little" selected>Select Manager..</option>
-                    {{tmanagers_list}}
+                    <option value="0" class="_text_little" {% if users_list['Manager'] == "" or users_list['Manager'] == Null %} selected {% endif %}>Select Manager..</option>
                     {% if tmanagers_list %}
                     {% for mgr in tmanagers_list %}
-                    <option value="{{mgr['Id']}}">{{mgr['FullName']}}</option>
+                    <option value="{{mgr['Id']}}" {% if users_list['Manager'] == mgr['Id'] %} selected  {% endif %}>{{mgr['FullName']}}</option>
                     {% endfor %}
                     {% endif %}
                 </optgroup>
@@ -94,7 +93,7 @@ Account - {{ super() }}
 {% block floating_button_2_style %} color_red_bg color_1_tx color_1_border{% endblock %}
 {% block floating_button_2 %} <p class="_en _hidden"><bold>Delete User</bold></p><p class="_es _hidden">Borrar Usuario</p> {% endblock %}
 {% block floating_button_3_style %} color_1_bg color_2_tx color_2_border{% endblock %}
-{% block floating_button_3 %} <p class="_en _hidden"><bold>Cancel</bold></p><p class="_es _hidden">Cancelar</p> {% endblock %}
+{% block floating_button_3 %} <p class="_en _hidden"><bold>Back</bold></p><p class="_es _hidden">Atras</p> {% endblock %}
 
 {% block scripts %}
 {{ super() }}

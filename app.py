@@ -498,12 +498,19 @@ def tusers_new(_id = False):
                 _wsdata = Handlers.get_data(_alx_url, request, "workspace", _id, "owner"+_filter)
                 if _wsdata['containsData']:
                     _ws = _wsdata['items'][0]
+                    _filter = "tenant:"+_id+";type:1"
+                    _managers = Handlers.get_data(_alx_url, request, "tenantUser", False, _filter)
+                    if _managers['containsData']:
+                        _managers = _managers['items']
+                    else:
+                        _managers = False
                     context = {
                         "user_id": _user_id,
                         "user_name": _user['username'],
                         "user_type": _user['type'],
                         "user_fname": _user['fname'],
                         "user_pin": _user['pin'],
+                        "tmanagers_list": _managers,
                         "wsdata": _ws,
                         "_flag_status": "",
                         "_flag_content": "",
@@ -548,12 +555,13 @@ def tusers_management(_id = False, _tusername = False):
                             ## save tenant user data
                             _tuserdata = _tudata['items'][0]
                             _filter = "tenant:"+_id+";type:1"
-                            print("search for managers")
-                            print(_filter)
                             _managers = Handlers.get_data(_alx_url, request, "tenantUser", False, _filter)
-                            print(_managers)
                             if _managers['containsData']:
                                 _managers = _managers['items']
+                                _out_mgrs = []
+                                for _x in _managers:
+                                    if _x['Id'] != _tuserdata['Id']:
+                                        _out_mgrs.append(_x)
                             else:
                                 _managers = False
                             context = {
@@ -563,7 +571,7 @@ def tusers_management(_id = False, _tusername = False):
                                 "user_fname": _user['fname'],
                                 "user_pin": _user['pin'],
                                 "wsdata": _ws,
-                                "tmanagers_list": _managers,
+                                "tmanagers_list": _out_mgrs,
                                 "users_list": _tuserdata ,
                                 "levels": levels._type_all(), 
                                 "_flag_status": "",

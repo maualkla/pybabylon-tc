@@ -79,6 +79,7 @@ const _ws_users_update_get_params = () => {
         _json_obj['FullName'] = document.getElementById("_input_fname").value;
         _json_obj['Email'] = document.getElementById("_input_email").value;
         _json_obj['Type'] = (document.getElementById("switch").hasAttribute("checked")) ? 1 : 0;
+        _json_obj['Manager'] = document.getElementById('_input_manager').value;
         return _json_obj;
     }else{
         setAlert("_box_red", "Please fill all required fields"); 
