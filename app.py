@@ -348,12 +348,13 @@ def account():
 
 ################################################################################################################
 
+## workspace empty
 @app.route('/workspace/')
 def workspace_empty():
     _ws = make_response(redirect('/workspace'))
     return _ws
 
-
+## Workspace Id
 @app.route('/workspace/<_id>')
 def workspace_option(_id = False):
     ## Set a logged variable requesting the _id and _us cookies.
