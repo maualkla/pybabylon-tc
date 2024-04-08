@@ -478,6 +478,17 @@ def workspace_users(_id = False):
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
 
+## Tenant Users empty
+@app.route('/workspace/<_id>/users/')
+def tusers_empty(_id):
+    if _id: 
+        _ws = make_response(redirect('/workspace/_id'))
+        return _ws
+    else: 
+        _ws = make_response(redirect('/workspace'))
+        return _ws
+
+## new tenant user
 @app.route('/workspace/<_id>/users/new')
 def tusers_new(_id = False):
     try: 
