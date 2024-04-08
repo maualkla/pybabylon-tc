@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}
+Login - {{ super() }}
+{% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="{{host_url}}/static/login.css">
+{{ super() }}
+{% endblock %}
+
+{% block _title %}
+{{id}} Login
+{% endblock %}
+
+{% block _flex_box %}
+<div class="_main_block">
+    <div class="_main_block_alerts {% if _flag_status %} {{ _flag_status }} {% else %} _hidden  {% endif %} ">
+        {% if _flag_content %} <p>{{ _flag_content }} </p> {% endif %} 
+    </div>
+    <div class="_main_block_content">
+
+        <input class="_input_general color_2_bg color_1_tx" type="text" placeholder="user/email" id="i_email">
+        <input class="_input_general color_2_bg color_1_tx" type="password" placeholder="password" id="i_word">
+
+        <div class="_button_big  color_2_bg color_1_tx" id="_login_buttom">
+            <p class="_en _hidden">Log  in</p>
+            <p class="_es _hidden">Inicia Sesion</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block _flex_menu %}
+{% if _logged: %}
+<div class="_menu_box _box_main _box_main_bot" id="_dashboard">Dashboard</div>
+{% else: %}
+<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_signup_en">Signup</div>
+<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_signup_es">Registrate</div>
+{% endif %}
+{% endblock %}
+
+
+{% block scripts %}
+{{ super() }}
+<script src="{{host_url}}/static/login.js"></script>
+{% endblock %}

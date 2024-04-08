@@ -663,10 +663,14 @@ def workspace():
         return {"status": "An error Occurred", "error": str(e)}
 
 ## workspace checkin
-@app.route('/workspace/<_id>/chekin')
+@app.route('/workspace/<_id>/checkin')
 def workspace_checkin(_id):
     try:
-        return ''
+        context ={
+            "id": _id,
+            "host_url": request.host_url
+        }
+        return render_template('workspace_checkin.html', **context)
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
 
