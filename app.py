@@ -662,6 +662,14 @@ def workspace():
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
 
+## workspace checkin
+@app.route('/workspace/<_id>/chekin')
+def workspace_checkin(_id):
+    try:
+        return ''
+    except Exception as e:
+        return {"status": "An error Occurred", "error": str(e)}
+
 ################################################################################################################
 
 ## Transactions service
