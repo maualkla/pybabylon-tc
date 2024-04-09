@@ -47,10 +47,7 @@ class Handlers():
             else:
                 if _open_data:
                     ## set the url of the service
-                    print("id")
-                    print(_id)
                     _url = Helpers.generateURL(_service_url, _service, _id, _filter)
-                    print(_url)
                     ## set the headers
                     _headers = {'openData': 'true', 'privateKey': _privateKey}
                     ## generate the get call

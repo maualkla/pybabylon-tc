@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}
-Login - {{ super() }}
+{{ws_data['ShortCode']}} - Login
 {% endblock %}
 {% block styles %}
 <link rel="stylesheet" href="{{host_url}}/static/workspace_checkin.css">
@@ -8,7 +8,7 @@ Login - {{ super() }}
 {% endblock %}
 
 {% block _title %}
-{{ws_data['ShortCode']}} Login
+{{ws_data['ShortCode']}} - Login
 {% endblock %}
 
 {% block _flex_box %}
@@ -18,8 +18,8 @@ Login - {{ super() }}
     </div>
     <div class="_main_block_content">
 
-        <input class="_input_general color_2_bg color_1_tx" type="text" placeholder="user/email" id="i_email">
-        <input class="_input_general color_2_bg color_1_tx" type="password" placeholder="password" id="i_word">
+        <input class="_input_general color_2_bg color_1_tx" type="text" placeholder="user" id="username">
+        <input class="_input_general color_2_bg color_1_tx" type="password" placeholder="password" id="password">
 
         <div class="_button_big  color_2_bg color_1_tx" id="_login_buttom">
             <p class="_en _hidden">Log  in</p>
@@ -33,8 +33,8 @@ Login - {{ super() }}
 {% if _logged: %}
 <div class="_menu_box _box_main _box_main_bot" id="_dashboard">Dashboard</div>
 {% else: %}
-<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_signup_en">Signup</div>
-<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_signup_es">Registrate</div>
+<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_signup_en">Support</div>
+<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_signup_es">Soporte</div>
 {% endif %}
 {% endblock %}
 
