@@ -666,11 +666,13 @@ def workspace():
 @app.route('/workspace/<_id>/checkin')
 def workspace_checkin(_id):
     try:
-        context ={
-            "id": _id,
-            "host_url": request.host_url
-        }
-        return render_template('workspace_checkin.html', **context)
+        if _id:
+            _wsdata = Handlers.get_data(_alx_url, request, "workspace", _id, False, True, app.config['PRIVATE_SERVICE_TOKEN'])
+            context ={
+                "ws_data": _wsdata['items'][0],
+                "host_url": request.host_url
+            }
+            return render_template('workspace_checkin.html', **context)
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
 

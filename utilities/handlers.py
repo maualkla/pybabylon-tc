@@ -21,7 +21,7 @@ class Handlers():
     ## _service:        (requred) Service to be called /service
     ## _id:             (optional) id to search
     ## _filter:         (optional) query filter for the search.
-    def get_data(_service_url, _request, _service, _id = False, _filter = False):
+    def get_data(_service_url, _request, _service, _id = False, _filter = False, _open_data = False, _privateKey = False):
         try:
             print(" >> handlers.get_data("+_service+") operation: ")
             ## validate if present and if present, set the parameters from the cookies of the request object.
@@ -45,6 +45,18 @@ class Handlers():
                 else:
                     return {}
             else:
+                if _open_data:
+                    ## set the url of the service
+                    print("id")
+                    print(_id)
+                    _url = Helpers.generateURL(_service_url, _service, _id, _filter)
+                    print(_url)
+                    ## set the headers
+                    _headers = {'openData': 'true', 'privateKey': _privateKey}
+                    ## generate the get call
+                    _response = requests.get(_url, headers=_headers)
+                    ## returns the json as response
+                    return _response.json()
                 return {}
         except Exception as e:
             print(" (!) Exception in get_data(): ")
