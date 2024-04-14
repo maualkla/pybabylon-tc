@@ -666,13 +666,20 @@ def workspace():
 @app.route('/workspace/<_id>/checkin')
 def workspace_checkin(_id):
     try:
-        if _id:
-            _wsdata = Handlers.get_data(_alx_url, request, "workspace", _id, False, True, app.config['PRIVATE_SERVICE_TOKEN'])
-            context ={
-                "ws_data": _wsdata['items'][0],
-                "host_url": request.host_url
-            }
-            return render_template('workspace_checkin.html', **context)
+        ## Set a logged variable requesting the _id and _us cookies.
+        _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
+        _out = make_response(redirect('/workspace/'+_id))
+        ## validate if _logged
+        if _required_cookies:
+            return _out
+        else: 
+            if _id:
+                _wsdata = Handlers.get_data(_alx_url, request, "workspace", _id, False, True, app.config['PRIVATE_SERVICE_TOKEN'])
+                context ={
+                    "ws_data": _wsdata['items'][0],
+                    "host_url": request.host_url
+                }
+                return render_template('workspace_checkin.html', **context)
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
 
