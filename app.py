@@ -257,14 +257,14 @@ def dashboard():
             if _user_id:
                 ## get data del useer
                 _userdata = Handlers.get_data(_alx_url, request, "user", _user_id)
-                if _userdata:
+                if _userdata['containsData']:
                     ## get data del ws del user.
                     _filter = ":"+_user_id+";limit:1"
                     _wsdata = Handlers.get_data(_alx_url, request, "workspace", False, "owner"+_filter)
-                    if _wsdata:
+                    if _wsdata['containsData']:
                         ## get last login from the user.
                         _trxdata = Handlers.get_data(_alx_url, request, "transaction", False, "userId"+_filter)
-                        if _trxdata:
+                        if _trxdata['containsData']:
                             ## define context
                             _user = _userdata['items'][0]
                             _ws = _wsdata['items'][0] if _wsdata['containsData'] else False
@@ -431,21 +431,28 @@ def workspace_users(_id = False):
             _client_ip = request.cookies.get('clientIP')
             _user_id = Handlers.get_username(_alx_url, _session_id, _client_bw, _client_ip)
             if _user_id:
+                print(1)
                 _userdata = Handlers.get_data(_alx_url, request, "user", _user_id)
+                print(_userdata)
                 _user = _userdata['items'][0]
+                print(_user)
                 if _id:
+                    print(2)
                     _filter = ":"+_user_id
                     _wsdata = Handlers.get_data(_alx_url, request, "workspace", _id, "owner"+_filter)
                     if _wsdata['containsData'] == True:
+                        print(3)
                         _ws = _wsdata["items"][0]
                         _teanntuserdata = Handlers.get_data(_alx_url, request, "tenantUser", False, "tenant:"+_ws['TaxId'])
                         if _teanntuserdata:
+                            print(3.1)
                             i = 0
                             for _u in _teanntuserdata['items']:
                                 _teanntuserdata['items'][i]['Type'] = levels._type_info(_u['Type'])[1]
                                 i += 1
                             _items = _teanntuserdata['items']
                         else:
+                            print(3.2)
                             _items = False
                         context = {
                             "user_id": _user_id,
@@ -462,6 +469,7 @@ def workspace_users(_id = False):
                             "currentTime": "20:24:03 CST (CENTRAL MEXICO)",
                             "host_url": request.host_url
                         }
+                        print(4)
                         return render_template('workspace_users_manage.html', **context)
                     else:
                         _ws = make_response(redirect('/workspace'))

@@ -9,7 +9,7 @@ class Handlers():
         "workspace":['Owner', 'TaxId', 'LegalName', 'InformalName', 'ShortCode', 'CountryCode', 'State', 'City', 'AddressLine1', 'AddressLine2', 'AddressLine3', 'AddressLine4', 'PhoneCountryCode', 'PhoneNumber', 'Email', 'MainHexColor', 'AlterHexColor', 'LowHexColor', 'Level', 'CreationDate', 'PostalCode'],
         "session": ['requestString', 'client'],
         "tenantUser": ['Active', 'Username', 'Id', 'Password', 'FullName', 'Email', 'Manager', 'Tenant', 'Type', 'CreatedBy'],
-        "timeLog": ['Active', 'Edited', 'EditedBy', 'EditionDate', 'EditionTime', 'EndDate', 'EndTime', 'Id', 'OriginalEndDate', 'OriginalEndTime', 'OriginalStartDate', 'OriginalStartTime', 'StartDate', 'StartTime', 'UserId']
+        "timeLog": ['ip', 'browser', 'requestString']
     }
 
 
@@ -131,6 +131,25 @@ class Handlers():
                         if req_value not in _item:
                             _go = False
                         
+                    if _go:
+                        ## set the url of the service
+                        _url = Helpers.generateURL(_service_url, _service)
+                        ## set the headers
+                        _headers = {'Content-Type': "application/json"}
+                        ## generate the get call
+                        _response = requests.post(_url, json=_item, headers=_headers)
+                        ## returns the json as response
+                        return _response.json()
+                    else:
+                        return {}
+                elif _service == 'timeLog':
+                    _req = Handlers._models["timeLog"]
+                    _go = True
+                    ## For Loop going for all the required fields.
+                    for req_value in _req:
+                        ## if it is not in the parameters, set flag to false.
+                        if req_value not in _item:
+                            _go = False
                     if _go:
                         ## set the url of the service
                         _url = Helpers.generateURL(_service_url, _service)
