@@ -6,6 +6,9 @@ _common_system_auto_change_color();
 //// triggers
 if(document.getElementById('_fb_1')) document.getElementById('_fb_1').addEventListener('click', function (){ _change_obj_color(document.getElementById('_fb_1'), "color_2_bg", "color_1_tx", "color_1_bg", "color_2_tx", "color_2_border"); login_worker(); });
 
+// system triggers
+if(document.getElementById('_reset_en')) document.getElementById('_reset_en').addEventListener('click', function (){window.location.replace("/resetpass")});
+if(document.getElementById('_reset_es')) document.getElementById('_reset_es').addEventListener('click', function (){ window.location.replace("/resetpass") });
 
 
 //// login worker
@@ -35,7 +38,7 @@ function login_worker(){
                 let _data = xhr.responseText;
                 let _parsed_data = JSON.parse(_data);
                 if (xhr.readyState === 4) {
-                    if(xhr.status === 202 && _parsed_data._session_id){
+                    if(xhr.status === 202 && _parsed_data.token){
                         setAlert("_box_blue", "Logged"); 
                         document.cookie = "token="+_parsed_data.token;
                         document.cookie = "browserVersion="+_client_version;

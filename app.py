@@ -556,22 +556,18 @@ def tusers_management(_id = False, _tusername = False):
         _redirect = make_response(redirect('/workspace'))
         ## validate if _logged
         if _required_cookies:
-            print(1)
             ## if present, save the _id and _un
             _session_id = request.cookies.get('SessionId')
             _client_bw = request.cookies.get('browserVersion')
             _client_ip = request.cookies.get('clientIP')
             _user_id = Handlers.get_username(_alx_url, _session_id, _client_bw, _client_ip)
             if _user_id:
-                print(2)
                 _userdata = Handlers.get_data(_alx_url, request, "user", _user_id)
                 _user = _userdata['items'][0]
                 if _id and _tusername:
-                    print(3)
                     _filter = ":"+_user_id
                     _wsdata = Handlers.get_data(_alx_url, request, "workspace", _id, "owner"+_filter)
                     if _wsdata['containsData']:
-                        print(4)
                         _ws = _wsdata['items'][0]
                         _filter = "tenant:"+_id
                         _tudata = Handlers.get_data(_alx_url, request, "tenantUser", _id+"."+_tusername, _filter)
@@ -617,7 +613,6 @@ def tusers_management(_id = False, _tusername = False):
                             }"""
                             return render_template('workspace_users_update.html', **context)
                         else:
-                            print('redirect')
                             return _redirect
                     else:
                         return _redirect
