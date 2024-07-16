@@ -282,6 +282,8 @@ const _redirect = (target, version = false) => {
     _display_wheel(true);
     if (version){
         window.location.replace(window.location.origin+target);
+        console.log("redirect")
+        console.log(window.location.origin+target)
     }else{
         window.location.replace("/"+target);
     }

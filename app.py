@@ -677,20 +677,58 @@ def workspace_checkin(_id):
     try:
         ## Set a logged variable requesting the _id and _us cookies.
         _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
+        _required_token = True if request.cookies.get('token') else False
         _out = make_response(redirect('/workspace/'+_id))
         ## validate if _logged
         if _required_cookies:
             return _out
         else: 
-            if _id:
+            if _id and _required_token == False:
                 _wsdata = Handlers.get_data(_alx_url, request, "workspace", _id, False, True, app.config['PRIVATE_SERVICE_TOKEN'])
                 context ={
                     "ws_data": _wsdata['items'][0],
                     "host_url": request.host_url
                 }
                 return render_template('workspace_checkin.html', **context)
+            elif _id and _required_token:
+                return(redirect('/workspace/'+_id+'/home'))
+            else: 
+                return _out
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
+
+## workspace checkin home
+@app.route('/workspace/<_id>/home')
+def workspace_home(_id):
+    try:
+        _required_token = True if request.cookies.get('token') else False
+        _out = make_response(redirect('/workspace/'+_id))
+        if _required_token:
+            if _id:
+                _wsdata = Handlers.get_data(_alx_url, request, "workspace", _id, False, True, app.config['PRIVATE_SERVICE_TOKEN'])
+                from datetime import datetime
+                _now = datetime.now()
+                _onlyTime = _now.strftime("%H:%M:%S")
+                _onlyDate = _now.strftime("%d.%m.%Y")
+                context = {
+                    "user_id": "null",
+                    "ws_data": _wsdata['items'][0],
+                    "host_url": request.host_url,
+                    "currentDate": _onlyDate,
+                    "currentTime": _onlyTime
+                }
+                return render_template('workspace_tu_home.html', **context)
+            else: 
+                return _out
+        else: 
+            return _out
+    except Exception as e:
+        return {"status": "An error Occurred", "error": str(e)}
+
+## checkin service
+@app.route('/checkinValidation', methods=['GET'])
+def validation():
+    return jsonify({"validated": True}), 200
 
 ################################################################################################################
 

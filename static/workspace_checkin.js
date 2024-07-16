@@ -43,7 +43,7 @@ function login_worker(){
                         document.cookie = "token="+_parsed_data.token;
                         document.cookie = "browserVersion="+_client_version;
                         document.cookie = "clientIP="+_client_ip;
-                        //window.location.replace("/dashboard");
+                        _redirect("/workspace/"+_context_vars[5]+"/home", true)
                     }else if(xhr.status === 500 || xhr.status === 403){
                         _display_wheel(false);
                         setAlert("_box_red", "System error, try again later.");  
