@@ -14,12 +14,16 @@ if(document.getElementById('_fb_1')) document.getElementById('_fb_1').addEventLi
         try
         {
             if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log("Entro a 200")
+                console.log(xhr.responseText)
                 let _data = xhr.responseText;
                 let _parsed_data = JSON.parse(_data);
-                if (_parsed_data["validated"] == True){
-                    console.log(" correcto ")
+                if (_parsed_data["validated"]){
+                    console.log("-> Time logged");
+                    _context_vars[6] = _parsed_data['StartTime'];
+                    _tu_home_switch_views();
                 }else{
-                    console.log( " no correcto")
+                    console.log( " no correcto");
                 }
                 _display_wheel(false);
             }
@@ -55,4 +59,29 @@ function updateTime() {
     document.getElementById('_time').innerHTML = timeString;
 }
 
+/// clock updater
 setInterval(updateTime, 1000);
+
+/// switch trhu views
+let _tu_home_switch_views = () => {
+    let _stg1 = document.getElementsByClassName('_stg1')
+    let _stg2 = document.getElementsByClassName('_stg2')
+    if (_context_vars[6] == "False"){
+       for (let i = 0; i < _stg1.length; i++){
+            _stg1[i].classList.remove("_hidden");
+       }
+       for (let i = 0; i < _stg2.length; i++){
+            _stg2[i].classList.add("_hidden");
+       }
+    }else{
+        for (let i = 0; i < _stg2.length; i++){
+                _stg2[i].classList.remove("_hidden");
+        }
+        for (let i = 0; i < _stg1.length; i++){
+                _stg1[i].classList.add("_hidden");
+        }
+    }
+}
+
+/// initialization
+_tu_home_switch_views();

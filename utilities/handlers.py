@@ -9,7 +9,8 @@ class Handlers():
         "workspace":['Owner', 'TaxId', 'LegalName', 'InformalName', 'ShortCode', 'CountryCode', 'State', 'City', 'AddressLine1', 'AddressLine2', 'AddressLine3', 'AddressLine4', 'PhoneCountryCode', 'PhoneNumber', 'Email', 'MainHexColor', 'AlterHexColor', 'LowHexColor', 'Level', 'CreationDate', 'PostalCode'],
         "session": ['requestString', 'client'],
         "tenantUser": ['Active', 'Username', 'Id', 'Password', 'FullName', 'Email', 'Manager', 'Tenant', 'Type', 'CreatedBy'],
-        "timeLog": ['ip', 'browser', 'requestString']
+        ##"timeLog": ['ip', 'browser', 'requestString'],
+        "timeLog": ['Active', 'Id', 'StartTime', 'StartDate', 'OriginalStartTime', 'OriginalStartTime', 'Edited', 'EditedBy', 'EndDate', 'EndTime', 'EditionDate', 'EditionTime', 'OriginalEndDate', 'OriginalEndTime', 'ip', 'browser', 'requestString', 'UserId']
     }
 
 
@@ -144,12 +145,12 @@ class Handlers():
                         return {}
                 elif _service == 'timeLog':
                     _req = Handlers._models["timeLog"]
-                    _go = True
+                    _go = False
                     ## For Loop going for all the required fields.
                     for req_value in _req:
                         ## if it is not in the parameters, set flag to false.
-                        if req_value not in _item:
-                            _go = False
+                        if req_value in _item:
+                            _go = True
                     if _go:
                         ## set the url of the service
                         _url = Helpers.generateURL(_service_url, _service)

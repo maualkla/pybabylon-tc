@@ -17,15 +17,25 @@
         {% if _flag_content%} <p>{{ _flag_content }} </p> {% endif %}
     </div>
     <div class="_main_block_content">
-        <div class="_main_boxes_live" id="_main">
-            <div class="_bbx_text_cust color_3_bg color_1_tx"><div class="bbtx_top"> <bold id="_time">{{currentTime}}</bold></div><div class="bbtx_bottom">{{ currentDate }}</div></div>
-            <div class="_bbx_text_cust color_3_bg color_1_tx"><div class="bbtx_top"> <bold>{{ws_data['InformalName'][:42]}}{% if ws_data['InformalName']|length > 42 %}..{% endif %}</bold></div><div class="bbtx_bottom">Welcome</div></div>
+        <div class="_stg1 _main_boxes_live _hidden" id="_main">
+            <div class="_bbx_text_cust color_3_bg color_1_tx">
+                <div class="bbtx_top"> <bold id="_time">{{currentTime}}</bold></div>
+                <div class="bbtx_bottom">{{ currentDate }}</div>
+            </div>
+            <div class="_bbx_text_cust color_3_bg color_1_tx">
+                <div class="bbtx_top"> <bold>{{ws_data['InformalName'][:42]}}{% if ws_data['InformalName']|length > 42 %}..{% endif %}</bold>
+                </div>
+                <div class="bbtx_bottom">
+                    Welcome
+                </div>
+            </div>
         </div>
-        <div class="_bbx_text">
+        <div class="_stg1 _bbx_text _hidden">
             <label class="_en _hidden">Type the login code to check in</label>
             <label class="_es _hidden">Escribe el codigo de inicio de sesion para acceder</label>
         </div>
-        <input class="_input_general color_2_bg color_1_tx" type="text" placeholder="0000XX">
+        <input class="_stg1 _input_general color_2_bg color_1_tx _hidden" type="text" placeholder="0000XX">
+        <div class="_stg2 _hidden"> You successfully checked in at {{startDate}}</div>
     </div>
 </div>
 {% endblock %}
@@ -44,6 +54,6 @@
 
 {% block scripts %}
 {{ super() }}
-<script> const _context_vars = ["{{ user_id }}", {{ user_pin }}, "{{ws_data['MainHexColor']}}", "{{ ws_data['LowHexColor'] }}", "{{ ws_data['AlterHexColor'] }}", "{{ ws_data['TaxId'] }}"]; </script>
+<script> const _context_vars = ["{{ user_id }}", {{ user_pin }}, "{{ws_data['MainHexColor']}}", "{{ ws_data['LowHexColor'] }}", "{{ ws_data['AlterHexColor'] }}", "{{ ws_data['TaxId'] }}", "{{startDate}}"]; </script>
 <script src="{{host_url}}/static/workspace_tu_home.js"></script>
 {% endblock %}
