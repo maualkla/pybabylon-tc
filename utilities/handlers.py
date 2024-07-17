@@ -214,6 +214,24 @@ class Handlers():
                         return {}
                 else:
                     return {}
+            elif _service == 'timeLog':
+                _req = Handlers._models["timeLog"]
+                ## go and iterate to find all of them, if not _go will be false
+                _go = False
+                ## For Loop going for all the required fields.
+                for req_value in _req:
+                    ## if it is not in the parameters, set flag to false.
+                    if req_value in _item:
+                        _go = True
+                if _go:
+                    ## set the url of the service
+                    _url = Helpers.generateURL(_service_url, _service)
+                    ## generate the get call
+                    _response = requests.put(_url, json=_item)
+                    ## returns the json as respons
+                    return _response.json()
+                else:
+                    return {}
             else:
                 return {}
         except Exception as e:

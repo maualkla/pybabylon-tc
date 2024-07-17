@@ -411,9 +411,9 @@ def workspace_option(_id = False):
     ## check username
     ## check if workspace id is of this user.
     ## if it is, display info
-    ## if not, return to /worspace
+    ## if not, return to /worspace/<id>/checkin
     else:
-        _ws = make_response(redirect('/workspace'))
+        _ws = make_response(redirect('/workspace/'+_id+'/checkin'))
         return _ws
 
 ## Tenant Users Overview
@@ -702,25 +702,30 @@ def workspace_checkin(_id):
 def workspace_home(_id):
     try:
         _required_token = True if request.cookies.get('token') else False
-        _out = make_response(redirect('/workspace/'+_id))
+        _out = make_response(redirect('/workspace/'+_id+'/checkin'))
+        _out.delete_cookie('token')
         if _required_token:
             if _id:
                 _wsdata = Handlers.get_data(_alx_url, request, "workspace", _id, False, True, app.config['PRIVATE_SERVICE_TOKEN'])
                 _tldata = Handlers.get_data(_alx_url, request, "timeLog", request.cookies.get('token'), False, True, app.config['PRIVATE_SERVICE_TOKEN'] )
-                print(_tldata)
-                from datetime import datetime
-                _now = datetime.now()
-                _onlyTime = _now.strftime("%H:%M:%S")
-                _onlyDate = _now.strftime("%d.%m.%Y")
-                context = {
-                    "user_id": "null",
-                    "ws_data": _wsdata['items'][0],
-                    "host_url": request.host_url,
-                    "currentDate": _onlyDate,
-                    "currentTime": _onlyTime,
-                    "startDate": _tldata['items'][0]['StartTime']
-                }
-                return render_template('workspace_tu_home.html', **context)
+                if _tldata['containsData']:
+                    print(_tldata)
+                    from datetime import datetime
+                    _now = datetime.now()
+                    _onlyTime = _now.strftime("%H:%M:%S")
+                    _onlyDate = _now.strftime("%d.%m.%Y")
+                    context = {
+                        "user_id": "null",
+                        "ws_data": _wsdata['items'][0],
+                        "host_url": request.host_url,
+                        "currentDate": _onlyDate,
+                        "currentTime": _onlyTime,
+                        "startDate": _tldata['items'][0]['StartTime'],
+                        "tldata": _tldata['items'][0]
+                    }
+                    return render_template('workspace_tu_home.html', **context)
+                else: 
+                    return _out
             else: 
                 return _out
         else: 
@@ -731,7 +736,45 @@ def workspace_home(_id):
 ## checkin service
 @app.route('/checkinValidation', methods=['GET'])
 def validation():
-    return jsonify({"validated": True, "StartTime": "HH:MM:SS"}), 200
+    try:
+        if request.args.get('id') and request.args.get('action'):
+            _tldata = Handlers.get_data(_alx_url, request, "timeLog", request.args.get('id'), False, True, app.config['PRIVATE_SERVICE_TOKEN'] )
+            if _tldata['containsData']: 
+                _tldata = _tldata['items'][0] 
+                from datetime import datetime
+                _now = datetime.now()
+                _onlyTime = _now.strftime("%H:%M:%S")
+                _onlyDate = _now.strftime("%d.%m.%Y") 
+                if request.args.get('action') == "1":
+                    _item = {}
+                    _item["StartTime"]= _onlyTime
+                    _item["StartDate"]= _onlyDate
+                    _item["Id"] = request.args.get('id')
+                    _response = Handlers.put_data(_alx_url, request, "timeLog", _item)
+                    if _response['code'] == 202:
+                        ## Logic to set start date and time
+                        return jsonify({"validated": True, "StartTime": _onlyTime, "EndTime": False, "token": request.args.get('id')}), 200
+                    else: 
+                        return jsonify({"validated": False, "errorDesc": _response['reason']}), 403
+                elif request.args.get('action') == "2":
+                    _item = {}
+                    _item["EndTime"]= _onlyTime
+                    _item["EndDate"]= _onlyDate
+                    _item["Id"] = request.args.get('id')
+                    _response = Handlers.put_data(_alx_url, request, "timeLog", _item)
+                    if _response['code'] == 202:
+                        ## Logic to set end date and time
+                        return jsonify({"validated": True, "StartTime": _tldata['StartTime'], "EndTime": _onlyTime, "token": request.args.get('id')}), 200
+                    else: 
+                        return jsonify({"validated": False, "errorDesc": _response['reason']}), 403
+                else:
+                    return jsonify({"validated": False, "errorDesc": "Invalid Code"}), 403
+            else: 
+                return jsonify({"validated": False}), 401
+        else: 
+            return jsonify({"validated": False}), 401
+    except Exception as e:
+        return {"status": "An error Occurred", "error": str(e)}
 
 ################################################################################################################
 

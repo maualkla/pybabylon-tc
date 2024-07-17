@@ -130,7 +130,12 @@ function changeLanguaje(_languaje){
 }
 
 // Delele all cookies alert
-function deleteAllCookies() {
+
+function DeleteAllCookies(){
+    _common_delete_all_cookies();
+}
+
+const _common_delete_all_cookies = () => {
     const cookies = document.cookie.split(";");
     if (_logging) console.log("Delete all cookies");
     for (let i = 0; i < cookies.length; i++) {
@@ -300,6 +305,9 @@ const _display_fbuttons = (_state) => {
 }
 
 // common floating buttons custom 
+// expects 2 arrays ['text1', 'text2', ''], [true, true, false]
+// it will replace the values on the 3 buttons and if the flag is true
+// will remove the hidden class to be displayed.
 const _common_fbuttons_change_display_text = (_values = false, _displayed = false) => {
     if(_values && _displayed){
         for (let i = 1; i<4 ; i++){
@@ -380,6 +388,21 @@ const _desktop_view =  () => {
     }
 }
 
+// common reload page
+/// call it with no params
+const _common_reload_page = (href = location.href) => {
+    location.replace(href);
+}
+
+/// common get cookie value
+// this function allows to get a cookie value 
+// invoke like: let myCookieValue = _common_get_cookie_value('cookie_name');
+const _common_get_cookie_value = (name) => {
+    const value = `; ${document.cookie}`; // Add semicolon at start
+    const parts = value.split(`; ${name}=`); // Split by cookie name
+    if (parts.length === 2) return parts.pop().split(';').shift(); // Extract value
+}
+
 //// Validations
 //// functions for data validations
 
@@ -450,7 +473,8 @@ _common_dictionary_errors['_en'] = {
     "009": "Invalid Legal Name",
     "010": "Invalid Short Code, must have more than 3 and less than 7 characters.",
     "011": "Invalid Country, State, City or Address Line, Please fill all the values",
-    "012": "Invalid Full Name value. Must have 3 or more characters."
+    "012": "Invalid Full Name value. Must have 3 or more characters.",
+    "013": "Unexpected error, try later."
 }
 _common_dictionary_errors['_es'] = {
     "001": "Contraseña no coincide o es invalida",
@@ -464,5 +488,6 @@ _common_dictionary_errors['_es'] = {
     "009": "Nombre legal invalido",
     "010": "Nombre corto invalido, debe tener mas de 3 y menos de 7 caracteres",
     "011": "Pais, Estado, Ciudad o Direccion invalidas. Llena todos los campos",
-    "012": "Nombre completo invalido. Debe tener mas de 3 caracteres."
+    "012": "Nombre completo invalido. Debe tener mas de 3 caracteres.",
+    "013": "Error innesperado, Intenta mas tarde."
 }
