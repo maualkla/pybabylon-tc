@@ -3,7 +3,7 @@
 */
 
 // params
-let _window = 0, counter = 0;
+let _window = 0, counter = 0, authopt = _context_vars[6];
 
 // initialization of the floating buttons
 _display_fbuttons(true);
@@ -29,6 +29,11 @@ if(document.getElementById("_personalization_view_box")) document.getElementById
     _window = 4; 
     _cust_butt_data(1);
     _ws_manage_change_view("_ws_0", "_ws_4"); 
+}); 
+if(document.getElementById("_logging_configuration")) document.getElementById("_logging_configuration").addEventListener('click', function(){ 
+    _window = 6; 
+    _cust_butt_data(1);
+    _ws_manage_change_view("_ws_0", "_ws_6"); 
 }); 
 
 // fbutton actions
@@ -58,6 +63,10 @@ if(document.getElementById("_fb_1")) document.getElementById("_fb_1").addEventLi
         case 5: 
             setAlert("_box_yellow", "Something went wrong, try again later");
             break; 
+        case 6: 
+            _display_fbuttons(false);
+            _ws_switch_pinpad(true);
+            break;
     }
 });
 // fb 2
@@ -109,6 +118,16 @@ if(document.getElementById("_fb_3")) document.getElementById("_fb_3").addEventLi
             _ws_manage_change_view("_ws_"+_window, "_ws_0");
             _window = 0;
             break; 
+        case 5: 
+            _cust_butt_data(2);
+            _ws_manage_change_view("_ws_"+_window, "_ws_0");
+            _window = 0;
+            break; 
+        case 6: 
+            _cust_butt_data(2);
+            _ws_manage_change_view("_ws_"+_window, "_ws_0");
+            _window = 0;
+            break; 
     }
 });
 
@@ -146,13 +165,16 @@ const _cust_butt_data = (_case = false) => {
 
 /// logic to get the fields to be updated.  
 const _update_workspace_get_params = () => {
-    let _fields = [[],['LegalName', 'InformalName', 'ShortCode'],[ 'State', 'City', 'PostalCode', 'AddressLine1', 'AddressLine2', 'AddressLine3', 'AddressLine4'],[ 'Email', 'PhoneCountryCode', 'PhoneNumber'],[ 'MainHexColor', 'AlterHexColor', 'LowHexColor']]
+    let _fields = [[],['LegalName', 'InformalName', 'ShortCode'],[ 'State', 'City', 'PostalCode', 'AddressLine1', 'AddressLine2', 'AddressLine3', 'AddressLine4'],[ 'Email', 'PhoneCountryCode', 'PhoneNumber'],[ 'MainHexColor', 'AlterHexColor', 'LowHexColor'], [], ['Level']]
     let _rullete = _fields[_window];
     let _output = {};
     let _go = false;
     for(let i = 0; i<_rullete.length;i++){
         if(document.getElementById("_i_"+_rullete[i])){
             _output[_rullete[i]] = document.getElementById("_i_"+_rullete[i]).value;
+            _go = true;
+        }else if(_window == 6){
+            _output[_rullete[i]] = authopt;
             _go = true;
         }
     }
@@ -257,5 +279,33 @@ const _cust_reset_input_colors = () =>{
         changeColorTextValue(_context_vars[3], '_input_LowHexColor_tx', '_cp_2');
         changeColorPickerValue(_context_vars[4], '_i_AlterHexColor', '_cp_3');
         changeColorTextValue(_context_vars[4], '_input_AlterHexColor_tx', '_cp_3');
+    }
+}
+
+//// cust
+// switch auth methods
+
+// triggers: 
+if(document.getElementById('_auth_op1')) document.getElementById('_auth_op1').addEventListener('click', function (){ _cust_switch_auth_methods(1); authopt = "1"; });
+if(document.getElementById('_auth_op2')) document.getElementById('_auth_op2').addEventListener('click', function (){ _cust_switch_auth_methods(2); authopt = "2"; });
+if(document.getElementById('_auth_op3')) document.getElementById('_auth_op3').addEventListener('click', function (){ _cust_switch_auth_methods(3); authopt = "3"; });
+
+// switch function
+const _cust_switch_auth_methods = (selector = false) => {
+    if(selector){
+        let secs = [document.getElementById('_auth_op1'), document.getElementById('_auth_op2'), document.getElementById('_auth_op3')]
+        for(let i = 0; i < 3; i++){
+            if(selector-1 == i){
+                secs[i].classList.remove('color_1_bg');
+                secs[i].classList.remove('color_2_tx');
+                secs[i].classList.add('color_2_bg');
+                secs[i].classList.add('color_1_tx');
+            }else{
+                secs[i].classList.remove('color_2_bg');
+                secs[i].classList.remove('color_1_tx');
+                secs[i].classList.add('color_1_bg');
+                secs[i].classList.add('color_2_tx');
+            }
+        }
     }
 }
