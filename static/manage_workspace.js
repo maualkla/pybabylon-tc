@@ -35,6 +35,11 @@ if(document.getElementById("_logging_configuration")) document.getElementById("_
     _cust_butt_data(1);
     _ws_manage_change_view("_ws_0", "_ws_6"); 
 }); 
+if(document.getElementById("_worktime_view")) document.getElementById("_worktime_view").addEventListener('click', function(){ 
+    //pending to set a proper redirect
+    //_redirect('');
+    setAlert("_box_blue", "Option not available yet.");
+}); 
 
 // fbutton actions
 // fb 1
@@ -152,7 +157,7 @@ const _cust_butt_data = (_case = false) => {
         _common_fbuttons_change_display_text(_values,_disp); 
     }
     if(_case == 2){
-        _values = ["Add Users", "Delete Workspace", "Workspace Live"], _disp = [true, true, true];
+        _values = ["Manage Users", "Delete Workspace", "Workspace Live"], _disp = [true, true, true];
         _common_fbuttons_change_display_text(_values,_disp); 
     }
     if(_case == 3){
