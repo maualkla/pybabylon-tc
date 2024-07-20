@@ -646,8 +646,6 @@ def working_time(_id = False):
                 _wsdata = Handlers.get_data(_alx_url, request, "workspace", _id, "owner"+_filter)
                 if _wsdata['containsData'] == True:
                     _ws = _wsdata["items"][0]
-                    print(1)
-                    print(" ->Invoke; ")
                     _usrs = custom_get_all_employees_worktime(_id, request)
                     from datetime import datetime
                     _now = datetime.now()
@@ -1088,75 +1086,73 @@ def help():
 ## utility to retrieve the list of users, gets a workspace 
 def custom_get_all_employees_worktime(workspace_id = False, request_obj = False, limit = False):
     try:
-        print(2)
+        ## invoke the datetime utileries
         from datetime import datetime
-        _now = datetime.now()
-        _onlyTime = _now.strftime("%H:%M:%S")
-        _onlyDate = _now.strftime("%d.%m.%Y") 
-        print("start: ")
-        print(_onlyTime)
-        if workspace_id and request_obj:   
-            print(workspace_id)
-            print(request_obj)
-            print(3) 
+        ## validate if required parametesrs are present
+        if workspace_id and request_obj:  
+            ## set the emp_worktime output object
             emp_worktime = {}
+            ## set the filter for the user search, to get the user from the tenant
             _filter = "tenant:"+workspace_id
+            ## set the get_data handler to retrieve data from the user.
             _tusers = Handlers.get_data(_alx_url, request_obj, "tenantUser", False, _filter)
+            ## set the _tusers from the items object.
             _tusers = _tusers['items']
+            ## initialize a counter for the object.
             i = 0
+            ## iteratest for each tuser in the "items" object.
             for _tuser in _tusers:
-                print(4)
                 print(_tuser)
+                ## set up the user object for each user 
                 _user = {}
+                ## set the 'id' value to the tenant user id including the workspace
                 _user['id'] = workspace_id.upper()+"."+_tuser['Username'].upper()
-                print(_user['id'])
-                _filter = 'UserId:'+_user['id']+";EndDate:22.08.2014"##+";StartDate:01.01.2024"
-                print(5)
+                ## set the filter for the logs including the enddate
+                _filter = 'UserId:'+_user['id']+";EndDate:22.08.2025"+";StartDate:22.08.2014"##
+                ## get the timelogs from the user and the filter.
                 _timeLogs = Handlers.get_data(_alx_url, request_obj, "timeLog", False, _filter)
+                ## set the timelog from the items segment in the response.
                 _timeLogs = _timeLogs['items']
-                print('Logs: ')
-                print(_timeLogs)
+                ## set the total hours and minutes.
                 total_hours = 0
                 total_minutes = 0
+                ## iterate for each timelog in the timelogs object.
                 for _tl in _timeLogs:
-                    print(5)
-                    print(_tl)
-                    print("----")
-
+                    ## validates if contains Endtime
                     if _tl['EndTime']: 
-
+                        ## set the formats
                         date_format = "%d.%m.%Y"
                         time_format = "%H:%M:%S"
-                        start_date_object = datetime.strptime(_tl['StartDate'], date_format)
-                        end_date_object = datetime.strptime(_tl['EndDate'], date_format)
-                        start_time_object = datetime.strptime(_tl['StartTime'], time_format)
-                        end_time_object = datetime.strptime(_tl['EndTime'], time_format)
-                        combined_start_datetime = datetime.combine(start_date_object.date(), start_time_object.time())
-                        combined_end_datetime = datetime.combine(end_date_object.date(), end_time_object.time())
-                        difference = combined_end_datetime - combined_start_datetime
-                        diff_seconds = difference.total_seconds()
+                        ## generate the combined two dates
+                        combined_start_datetime = datetime.combine(datetime.strptime(_tl['StartDate'], date_format).date(), datetime.strptime(_tl['StartTime'], time_format).time())
+                        combined_end_datetime = datetime.combine(datetime.strptime(_tl['EndDate'], date_format).date(), datetime.strptime(_tl['EndTime'], time_format).time())
+                        ## get the difference beetween the dates.
+                        diff_seconds = (combined_end_datetime - combined_start_datetime).total_seconds()
+                        ## get the hours parameter.
                         hours = int(diff_seconds // 3600)
+                        ## get the minutes parameter
                         minutes = minutes = int((diff_seconds % 3600) // 60)
+                        ## get the total hours parameter
                         total_hours += hours
+                        ## get the total_minutes parameter
                         total_minutes += minutes
-                        print(combined_start_datetime)
-                        print(combined_end_datetime)
-                        print(difference)
-                        print(hours)
-                        print(minutes)
+                ## validate if minutes is more than 59: 
                 if total_minutes > 59:
-                    add_hours = total_minutes % 60
+                    ## calculate hours from the minutes remaining
+                    add_hours = int(total_minutes / 60)
+                    ## substract the minutes added from the total minutes count
                     total_minutes -= add_hours * 60
+                    ## add hours to the hours count
                     total_hours += add_hours
+                ## set the parameters in the total_hours and the total_minutes
                 _user['total_hours'] = total_hours
                 _user['total_minutes'] = total_minutes
+                ## set the object in the main object _user.
                 emp_worktime[i] = _user
                 emp_worktime[i+1] = _user
+                print(_user)
                 i += 1
             print(emp_worktime)
-            _now = datetime.now()
-            _onlyTime = _now.strftime("%H:%M:%S")
-            print(_onlyTime)
             return emp_worktime
         else: 
             return {"status": "false"}
