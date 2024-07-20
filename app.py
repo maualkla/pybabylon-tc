@@ -1092,6 +1092,7 @@ def custom_get_all_employees_worktime(workspace_id = False, request_obj = False,
         from datetime import datetime
         _now = datetime.now()
         _onlyTime = _now.strftime("%H:%M:%S")
+        _onlyDate = _now.strftime("%d.%m.%Y") 
         print("start: ")
         print(_onlyTime)
         if workspace_id and request_obj:   
@@ -1109,7 +1110,7 @@ def custom_get_all_employees_worktime(workspace_id = False, request_obj = False,
                 _user = {}
                 _user['id'] = workspace_id.upper()+"."+_tuser['Username'].upper()
                 print(_user['id'])
-                _filter = 'UserId:'+_user['id']+";EndDate:05.07.2023"
+                _filter = 'UserId:'+_user['id']+";EndDate:22.08.2014"##+";StartDate:01.01.2024"
                 print(5)
                 _timeLogs = Handlers.get_data(_alx_url, request_obj, "timeLog", False, _filter)
                 _timeLogs = _timeLogs['items']
