@@ -638,19 +638,33 @@ def working_time(_id = False):
             _session_id = request.cookies.get('SessionId')
             _client_bw = request.cookies.get('browserVersion')
             _client_ip = request.cookies.get('clientIP')
+            ## get the username from the handlers object.
             _user_id = Handlers.get_username(_alx_url, _session_id, _client_bw, _client_ip)
+            ## validate if parameters are present
             if _user_id and _id:
+                ## get the user data from the handlers.
                 _userdata = Handlers.get_data(_alx_url, request, "user", _user_id)
+                ## set the user from the items object [0]
                 _user = _userdata['items'][0]
+                ## set the filter variable
                 _filter = ":"+_user_id
+                ## set the wsdata object from the handlers object
                 _wsdata = Handlers.get_data(_alx_url, request, "workspace", _id, "owner"+_filter)
+                ## if wsdata contains data is true
                 if _wsdata['containsData'] == True:
+                    ## set the ws from the items wsdata object
                     _ws = _wsdata["items"][0]
-                    _usrs = custom_get_all_employees_worktime(_id, request)
-                    from datetime import datetime
-                    _now = datetime.now()
+                    ### ge the datetime utility
+                    from datetime import datetime, timedelta
+                    ## set the time and date variables.
+                    _now = datetime.now() 
+                    _eightDaysAgo = datetime.now() - timedelta(days=8)
+                    _onlyDate8 = _eightDaysAgo.strftime("%d.%m.%Y") 
                     _onlyTime = _now.strftime("%H:%M:%S")
                     _onlyDate = _now.strftime("%d.%m.%Y") 
+                    ## get the usrs object from the utility 
+                    _usrs = custom_get_all_employees_worktime(_id, False, request, _onlyDate8, False)
+                    ## set context object
                     context = {
                         "user_id": _user_id,
                         "user_name": _user['username'],
@@ -663,14 +677,74 @@ def working_time(_id = False):
                         "currentTime": _onlyTime,
                         "host_url": request.host_url,
                         "wsdata": _ws,
-                        "usr": _usrs
+                        "usrs": _usrs
                     }
+                    ## return the index 
                     return render_template('workspace_working_time.html', **context)
                 else: 
+                    ## redirect to /workspace
                     _ws = make_response(redirect('/workspace'))
                     return _ws
+        else:
+            return _out
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}    
+
+## Tenant users working time view 
+@app.route('/workspace/<_id>/workingTime/<_tuser_id>')
+def working_time_user_detail(_id = False, _tuser_id = False):
+    try: 
+        ## Set a logged variable requesting the _id and _us cookies.
+        _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
+        _out = make_response(redirect('/logout'))
+        ## validate if _logged
+        if _required_cookies:
+            if _id and _tuser_id:
+                ## if present, save the _id and _un
+                _session_id = request.cookies.get('SessionId')
+                _client_bw = request.cookies.get('browserVersion')
+                _client_ip = request.cookies.get('clientIP')
+                ## get the username from the handlers object.
+                _user_id = Handlers.get_username(_alx_url, _session_id, _client_bw, _client_ip)
+                ## validate if parameters are present
+                if _user_id and _id:
+                    ## get the user data from the handlers.
+                    _userdata = Handlers.get_data(_alx_url, request, "user", _user_id)
+                    ## set the user from the items object [0]
+                    _user = _userdata['items'][0]
+                    ## set the filter variable
+                    _filter = ":"+_user_id
+                    ## set the wsdata object from the handlers object
+                    _wsdata = Handlers.get_data(_alx_url, request, "workspace", _id, "owner"+_filter)
+                    ## if wsdata contains data is true
+                    if _wsdata['containsData'] == True:
+                        ## set the ws from the items wsdata object
+                        _ws = _wsdata["items"][0]
+                        ### ge the datetime utility
+                        from datetime import datetime, timedelta
+                        ## set the time and date variables.
+                        _monthAgo = datetime.now() - timedelta(days=30)
+                        _monthAgo = _monthAgo.strftime("%d.%m.%Y") 
+                        print(_monthAgo)
+                        ## get the usrs object from the utility 
+                        _times = custom_get_all_employees_worktime(_id, _id+"."+_tuser_id, request, _monthAgo, False)
+                        context = {
+                            "userdata": _user,
+                            "wsdata": _ws,
+                            "tlogdata": _times,
+                            "host_url": request.host_url
+                        }
+                        return '<a href="'+request.host_url+'/workspace/'+_id+'/workingTime">Back Home </a><h1>id: '+_id+' - user_id: '+_tuser_id+' - monthAgo: '+_monthAgo+'</h1><p>'+str(_times)+'</p>'
+                    else:
+                        return 'Error'
+                else: 
+                    return 'Error'
+            else: 
+                return 'Error'
+        else:
+            return _out
+    except Exception as e:
+        return {"status": "An error Occurred", "error": str(e)}
 
 ## Workspace Service.
 @app.route('/workspace')
@@ -1084,18 +1158,18 @@ def help():
 ################################################################################################################
 ## service for users / hours working 
 ## utility to retrieve the list of users, gets a workspace 
-def custom_get_all_employees_worktime(workspace_id = False, request_obj = False, limit = False):
+def custom_get_all_employees_worktime(workspace_id = False, tenantUser = False, request_obj = False, startDate = False, endDate = False):
     try:
         ## invoke the datetime utileries
         from datetime import datetime
         ## validate if required parametesrs are present
         if workspace_id and request_obj:  
             ## set the emp_worktime output object
-            emp_worktime = {}
+            emp_worktime = {"items": []}
             ## set the filter for the user search, to get the user from the tenant
             _filter = "tenant:"+workspace_id
             ## set the get_data handler to retrieve data from the user.
-            _tusers = Handlers.get_data(_alx_url, request_obj, "tenantUser", False, _filter)
+            _tusers = Handlers.get_data(_alx_url, request_obj, "tenantUser", tenantUser, _filter)
             ## set the _tusers from the items object.
             _tusers = _tusers['items']
             ## initialize a counter for the object.
@@ -1104,11 +1178,19 @@ def custom_get_all_employees_worktime(workspace_id = False, request_obj = False,
             for _tuser in _tusers:
                 print(_tuser)
                 ## set up the user object for each user 
-                _user = {}
+                _user = {"times": []}
                 ## set the 'id' value to the tenant user id including the workspace
                 _user['id'] = workspace_id.upper()+"."+_tuser['Username'].upper()
+                _user['fullname'] = _tuser['FullName'].upper()
+                _user['type'] = levels._type_info(_tuser['Type'])[1]
                 ## set the filter for the logs including the enddate
-                _filter = 'UserId:'+_user['id']+";EndDate:22.08.2025"+";StartDate:22.08.2014"##
+                _filter = 'UserId:'+_user['id']##+";EndDate:22.08.2025"+";StartDate:22.08.2014"##
+                if startDate:
+                    _filter += ";StartDate:"+startDate
+                if endDate: 
+                    _filter += ";EndDate:"+endDate
+
+                print(_filter)
                 ## get the timelogs from the user and the filter.
                 _timeLogs = Handlers.get_data(_alx_url, request_obj, "timeLog", False, _filter)
                 ## set the timelog from the items segment in the response.
@@ -1116,10 +1198,18 @@ def custom_get_all_employees_worktime(workspace_id = False, request_obj = False,
                 ## set the total hours and minutes.
                 total_hours = 0
                 total_minutes = 0
+                ## tl count
+                j = 0
                 ## iterate for each timelog in the timelogs object.
                 for _tl in _timeLogs:
+                    ## define de tlogs object 
+                    _tlogs = {}
                     ## validates if contains Endtime
                     if _tl['EndTime']: 
+                        _tlogs['StartTime'] = _tl['StartTime']
+                        _tlogs['StartDate'] = _tl['StartDate']
+                        _tlogs['EndTime'] = _tl['EndTime']
+                        _tlogs['EndDate'] = _tl['EndDate']
                         ## set the formats
                         date_format = "%d.%m.%Y"
                         time_format = "%H:%M:%S"
@@ -1136,6 +1226,8 @@ def custom_get_all_employees_worktime(workspace_id = False, request_obj = False,
                         total_hours += hours
                         ## get the total_minutes parameter
                         total_minutes += minutes
+                        _user['times'].append(_tlogs)
+                        j += 1
                 ## validate if minutes is more than 59: 
                 if total_minutes > 59:
                     ## calculate hours from the minutes remaining
@@ -1147,10 +1239,11 @@ def custom_get_all_employees_worktime(workspace_id = False, request_obj = False,
                 ## set the parameters in the total_hours and the total_minutes
                 _user['total_hours'] = total_hours
                 _user['total_minutes'] = total_minutes
+                _user['records'] = j
                 ## set the object in the main object _user.
-                emp_worktime[i] = _user
-                emp_worktime[i+1] = _user
-                print(_user)
+                emp_worktime['items'].append(_user)
+                ##emp_worktime[i+1] = _user
+                ##print(_user)
                 i += 1
             print(emp_worktime)
             return emp_worktime
