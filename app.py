@@ -625,6 +625,55 @@ def tusers_management(_id = False, _tusername = False):
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
 
+## Tenant users working time view 
+@app.route('/workspace/<_id>/workingTime')
+def working_time(_id = False):
+    try: 
+        ## Set a logged variable requesting the _id and _us cookies.
+        _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
+        _out = make_response(redirect('/logout'))
+        ## validate if _logged
+        if _required_cookies:
+            ## if present, save the _id and _un
+            _session_id = request.cookies.get('SessionId')
+            _client_bw = request.cookies.get('browserVersion')
+            _client_ip = request.cookies.get('clientIP')
+            _user_id = Handlers.get_username(_alx_url, _session_id, _client_bw, _client_ip)
+            if _user_id and _id:
+                _userdata = Handlers.get_data(_alx_url, request, "user", _user_id)
+                _user = _userdata['items'][0]
+                _filter = ":"+_user_id
+                _wsdata = Handlers.get_data(_alx_url, request, "workspace", _id, "owner"+_filter)
+                if _wsdata['containsData'] == True:
+                    _ws = _wsdata["items"][0]
+                    print(1)
+                    print(" ->Invoke; ")
+                    _usrs = custom_get_all_employees_worktime(_id, request)
+                    from datetime import datetime
+                    _now = datetime.now()
+                    _onlyTime = _now.strftime("%H:%M:%S")
+                    _onlyDate = _now.strftime("%d.%m.%Y") 
+                    context = {
+                        "user_id": _user_id,
+                        "user_name": _user['username'],
+                        "user_type": _user['type'],
+                        "user_fname": _user['fname'],
+                        "user_pin": _user['pin'],
+                        "_flag_status": "",
+                        "_flag_content": "",
+                        "currentDate": _onlyDate,
+                        "currentTime": _onlyTime,
+                        "host_url": request.host_url,
+                        "wsdata": _ws,
+                        "usr": _usrs
+                    }
+                    return render_template('workspace_working_time.html', **context)
+                else: 
+                    _ws = make_response(redirect('/workspace'))
+                    return _ws
+    except Exception as e:
+        return {"status": "An error Occurred", "error": str(e)}    
+
 ## Workspace Service.
 @app.route('/workspace')
 def workspace():
@@ -1033,3 +1082,83 @@ def help():
         return render_template('help.html', **context)
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
+
+################################################################################################################
+## service for users / hours working 
+## utility to retrieve the list of users, gets a workspace 
+def custom_get_all_employees_worktime(workspace_id = False, request_obj = False, limit = False):
+    try:
+        print(2)
+        from datetime import datetime
+        _now = datetime.now()
+        _onlyTime = _now.strftime("%H:%M:%S")
+        print("start: ")
+        print(_onlyTime)
+        if workspace_id and request_obj:   
+            print(workspace_id)
+            print(request_obj)
+            print(3) 
+            emp_worktime = {}
+            _filter = "tenant:"+workspace_id
+            _tusers = Handlers.get_data(_alx_url, request_obj, "tenantUser", False, _filter)
+            _tusers = _tusers['items']
+            i = 0
+            for _tuser in _tusers:
+                print(4)
+                print(_tuser)
+                _user = {}
+                _user['id'] = workspace_id.upper()+"."+_tuser['Username'].upper()
+                print(_user['id'])
+                _filter = 'UserId:'+_user['id']+";EndDate:05.07.2023"
+                print(5)
+                _timeLogs = Handlers.get_data(_alx_url, request_obj, "timeLog", False, _filter)
+                _timeLogs = _timeLogs['items']
+                print('Logs: ')
+                print(_timeLogs)
+                total_hours = 0
+                total_minutes = 0
+                for _tl in _timeLogs:
+                    print(5)
+                    print(_tl)
+                    print("----")
+
+                    if _tl['EndTime']: 
+
+                        date_format = "%d.%m.%Y"
+                        time_format = "%H:%M:%S"
+                        start_date_object = datetime.strptime(_tl['StartDate'], date_format)
+                        end_date_object = datetime.strptime(_tl['EndDate'], date_format)
+                        start_time_object = datetime.strptime(_tl['StartTime'], time_format)
+                        end_time_object = datetime.strptime(_tl['EndTime'], time_format)
+                        combined_start_datetime = datetime.combine(start_date_object.date(), start_time_object.time())
+                        combined_end_datetime = datetime.combine(end_date_object.date(), end_time_object.time())
+                        difference = combined_end_datetime - combined_start_datetime
+                        diff_seconds = difference.total_seconds()
+                        hours = int(diff_seconds // 3600)
+                        minutes = minutes = int((diff_seconds % 3600) // 60)
+                        total_hours += hours
+                        total_minutes += minutes
+                        print(combined_start_datetime)
+                        print(combined_end_datetime)
+                        print(difference)
+                        print(hours)
+                        print(minutes)
+                if total_minutes > 59:
+                    add_hours = total_minutes % 60
+                    total_minutes -= add_hours * 60
+                    total_hours += add_hours
+                _user['total_hours'] = total_hours
+                _user['total_minutes'] = total_minutes
+                emp_worktime[i] = _user
+                emp_worktime[i+1] = _user
+                i += 1
+            print(emp_worktime)
+            _now = datetime.now()
+            _onlyTime = _now.strftime("%H:%M:%S")
+            print(_onlyTime)
+            return emp_worktime
+        else: 
+            return {"status": "false"}
+    
+    except Exception as e:
+        return {"status": "An error Occurred", "error": str(e)} 

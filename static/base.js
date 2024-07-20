@@ -285,7 +285,9 @@ function _display_wheel(_state){
 // function to redirect to another location. 
 const _redirect = (target, version = false) => {
     _display_wheel(true);
-    if (version){
+    if (version == 3){
+        window.location.replace(window.location.href+target);
+    } else if (version){
         window.location.replace(window.location.origin+target);
         console.log("redirect")
         console.log(window.location.origin+target)

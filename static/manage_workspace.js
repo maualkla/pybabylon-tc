@@ -37,8 +37,8 @@ if(document.getElementById("_logging_configuration")) document.getElementById("_
 }); 
 if(document.getElementById("_worktime_view")) document.getElementById("_worktime_view").addEventListener('click', function(){ 
     //pending to set a proper redirect
-    //_redirect('');
-    setAlert("_box_blue", "Option not available yet.");
+    _redirect('/workingTime', 3);
+    //setAlert("_box_blue", "Option not available yet.");
 }); 
 
 // fbutton actions

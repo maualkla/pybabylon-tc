@@ -77,6 +77,10 @@ const _tu_home_call_timeLog_validation = (action = false) => {
                 if (_parsed_data["validated"]){
                     if (!_parsed_data['EndTime']){
                         _stg = _parsed_data['StartTime'];
+                        let stds = document.getElementsByClassName('custom_start_date')
+                        for(let i = 0; i < stds.length; i++){
+                            stds[i].innerHTML = _stg;
+                        }
                         _tu_home_switch_views();
                     }else{
                         _stg = "False";
