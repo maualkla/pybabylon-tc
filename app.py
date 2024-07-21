@@ -407,6 +407,8 @@ def workspace_option(_id = False):
             else: 
                 _ws = make_response(redirect('/workspace'))
                 return _ws
+        else: 
+            return _out
     ## validate the user is allowed to see this page. 
     ## check username
     ## check if workspace id is of this user.
@@ -685,6 +687,8 @@ def working_time(_id = False):
                     ## redirect to /workspace
                     _ws = make_response(redirect('/workspace'))
                     return _ws
+            else: 
+                return _out
         else:
             return _out
     except Exception as e:

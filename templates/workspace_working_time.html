@@ -16,7 +16,15 @@
     <div class="_main_block_alerts {% if _flag_status %} {{ _flag_status }} {% else %} _hidden {% endif %} " id="_xpc_ws_alert">
         {% if _flag_content%} <p>{{ _flag_content }} </p> {% endif %}
     </div>
-    <div class="_main_block_content ">
+    <div class="_menu_box_clon color_1_bg color_2_tx">
+        <div class="_en _hidden">
+            <bold>Change</bold> Day view
+        </div>
+        <div class="_es _hidden">
+            <bold>Change</bold> Day view
+        </div>
+    </div>
+    <div class="_main_block_content">
         {% if usrs %}
         {% for usr in usrs['items'] %}
             <div class="_box_custom_ws _box_main_bot" id="">
