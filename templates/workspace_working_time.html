@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}
-{{wsdata['ShortCode']}} Worktime - {{ super() }}
+{{wsdata['InformalName']}} Worktime - {{ super() }}
 {% endblock %}
 {% block styles %}
 <link rel="stylesheet" href="{{host_url}}/static/workspace_users_manage.css">
@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block _title %}
-{{wsdata['ShortCode']}} Worktime
+{{wsdata['InformalName']}} Worktime
 {% endblock %}
 
 {% block _flex_box %}

@@ -740,7 +740,7 @@ def working_time_user_detail(_id = False, _tuser_id = False):
                             "tlogdata": _times,
                             "host_url": request.host_url
                         }
-                        return '<a href="'+request.host_url+'/workspace/'+_id+'/workingTime">Back Home </a><h1>id: '+_id+' - user_id: '+_tuser_id+' - monthAgo: '+_monthAgo+'</h1><p>'+str(_times)+'</p>'
+                        return render_template('workspace_working_time_detail.html', **context)
                     else:
                         return 'Error'
                 else: 
