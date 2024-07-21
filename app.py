@@ -679,8 +679,10 @@ def working_time(_id = False):
                         "currentTime": _onlyTime,
                         "host_url": request.host_url,
                         "wsdata": _ws,
-                        "usrs": _usrs
+                        "usrs": _usrs##,
+                        ##"levels": levels._type_all()
                     }
+                    print(context)
                     ## return the index 
                     return render_template('workspace_working_time.html', **context)
                 else: 
@@ -820,7 +822,8 @@ def workspace_checkin(_id):
             else: 
                 return _out
     except Exception as e:
-        return {"status": "An error Occurred", "error": str(e)}
+        return {"status": "An error Occurred", "error": str(e)}   
+
 
 ## workspace checkin home
 @app.route('/workspace/<_id>/home')
@@ -857,6 +860,52 @@ def workspace_home(_id):
             return _out
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
+
+
+## get worktime periods data
+@app.route('/v1/periodsData', methods=['GET'])
+def periodsData():
+    try: 
+        ## Set a logged variable requesting the _id and _us cookies.
+        _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
+        ## validate if _logged
+        if _required_cookies:
+            ## if present, save the _id and _un
+            _session_id = request.cookies.get('SessionId')
+            _client_bw = request.cookies.get('browserVersion')
+            _client_ip = request.cookies.get('clientIP')
+            _user_id = Handlers.get_username(_alx_url, _session_id, _client_bw, _client_ip)
+            if _user_id:
+                if 'workspace' in request.args and 'type' in request.args: 
+                    from datetime import datetime, timedelta
+                    _now = datetime.now()
+                    if request.args.get('type') == 0: 
+                        _now = _now - timedelta(days=1)
+                    elif request.args.get('type') == 1: 
+                        _now = _now - timedelta(days=8)
+                    elif request.args.get('type') == 2: 
+                        _now = _now - timedelta(days=30)
+                    elif request.args.get('type') == 3: 
+                        _now = _now - timedelta(days=180)
+                    else: 
+                        _now = _now - timedelta(days=365)
+                    _onlyDate = _now.strftime("%d.%m.%Y") 
+                    tuser = False
+                    if 'tuser' in request.args:
+                        tuser = request.args.get('tuser')
+                    _return_data = custom_get_all_employees_worktime(request.args.get('workspace'), tuser, request, _onlyDate, False)
+                    return jsonify(_return_data), 200
+                else: 
+                    return jsonify({"status": "error"}), 403
+            else:
+                return jsonify({"status": "error"}), 401
+        else:
+            return jsonify({"status": "error"}), 401
+            
+    except Exception as e:
+        return {"status": "An error Occurred", "error": str(e)}  
+
+################################################################################################################
 
 ## checkin service
 @app.route('/checkinValidation', methods=['GET'])
@@ -1210,10 +1259,10 @@ def custom_get_all_employees_worktime(workspace_id = False, tenantUser = False, 
                     _tlogs = {}
                     ## validates if contains Endtime
                     if _tl['EndTime']: 
-                        _tlogs['StartTime'] = _tl['StartTime']
-                        _tlogs['StartDate'] = _tl['StartDate']
-                        _tlogs['EndTime'] = _tl['EndTime']
-                        _tlogs['EndDate'] = _tl['EndDate']
+                        _tlogs['startTime'] = _tl['StartTime']
+                        _tlogs['startDate'] = _tl['StartDate']
+                        _tlogs['endTime'] = _tl['EndTime']
+                        _tlogs['endDate'] = _tl['EndDate']
                         ## set the formats
                         date_format = "%d.%m.%Y"
                         time_format = "%H:%M:%S"
@@ -1230,6 +1279,8 @@ def custom_get_all_employees_worktime(workspace_id = False, tenantUser = False, 
                         total_hours += hours
                         ## get the total_minutes parameter
                         total_minutes += minutes
+                        _tlogs['hours'] = hours
+                        _tlogs['minutes'] = minutes
                         _user['times'].append(_tlogs)
                         j += 1
                 ## validate if minutes is more than 59: 
@@ -1249,10 +1300,12 @@ def custom_get_all_employees_worktime(workspace_id = False, tenantUser = False, 
                 ##emp_worktime[i+1] = _user
                 ##print(_user)
                 i += 1
+            emp_worktime['containsData'] = True
+            emp_worktime['count'] = i
             print(emp_worktime)
             return emp_worktime
         else: 
-            return {"status": "false"}
+            return {"containsData": False, "items": [], "count": 0}
     
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)} 

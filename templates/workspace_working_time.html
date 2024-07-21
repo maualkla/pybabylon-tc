@@ -16,12 +16,12 @@
     <div class="_main_block_alerts {% if _flag_status %} {{ _flag_status }} {% else %} _hidden {% endif %} " id="_xpc_ws_alert">
         {% if _flag_content%} <p>{{ _flag_content }} </p> {% endif %}
     </div>
-    <div class="_menu_box_clon color_1_bg color_2_tx">
+    <div class="_menu_box_clon color_1_bg color_2_tx" id="_filter_view">
         <div class="_en _hidden">
             <bold>Change</bold> Day view
         </div>
         <div class="_es _hidden">
-            <bold>Change</bold> Day view
+            <bold>Cambiar</bold> Vista Diaria
         </div>
     </div>
     <div class="_main_block_content">
@@ -56,7 +56,7 @@
     <div class="_main_block_search _hidden">
         <div class="_mbs_upper">
             <div class="_mbc_inputs">
-                <input class="_input_general color_1_tx color_2_bg" type="text" placeholder="Search by Email or Username" id="_search_input">
+                <input class="_input_general color_1_tx color_2_bg" type="text" placeholder="Search by Username" id="_search_input">
             </div>
         </div>
     </div>
@@ -79,6 +79,6 @@
 
 {% block scripts %}
 {{ super() }}
-<script> const _context_vars = ["{{ user_id }}", {{ user_pin }}, "{{wsdata['MainHexColor']}}", "{{ wsdata['LowHexColor'] }}", "{{ wsdata['AlterHexColor'] }}", "{{ wsdata['TaxId'] }}"]; </script>
+<script> const _context_vars = ["{{ user_id }}", {{ user_pin }}, "{{wsdata['MainHexColor']}}", "{{ wsdata['LowHexColor'] }}", "{{ wsdata['AlterHexColor'] }}", "{{ wsdata['TaxId'] }}"],{% set ns = namespace() %} _levels = [{% for level in levels %} {% if ns.value or 1 == 2 %} ,"{{level[1]}}" {% else %} {% set ns.value = 1 %} "{{level[1]}}" {% endif %} {% endfor %}]; </script>
 <script src="{{host_url}}/static/workspace_working_time.js"></script>
 {% endblock %}
