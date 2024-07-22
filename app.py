@@ -660,7 +660,7 @@ def working_time(_id = False):
                     from datetime import datetime, timedelta
                     ## set the time and date variables.
                     _now = datetime.now() 
-                    _eightDaysAgo = datetime.now() - timedelta(days=8)
+                    _eightDaysAgo = datetime.now() - timedelta(days=1)
                     _onlyDate8 = _eightDaysAgo.strftime("%d.%m.%Y") 
                     _onlyTime = _now.strftime("%H:%M:%S")
                     _onlyDate = _now.strftime("%d.%m.%Y") 
@@ -682,7 +682,6 @@ def working_time(_id = False):
                         "usrs": _usrs##,
                         ##"levels": levels._type_all()
                     }
-                    print(context)
                     ## return the index 
                     return render_template('workspace_working_time.html', **context)
                 else: 
@@ -703,6 +702,7 @@ def working_time_user_detail(_id = False, _tuser_id = False):
         ## Set a logged variable requesting the _id and _us cookies.
         _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
         _out = make_response(redirect('/logout'))
+        _worlist = make_response(redirect('/workspace/'+_id+'/workingTime'))
         ## validate if _logged
         if _required_cookies:
             if _id and _tuser_id:
@@ -729,24 +729,26 @@ def working_time_user_detail(_id = False, _tuser_id = False):
                         ### ge the datetime utility
                         from datetime import datetime, timedelta
                         ## set the time and date variables.
-                        _monthAgo = datetime.now() - timedelta(days=30)
-                        _monthAgo = _monthAgo.strftime("%d.%m.%Y") 
-                        print(_monthAgo)
+                        _weekAgo = datetime.now() - timedelta(days=8)
+                        _weekAgo = _weekAgo.strftime("%d.%m.%Y") 
                         ## get the usrs object from the utility 
-                        _times = custom_get_all_employees_worktime(_id, _id+"."+_tuser_id, request, _monthAgo, False)
-                        context = {
-                            "userdata": _user,
-                            "wsdata": _ws,
-                            "tlogdata": _times,
-                            "host_url": request.host_url
-                        }
-                        return render_template('workspace_working_time_detail.html', **context)
+                        _times = custom_get_all_employees_worktime(_id, _id+"."+_tuser_id, request, _weekAgo, False)
+                        if _times['containsData']:
+                            context = {
+                                "userdata": _user,
+                                "wsdata": _ws,
+                                "tlogdata": _times['items'],
+                                "host_url": request.host_url
+                            }
+                            return render_template('workspace_working_time_detail.html', **context)
+                        else: 
+                            return _worlist
                     else:
-                        return 'Error'
+                        return _worlist
                 else: 
-                    return 'Error'
+                    return _worlist
             else: 
-                return 'Error'
+                return _out
         else:
             return _out
     except Exception as e:
@@ -879,13 +881,13 @@ def periodsData():
                 if 'workspace' in request.args and 'type' in request.args: 
                     from datetime import datetime, timedelta
                     _now = datetime.now()
-                    if request.args.get('type') == 0: 
+                    if request.args.get('type') == "0": 
                         _now = _now - timedelta(days=1)
-                    elif request.args.get('type') == 1: 
+                    elif request.args.get('type') == "1": 
                         _now = _now - timedelta(days=8)
-                    elif request.args.get('type') == 2: 
+                    elif request.args.get('type') == "2": 
                         _now = _now - timedelta(days=30)
-                    elif request.args.get('type') == 3: 
+                    elif request.args.get('type') == "3":
                         _now = _now - timedelta(days=180)
                     else: 
                         _now = _now - timedelta(days=365)
@@ -1223,87 +1225,86 @@ def custom_get_all_employees_worktime(workspace_id = False, tenantUser = False, 
             _filter = "tenant:"+workspace_id
             ## set the get_data handler to retrieve data from the user.
             _tusers = Handlers.get_data(_alx_url, request_obj, "tenantUser", tenantUser, _filter)
-            ## set the _tusers from the items object.
-            _tusers = _tusers['items']
-            ## initialize a counter for the object.
-            i = 0
-            ## iteratest for each tuser in the "items" object.
-            for _tuser in _tusers:
-                print(_tuser)
-                ## set up the user object for each user 
-                _user = {"times": []}
-                ## set the 'id' value to the tenant user id including the workspace
-                _user['id'] = workspace_id.upper()+"."+_tuser['Username'].upper()
-                _user['fullname'] = _tuser['FullName'].upper()
-                _user['type'] = levels._type_info(_tuser['Type'])[1]
-                ## set the filter for the logs including the enddate
-                _filter = 'UserId:'+_user['id']##+";EndDate:22.08.2025"+";StartDate:22.08.2014"##
-                if startDate:
-                    _filter += ";StartDate:"+startDate
-                if endDate: 
-                    _filter += ";EndDate:"+endDate
-
-                print(_filter)
-                ## get the timelogs from the user and the filter.
-                _timeLogs = Handlers.get_data(_alx_url, request_obj, "timeLog", False, _filter)
-                ## set the timelog from the items segment in the response.
-                _timeLogs = _timeLogs['items']
-                ## set the total hours and minutes.
-                total_hours = 0
-                total_minutes = 0
-                ## tl count
-                j = 0
-                ## iterate for each timelog in the timelogs object.
-                for _tl in _timeLogs:
-                    ## define de tlogs object 
-                    _tlogs = {}
-                    ## validates if contains Endtime
-                    if _tl['EndTime']: 
-                        _tlogs['startTime'] = _tl['StartTime']
-                        _tlogs['startDate'] = _tl['StartDate']
-                        _tlogs['endTime'] = _tl['EndTime']
-                        _tlogs['endDate'] = _tl['EndDate']
-                        ## set the formats
-                        date_format = "%d.%m.%Y"
-                        time_format = "%H:%M:%S"
-                        ## generate the combined two dates
-                        combined_start_datetime = datetime.combine(datetime.strptime(_tl['StartDate'], date_format).date(), datetime.strptime(_tl['StartTime'], time_format).time())
-                        combined_end_datetime = datetime.combine(datetime.strptime(_tl['EndDate'], date_format).date(), datetime.strptime(_tl['EndTime'], time_format).time())
-                        ## get the difference beetween the dates.
-                        diff_seconds = (combined_end_datetime - combined_start_datetime).total_seconds()
-                        ## get the hours parameter.
-                        hours = int(diff_seconds // 3600)
-                        ## get the minutes parameter
-                        minutes = minutes = int((diff_seconds % 3600) // 60)
-                        ## get the total hours parameter
-                        total_hours += hours
-                        ## get the total_minutes parameter
-                        total_minutes += minutes
-                        _tlogs['hours'] = hours
-                        _tlogs['minutes'] = minutes
-                        _user['times'].append(_tlogs)
-                        j += 1
-                ## validate if minutes is more than 59: 
-                if total_minutes > 59:
-                    ## calculate hours from the minutes remaining
-                    add_hours = int(total_minutes / 60)
-                    ## substract the minutes added from the total minutes count
-                    total_minutes -= add_hours * 60
-                    ## add hours to the hours count
-                    total_hours += add_hours
-                ## set the parameters in the total_hours and the total_minutes
-                _user['total_hours'] = total_hours
-                _user['total_minutes'] = total_minutes
-                _user['records'] = j
-                ## set the object in the main object _user.
-                emp_worktime['items'].append(_user)
-                ##emp_worktime[i+1] = _user
-                ##print(_user)
-                i += 1
-            emp_worktime['containsData'] = True
-            emp_worktime['count'] = i
-            print(emp_worktime)
-            return emp_worktime
+            if _tusers['containsData']:
+                ## set the _tusers from the items object.
+                _tusers = _tusers['items']
+                ## initialize a counter for the object.
+                i = 0
+                ## iteratest for each tuser in the "items" object.
+                for _tuser in _tusers:
+                    ## set up the user object for each user 
+                    _user = {"times": []}
+                    ## set the 'id' value to the tenant user id including the workspace
+                    _user['id'] = workspace_id.upper()+"."+_tuser['Username'].upper()
+                    _user['fullname'] = _tuser['FullName'].upper()
+                    _user['type'] = levels._type_info(_tuser['Type'])[1]
+                    ## set the filter for the logs including the enddate
+                    _filter = 'UserId:'+_user['id']##+";EndDate:22.08.2025"+";StartDate:22.08.2014"##
+                    if startDate:
+                        _filter += ";StartDate:"+startDate
+                    if endDate: 
+                        _filter += ";EndDate:"+endDate
+                    ## get the timelogs from the user and the filter.
+                    _timeLogs = Handlers.get_data(_alx_url, request_obj, "timeLog", False, _filter)
+                    ## set the timelog from the items segment in the response.
+                    _timeLogs = _timeLogs['items']
+                    ## set the total hours and minutes.
+                    total_hours = 0
+                    total_minutes = 0
+                    ## tl count
+                    j = 0
+                    ## iterate for each timelog in the timelogs object.
+                    for _tl in _timeLogs:
+                        ## define de tlogs object 
+                        _tlogs = {}
+                        ## validates if contains Endtime
+                        if _tl['EndTime']: 
+                            _tlogs['startTime'] = _tl['StartTime']
+                            _tlogs['startDate'] = _tl['StartDate']
+                            _tlogs['endTime'] = _tl['EndTime']
+                            _tlogs['endDate'] = _tl['EndDate']
+                            ## set the formats
+                            date_format = "%d.%m.%Y"
+                            time_format = "%H:%M:%S"
+                            ## generate the combined two dates
+                            combined_start_datetime = datetime.combine(datetime.strptime(_tl['StartDate'], date_format).date(), datetime.strptime(_tl['StartTime'], time_format).time())
+                            combined_end_datetime = datetime.combine(datetime.strptime(_tl['EndDate'], date_format).date(), datetime.strptime(_tl['EndTime'], time_format).time())
+                            ## get the difference beetween the dates.
+                            diff_seconds = (combined_end_datetime - combined_start_datetime).total_seconds()
+                            ## get the hours parameter.
+                            hours = int(diff_seconds // 3600)
+                            ## get the minutes parameter
+                            minutes = minutes = int((diff_seconds % 3600) // 60)
+                            ## get the total hours parameter
+                            total_hours += hours
+                            ## get the total_minutes parameter
+                            total_minutes += minutes
+                            _tlogs['hours'] = hours
+                            _tlogs['minutes'] = minutes
+                            _user['times'].append(_tlogs)
+                            j += 1
+                    ## validate if minutes is more than 59: 
+                    if total_minutes > 59:
+                        ## calculate hours from the minutes remaining
+                        add_hours = int(total_minutes / 60)
+                        ## substract the minutes added from the total minutes count
+                        total_minutes -= add_hours * 60
+                        ## add hours to the hours count
+                        total_hours += add_hours
+                    ## set the parameters in the total_hours and the total_minutes
+                    _user['total_hours'] = total_hours
+                    _user['total_minutes'] = total_minutes
+                    _user['records'] = j
+                    ## set the object in the main object _user.
+                    emp_worktime['items'].append(_user)
+                    ##emp_worktime[i+1] = _user
+                    ##print(_user)
+                    i += 1
+                emp_worktime['containsData'] = True
+                emp_worktime['count'] = i
+                return emp_worktime
+            else:
+                return {"containsData": False, "items": [], "count": 0}
         else: 
             return {"containsData": False, "items": [], "count": 0}
     

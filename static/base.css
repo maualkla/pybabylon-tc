@@ -497,6 +497,16 @@ a{
         margin-bottom: 10%;
     }
 
+/* table_content */
+.flex_content_table td{
+    border: solid 10px var(--system-bg-color) !important;
+    font-size: 25px;
+    text-align: center;
+}
+.flex_content_table{
+    width: 100%;
+}
+
 /***************************
     Commons
 ****************************/
