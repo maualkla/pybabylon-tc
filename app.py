@@ -586,7 +586,7 @@ def tusers_management(_id = False, _tusername = False):
                                     if _x['Id'] != _tuserdata['Id']:
                                         _out_mgrs.append(_x)
                             else:
-                                _managers = False
+                                _out_mgrs = False
                             context = {
                                 "user_id": _user_id,
                                 "user_name": _user['username'],
