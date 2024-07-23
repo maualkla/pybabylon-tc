@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% block title %}
-Workspace - {{ super() }}
+{{wsdata['InformalName'][:15]}}{% if wsdata['InformalName']|length > 15 %}..{% endif %} Manage - {{ super() }}
 {% endblock %}
 {% block styles %}
 <link rel="stylesheet" href="../static/manage_workspace.css">
-{{ super() }}
+{{ super() }} 
 {% endblock %}
 
 {% block _title %}

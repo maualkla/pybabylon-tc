@@ -754,6 +754,18 @@ def working_time_user_detail(_id = False, _tuser_id = False):
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
 
+## Tenant users working time details
+@app.route('/workspace/<_id>/workingTime/<_tuser_id>/<_tlog_id>')
+def working_time_user_log_detail(_id = False, _tuser_id = False, _tlog_id = False):
+    context = {
+        "userdata": [],
+        "wsdata": [],
+        "tlogdata": [],
+        "host_url": request.host_url
+    }
+    ##return render_template('workspace_working_time_detail_log.html', **context)
+    return '<h1> <a href="/workspace/'+_id+'/workingTime/'+_tuser_id+'"> Back </a> Welcome to the Log details of '+_tlog_id+' tlog id from the user '+_tuser_id+'</h1>'
+
 ## Workspace Service.
 @app.route('/workspace')
 def workspace():

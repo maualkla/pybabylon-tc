@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}
-{{ws_data['ShortCode']}} - Login
+{{ws_data['InformalName'][:15]}}{% if ws_data['InformalName']|length > 15 %}..{% endif %} - Login
 {% endblock %}
 {% block styles %}
 <link rel="stylesheet" href="{{host_url}}/static/workspace_checkin.css">
@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block _title %}
-{{ws_data['ShortCode']}} - Login
+{{ws_data['InformalName'][:15]}}{% if ws_data['InformalName']|length > 15 %}..{% endif %} - Login
 {% endblock %}
 
 {% block _flex_box %}

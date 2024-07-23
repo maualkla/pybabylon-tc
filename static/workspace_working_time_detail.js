@@ -11,7 +11,7 @@ _common_system_auto_change_color();
 if(document.getElementById("_fb_1")) document.getElementById("_fb_1").addEventListener('click', function(){
     switch(_view){
         case 0: 
-            
+            setAlert("_box_blue", "Option not available yet");
             break;
         case 1: 
             
@@ -110,7 +110,7 @@ const _cust_display_data = (_items, type) =>{
     let _object = "";
     let typeTexts = ['<div class="_en"><bold>Change</bold> Day view</div><div class="_es _hidden"><bold>Cambiar</bold> Vista Diaria </div>', '<div class="_en"><bold>Change</bold> Week view</div><div class="_es _hidden"><bold>Cambiar</bold> Vista Semanal</div>', '<div class="_en"><bold>Change</bold> Month view</div><div class="_es _hidden"><bold>Cambiar</bold> Vista Mensual</div>', '<div class="_en"><bold>Change</bold> 6 Months view</div><div class="_es _hidden"><bold>Cambiar</bold> Vista 6 Meses </div>', '<div class="_en"><bold>Change</bold> Year view</div><div class="_es _hidden"><bold>Cambiar</bold> Vista Anual</div>']
     _items['times'].forEach((item) => {
-        _object += '<tr style="height: 55px;"><td style="width: 10%; height: 55px;" onClick="setAlert(\'_box_red\', \'Details not yet available ('+item['logid']+')\')"><img src = "'+host_url+'/static/_details.svg" height="50px" width="60px" alt="More details"/></td><td style="width: 35%; height: 55px;">'+item['startDate']+'-'+item['startTime']+'</td><td style="width: 35%; height: 55px;">'+item['endDate']+'-'+item['endTime']+'</td><td style="width: 20%; height: 55px;">'+item['hours']+' h '+item['minutes']+' m</td></tr>';
+        _object += '<tr style="height: 55px;"><td style="width: 10%; height: 55px;" onClick="_redirect(\'/workspace/'+_context_vars[6]+'/workingTime/'+user_in_search+'/'+item['logid']+'\', 1)"><img src = "'+host_url+'/static/_details.svg" height="50px" width="60px" alt="More details"/></td><td style="width: 35%; height: 55px;">'+item['startDate']+'-'+item['startTime']+'</td><td style="width: 35%; height: 55px;">'+item['endDate']+'-'+item['endTime']+'</td><td style="width: 20%; height: 55px;">'+item['hours']+' h '+item['minutes']+' m</td></tr>';
     })
     _object += '<tr style="height: 55px;"><td style="width: 10%; height: 55px;" ></td><td style="width: 35%; height: 55px;"></td><td style="width: 35%; height: 55px;">Sumatory</td><td style="width: 20%; height: 55px;">'+_items['total_hours']+' h '+_items['total_minutes']+' m</td></tr>';
     document.getElementById("replazable_box").innerHTML = _object;
