@@ -35,7 +35,7 @@
             <tbody id="replazable_box">
                 {% for time in log['times'] %}
                 <tr style="height: 55px;">
-                    <td style="width: 10%; height: 55px;"><img src = "{{host_url}}/static/_details.svg" height="50px" width="60px" alt="More details"/></td>
+                    <td style="width: 10%; height: 55px;" onClick="setAlert('_box_red', 'Details not yet available ({{tlogdata[0]['id']}})')"><img src = "{{host_url}}/static/_details.svg" height="50px" width="60px" alt="More details"/></td>
                     <td style="width: 35%; height: 55px;">{{time['startDate']}}-{{time['startTime']}}</td>
                     <td style="width: 35%; height: 55px;">{{time['endDate']}}-{{time['endTime']}}</td>
                     <td style="width: 20%; height: 55px;">{{time['hours']}} h {{time['minutes']}} m</td>

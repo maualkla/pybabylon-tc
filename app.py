@@ -1281,6 +1281,7 @@ def custom_get_all_employees_worktime(workspace_id = False, tenantUser = False, 
                             total_minutes += minutes
                             _tlogs['hours'] = hours
                             _tlogs['minutes'] = minutes
+                            _tlogs['logid'] = _tl['Id']
                             _user['times'].append(_tlogs)
                             j += 1
                     ## validate if minutes is more than 59: 
