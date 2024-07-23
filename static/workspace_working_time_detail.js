@@ -1,7 +1,7 @@
 //
 //  JS for workspace_users_manage
 //
-let counter = 0, filter_view = 1, _view = 0, user_in_search = "";
+let counter = 0, filter_view = 1, _view = 0, user_in_search = _context_vars[6], host_url = _context_vars[7];
 
 // initializing view elements.
 _display_fbuttons(true);
@@ -49,9 +49,9 @@ if(document.getElementById('_close_sesion_es')) document.getElementById('_close_
 // triggers for the filters
 if(document.getElementById('_filter_view')) document.getElementById('_filter_view').addEventListener('click', function (){ 
     if (filter_view == 1){
-        _custom_change_view_worklist(1, user_in_search);filter_view = 1;
+        _custom_change_view_worklist(2, user_in_search);filter_view = 2;
     }else if (filter_view == 2){
-        _custom_change_view_worklist(0, user_in_search);filter_view = 0;
+        _custom_change_view_worklist(1, user_in_search);filter_view = 1;
     } 
 });
 
@@ -76,7 +76,7 @@ const _custom_change_view_worklist = (type = 0, tuser = false) => {
                         console.log(_parsed_data)
                         console.groupEnd
                     }
-                    _cust_display_data(_parsed_data['items'], type);
+                    _cust_display_data(_parsed_data['items'][0], type);
                     _display_wheel(false);
                 }else if( xhr.status === 403){
                     setAlert("_box_yellow", "Error try again later.")
@@ -109,10 +109,11 @@ const _custom_change_view_worklist = (type = 0, tuser = false) => {
 const _cust_display_data = (_items, type) =>{
     let _object = "";
     let typeTexts = ['<div class="_en"><bold>Change</bold> Day view</div><div class="_es _hidden"><bold>Cambiar</bold> Vista Diaria </div>', '<div class="_en"><bold>Change</bold> Week view</div><div class="_es _hidden"><bold>Cambiar</bold> Vista Semanal</div>', '<div class="_en"><bold>Change</bold> Month view</div><div class="_es _hidden"><bold>Cambiar</bold> Vista Mensual</div>', '<div class="_en"><bold>Change</bold> 6 Months view</div><div class="_es _hidden"><bold>Cambiar</bold> Vista 6 Meses </div>', '<div class="_en"><bold>Change</bold> Year view</div><div class="_es _hidden"><bold>Cambiar</bold> Vista Anual</div>']
-    _items.forEach((item) => {
-        _object += '<div class="_box_custom_ws _box_main_bot" id=""><div class="_bc_ws_inf">'+item["fullname"].substring(0,15)+'</div><div class="_bc_ws_pos"><bold>'+item["total_hours"]+' Hrs + '+item["total_minutes"]+' Mins</bold></div><div class="_bc_ws_tax">'+item["id"].split(".")[1]+'</div><div class="_bc_ws_cit">'+item["type"]+'</div><div class="_bc_ws_man" onClick="_redirect(\'/'+item["id"].split(".")[1]+'\', 3)"><bold_italic>Details</bold_italic></div></div>';
+    _items['times'].forEach((item) => {
+        _object += '<tr style="height: 55px;"><td style="width: 10%; height: 55px;" onClick="setAlert(\'_box_red\', \'Details not yet available ('+item['logid']+')\')"><img src = "'+host_url+'/static/_details.svg" height="50px" width="60px" alt="More details"/></td><td style="width: 35%; height: 55px;">'+item['startDate']+'-'+item['startTime']+'</td><td style="width: 35%; height: 55px;">'+item['endDate']+'-'+item['endTime']+'</td><td style="width: 20%; height: 55px;">'+item['hours']+' h '+item['minutes']+' m</td></tr>';
     })
-    document.getElementsByClassName("_main_block_content")[0].innerHTML = _object;
+    _object += '<tr style="height: 55px;"><td style="width: 10%; height: 55px;" ></td><td style="width: 35%; height: 55px;"></td><td style="width: 35%; height: 55px;">Sumatory</td><td style="width: 20%; height: 55px;">'+_items['total_hours']+' h '+_items['total_minutes']+' m</td></tr>';
+    document.getElementById("replazable_box").innerHTML = _object;
     document.getElementById('_filter_view').innerHTML = typeTexts[type];
 }
 
