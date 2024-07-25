@@ -757,14 +757,79 @@ def working_time_user_detail(_id = False, _tuser_id = False):
 ## Tenant users working time details
 @app.route('/workspace/<_id>/workingTime/<_tuser_id>/<_tlog_id>')
 def working_time_user_log_detail(_id = False, _tuser_id = False, _tlog_id = False):
-    context = {
-        "userdata": [],
-        "wsdata": [],
-        "tlogdata": [],
-        "host_url": request.host_url
-    }
-    ##return render_template('workspace_working_time_detail_log.html', **context)
-    return '<h1> <a href="/workspace/'+_id+'/workingTime/'+_tuser_id+'"> Back </a> Welcome to the Log details of '+_tlog_id+' tlog id from the user '+_tuser_id+'</h1>'
+    try: 
+        ## Set a logged variable requesting the _id and _us cookies.
+        _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
+        _out = make_response(redirect('/logout'))
+        _worlist = make_response(redirect('/workspace/'+_id+'/workingTime/'+_tuser_id))
+        ## validate if _logged
+        if _required_cookies:
+            print(1)
+            ## if present we go and validate if the required parameters were sent.
+            if _id and _tuser_id and _tlog_id:
+                print(2)
+                ## if present we search for the required view values.
+                ## if present, save the _id and _un
+                _session_id = request.cookies.get('SessionId')
+                _client_bw = request.cookies.get('browserVersion')
+                _client_ip = request.cookies.get('clientIP')
+                ## get the username from the handlers object.
+                _user_id = Handlers.get_username(_alx_url, _session_id, _client_bw, _client_ip)
+                ## validate if parameters are present
+                if _user_id:    
+                    print(3)
+                    ## get the user data from the handlers.
+                    _userdata = Handlers.get_data(_alx_url, request, "user", _user_id)
+                    ## set the user from the items object [0]
+                    _userdata = _userdata['items'][0]
+                    ## set the filter variable
+                    _filter = ":"+_user_id
+                    ## set the wsdata object from the handlers object
+                    _wsdata = Handlers.get_data(_alx_url, request, "workspace", _id, "owner"+_filter)
+                    ## if wsdata contains data is true
+                    if _wsdata['containsData'] == True:
+                        print(4)
+                        ## save only items data
+                        _wsdata = _wsdata['items'][0]
+                        ## get tuser data
+                        _tuserdata = Handlers.get_data(_alx_url, request, "tenantUser", _id+'.'+_tuser_id)
+                        ## validate if data found
+                        print(_tuserdata)
+                        if _tuserdata['containsData']: 
+                            print(5)
+                            ## save only the tuser items data
+                            _tuserdata = _tuserdata['items'][0]
+                            ## search for the tlog data
+                            _tlogdata = Handlers.get_data(_alx_url, request, "timeLog", _tlog_id)
+                            if _tlogdata['containsData']:
+                                print(6)
+                                print(_tlogdata)
+                                ## save the tlog data
+                                _tlogdata = _tlogdata['items'][0]
+                                ## build the context object
+                                context = {
+                                    "userdata": _tuserdata,
+                                    "wsdata": _wsdata,
+                                    "tuserdata": _tuserdata,
+                                    "tlogdata": _tlogdata,
+                                    "host_url": request.host_url
+                                }
+                                return render_template('workspace_working_time_detail_log.html', **context)
+                                ##return '<h1> <a href="/workspace/'+_id+'/workingTime/'+_tuser_id+'"> Back </a> Welcome to the Log details of '+_tlog_id+' tlog id from the user '+_tuser_id+'</h1>'
+                            else:
+                                return _worlist
+                        else: 
+                            return _worlist
+                    else: 
+                        return _worlist
+                else: 
+                    return _worlist
+            else: 
+                return _worlist
+        else:
+            return _out
+    except Exception as e:
+        return {"status": "An error Occurred", "error": str(e)}
 
 ## Workspace Service.
 @app.route('/workspace')

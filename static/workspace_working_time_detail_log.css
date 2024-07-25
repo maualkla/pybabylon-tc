@@ -1,0 +1,16 @@
+.custom_input{
+    margin: 0;
+    font-size: 25px;
+    color: var(--system-bg-color);
+    background: var(--system-text-color);
+    border: none;
+    text-align: center;
+}
+
+.table_container{
+    margin: 6%;
+}
+
+._bbx_text{
+    display: block !important;
+}
