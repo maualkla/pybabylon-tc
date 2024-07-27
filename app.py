@@ -757,7 +757,7 @@ def working_time_user_detail(_id = False, _tuser_id = False):
 ## Tenant users working time details
 @app.route('/workspace/<_id>/workingTime/<_tuser_id>/<_tlog_id>')
 def working_time_user_log_detail(_id = False, _tuser_id = False, _tlog_id = False):
-    try: 
+    try:    
         ## Set a logged variable requesting the _id and _us cookies.
         _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
         _out = make_response(redirect('/logout'))

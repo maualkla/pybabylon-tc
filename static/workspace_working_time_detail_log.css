@@ -1,16 +1,27 @@
 .custom_input{
     margin: 0;
-    font-size: 25px;
-    color: var(--system-bg-color);
-    background: var(--system-text-color);
+    font-size: 40px;
+    color: var(--system-text-color);
+    background: var(--system-bg-color);
     border: none;
     text-align: center;
+    max-width: 250px;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 .table_container{
-    margin: 6%;
+    margin-top: 0;
+}
+.flex_content_table{
+    width: 900px !important;
+    margin: auto;
+}
+.flex_content_table td {
+    font-size: 40px !important;
 }
 
 ._bbx_text{
     display: block !important;
+    padding-top: 10px;
 }

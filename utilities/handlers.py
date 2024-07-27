@@ -216,6 +216,7 @@ class Handlers():
                     return {}
             elif _service == 'timeLog':
                 _req = Handlers._models["timeLog"]
+                _req = ['StartTime', 'StartDate', 'EndDate', 'EndTime']
                 ## go and iterate to find all of them, if not _go will be false
                 _go = False
                 ## For Loop going for all the required fields.
