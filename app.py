@@ -17,6 +17,8 @@ from models.levels import levels
 from models.plans import plans
 from models.severityLevels import severityLevels
 import os, requests, base64
+from io import StringIO
+import csv
 
 ## Initialize Flask App
 app = Flask(__name__)
@@ -785,7 +787,9 @@ def working_time_user_log_detail(_id = False, _tuser_id = False, _tlog_id = Fals
                     ## set the filter variable
                     _filter = ":"+_user_id
                     ## set the wsdata object from the handlers object
+                    print(" id: "+_id)
                     _wsdata = Handlers.get_data(_alx_url, request, "workspace", _id, "owner"+_filter)
+                    print(_wsdata)
                     ## if wsdata contains data is true
                     if _wsdata['containsData'] == True:
                         print(4)
@@ -973,7 +977,31 @@ def periodsData():
                     if 'tuser' in request.args:
                         tuser = request.args.get('tuser')
                     _return_data = custom_get_all_employees_worktime(request.args.get('workspace'), tuser, request, _onlyDate, False)
-                    return jsonify(_return_data), 200
+                    print("----------")
+                    _items = _return_data['items'][0]
+                    _times = _items['times']
+                    print(_times)
+                    if 'format' in request.args:
+                        if request.args.get('format') == 'csv':
+                            data = [
+                                ['Log Id', 'Start Date', 'Start Time', 'End Date', 'End Time', 'Hours', 'Minutes']
+                            ] 
+                            for x in _times:
+                                data.append([x['logid'], x['startDate'], x['startTime'], x['endDate'], x['endTime'], x['hours'], x['minutes']])
+
+                            si = StringIO()
+                            cw = csv.writer(si)
+
+                            for row in data:
+                                cw.writerow(row)
+                            output = make_response(si.getvalue())
+                            output.headers["Content-Disposition"] = "attachment; filename=my_file.csv"
+                            output.headers["Content-type"] = "text/csv"
+                            return output
+                        else:
+                            return jsonify(_return_data), 200
+                    else:       
+                        return jsonify(_return_data), 200
                 else: 
                     return jsonify({"status": "error"}), 403
             else:
@@ -1026,6 +1054,33 @@ def validation():
                 return jsonify({"validated": False}), 401
         else: 
             return jsonify({"validated": False}), 401
+    except Exception as e:
+        return {"status": "An error Occurred", "error": str(e)}
+
+################################################################################################################
+
+## csv data retrieve for timelogs utitlity
+@app.route('/v1/csvData', methods=['GET'])
+def csvData():
+    try:
+        data = [
+            ['Header1', 'Header2', 'Header3'],
+            ['Value1', 'Value2', 'Value3']
+            # ... more rows if needed
+        ] 
+
+        si = StringIO()
+        cw = csv.writer(si)
+
+        for row in data:
+            cw.writerow(row)
+        
+        output = make_response(si.getvalue())
+        output.headers["Content-Disposition"] = "attachment; filename=my_file.csv"
+        output.headers["Content-type"] = "text/csv"
+        
+        return output
+
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
 
@@ -1388,3 +1443,4 @@ def custom_get_all_employees_worktime(workspace_id = False, tenantUser = False, 
     
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)} 
+    
