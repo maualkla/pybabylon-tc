@@ -100,9 +100,22 @@ const _ws_users_create = ( path ) => {
             try
             {
                 if (xhr.readyState === 4 && xhr.status === 202) {
-                    _display_wheel(false);
-                    setAlert("_box_green", "Workspace User Created");
-                    _ws_users_create_goback();
+                    let _data = xhr.responseText;
+                    let _parsed_data = JSON.parse(_data);
+                    if (_logging){
+                        console.group('Response Data: ')
+                        console.log(_parsed_data)
+                        console.groupEnd
+                    }
+                    if(_parsed_data.code == 200){
+                        _display_wheel(false);
+                        setAlert("_box_green", "Workspace User Created");
+                        _ws_users_create_goback();
+                    }else{
+                        _display_wheel(false);
+                        setAlert("_box_red", _parsed_data.reason);
+                    }
+                    
                 }
             }
             catch(e)
