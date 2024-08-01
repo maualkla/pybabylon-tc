@@ -435,28 +435,21 @@ def workspace_users(_id = False):
             _client_ip = request.cookies.get('clientIP')
             _user_id = Handlers.get_username(_alx_url, _session_id, _client_bw, _client_ip)
             if _user_id:
-                print(1)
                 _userdata = Handlers.get_data(_alx_url, request, "user", _user_id)
-                print(_userdata)
                 _user = _userdata['items'][0]
-                print(_user)
                 if _id:
-                    print(2)
                     _filter = ":"+_user_id
                     _wsdata = Handlers.get_data(_alx_url, request, "workspace", _id, "owner"+_filter)
                     if _wsdata['containsData'] == True:
-                        print(3)
                         _ws = _wsdata["items"][0]
                         _teanntuserdata = Handlers.get_data(_alx_url, request, "tenantUser", False, "tenant:"+_ws['TaxId'])
                         if _teanntuserdata:
-                            print(3.1)
                             i = 0
                             for _u in _teanntuserdata['items']:
                                 _teanntuserdata['items'][i]['Type'] = levels._type_info(_u['Type'])[1]
                                 i += 1
                             _items = _teanntuserdata['items']
                         else:
-                            print(3.2)
                             _items = False
                         context = {
                             "user_id": _user_id,
@@ -473,7 +466,6 @@ def workspace_users(_id = False):
                             "currentTime": "20:24:03 CST (CENTRAL MEXICO)",
                             "host_url": request.host_url
                         }
-                        print(4)
                         return render_template('workspace_users_manage.html', **context)
                     else:
                         _ws = make_response(redirect('/workspace'))
@@ -576,7 +568,6 @@ def tusers_management(_id = False, _tusername = False):
                         _filter = "tenant:"+_id
                         _tudata = Handlers.get_data(_alx_url, request, "tenantUser", _id+"."+_tusername, _filter)
                         if _tudata['containsData']:
-                            print(5)
                             ## save tenant user data
                             _tuserdata = _tudata['items'][0]
                             _filter = "tenant:"+_id+";type:1"
@@ -766,10 +757,8 @@ def working_time_user_log_detail(_id = False, _tuser_id = False, _tlog_id = Fals
         _worlist = make_response(redirect('/workspace/'+_id+'/workingTime/'+_tuser_id))
         ## validate if _logged
         if _required_cookies:
-            print(1)
             ## if present we go and validate if the required parameters were sent.
             if _id and _tuser_id and _tlog_id:
-                print(2)
                 ## if present we search for the required view values.
                 ## if present, save the _id and _un
                 _session_id = request.cookies.get('SessionId')
@@ -779,7 +768,6 @@ def working_time_user_log_detail(_id = False, _tuser_id = False, _tlog_id = Fals
                 _user_id = Handlers.get_username(_alx_url, _session_id, _client_bw, _client_ip)
                 ## validate if parameters are present
                 if _user_id:    
-                    print(3)
                     ## get the user data from the handlers.
                     _userdata = Handlers.get_data(_alx_url, request, "user", _user_id)
                     ## set the user from the items object [0]
@@ -787,27 +775,20 @@ def working_time_user_log_detail(_id = False, _tuser_id = False, _tlog_id = Fals
                     ## set the filter variable
                     _filter = ":"+_user_id
                     ## set the wsdata object from the handlers object
-                    print(" id: "+_id)
                     _wsdata = Handlers.get_data(_alx_url, request, "workspace", _id, "owner"+_filter)
-                    print(_wsdata)
                     ## if wsdata contains data is true
                     if _wsdata['containsData'] == True:
-                        print(4)
                         ## save only items data
                         _wsdata = _wsdata['items'][0]
                         ## get tuser data
                         _tuserdata = Handlers.get_data(_alx_url, request, "tenantUser", _id+'.'+_tuser_id)
                         ## validate if data found
-                        print(_tuserdata)
                         if _tuserdata['containsData']: 
-                            print(5)
                             ## save only the tuser items data
                             _tuserdata = _tuserdata['items'][0]
                             ## search for the tlog data
                             _tlogdata = Handlers.get_data(_alx_url, request, "timeLog", _tlog_id)
                             if _tlogdata['containsData']:
-                                print(6)
-                                print(_tlogdata)
                                 ## save the tlog data
                                 _tlogdata = _tlogdata['items'][0]
                                 ## build the context object
@@ -920,7 +901,6 @@ def workspace_home(_id):
                 _wsdata = Handlers.get_data(_alx_url, request, "workspace", _id, False, True, app.config['PRIVATE_SERVICE_TOKEN'])
                 _tldata = Handlers.get_data(_alx_url, request, "timeLog", request.cookies.get('token'), False, True, app.config['PRIVATE_SERVICE_TOKEN'] )
                 if _tldata['containsData']:
-                    print(_tldata)
                     from datetime import datetime
                     _now = datetime.now()
                     _onlyTime = _now.strftime("%H:%M:%S")
@@ -977,21 +957,17 @@ def periodsData():
                     if 'tuser' in request.args:
                         tuser = request.args.get('tuser')
                     _return_data = custom_get_all_employees_worktime(request.args.get('workspace'), tuser, request, _onlyDate, False)
-                    print("----------")
                     _items = _return_data['items'][0]
                     _times = _items['times']
-                    print(_times)
                     if 'format' in request.args:
                         if request.args.get('format') == 'csv':
                             data = [
-                                ['Log Id', 'Start Date', 'Start Time', 'End Date', 'End Time', 'Hours', 'Minutes']
+                                ['Log_Id', 'Start_Date', 'Start_Time', 'End_Date', 'End_Time', 'Hours', 'Minutes']
                             ] 
                             for x in _times:
                                 data.append([x['logid'], x['startDate'], x['startTime'], x['endDate'], x['endTime'], x['hours'], x['minutes']])
-
                             si = StringIO()
                             cw = csv.writer(si)
-
                             for row in data:
                                 cw.writerow(row)
                             output = make_response(si.getvalue())
@@ -1054,33 +1030,6 @@ def validation():
                 return jsonify({"validated": False}), 401
         else: 
             return jsonify({"validated": False}), 401
-    except Exception as e:
-        return {"status": "An error Occurred", "error": str(e)}
-
-################################################################################################################
-
-## csv data retrieve for timelogs utitlity
-@app.route('/v1/csvData', methods=['GET'])
-def csvData():
-    try:
-        data = [
-            ['Header1', 'Header2', 'Header3'],
-            ['Value1', 'Value2', 'Value3']
-            # ... more rows if needed
-        ] 
-
-        si = StringIO()
-        cw = csv.writer(si)
-
-        for row in data:
-            cw.writerow(row)
-        
-        output = make_response(si.getvalue())
-        output.headers["Content-Disposition"] = "attachment; filename=my_file.csv"
-        output.headers["Content-type"] = "text/csv"
-        
-        return output
-
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
 

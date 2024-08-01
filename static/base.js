@@ -289,8 +289,10 @@ const _redirect = (target, version = false) => {
         window.location.replace(window.location.href+target);
     } else if (version){
         window.location.replace(window.location.origin+target);
-        console.log("redirect")
-        console.log(window.location.origin+target)
+        if(_logging){
+            console.log("redirect")
+            console.log(window.location.origin+target)
+        }
     }else{
         window.location.replace("/"+target);
     }

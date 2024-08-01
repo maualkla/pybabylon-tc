@@ -152,7 +152,12 @@ const cust_download_file = () => {
         const url = window.URL.createObjectURL(blob); // Create a temporary URL for the Blob
         const a = document.createElement("a");  
         a.href = url;
-        a.download = "my_file.csv";  // Set the desired filename
+        let today = new Date();
+        let day = String(today.getDate()).padStart(2, '0'); // Two-digit day
+        let month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+        let year = today.getFullYear();
+        let formattedDate = `${day}-${month}-${year}`;
+        a.download = user_in_search+"_"+formattedDate+".csv";  // Set the desired filename
         document.body.appendChild(a); // Append the link to the page
         a.click(); // Programmatically click the link to start the download
         window.URL.revokeObjectURL(url); // Clean up the temporary URL
