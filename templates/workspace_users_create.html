@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}
-New {{wsdata['ShortCode']}} User - {{ super() }}
+{{wsdata['InformalName'][:9]}}{% if wsdata['InformalName']|length > 9 %}..{% endif %} - New User - {{ super() }}
 {% endblock %}
 {% block styles %}
 <link rel="stylesheet" href="{{host_url}}/static/workspace_users_create.css">
@@ -8,7 +8,7 @@ New {{wsdata['ShortCode']}} User - {{ super() }}
 {% endblock %}
 
 {% block _title %}
-{{wsdata['ShortCode']}} / New User
+{{wsdata['InformalName'][:9]}}{% if wsdata['InformalName']|length > 9 %}..{% endif %} - New User
 {% endblock %}
 
 {% block _flex_box %}

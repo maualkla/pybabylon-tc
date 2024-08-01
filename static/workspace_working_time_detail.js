@@ -157,7 +157,8 @@ const cust_download_file = () => {
         let month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
         let year = today.getFullYear();
         let formattedDate = `${day}-${month}-${year}`;
-        a.download = user_in_search+"_"+formattedDate+".csv";  // Set the desired filename
+        let labels = ['day_report', 'week_report', 'month_report']
+        a.download = user_in_search+"_"+formattedDate+"_"+labels[filter_view]+".csv";  // Set the desired filename
         document.body.appendChild(a); // Append the link to the page
         a.click(); // Programmatically click the link to start the download
         window.URL.revokeObjectURL(url); // Clean up the temporary URL
