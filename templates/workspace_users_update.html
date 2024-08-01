@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}
-Account - {{ super() }}
+{{wsdata['InformalName'][:9]}}{% if wsdata['InformalName']|length > 9 %}..{% endif %} Users - {{users_list['Username'] }} - {{ super() }}
 {% endblock %}
 {% block styles %}
 <link rel="stylesheet" href="{{host_url}}/static/workspace_users_update.css">
@@ -8,7 +8,7 @@ Account - {{ super() }}
 {% endblock %}
 
 {% block _title %}
-{{wsdata['ShortCode']}} / {{users_list['Username'] }}
+{{wsdata['InformalName'][:9]}}{% if wsdata['InformalName']|length > 9 %}..{% endif %} - {{users_list['Username'] }}
 {% endblock %}
 
 {% block _flex_box %}

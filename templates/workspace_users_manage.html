@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}
-Workspace Users Management - {{ super() }}
+{{wsdata['InformalName'][:9]}}{% if wsdata['InformalName']|length > 9 %}..{% endif %}  Users Management - {{ super() }}
 {% endblock %}
 {% block styles %}
 <link rel="stylesheet" href="{{host_url}}/static/workspace_users_manage.css">
@@ -8,7 +8,7 @@ Workspace Users Management - {{ super() }}
 {% endblock %}
 
 {% block _title %}
-{{wsdata['ShortCode']}} / Users
+{{wsdata['InformalName'][:9]}}{% if wsdata['InformalName']|length > 9 %}..{% endif %} - Users
 {% endblock %}
 
 {% block _flex_box %}

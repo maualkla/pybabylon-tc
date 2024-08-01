@@ -4,8 +4,8 @@
 ## Pybabylon Project.
 ## Coded by: Mauricio Alcala (@maualkla)
 ## Date: May 2023.
-## Current Version: 0.02
-## Last Modification Date: Dec 2023.
+## Current Version: 0.04
+## Last Modification Date: Aug 2023.
 ## More info at @intmau in twitter or in http://maualkla.com
 ## Description: Web app to serve adminde-tc project.
 */
@@ -18,7 +18,7 @@ let _menu_ext_value = true;
 let _curr_languaje = "_"+navigator.language.substring(0,2) || "_en";
 let _new_lang = "_es";
 let _errors = 0;
-let _logging = true;
+let _logging = false;
 
 let _langs = ['_en', '_es'];
 let _pinpad_num = "";
@@ -289,8 +289,10 @@ const _redirect = (target, version = false) => {
         window.location.replace(window.location.href+target);
     } else if (version){
         window.location.replace(window.location.origin+target);
-        console.log("redirect")
-        console.log(window.location.origin+target)
+        if(_logging){
+            console.log("redirect")
+            console.log(window.location.origin+target)
+        }
     }else{
         window.location.replace("/"+target);
     }

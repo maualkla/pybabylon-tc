@@ -11,7 +11,7 @@ _common_system_auto_change_color();
 if(document.getElementById("_fb_1")) document.getElementById("_fb_1").addEventListener('click', function(){
     switch(_view){
         case 0: 
-            setAlert("_box_blue", "Option not available yet");
+            cust_download_file();
             break;
         case 1: 
             
@@ -110,7 +110,7 @@ const _cust_display_data = (_items, type) =>{
     let _object = "";
     let typeTexts = ['<div class="_en"><bold>Change</bold> Day view</div><div class="_es _hidden"><bold>Cambiar</bold> Vista Diaria </div>', '<div class="_en"><bold>Change</bold> Week view</div><div class="_es _hidden"><bold>Cambiar</bold> Vista Semanal</div>', '<div class="_en"><bold>Change</bold> Month view</div><div class="_es _hidden"><bold>Cambiar</bold> Vista Mensual</div>', '<div class="_en"><bold>Change</bold> 6 Months view</div><div class="_es _hidden"><bold>Cambiar</bold> Vista 6 Meses </div>', '<div class="_en"><bold>Change</bold> Year view</div><div class="_es _hidden"><bold>Cambiar</bold> Vista Anual</div>']
     _items['times'].forEach((item) => {
-        _object += '<tr style="height: 55px;"><td style="width: 10%; height: 55px;" onClick="_redirect(\'/workspace/'+_context_vars[6]+'/workingTime/'+user_in_search+'/'+item['logid']+'\', 1)"><img src = "'+host_url+'/static/editIcon.svg" height="50px" width="60px" alt="More details"/></td><td style="width: 35%; height: 55px;">'+item['startDate']+'-'+item['startTime']+'</td><td style="width: 35%; height: 55px;">'+item['endDate']+'-'+item['endTime']+'</td><td style="width: 20%; height: 55px;">'+item['hours']+' h '+item['minutes']+' m</td></tr>';
+        _object += '<tr style="height: 55px;"><td style="width: 10%; height: 55px;" onClick="_redirect(\'/workspace/'+_context_vars[5]+'/workingTime/'+user_in_search+'/'+item['logid']+'\', 1)"><img src = "'+host_url+'/static/editIcon.svg" height="50px" width="60px" alt="More details"/></td><td style="width: 35%; height: 55px;">'+item['startDate']+'-'+item['startTime']+'</td><td style="width: 35%; height: 55px;">'+item['endDate']+'-'+item['endTime']+'</td><td style="width: 20%; height: 55px;">'+item['hours']+' h '+item['minutes']+' m</td></tr>';
     })
     _object += '<tr style="height: 55px;"><td style="width: 10%; height: 55px;" ></td><td style="width: 35%; height: 55px;"></td><td style="width: 35%; height: 55px;">Sumatory</td><td style="width: 20%; height: 55px;">'+_items['total_hours']+' h '+_items['total_minutes']+' m</td></tr>';
     document.getElementById("replazable_box").innerHTML = _object;
@@ -133,4 +133,42 @@ const _custom_switch_view = (_show = false) => {
         _common_fbuttons_change_display_text(["Search","Refresh", ""], [true, true, false]);
         _view = 1;
     }
+}
+
+
+/// file get
+const cust_download_file = () => {
+    let url = "/v1/periodsData?workspace="+_context_vars[5]+"&type="+filter_view+"&format=csv"
+    if(user_in_search != false) url += "&tuser="+_context_vars[5]+"."+user_in_search;
+    fetch(url)
+      .then(response => {
+        if (!response.ok) {
+          // Handle 400 errors and other non-2xx responses
+          throw new Error('Network response was not ok');
+        }
+        return response.blob();
+      })
+      .then(blob => {
+        const url = window.URL.createObjectURL(blob); // Create a temporary URL for the Blob
+        const a = document.createElement("a");  
+        a.href = url;
+        let today = new Date();
+        let day = String(today.getDate()).padStart(2, '0'); // Two-digit day
+        let month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+        let year = today.getFullYear();
+        let formattedDate = `${day}-${month}-${year}`;
+        let labels = ['day_report', 'week_report', 'month_report']
+        a.download = user_in_search+"_"+formattedDate+"_"+labels[filter_view]+".csv";  // Set the desired filename
+        document.body.appendChild(a); // Append the link to the page
+        a.click(); // Programmatically click the link to start the download
+        window.URL.revokeObjectURL(url); // Clean up the temporary URL
+      })
+      .catch(error => {
+        // Handle errors, including 400 errors
+        if (error.message === 'Network response was not ok') {
+          setAlert("_box_red", "Error: Invalid request. Please check your parameters.");
+        } else {
+          setAlert("_box_red", "Error downloading file.");
+        }
+      });
 }
