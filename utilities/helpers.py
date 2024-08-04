@@ -153,3 +153,17 @@ class Helpers:
             print(str(e))
             return False
 
+
+    ## Return Date or Time in a formated way.
+    ## Generic function
+    ## Args: 
+    ## none
+    def generateDateTime(minus_time = False):
+        from datetime import datetime, timedelta
+        _now = datetime.now()
+        if minus_time: 
+            _now = _now - timedelta(days=minus_time)
+        dt = []
+        dt[0] = _now.strftime("%H:%M:%S")
+        dt[1] = _now.strftime("%d.%m.%Y")
+        return dt
