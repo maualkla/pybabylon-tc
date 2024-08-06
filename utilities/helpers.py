@@ -163,7 +163,7 @@ class Helpers:
         _now = datetime.now()
         if minus_time: 
             _now = _now - timedelta(days=minus_time)
-        dt = []
+        dt = [0,0]
         dt[0] = _now.strftime("%H:%M:%S")
         dt[1] = _now.strftime("%d.%m.%Y")
         return dt

@@ -279,7 +279,7 @@ def dashboard():
                                 "user_pin": _user['pin'] if _user['pin'] > 0 else False,
                                 "ws_informal_name": _ws['InformalName'] if _ws else False,
                                 "ws_tax_id": _ws['TaxId'] if _ws else False,
-                                "trx_last_login_date": _llog['dateTime'][0:2]+"-"+_llog['dateTime'][2:4]+"-"+_llog['dateTime'][4:8]+" "+_llog['dateTime'][8:] if _llog else False,
+                                "trx_last_login_date": _llog['dateTime'][4:8]+"."+_llog['dateTime'][2:4]+"."+_llog['dateTime'][0:2] if _llog else False,
                                 "_flag_status": "",
                                 "_flag_content": "",
                                 "host_url": request.host_url
@@ -650,15 +650,8 @@ def working_time(_id = False):
                     ## set the ws from the items wsdata object
                     _ws = _wsdata["items"][0]
                     ### ge the datetime utility
-                    ##from datetime import datetime, timedelta
-                    ## set the time and date variables.
-                    ##_now = datetime.now() 
-                    ##_eightDaysAgo = datetime.now() - timedelta(days=1)
                     _onlyDate8 = Helpers.generateDateTime(8)[1]
-                    ##_onlyDate8 = _eightDaysAgo.strftime("%d.%m.%Y") 
-                    ##_onlyTime = _now.strftime("%H:%M:%S")
                     _onlyTime = Helpers.generateDateTime()[0]
-                    ##_onlyDate = _now.strftime("%d.%m.%Y") 
                     _onlyDate = Helpers.generateDateTime()[1]
                     ## get the usrs object from the utility 
                     _usrs = custom_get_all_employees_worktime(_id, False, request, _onlyDate8, False)
@@ -723,11 +716,8 @@ def working_time_user_detail(_id = False, _tuser_id = False):
                         ## set the ws from the items wsdata object
                         _ws = _wsdata["items"][0]
                         ### ge the datetime utility
-                        ##from datetime import datetime, timedelta
                         ## set the time and date variables.
-                        ##_weekAgo = datetime.now() - timedelta(days=8)
                         _weekAgo = Helpers.generateDateTime(8)[1]
-                        ##_weekAgo = _weekAgo.strftime("%d.%m.%Y") 
                         ## get the usrs object from the utility 
                         _times = custom_get_all_employees_worktime(_id, _id+"."+_tuser_id, request, _weekAgo, False)
                         if _times['containsData']:
@@ -905,11 +895,7 @@ def workspace_home(_id):
                 _wsdata = Handlers.get_data(_alx_url, request, "workspace", _id, False, True, app.config['PRIVATE_SERVICE_TOKEN'])
                 _tldata = Handlers.get_data(_alx_url, request, "timeLog", request.cookies.get('token'), False, True, app.config['PRIVATE_SERVICE_TOKEN'] )
                 if _tldata['containsData']:
-                    ##from datetime import datetime
-                    ##_now = datetime.now()
-                    ##_onlyTime = _now.strftime("%H:%M:%S")
                     _onlyTime = Helpers.generateDateTime()[0]
-                    ##_onlyDate = _now.strftime("%d.%m.%Y")
                     _onlyDate = Helpers.generateDateTime()[1]
                     context = {
                         "user_id": "null",
@@ -946,24 +932,16 @@ def periodsData():
             _user_id = Handlers.get_username(_alx_url, _session_id, _client_bw, _client_ip)
             if _user_id:
                 if 'workspace' in request.args and 'type' in request.args: 
-                    ##from datetime import datetime, timedelta
-                    ##_now = datetime.now()
                     if request.args.get('type') == "0": 
-                        ##_now = _now - timedelta(days=1)
                         _onlyDate = Helpers.generateDateTime(1)[1]
                     elif request.args.get('type') == "1": 
-                        ##_now = _now - timedelta(days=8)
                         _onlyDate = Helpers.generateDateTime(8)[1]
                     elif request.args.get('type') == "2": 
-                        ##_now = _now - timedelta(days=30)
                         _onlyDate = Helpers.generateDateTime(30)[1]
                     elif request.args.get('type') == "3":
-                        ##_now = _now - timedelta(days=180)
                         _onlyDate = Helpers.generateDateTime(180)[1]
                     else: 
-                        ##_now = _now - timedelta(days=365)
                         _onlyDate = Helpers.generateDateTime(365)[1]
-                    ##_onlyDate = _now.strftime("%d.%m.%Y") 
                     tuser = False
                     if 'tuser' in request.args:
                         tuser = request.args.get('tuser')
@@ -1009,12 +987,8 @@ def validation():
             _tldata = Handlers.get_data(_alx_url, request, "timeLog", request.args.get('id'), False, True, app.config['PRIVATE_SERVICE_TOKEN'] )
             if _tldata['containsData']: 
                 _tldata = _tldata['items'][0] 
-                ##from datetime import datetime
-                ##_now = datetime.now()
                 _onlyTime = Helpers.generateDateTime()[0]
-                ##_onlyTime = _now.strftime("%H:%M:%S")
                 _onlyDate = Helpers.generateDateTime()[1]
-                ##_onlyDate = _now.strftime("%d.%m.%Y") 
                 if request.args.get('action') == "1":
                     _item = {}
                     _item["StartTime"]= _onlyTime

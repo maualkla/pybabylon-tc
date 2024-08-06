@@ -12,6 +12,9 @@
 
 // May day function 
 console.log(" -> Welcome to the console, find jobs at http://maualkla.com/jobs ");
+// adjust the height of the main_block object.
+document.getElementsByClassName("_main_block")[0].style.height = window.screen.height - 20;
+
 // Consts and Local vars
 let _menu_value = true;
 let _menu_ext_value = true;

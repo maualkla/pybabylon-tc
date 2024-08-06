@@ -105,13 +105,14 @@ a{
         ._flex_box{
             /* grid position */
             grid-area: 3 / 1 / 28 / 2;
-            overflow: scroll;
+            overflow: auto;
             
         }
             /* to fix view in mobile */ 
             ._main_block{
-                height: 1998px;
-                overflow: scroll;
+                /*height: 1998px;*/
+                height: 1500px;
+                overflow: scroll !important;
             }
             /* For help site */ 
             #_x_account{
