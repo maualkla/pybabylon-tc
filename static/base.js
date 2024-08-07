@@ -26,46 +26,10 @@ let _logging = false;
 let _langs = ['_en', '_es'];
 let _pinpad_num = "";
 let _pinpad_num_alert = 0;
-let _client_ip = getIp();
+let _client_ip = ""
 let _client_version = navigator.sayswho;
 
-// Set initial languajes for the page.
-setInitialLanguaje();
-
-// Triggers.
-// Burger toggle trigger
-document.getElementById('burger-toggle').addEventListener('click', function (){
-    regular(_menu_value);
-});
-
-// Extended menu trigger
-document.getElementById('_menu_box_extender').addEventListener('click', function (){
-    extended(_menu_ext_value);
-});
-
-// triggers for alerts
-if(document.getElementsByClassName('_main_block_alerts').length > 0) document.getElementsByClassName('_main_block_alerts')[0].addEventListener('click', function (){ cleanAlert(); });
-
-// triggers for the extended links
-document.getElementById('_contac').addEventListener('click', function (){location.href = "https://www.twitter.com/intmau";});
-document.getElementById('_legal').addEventListener('click', function (){_redirect("legal");});
-document.getElementById('_about').addEventListener('click', function (){_redirect("about");});
-document.getElementById('_jobs').addEventListener('click', function (){_redirect("jobs");});
-document.getElementById('_home').addEventListener('click', function (){_redirect("");});
-document.getElementById('_trans').addEventListener('click', function (){ changeLanguaje(_new_lang); });
-
-// TBD Extra triggers
-if(document.getElementById('_x_account')) document.getElementById('_x_account').addEventListener('click', function (){window.open('https://twitter.com/intmau', '_blank')});
-
-
 // Functions
-// Regular menu action
-
-
-function regular(_temp){
-    common_regular(_temp);
-}
-
 // new version
 const common_regular = (_temp) => {
     if(_temp){
@@ -81,11 +45,12 @@ const common_regular = (_temp) => {
         _menu_value = true;
     }
 }
+// Regular menu action
+function regular(_temp){
+    common_regular(_temp);
+}
 
 // Extended menu action
-function extended(_temp) {
-    common_extended(_temp);
-}
 // new version
 const common_extended = (_temp) =>{
     _box = document.getElementById('_menu_box_extender');
@@ -105,12 +70,12 @@ const common_extended = (_temp) =>{
         }
     }
 }
+function extended(_temp) {
+    common_extended(_temp);
+}
 
 
 // Set initial languaje
-function setInitialLanguaje(){
-    common_set_initial_languaje();
-}
 const common_set_initial_languaje = () => {
     for(var i = 0; i < _langs.length; i++){
         if(_langs[i] === _curr_languaje){
@@ -121,12 +86,12 @@ const common_set_initial_languaje = () => {
         }
     }
 }
+function setInitialLanguaje(){
+    common_set_initial_languaje();
+}
 
 
 // Change languajes function
-function changeLanguaje(_languaje){
-    common_change_languaje();
-}
 const common_change_languaje = () => {
     for(var i = 0; i < _langs.length; i++){
         _curr = document.getElementsByClassName(_langs[i]);
@@ -148,11 +113,11 @@ const common_change_languaje = () => {
     }
     extended(_menu_ext_value);
 }
+function changeLanguaje(_languaje){
+    common_change_languaje();
+}
 
 // Delele all cookies alert
-function DeleteAllCookies(){
-    _common_delete_all_cookies();
-}
 const _common_delete_all_cookies = () => {
     const cookies = document.cookie.split(";");
     if (_logging) console.log("Delete all cookies");
@@ -163,21 +128,21 @@ const _common_delete_all_cookies = () => {
         document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
     }
 }
+function DeleteAllCookies(){
+    _common_delete_all_cookies();
+}
 
 /// set altert common utility
-function setAlert(_class, _text){
-    common_set_alert(_class, _text)
-}
 const common_set_alert = (_class, _text) =>{ 
     document.getElementsByClassName('_main_block_alerts')[0].classList.add(_class);
     document.getElementsByClassName('_main_block_alerts')[0].classList.remove("_hidden");
     document.getElementsByClassName('_main_block_alerts')[0].innerHTML = '<p> '+ _text +' </p>';
 }
+function setAlert(_class, _text){
+    common_set_alert(_class, _text)
+}
 
 // Clean alert function
-function cleanAlert(){
-    common_clean_alert();
-}
 const common_clean_alert = () =>{
     if (_logging) console.log(" Entramos a clean alerts")
     document.getElementsByClassName('_main_block_alerts')[0].innerHTML = "";
@@ -186,6 +151,9 @@ const common_clean_alert = () =>{
     document.getElementsByClassName('_main_block_alerts')[0].classList.remove("_box_green");
     document.getElementsByClassName('_main_block_alerts')[0].classList.remove("_box_red");
     //deleteAllCookies();
+}
+function cleanAlert(){
+    common_clean_alert();
 }
 
 /// Pinpad functions and triggers 
@@ -204,9 +172,6 @@ if(document.getElementById('_num_button_0')) document.getElementById('_num_butto
 if(document.getElementById('_num_button_del')) document.getElementById('_num_button_del').addEventListener('click', function (){  _substract_pinpad()  });
 
 // add pinpad num function
-function _add_pinpad(_num){
-    common_add_pinpad(_num);
-}
 const common_add_pinpad = (_num) => {
     if (_logging) console.log(_pinpad_num.length)
     if(_pinpad_num.length < 6 && _pinpad_num.length > -1){
@@ -227,11 +192,11 @@ const common_add_pinpad = (_num) => {
         _display_pinpad("Type Pin");
     }
 }
+function _add_pinpad(_num){
+    common_add_pinpad(_num);
+}
 
 // delete pinpad num function
-function _substract_pinpad(){
-    common_substract_pinpad();
-}
 const common_substract_pinpad = () =>{
     if(_pinpad_num.length > 0){
         _pinpad_num = _pinpad_num.substring(0, _pinpad_num.length - 1);
@@ -245,13 +210,16 @@ const common_substract_pinpad = () =>{
     }
     if (_logging) console.log(_pinpad_num)
 }
+function _substract_pinpad(){
+    common_substract_pinpad();
+}
 
 // display pinpad
-function _display_pinpad(_message){
-    common_display_pinpad(_message);
-}
 const common_display_pinpad = (_message) => {
     document.getElementsByClassName("_numpad_box")[0].innerHTML = "<p>" + _message + "</p>";
+}
+function _display_pinpad(_message){
+    common_display_pinpad(_message);
 }
 
 // change object color.
@@ -287,9 +255,6 @@ navigator.sayswho = (function(){
 })();
 
 // function to get ip
-function getIp(){
-    common_get_ip();
-}
 const common_get_ip = () => {
     let xhr = new XMLHttpRequest();
     let url = "https://api.ipify.org/?format=json";
@@ -308,11 +273,11 @@ const common_get_ip = () => {
     };
     xhr.send();
 }
+function getIp(){
+    common_get_ip();
+}
 
 // function display wheel
-function _display_wheel(_state){
-    common_display_wheel(_state);
-}
 const common_display_wheel = (_state) => {
     let _wheel = document.getElementsByClassName("_flex_centered")[0].classList;
     if (_state){
@@ -321,11 +286,11 @@ const common_display_wheel = (_state) => {
         _wheel.add("_hidden");
     }
 }
+function _display_wheel(_state){
+    common_display_wheel(_state);
+}
 
 // function to redirect to another location. 
-const _redirect = (target, version = false) => {
-    common_redirect(target, version);
-}
 const common_redirect = (target, version = fase) => {
     _display_wheel(true);
     if (version == 3){
@@ -340,11 +305,11 @@ const common_redirect = (target, version = fase) => {
         window.location.replace("/"+target);
     }
 }
+const _redirect = (target, version = false) => {
+    common_redirect(target, version);
+}
 
 // show/hide floating buttons
-const _display_fbuttons = (_state) => {
-    common_display_floating_buttons(_state);
-}
 const common_display_floating_buttons = (_state) => {
     let _fb = document.getElementsByClassName("_floating_buttons")[0]
     if(_state){
@@ -352,6 +317,9 @@ const common_display_floating_buttons = (_state) => {
     }else{
         _fb.classList.add("_hidden")
     }
+}
+const _display_fbuttons = (_state) => {
+    common_display_floating_buttons(_state);
 }
 
 // common floating buttons custom 
@@ -369,9 +337,6 @@ const _common_fbuttons_change_display_text = (_values = false, _displayed = fals
 };
 
 // function validate value hex
-const validateHex = (_value) => {
-    common_validate_hex(_value);
-}
 const common_validate_hex = (_value) => {
     let regex = new RegExp(/^#([A-Fa-f0-9]{6})$/);
     if (_value == null) {
@@ -379,14 +344,14 @@ const common_validate_hex = (_value) => {
     }
     return (regex.test(_value) == true) ? true : false;
 }
+const validateHex = (_value) => {
+    common_validate_hex(_value);
+}
 
 
 /* SYSTEM color change */
 // color = 1,2,3
 // value = HEX color value
-const _change_system_colors = (_color, _value) => {
-    common_change_system_colors(_color, _value);
-}
 const common_change_system_colors = (_color, _value) => {
     if (validateHex(_value)){
         let _root = document.querySelector(':root');
@@ -399,11 +364,11 @@ const common_change_system_colors = (_color, _value) => {
         }
     }
 }
+const _change_system_colors = (_color, _value) => {
+    common_change_system_colors(_color, _value);
+}
 
 // SYSTEM tittle change
-const _change_system_title = (_title) => {
-    common_change_system_title(_title);
-}
 const common_change_system_title = (_title) => {
     if(_tittle.length > 0){
         let _nt = (_tittle.length > 17) ? _tittle.substring(0,17)+".." : _tittle;
@@ -413,12 +378,12 @@ const common_change_system_title = (_title) => {
     }
     
 }
+const _change_system_title = (_title) => {
+    common_change_system_title(_title);
+}
 
 // Color picker functions 
 // function change color picker value.
-const changeColorPickerValue = (_value, _id, _num) => {
-    common_change_color_picker_value(_value, _id, _num);
-}
 const common_change_color_picker_value = (_value, _id, _num) => {
     if (validateHex(_value)){  
         document.getElementById(_id).value = _value;
@@ -427,14 +392,17 @@ const common_change_color_picker_value = (_value, _id, _num) => {
         document.getElementById(_id+"_tx").value = "";
     }
 }
+const changeColorPickerValue = (_value, _id, _num) => {
+    common_change_color_picker_value(_value, _id, _num);
+}
 
 // function change color text value
-const changeColorTextValue = (_value, _id, _num) => {
-    common_change_color_text_value(_value, _id, _num);
-}
 const common_change_color_text_value = (_value, _id, _num) => {
     _change_system_colors(_num.substring(_num.length -1), _value);
     document.getElementById(_id).value = _value;
+}
+const changeColorTextValue = (_value, _id, _num) => {
+    common_change_color_text_value(_value, _id, _num);
 }
 
 //  system auto change color 
@@ -447,13 +415,13 @@ const _common_system_auto_change_color = () => {
 }
 
 // Screen Size: 
-const _desktop_view =  () => {
-    common_desktop_view();
-}
 const common_desktop_view = () => {
     if (window.screen.width >= 1024 && window.screen.height >= 768) {
         _redirect('desktop');
     }
+}
+const _desktop_view =  () => {
+    common_desktop_view();
 }
 
 // common reload page
@@ -559,3 +527,35 @@ _common_dictionary_errors['_es'] = {
     "012": "Nombre completo invalido. Debe tener mas de 3 caracteres.",
     "013": "Error innesperado, Intenta mas tarde."
 }
+
+
+/////
+_client_ip = common_get_ip();
+
+// Set initial languajes for the page.
+setInitialLanguaje();
+
+// Triggers.
+// Burger toggle trigger
+document.getElementById('burger-toggle').addEventListener('click', function (){
+    regular(_menu_value);
+});
+
+// Extended menu trigger
+document.getElementById('_menu_box_extender').addEventListener('click', function (){
+    extended(_menu_ext_value);
+});
+
+// triggers for alerts
+if(document.getElementsByClassName('_main_block_alerts').length > 0) document.getElementsByClassName('_main_block_alerts')[0].addEventListener('click', function (){ cleanAlert(); });
+
+// triggers for the extended links
+document.getElementById('_contac').addEventListener('click', function (){location.href = "https://www.twitter.com/intmau";});
+document.getElementById('_legal').addEventListener('click', function (){_redirect("legal");});
+document.getElementById('_about').addEventListener('click', function (){_redirect("about");});
+document.getElementById('_jobs').addEventListener('click', function (){_redirect("jobs");});
+document.getElementById('_home').addEventListener('click', function (){_redirect("");});
+document.getElementById('_trans').addEventListener('click', function (){ changeLanguaje(_new_lang); });
+
+// TBD Extra triggers
+if(document.getElementById('_x_account')) document.getElementById('_x_account').addEventListener('click', function (){window.open('https://twitter.com/intmau', '_blank')});
