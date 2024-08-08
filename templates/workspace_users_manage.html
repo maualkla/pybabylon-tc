@@ -24,10 +24,10 @@
                 {{usr['Username'][:15]}}{% if usr['Username']|length > 15 %}..{% endif %}
             </div>
             <div class="_bc_ws_tax">
-                {{usr['Email'][:22]}}{% if usr['Email']|length > 22 %}..{% endif %}
+                {{usr['Email'][:12]}}{% if usr['Email']|length > 12 %}..{% endif %}
             </div>
             <div class="_bc_ws_cit">
-                {{usr['CreatedBy'][:22]}}{% if usr['CreatedBy']|length > 22 %}..{% endif %}
+                {{usr['CreatedBy'][:15]}}{% if usr['CreatedBy']|length > 15 %}..{% endif %}
             </div>
             <div class="_bc_ws_pos">
                 {{usr['Type'][:22]}}{% if usr['Type']|length > 22 %}..{% endif %}

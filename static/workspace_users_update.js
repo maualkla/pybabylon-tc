@@ -25,7 +25,8 @@ if(document.getElementById('_fb_1')) document.getElementById('_fb_1').addEventLi
 });
 if(document.getElementById('_fb_2')) document.getElementById('_fb_2').addEventListener('click', function (){ 
     if(_view === 0) { 
-        //
+        //delete action
+        _delete_transaction(_context_vars[6]);
     } else if(_view === 1){
         //
     }
@@ -167,4 +168,51 @@ const _ws_users_update_goback = () => {
     let x = window.location.pathname;
     x = x.substr(0, x.indexOf('/users/'));
     _redirect(x+'/users', 1);
+}
+
+
+
+// function delete user
+function _delete_transaction(_tuser_id){
+    // code to be written
+    if(_tuser_id){
+        _display_wheel(true);
+        let xhr = new XMLHttpRequest();
+        let url = "/v1/admdata?service=tenantUser&id=" + _tuser_id;
+        xhr.open("DELETE", url);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function () {
+            try
+            {
+                let _data = xhr.responseText;
+                let _parsed_data = JSON.parse(_data);
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    _remove_custbox(_trx_id);
+                    setAlert("_box_blue", "User deleted");
+                    _redirect('/workspace/'+_context_vars[5]+'/users', True)
+                    _display_wheel(false);
+                    counter = 0;
+                }else if(xhr.readyState === 4 && xhr.status === 500){
+                    setAlert("_box_red",_parsed_data["reason"]);
+                    _display_wheel(false);
+                    counter = 0;
+                }
+            }catch(e){
+                if(counter == 1){
+                    if(_logging){
+                        console.log("-------------------")
+                        console.log(e)
+                        console.log("-------------------")
+                    }
+                    _errors++;
+                    setAlert("_box_red", "Error processing data.");
+                    _display_wheel(false);
+                }else{
+                    counter++;
+                }
+            }
+        };
+        xhr.send();
+    }
+
 }

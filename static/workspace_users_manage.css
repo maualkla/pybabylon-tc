@@ -34,6 +34,7 @@
         ._bc_ws_tax{
             grid-area: 3 / 1 / 4 / 3;
             font-size: 55%;
+            display: inline-block;
         }
         ._bc_ws_cit{
             grid-area: 4 / 1 / 5 / 3;
