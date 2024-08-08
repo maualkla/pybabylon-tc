@@ -187,22 +187,16 @@ function _delete_transaction(_tuser_id){
             {
                 let _data = xhr.responseText;
                 let _parsed_data = JSON.parse(_data);
-                console.group("------");
-                console.log(" Status code: "+xhr.status)
-                console.log(" Ready state: "+xhr.readyState)
-                console.log(_parsed_data)
-                console.groupEnd("------");
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    _remove_custbox(_trx_id);
+                if (xhr.readyState === 4 && xhr.status === 200) {
                     setAlert("_box_blue", "User deleted");
-                    _redirect('/workspace/'+_context_vars[5]+'/users', True)
+                    common_redirect('/workspace/'+_context_vars[5]+'/users', true)
                     _display_wheel(false);
                 }else if(xhr.readyState == 4 && xhr.status == 500){
                     setAlert("_box_red",_parsed_data["reason"]);
                     _display_wheel(false);
                 }
             }catch(e){
-                if(counter == 1){
+                if(counter == 2){
                     if(_logging){
                         console.log("-------------------")
                         console.log(e)
