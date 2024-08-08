@@ -175,6 +175,7 @@ const _ws_users_update_goback = () => {
 // function delete user
 function _delete_transaction(_tuser_id){
     // code to be written
+    counter = 0;
     if(_tuser_id){
         _display_wheel(true);
         let xhr = new XMLHttpRequest();
@@ -186,16 +187,19 @@ function _delete_transaction(_tuser_id){
             {
                 let _data = xhr.responseText;
                 let _parsed_data = JSON.parse(_data);
-                if (xhr.readyState === 4 && xhr.status === 200) {
+                console.group("------");
+                console.log(" Status code: "+xhr.status)
+                console.log(" Ready state: "+xhr.readyState)
+                console.log(_parsed_data)
+                console.groupEnd("------");
+                if (xhr.readyState == 4 && xhr.status == 200) {
                     _remove_custbox(_trx_id);
                     setAlert("_box_blue", "User deleted");
                     _redirect('/workspace/'+_context_vars[5]+'/users', True)
                     _display_wheel(false);
-                    counter = 0;
-                }else if(xhr.readyState === 4 && xhr.status === 500){
+                }else if(xhr.readyState == 4 && xhr.status == 500){
                     setAlert("_box_red",_parsed_data["reason"]);
                     _display_wheel(false);
-                    counter = 0;
                 }
             }catch(e){
                 if(counter == 1){
