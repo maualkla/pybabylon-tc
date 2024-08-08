@@ -13,3 +13,4 @@ if(document.getElementById('_backtoapidocs')) document.getElementById('_backtoap
 /* buttons */
 if(document.getElementById('_v001')) document.getElementById('_v001').addEventListener('click', function (){window.location.replace("/apidocs/v0-1")});
 if(document.getElementById('_v002')) document.getElementById('_v002').addEventListener('click', function (){window.location.replace("/apidocs/v0-2")});
+if(document.getElementById('_v004')) document.getElementById('_v004').addEventListener('click', function (){window.location.replace("/apidocs/v0-4")});

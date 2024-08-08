@@ -82,7 +82,12 @@ const _custom_change_view_worklist = (type = 0, tuser = false) => {
                         console.log(_parsed_data)
                         console.groupEnd
                     }
-                    _cust_display_data(_parsed_data['items'], type);
+                    _display_wheel(false);
+                    if(_parsed_data['items']){
+                        _cust_display_data(_parsed_data['items'], type);
+                    }else{
+                        setAlert("_box_blue", "No time logs to be displayed.")
+                    }
                     _display_wheel(false);
                 }else if( xhr.status === 403){
                     setAlert("_box_yellow", "Error try again later.")

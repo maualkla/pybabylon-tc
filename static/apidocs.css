@@ -1,12 +1,7 @@
 /* main */
 ._container{
-    margin: auto;
-    margin-top: 20%;
 }
 ._container div{
-    margin-top: 10%;
-    padding: 20px;
-    height: fit-content;
 }
 
 /* apidocs text */

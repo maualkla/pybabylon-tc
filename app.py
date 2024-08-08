@@ -74,7 +74,7 @@ def apidocs_v0_1():
     except Exception as e:
         return {"status": "Error", "reason": str(e)}
     
-## apidocs v0.01
+## apidocs v0.02
 @app.route('/apidocs/v0-2')
 def apidocs_v0_2():
     try:
@@ -92,6 +92,26 @@ def apidocs_v0_2():
             _log = make_response(redirect('/login'))
             _log.delete_cookie('_id')
             _log.delete_cookie('_un')
+            return _log
+    except Exception as e:
+        return {"status": "Error", "reason": str(e)}
+    
+## apidocs v0.04
+@app.route('/apidocs/v0-4')
+def apidocs_v0_4():
+    try:
+        ## Set a logged variable requesting the _id and _us cookies.
+        _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
+        _out = make_response(redirect('/logout'))
+        ## validate if _logged
+        if _required_cookies:
+            context= {
+                "_logged" : True if _required_cookies else False,
+                "host_url": request.host_url
+            }
+            return render_template('apidocs_v0_4.html', **context)
+        else:
+            _log = make_response(redirect('/login'))
             return _log
     except Exception as e:
         return {"status": "Error", "reason": str(e)}
@@ -279,7 +299,7 @@ def dashboard():
                                 "user_pin": _user['pin'] if _user['pin'] > 0 else False,
                                 "ws_informal_name": _ws['InformalName'] if _ws else False,
                                 "ws_tax_id": _ws['TaxId'] if _ws else False,
-                                "trx_last_login_date": _llog['dateTime'][4:8]+"."+_llog['dateTime'][2:4]+"."+_llog['dateTime'][0:2] if _llog else False,
+                                "trx_last_login_date": _llog['dateTime'] if _llog else False,
                                 "_flag_status": "",
                                 "_flag_content": "",
                                 "host_url": request.host_url
@@ -398,8 +418,8 @@ def workspace_option(_id = False):
                         "wsdata": _ws,
                         "_flag_status": "",
                         "_flag_content": "",
-                        "currentDate": "January 20, 2023",
-                        "currentTime": "20:24:03 CST (CENTRAL MEXICO)",
+                        "currentDate": Helpers.generateDateTime()[1],
+                        "currentTime": Helpers.generateDateTime()[0],
                         "host_url": request.host_url
                     }
                     return render_template('manage_workspace.html', **context)

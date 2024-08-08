@@ -66,7 +66,7 @@ if(document.getElementById("_fb_1")) document.getElementById("_fb_1").addEventLi
             _ws_switch_pinpad(true);
             break; 
         case 5: 
-            setAlert("_box_yellow", "Something went wrong, try again later");
+            setAlert("_box_blue", "Code: 8437HX");
             break; 
         case 6: 
             _display_fbuttons(false);
@@ -161,7 +161,7 @@ const _cust_butt_data = (_case = false) => {
         _common_fbuttons_change_display_text(_values,_disp); 
     }
     if(_case == 3){
-        _values = ["Check In", "Return to Manage", false], _disp = [true, true, false];
+        _values = ["Check In (Beta)", "Return to Manage", false], _disp = [true, true, false];
         _common_fbuttons_change_display_text(_values,_disp); 
     }
 }
@@ -314,3 +314,16 @@ const _cust_switch_auth_methods = (selector = false) => {
         }
     }
 }
+
+
+/// updatee time
+function updateTime() {
+    // get time format HH:MM:SS
+    let data = new Date();
+    let options = { hour12: false }; // Use 24-hour format
+    let timeString = data.toLocaleTimeString(undefined, options);
+    document.getElementById('live_time').innerHTML = timeString;
+}
+
+/// clock updater
+setInterval(updateTime, 1000);
