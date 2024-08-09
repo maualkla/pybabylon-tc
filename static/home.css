@@ -6,11 +6,13 @@
     grid-template-rows: repeat(25, 1fr);
     grid-column-gap: 0px;
     grid-row-gap: 0px;
-    height: auto;
+    /*height: auto;*/
+    height: 1500px !important;
+    overflow: scroll;
 }
     ._main_block_top{
         margin:0%;
-        height: auto;
+        /*height: auto;*/
         /* grid position */
         grid-area: 1 / 1 / 17 / 2;
         /* grid definition */
@@ -23,15 +25,16 @@
         }
         ._mbt_bottom{
             font-size: 410%;
-            padding: 0px 190px 0px 30px;
+            padding: 40px 190px 40px 30px;
         }
     
     ._main_block_med{
         margin:0%;
-        height: auto;
+        /*height: auto;*/
         /*grid position */
         grid-area: 17 / 1 / 21 / 2;
         display: flex;
+        margin-top: 40%;
     }   
         #_signup_button{
             margin:auto;
@@ -44,9 +47,10 @@
     ._main_block_bot{
         /*grid position */
         margin: 0;
-        height: auto;
+        /*height: auto;*/
         grid-area: 21 / 1 / 26 / 2;
         display: flex;
+        margin-top: 30%;
     }
         #_mbb_text{
             height: auto;

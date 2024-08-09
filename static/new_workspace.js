@@ -97,18 +97,19 @@ function _ws_switch_pinpad(_show){
 
 // Function to create the workspace
 function _create_workspace(){
-    if(document.getElementById("_input_TaxId").value.length > 0){
-        if(parseInt(_pinpad_num) === _context_vars[1]){ 
+    if(parseInt(_pinpad_num) === _context_vars[1]){ 
+        let _validation = _new_workspace_form_validation();
+        if(_validation[0]){
+            _params = _validation[1];
             _display_wheel(true);
             let fields = [ 'Email', 'TaxId', 'LegalName', 'InformalName', 'ShortCode', 'CountryCode', 'State', 'City', 'AddressLine1', 'AddressLine2', 'AddressLine3', 'AddressLine4', 'PhoneCountryCode', 'PhoneNumber', 'MainHexColor', 'AlterHexColor', 'LowHexColor', 'Level', 'Active', 'CreationDate', 'PostalCode']
             _json_payload = {};
             _payload = {};
             for(let i = 0; i < fields.length; i++){
-                _json_payload[fields[i]] = (document.getElementById('_input_'+fields[i])) ? document.getElementById('_input_'+fields[i]).value : '';
+                _json_payload[fields[i]] = (_params['_input_'+fields[i]]) ? _params['_input_'+fields[i]] : '';
             }
             _json_payload['Owner'] = _context_vars[0];
             _payload["item"] = _json_payload;
-            console.log(_payload);
             let xhr = new XMLHttpRequest();
             let url = "/v1/admdata?service=workspace";
             xhr.open("POST", url);
@@ -147,13 +148,12 @@ function _create_workspace(){
             var data = JSON.stringify(_payload);
             xhr.send(data);
         }else{
-            setAlert("_box_red", "Incorrect Pin");_display_wheel(false);
+            setAlert("_box_red", _common_dictionary_errors[_curr_languaje][_validation[1]]);
+            _ws_switch_pinpad(false);
+            _display_wheel(false);
         }
     }else{
-        _ws_switch_pinpad(false);
-        setAlert("_box_red", "Missing Tax Id");
-        _change_view(false);_change_view(false);
-        _display_wheel(false);
+        setAlert("_box_red", "Incorrect Pin");_display_wheel(false);
     }
     _pinpad_num = ""; _display_pinpad(_pinpad_num);
 }
@@ -170,4 +170,92 @@ function _required_check(){
         }
     }
     return _go;
+}
+
+/// Form validation
+const _new_workspace_form_validation = () =>{
+    // validar pass
+    // validar _required = ['Email', 'TaxId', 'LegalName', 'InformalName', 'ShortCode', 'CountryCode', 'State', 'City', 'AddressLine1', 'PhoneCountryCode', 'PhoneNumber', 'MainHexColor', 'AlterHexColor', 'LowHexColor', 'PostalCode'];
+    if ( _common_email_string_validation(document.getElementById('_input_Email').value) )
+    {
+        if(document.getElementById('_input_TaxId').value.length > 3 && document.getElementById('_input_TaxId').value.length < 20)
+        {
+            if(document.getElementById('_input_LegalName').value.length > 3 )
+            {
+                if(document.getElementById('_input_ShortCode').value.length > 3 && document.getElementById('_input_ShortCode').value.length < 7)
+                {
+                    if(document.getElementById('_input_CountryCode').value.length > 3 && document.getElementById('_input_State').value.length > 3 && document.getElementById('_input_City').value.length > 3 && document.getElementById('_input_AddressLine1').value.length > 3)
+                    {
+                        if(_common_number_validation(document.getElementById('_input_PhoneNumber').value))
+                        {
+                            if(_common_postal_code_validation(document.getElementById('_input_PostalCode').value, 'MX'))
+                            {
+                                let form_values = {}
+                                form_values['_input_Email'] = document.getElementById('_input_Email').value;
+                                form_values['_input_TaxId'] = document.getElementById('_input_TaxId').value;
+                                form_values['_input_LegalName'] = document.getElementById('_input_LegalName').value;
+                                form_values['_input_InformalName'] = document.getElementById('_input_InformalName').value;
+                                form_values['_input_ShortCode'] = document.getElementById('_input_ShortCode').value;
+                                form_values['_input_CountryCode'] = document.getElementById('_input_CountryCode').value;
+                                form_values['_input_State'] = document.getElementById('_input_State').value;
+                                form_values['_input_City'] = document.getElementById('_input_City').value;
+                                form_values['_input_AddressLine1'] = document.getElementById('_input_AddressLine1').value;
+                                form_values['_input_PhoneCountryCode'] = document.getElementById('_input_PhoneCountryCode').value;
+                                form_values['_input_PhoneNumber'] = document.getElementById('_input_PhoneNumber').value;
+                                form_values['_input_MainHexColor'] = document.getElementById('_input_MainHexColor').value;
+                                form_values['_input_AlterHexColor'] = document.getElementById('_input_AlterHexColor').value;
+                                form_values['_input_LowHexColor'] = document.getElementById('_input_LowHexColor').value;
+                                form_values['_input_PostalCode'] = document.getElementById('_input_PostalCode').value;
+                                return [true,form_values];
+                            }else{
+                                _new_workspace_clean_field('_input_PostalCode');
+                                _new_workspace_leaps(1);
+                                return [false,'006'];
+                            }
+                        }else{
+                            _new_workspace_clean_field('_input_PhoneNumber');
+                            return [false,'007'];
+                        }
+                    }else{
+                        _new_workspace_clean_field('_input_CountryCode');
+                        _new_workspace_clean_field('_input_State');
+                        _new_workspace_clean_field('_input_City');
+                        _new_workspace_clean_field('_input_AddressLine1');
+                        _new_workspace_leaps(1);
+                        return [false,'011'];
+                    }
+                }else{
+                    _new_workspace_clean_field('_input_ShortCode');
+                    _new_workspace_leaps(2);
+                    return [false,'010'];
+                }
+            }else{
+                _new_workspace_clean_field('_input_LegalName');
+                _new_workspace_leaps(2);
+                return [false,'009'];
+            }
+        }else{
+            _new_workspace_clean_field('_input_TaxId');
+            _new_workspace_leaps(2);
+            return [false,'008'];
+        }
+    }else{
+        _new_workspace_clean_field('_input_Email');
+        _new_workspace_leaps(2);
+        return [false,'004'];
+        
+    }
+}
+
+//
+// back 1 or 2 or 3 steps
+const _new_workspace_leaps = (_num) => {
+    for (let i = 0; i < _num; i++){
+        _change_view(false);
+    }
+}
+
+// clean field 
+const _new_workspace_clean_field = (_id) => {
+    document.getElementById(_id).value = "";
 }

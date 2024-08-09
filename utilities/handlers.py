@@ -7,7 +7,10 @@ class Handlers():
     _models = {
         "user":['activate', 'username', 'bday', 'pass', 'fname', 'phone', 'pin', 'plan', 'postalCode', 'terms', 'type', 'tenant'],
         "workspace":['Owner', 'TaxId', 'LegalName', 'InformalName', 'ShortCode', 'CountryCode', 'State', 'City', 'AddressLine1', 'AddressLine2', 'AddressLine3', 'AddressLine4', 'PhoneCountryCode', 'PhoneNumber', 'Email', 'MainHexColor', 'AlterHexColor', 'LowHexColor', 'Level', 'CreationDate', 'PostalCode'],
-        "session": ['requestString', 'client']
+        "session": ['requestString', 'client'],
+        "tenantUser": ['Active', 'Username', 'Id', 'Password', 'FullName', 'Email', 'Manager', 'Tenant', 'Type', 'CreatedBy'],
+        ##"timeLog": ['ip', 'browser', 'requestString'],
+        "timeLog": ['Active', 'Id', 'StartTime', 'StartDate', 'OriginalStartTime', 'OriginalStartTime', 'Edited', 'EditedBy', 'EndDate', 'EndTime', 'EditionDate', 'EditionTime', 'OriginalEndDate', 'OriginalEndTime', 'ip', 'browser', 'requestString', 'UserId']
     }
 
 
@@ -19,7 +22,7 @@ class Handlers():
     ## _service:        (requred) Service to be called /service
     ## _id:             (optional) id to search
     ## _filter:         (optional) query filter for the search.
-    def get_data(_service_url, _request, _service, _id = False, _filter = False):
+    def get_data(_service_url, _request, _service, _id = False, _filter = False, _open_data = False, _privateKey = False):
         try:
             print(" >> handlers.get_data("+_service+") operation: ")
             ## validate if present and if present, set the parameters from the cookies of the request object.
@@ -43,6 +46,15 @@ class Handlers():
                 else:
                     return {}
             else:
+                if _open_data:
+                    ## set the url of the service
+                    _url = Helpers.generateURL(_service_url, _service, _id, _filter)
+                    ## set the headers
+                    _headers = {'openData': 'true', 'privateKey': _privateKey}
+                    ## generate the get call
+                    _response = requests.get(_url, headers=_headers)
+                    ## returns the json as response
+                    return _response.json()
                 return {}
         except Exception as e:
             print(" (!) Exception in get_data(): ")
@@ -119,6 +131,26 @@ class Handlers():
                         ## if it is not in the parameters, set flag to false.
                         if req_value not in _item:
                             _go = False
+                        
+                    if _go:
+                        ## set the url of the service
+                        _url = Helpers.generateURL(_service_url, _service)
+                        ## set the headers
+                        _headers = {'Content-Type': "application/json"}
+                        ## generate the get call
+                        _response = requests.post(_url, json=_item, headers=_headers)
+                        ## returns the json as response
+                        return _response.json()
+                    else:
+                        return {}
+                elif _service == 'timeLog':
+                    _req = Handlers._models["timeLog"]
+                    _go = False
+                    ## For Loop going for all the required fields.
+                    for req_value in _req:
+                        ## if it is not in the parameters, set flag to false.
+                        if req_value in _item:
+                            _go = True
                     if _go:
                         ## set the url of the service
                         _url = Helpers.generateURL(_service_url, _service)
@@ -166,6 +198,10 @@ class Handlers():
                         if req_value in _item:
                             _go = True
                     if _go:
+                        ## get the current username from the session id.
+                        _currentUsername = Handlers.get_username(_service_url, _sessionId,  _browser, _clientIp)
+                        ## set the current username in the item object. 
+                        _item["currentUser"] = _currentUsername
                         ## set the url of the service
                         _url = Helpers.generateURL(_service_url, _service)
                         ## set the headers
@@ -176,6 +212,25 @@ class Handlers():
                         return _response.json()
                     else:
                         return {}
+                else:
+                    return {}
+            elif _service == 'timeLog':
+                _req = Handlers._models["timeLog"]
+                _req = ['StartTime', 'StartDate', 'EndDate', 'EndTime']
+                ## go and iterate to find all of them, if not _go will be false
+                _go = False
+                ## For Loop going for all the required fields.
+                for req_value in _req:
+                    ## if it is not in the parameters, set flag to false.
+                    if req_value in _item:
+                        _go = True
+                if _go:
+                    ## set the url of the service
+                    _url = Helpers.generateURL(_service_url, _service)
+                    ## generate the get call
+                    _response = requests.put(_url, json=_item)
+                    ## returns the json as respons
+                    return _response.json()
                 else:
                     return {}
             else:

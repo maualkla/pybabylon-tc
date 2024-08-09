@@ -21,7 +21,7 @@ Adminde TRX
         {% for usr in transactions_list %}
         <div class="_box_custom_ws _box_main_bot" id="_cut_{{usr['id']}}">
             <div class="_bc_ws_inf">
-                {{usr['action']}}
+                {{usr['action'][:35]}}
             </div>
             <div class="_bc_ws_tax">
                 {{usr['dateTime']}}

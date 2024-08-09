@@ -1,26 +1,29 @@
 {% extends 'base.html' %}
 {% block title %}
-Api Docs - {{ super() }}
+{{ super() }}
 {% endblock %}
 {% block styles %}
-<link rel="stylesheet" href="../static/apidocs.css">
+<link rel="stylesheet" href="../static/home.css">
 {{ super() }}
 {% endblock %}
 
 {% block _title %}
-Time Card
+Adminde Time Card
 {% endblock %}
 
 {% block _flex_box %}
-<div class="_container">
-    <div class="_menu_box_clon color_1_bg color_2_tx" id="_v001">Alexandria API v0.01</div>
-    <div class="_menu_box_clon color_1_bg color_2_tx" id="_v002">Alexandria API v0.02</div>
-    <div class="_menu_box_clon color_1_bg color_2_tx" id="_v004">Alexandria API v0.04</div>
+<div class="_main_block">
+    <p class="_general_text">
+        404<br>
+        The site<br>
+        you are<br>
+        looking for<br>
+        is not here.
+    </p>
 </div>
 {% endblock %}
 
 {% block _flex_menu %}
-
 {% if _logged: %}
 <div class="_menu_box _box_main _box_main_bot" id="_dashboard">Dashboard</div>
 {% else: %}
@@ -29,10 +32,10 @@ Time Card
 <div class="_menu_box _box_main _box_main_bot _es _hidden" id="_login_es">Inicia Sesion</div>
 <div class="_menu_box _box_main _box_main_bot _es _hidden" id="_signup_es">Registrate</div>
 {% endif %}
-
 {% endblock %}
+
 
 {% block scripts %}
 {{ super() }}
-<script src="../static/apidocs.js"></script>
+<script src="../static/home.js"></script>
 {% endblock %}

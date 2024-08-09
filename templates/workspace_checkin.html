@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}
+{{ws_data['InformalName'][:15]}}{% if ws_data['InformalName']|length > 15 %}..{% endif %} - Login
+{% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="{{host_url}}/static/workspace_checkin.css">
+{{ super() }}
+{% endblock %}
+
+{% block _title %}
+{{ws_data['InformalName'][:15]}}{% if ws_data['InformalName']|length > 15 %}..{% endif %} - Login
+{% endblock %}
+
+{% block _flex_box %}
+<div class="_main_block">
+    <div class="_main_block_alerts {% if _flag_status %} {{ _flag_status }} {% else %} _hidden  {% endif %} ">
+        {% if _flag_content %} <p>{{ _flag_content }} </p> {% endif %} 
+    </div>
+    <div class="_main_block_content">
+
+        <input class="_input_general color_2_bg color_1_tx" type="text" placeholder="user" id="username">
+        <input class="_input_general color_2_bg color_1_tx" type="password" placeholder="password" id="password">
+
+        <!--div class="_button_big  color_2_bg color_1_tx" id="_login_buttom">
+            <p class="_en _hidden">Log  in</p>
+            <p class="_es _hidden">Inicia Sesion</p>
+        </div-->
+    </div>
+</div>
+{% endblock %}
+
+{% block _flex_menu %}
+{% if _logged: %}
+<div class="_menu_box _box_main _box_main_bot" id="_dashboard">Dashboard</div>
+{% else: %}
+<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_reset_en">Reset Password</div>
+<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_reset_es">Reiniciar Contraseña</div>
+{% endif %}
+{% endblock %}
+
+{% block floating_button_1_style %} color_2_bg color_1_tx color_1_border {% endblock %}
+{% block floating_button_1 %} <p class="_en _hidden"><bold>Login</bold></p><p class="_es _hidden"><bold>Entrar</bold></p> {% endblock %}
+{% block floating_button_2_style %} _hidden {% endblock %}
+{% block floating_button_3_style %} _hidden {% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script> const _context_vars = ["", 0, "{{ws_data['MainHexColor']}}", "{{ ws_data['LowHexColor'] }}", "{{ ws_data['AlterHexColor'] }}", "{{ ws_data['TaxId'] }}"]; </script>
+<script src="{{host_url}}/static/workspace_checkin.js"></script>
+{% endblock %}

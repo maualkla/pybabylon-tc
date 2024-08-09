@@ -1,0 +1,31 @@
+._main_block{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(25, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+}
+    ._main_block_alerts{
+        grid-area: 1 / 1 / 3 / 2 !important;
+    }
+    ._main_block_content{
+        /* grid location */
+        grid-area: 3 / 1 / 26 / 2 !important;
+        /* internal grid */
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(23, 1fr);
+        grid-column-gap: 0px;
+        grid-row-gap: 0px;
+    }   
+        #i_email{
+            grid-area: 3 / 1 / 5 / 2;
+        }
+        #i_word{
+            grid-area: 5 / 1 / 7 / 2;
+        }
+    
+        #_login_buttom{
+            margin: auto;
+            grid-area: 8 / 1 / 11 / 2;
+        }

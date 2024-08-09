@@ -25,7 +25,6 @@ CSS styles for manage_workspace
         display: block;
         max-height: 500px;
     }
-
-#_menu_box_custom{
-    border: none !important;
+._input_general{
+    text-align: center !important;
 }

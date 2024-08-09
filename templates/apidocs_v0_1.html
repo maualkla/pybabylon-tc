@@ -14,7 +14,8 @@ Time Card
 {% block _flex_box %}
 <div class="_main_block">
     <div class="_text_apidocs_block">
-        <h1>Login Service <mark> GET /login</mark> </h1>
+        <h1>Login Service </h1>
+        <p><mark style="background-color: lightgreen;"> GET /login</mark></p>
         <p>Service called via a GET request. Serve as a login service.</p>
         <p><mark>Request params:</mark></p>
         <ul>
@@ -22,13 +23,13 @@ Time Card
             <li> <strong> p </strong>: Base64 password string</li>
         </ul>
         <p><mark>Response payload:</mark></p>
-        <code>
-            {
-                "expire": expire_string,
-                "id": id_string,
-                "username": username_string
-            }
-        </code>
+<code>
+{
+    "expire": expire_string,
+    "id": id_string,
+    "username": username_string
+}
+</code>
         <p><mark>Error responses: </mark></p>
         <ul>
             <li> <strong> 401 </strong>: User or password not valid.</li>
@@ -36,31 +37,32 @@ Time Card
         </ul>
     </div>
     <div class="_text_apidocs_block">
-        <h1>Signup Service <mark> POST /signup</mark> </h1>
+        <h1>Signup Service </h1>
+        <p><mark style="background-color: red;color: white"> POST /signup</mark></p>
         <p>Service called via a POST request. </p>
         <p><mark>Request payload:</mark></p>
-        <code>
-            {
-                "activate": active_bool,
-                "username": username_string,
-                "bday": birthday_string,
-                "email": email_string,
-                "fname": fullname_string,
-                "pass": b64password_string,
-                "phone": phone_string,
-                "pin": pin_string, 
-                "plan": plan_number,
-                "postalCode": postalcode_string,
-                "terms": terms_bool,
-                "type": type_nuber
-            }
-        </code>
+<code>
+{
+    "activate": active_bool,
+    "username": username_string,
+    "bday": birthday_string,
+    "email": email_string,
+    "fname": fullname_string,
+    "pass": b64password_string,
+    "phone": phone_string,
+    "pin": pin_string, 
+    "plan": plan_number,
+    "postalCode": postalcode_string,
+    "terms": terms_bool,
+    "type": type_nuber
+}
+</code>
         <p><mark>Response payload:</mark></p>
-        <code>
-            {
-                "trxId": transaxtion_id
-            }
-        </code>
+<code>
+{
+    "trxId": transaxtion_id
+}
+</code>
         <p><mark>Error responses: </mark></p>
         <ul>
             <li> <strong> 500 </strong>: Error creating user in backend.</li>

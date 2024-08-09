@@ -122,12 +122,12 @@ function _delete_transaction(_trx_id){
             {
                 let _data = xhr.responseText;
                 let _parsed_data = JSON.parse(_data);
-                if (xhr.readyState === 4 && xhr.status === 200) {
+                if (xhr.readyState == 4 && xhr.status == 200) {
                     _remove_custbox(_trx_id);
                     setAlert("_box_green", "Transaction deleted");
                     _display_wheel(false);
                     counter = 0;
-                }else if(xhr.readyState === 4 && xhr.status === 500){
+                }else if(xhr.readyState == 4 && xhr.status == 500){
                     setAlert("_box_red",_parsed_data["reason"]);
                     _display_wheel(false);
                     counter = 0;

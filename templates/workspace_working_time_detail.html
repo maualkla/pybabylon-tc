@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{wsdata['InformalName'][:15]}}{% if wsdata['InformalName']|length > 15 %}..{% endif %} Worktime Details - {{ super() }}
+{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{host_url}}/static/workspace_working_time_detail.css">
+{{ super() }}
+{% endblock %}
+
+{% block _title %}
+{{wsdata['InformalName'][:9]}}{% if wsdata['InformalName']|length > 9 %}..{% endif %} Worktime
+{% endblock %}
+
+{% block _flex_box %}
+<div class="_main_block">
+    <div class="_main_block_alerts {% if _flag_status %} {{ _flag_status }} {% else %} _hidden {% endif %} " id="_xpc_ws_alert">
+        {% if _flag_content%} <p>{{ _flag_content }} </p> {% endif %}
+    </div>
+    <div class="_menu_box_clon color_1_bg color_2_tx" id="_filter_view">
+        <div class="_en _hidden">
+            <bold>Change</bold> Week view
+        </div>
+        <div class="_es _hidden">
+            <bold>Cambiar</bold> Vista Semanal
+        </div>
+    </div>
+    <div class="_bbx_text color_3_border color_3_bg color_1_tx">
+        <bold> {{tlogdata[0]['fullname']}}</bold><br>
+        {{tlogdata[0]['id'].partition('.')[2]}} 
+    </div>
+    {% for log in tlogdata %}
+    {% if log %}
+    <div class="table_container">
+        <table class="flex_content_table color_1_bg color_2_tx color_2_border">
+            <tbody id="replazable_box">
+                {% for time in log['times'] %}
+                <tr style="height: 55px;">
+                    <td style="width: 10%; height: 55px;" onClick="_redirect('/workspace/{{wsdata['TaxId']}}/workingTime/{{tlogdata[0]['id'].partition('.')[2]}}/{{time['logid']}}', 1)"><img src = "{{host_url}}/static/editIcon.svg" height="50px" width="60px" alt="More details"/></td>
+                    <td style="width: 35%; height: 55px;">{{time['startDate']}}-{{time['startTime']}}</td>
+                    <td style="width: 35%; height: 55px;">{{time['endDate']}}-{{time['endTime']}}</td>
+                    <td style="width: 20%; height: 55px;">{{time['hours']}} h {{time['minutes']}} m</td>
+                </tr>
+                {% endfor %}
+                <tr style="height: 55px;">
+                    <td style="width: 10%; height: 55px;"></td>
+                    <td style="width: 35%; height: 55px;"></td>
+                    <td style="width: 35%; height: 55px;">Sumatory</td>
+                    <td style="width: 20%; height: 55px;">{{log['total_hours']}} h {{log['total_minutes']}} m</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="table_container">
+        No data to display. 
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block _flex_menu %}
+<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_back_ws_en">Back to Worktime</div>
+<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_back_ws_es">Regresar a Tiempo Trabajado </div>
+<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_close_sesion_en">Close Session</div>
+<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_close_sesion_es">Cerrar Sesion</div>
+{% endblock %}
+
+{% block floating_button_1_style %} color_2_bg color_1_tx color_2_border {% endblock %}
+{% block floating_button_1 %} <p class="_en _hidden"><bold>Download CSV</bold></p><p class="_es _hidden"><bold>Descargar CSV</bold></p> {% endblock %}
+{% block floating_button_2_style %}  color_1_bg color_2_tx color_2_border{% endblock %}
+{% block floating_button_2 %} <p class="_en _hidden"><bold>Back</bold></p><p class="_es _hidden">Regresar</p> {% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script> const _context_vars = ["{{ userdata['email'] }}", {{ userdata['pin'] }}, "{{wsdata['MainHexColor']}}", "{{ wsdata['LowHexColor'] }}", "{{ wsdata['AlterHexColor'] }}", "{{ wsdata['TaxId'] }}", "{{tlogdata[0]['id'].partition('.')[2]}}", "{{host_url}}"]; </script>
+<script src="{{host_url}}/static/workspace_working_time_detail.js"></script>
+{% endblock %}

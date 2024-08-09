@@ -3,8 +3,8 @@
 ## Pybabylon Project.
 ## Coded by: Mauricio Alcala (@maualkla)
 ## Date: May 2023.
-## Current Version: 0.02
-## Last Modification Date: Aug 2023.
+## Current Version: 0.04
+## Last Modification Date: Aug 2024.
 ## More info at @intmau in twitter or in http://maualkla.com
 ## Description: Web app to serve adminde-tc project.
 */
@@ -28,6 +28,7 @@
     --system-alert-blue: #CAF5F2;
     --system-big-text: 480%;
     --system-medium-text: 70%;
+    --system-small-text: 30%;
     --system-regular-border-width: 4px;
     --system-light-border-width: 1px;
     --system-thick-border-width: 6px;
@@ -57,6 +58,11 @@ a{
 }
 
 @media only screen and (max-width: 1000px), (pointer:none){
+    
+    ._desktop_view{
+        display: none;
+    }
+
     /* GLOBAL */
     ._content{
         position:fixed;
@@ -99,13 +105,14 @@ a{
         ._flex_box{
             /* grid position */
             grid-area: 3 / 1 / 28 / 2;
-            overflow: scroll;
+            overflow: auto;
             
         }
             /* to fix view in mobile */ 
             ._main_block{
-                height: 1998px;
-                overflow: scroll;
+                /*height: 1998px;*/
+                height: 1500px;
+                overflow: scroll !important;
             }
             /* For help site */ 
             #_x_account{
@@ -152,7 +159,7 @@ a{
     }
     
     body{
-        background-image: url("bg_v3.jpg");/**/
+        /* background-image: url("bg_v3.jpg");/**/
         background-color: var(--system-bg-color);
         /*background-position: center; */
         background-size: cover; 
@@ -416,6 +423,16 @@ a{
 .color_3_border{
     border: var(--system-regular-border-width) solid var(--system-altern-color) ;
 }
+.color_red_tx{
+    color: var(--system-alert-red);
+}
+.color_red_bg{
+    background-color: var(--system-alert-red);
+}
+.color_red_border{
+    border: var(--system-regular-border-width) solid var(--system-alert-red) ;
+}
+
 /* BORDERS */
 
 /* buttons */
@@ -481,6 +498,16 @@ a{
         margin-bottom: 10%;
     }
 
+/* table_content */
+.flex_content_table td{
+    border: solid 10px var(--system-bg-color) !important;
+    font-size: 25px;
+    text-align: center;
+}
+.flex_content_table{
+    width: 100%;
+}
+
 /***************************
     Commons
 ****************************/
@@ -533,6 +560,23 @@ a{
 }
     ._input_general::placeholder{
         color: var(--system-bg-color)
+    }
+
+/* select general */
+._select_general{
+    height: 170.2px;
+    width: 100%;
+    border-bottom: solid var(--system-regular-border-width) var(--system-bg-color);
+    font-size: var(--system-big-text);
+    padding-left: 5%;
+    border-radius: 0;
+}
+    optgroup{
+        font-size: var(--system-small-text);
+        --webkit-appearance: none;
+    }
+    ._text_little{
+        font-size: var(--system-small-text);
     }
 
 /* color picker */
@@ -764,6 +808,10 @@ a{
     margin:0;
     margin-right: 10%;
 }
+._general_text{
+    font-size: 500%;
+    margin: 6%;
+}
 
 /* loading wheel */
 ._flex_centered{
@@ -966,3 +1014,124 @@ a{
         }
 
 /* NUMPAD STYLES END -----> */
+
+
+
+/* ##########################
+### TOGGLE SWITCH STYLING ###
+############################# */
+.preferences {
+    padding: 1em;
+    margin-block: 2em;
+    border-radius: 8px;
+    border-color: var(--system-bg-color);
+  
+    & .legend {
+      padding: 0.5em 1em;
+      background-color: var(--system-bg-color);
+      border-radius: 9999px;
+      font-weight: 500;
+    }
+  }
+  
+  .switch-container {
+    padding: 1em;
+    width: min(14em, 100%);
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    row-gap: 1em;
+    border-radius: 8px;
+    cursor: pointer;
+    height: 86.5 px;
+    padding: 0;
+    margin: 0;
+  
+    &:hover,
+    &:has(input:focus),
+    &:has(input:focus-visible) {
+      outline: 2px solid var(--system-text-color);
+    }
+  }
+  
+  .label {
+    margin-right: 1em;
+  }
+  
+  .toggle-container {
+    --_switch-height: 50px;
+    --_switch-width: 80px;
+  
+    position: relative;
+    margin-right: 0.5em;
+    height: var(--_switch-height);
+    width: var(--_switch-width);
+  
+    /* Visually hide checkbox but preserve accessibility. */
+    & input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+  }
+  
+  /* The slider */
+  .slider {
+    --outline-width: 1px;
+  
+    position: absolute;
+    inset: 0;
+  
+    background-color: var(--system-text-color);
+    border-radius: 9999px;
+    outline: 1px solid var(--system-bg-color);
+    cursor: pointer;
+    transition: background-color var(--transition-duration-timing-from);
+  
+    .toggle-container input:checked + & {
+      background-color: var(--system-alert-green);
+      filter: brightness(130%);
+      transition: background-color var(--transition-duration-timing-to);
+    }
+  
+    &::before {
+      --_ratio: 80%;
+      --_offset: 2px;
+  
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: var(--_offset);
+      right: unset;
+      translate: 0 -50%;
+      height: 40px;
+      aspect-ratio: 1 / 1;
+      background-color: var(--system-bg-color);
+      border-radius: 50%;
+      transition: translate var(--transition-duration-timing-from);
+    }
+  
+    .toggle-container input:checked + &::before {
+      left: 0;
+      translate: calc((var(--_switch-width) - 100%) - var(--_offset)) -50%;
+      transition: translate var(--transition-duration-timing-to);
+    }
+  }
+  
+  .switch-status {
+    color: var(--system-bg-color);
+    opacity: 0.85;
+  
+    .toggle-container:has(#switch[checked]) + & {
+      opacity: 1;
+      font-weight: 500;
+    }
+  }
+
+  /* ######## END OF TOGGLE SWITCH STYLING ######## */

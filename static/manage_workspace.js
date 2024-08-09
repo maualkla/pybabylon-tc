@@ -3,7 +3,7 @@
 */
 
 // params
-let _window = 0, counter = 0;
+let _window = 0, counter = 0, authopt = _context_vars[6];
 
 // initialization of the floating buttons
 _display_fbuttons(true);
@@ -30,13 +30,24 @@ if(document.getElementById("_personalization_view_box")) document.getElementById
     _cust_butt_data(1);
     _ws_manage_change_view("_ws_0", "_ws_4"); 
 }); 
+if(document.getElementById("_logging_configuration")) document.getElementById("_logging_configuration").addEventListener('click', function(){ 
+    _window = 6; 
+    _cust_butt_data(1);
+    _ws_manage_change_view("_ws_0", "_ws_6"); 
+}); 
+if(document.getElementById("_worktime_view")) document.getElementById("_worktime_view").addEventListener('click', function(){ 
+    //pending to set a proper redirect
+    _redirect('/workingTime', 3);
+    //setAlert("_box_blue", "Option not available yet.");
+}); 
 
 // fbutton actions
 // fb 1
 if(document.getElementById("_fb_1")) document.getElementById("_fb_1").addEventListener('click', function(){
     switch (_window){
         case 0:
-            setAlert("_box_yellow", "Users cant be added yet, try again later.");
+            _display_wheel();
+            _redirect(window.location.pathname.substring(1)+'/users');
             break;
         case 1: 
             _display_fbuttons(false);
@@ -55,8 +66,12 @@ if(document.getElementById("_fb_1")) document.getElementById("_fb_1").addEventLi
             _ws_switch_pinpad(true);
             break; 
         case 5: 
-            setAlert("_box_yellow", "Something went wrong, try again later");
+            setAlert("_box_blue", "Code: 8437HX");
             break; 
+        case 6: 
+            _display_fbuttons(false);
+            _ws_switch_pinpad(true);
+            break;
     }
 });
 // fb 2
@@ -108,6 +123,16 @@ if(document.getElementById("_fb_3")) document.getElementById("_fb_3").addEventLi
             _ws_manage_change_view("_ws_"+_window, "_ws_0");
             _window = 0;
             break; 
+        case 5: 
+            _cust_butt_data(2);
+            _ws_manage_change_view("_ws_"+_window, "_ws_0");
+            _window = 0;
+            break; 
+        case 6: 
+            _cust_butt_data(2);
+            _ws_manage_change_view("_ws_"+_window, "_ws_0");
+            _window = 0;
+            break; 
     }
 });
 
@@ -132,11 +157,11 @@ const _cust_butt_data = (_case = false) => {
         _common_fbuttons_change_display_text(_values,_disp); 
     }
     if(_case == 2){
-        _values = ["Add Users", "Delete Workspace", "Workspace Live"], _disp = [true, true, true];
+        _values = ["Manage Users", "Delete Workspace", "Workspace Live"], _disp = [true, true, true];
         _common_fbuttons_change_display_text(_values,_disp); 
     }
     if(_case == 3){
-        _values = ["Check In", "Return to Manage", false], _disp = [true, true, false];
+        _values = ["Check In (Beta)", "Return to Manage", false], _disp = [true, true, false];
         _common_fbuttons_change_display_text(_values,_disp); 
     }
 }
@@ -145,13 +170,16 @@ const _cust_butt_data = (_case = false) => {
 
 /// logic to get the fields to be updated.  
 const _update_workspace_get_params = () => {
-    let _fields = [[],['LegalName', 'InformalName', 'ShortCode'],[ 'State', 'City', 'PostalCode', 'AddressLine1', 'AddressLine2', 'AddressLine3', 'AddressLine4'],[ 'Email', 'PhoneCountryCode', 'PhoneNumber'],[ 'MainHexColor', 'AlterHexColor', 'LowHexColor']]
+    let _fields = [[],['LegalName', 'InformalName', 'ShortCode'],[ 'State', 'City', 'PostalCode', 'AddressLine1', 'AddressLine2', 'AddressLine3', 'AddressLine4'],[ 'Email', 'PhoneCountryCode', 'PhoneNumber'],[ 'MainHexColor', 'AlterHexColor', 'LowHexColor'], [], ['Level']]
     let _rullete = _fields[_window];
     let _output = {};
     let _go = false;
     for(let i = 0; i<_rullete.length;i++){
         if(document.getElementById("_i_"+_rullete[i])){
             _output[_rullete[i]] = document.getElementById("_i_"+_rullete[i]).value;
+            _go = true;
+        }else if(_window == 6){
+            _output[_rullete[i]] = authopt;
             _go = true;
         }
     }
@@ -203,6 +231,7 @@ function _update_workspace(){
             }
         };
         var data = JSON.stringify(_payload);
+        console.log(data);
         xhr.send(data);
     }else{
         setAlert("_box_red", "Incorrect Pin");_display_wheel(false);
@@ -236,7 +265,7 @@ if(document.getElementById('_input_MainHexColor_tx')) document.getElementById('_
 if(document.getElementById('_i_MainHexColor')) document.getElementById('_i_MainHexColor').addEventListener('change', function (){ changeColorTextValue(document.getElementById('_i_MainHexColor').value, '_input_MainHexColor_tx', '_cp_1'); });
 // color 2
 if(document.getElementById('_input_LowHexColor_tx')) document.getElementById('_input_LowHexColor_tx').addEventListener('change', function (){ changeColorPickerValue(document.getElementById('_input_LowHexColor_tx').value, '_i_LowHexColor', '_cp_2'); });
-if(document.getElementById('_i_LowHexColor')) document.getElementById('_i_LowHexColor').addEventListener('change', function (){ changeColorTextValue(document.getElementById('_i_LowHexColor').value, '_i_LowHexColor_tx', '_cp_2'); });
+if(document.getElementById('_i_LowHexColor')) document.getElementById('_i_LowHexColor').addEventListener('change', function (){ changeColorTextValue(document.getElementById('_i_LowHexColor').value, '_input_LowHexColor_tx', '_cp_2'); });
 // color 3
 if(document.getElementById('_input_AlterHexColor_tx')) document.getElementById('_input_AlterHexColor_tx').addEventListener('change', function (){ changeColorPickerValue(document.getElementById('_input_AlterHexColor_tx').value, '_i_AlterHexColor', '_cp_3'); });
 if(document.getElementById('_i_AlterHexColor')) document.getElementById('_i_AlterHexColor').addEventListener('change', function (){ changeColorTextValue(document.getElementById('_i_AlterHexColor').value, '_input_AlterHexColor_tx', '_cp_3'); });
@@ -257,3 +286,44 @@ const _cust_reset_input_colors = () =>{
         changeColorTextValue(_context_vars[4], '_input_AlterHexColor_tx', '_cp_3');
     }
 }
+
+//// cust
+// switch auth methods
+
+// triggers: 
+if(document.getElementById('_auth_op1')) document.getElementById('_auth_op1').addEventListener('click', function (){ _cust_switch_auth_methods(1); authopt = "1"; });
+if(document.getElementById('_auth_op2')) document.getElementById('_auth_op2').addEventListener('click', function (){ _cust_switch_auth_methods(2); authopt = "2"; });
+if(document.getElementById('_auth_op3')) document.getElementById('_auth_op3').addEventListener('click', function (){ _cust_switch_auth_methods(3); authopt = "3"; });
+
+// switch function
+const _cust_switch_auth_methods = (selector = false) => {
+    if(selector){
+        let secs = [document.getElementById('_auth_op1'), document.getElementById('_auth_op2'), document.getElementById('_auth_op3')]
+        for(let i = 0; i < 3; i++){
+            if(selector-1 == i){
+                secs[i].classList.remove('color_1_bg');
+                secs[i].classList.remove('color_2_tx');
+                secs[i].classList.add('color_2_bg');
+                secs[i].classList.add('color_1_tx');
+            }else{
+                secs[i].classList.remove('color_2_bg');
+                secs[i].classList.remove('color_1_tx');
+                secs[i].classList.add('color_1_bg');
+                secs[i].classList.add('color_2_tx');
+            }
+        }
+    }
+}
+
+
+/// updatee time
+function updateTime() {
+    // get time format HH:MM:SS
+    let data = new Date();
+    let options = { hour12: false }; // Use 24-hour format
+    let timeString = data.toLocaleTimeString(undefined, options);
+    document.getElementById('live_time').innerHTML = timeString;
+}
+
+/// clock updater
+setInterval(updateTime, 1000);
