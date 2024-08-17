@@ -35,7 +35,21 @@ if(document.getElementById('_fb_1')) document.getElementById('_fb_1').addEventLi
 // back button trigger
 if(document.getElementById('_fb_3')) document.getElementById('_fb_3').addEventListener('click', function (){ _change_obj_color(document.getElementById('_fb_3'), "color_1_bg", "color_2_tx", "color_2_bg", "color_1_tx"); if (_valid) {nextButton(false);}_change_obj_color(document.getElementById('_fb_3'), "color_2_bg", "color_1_tx", "color_1_bg", "color_2_tx"); });
 // create button trigger
-if(document.getElementById('_fb_2')) document.getElementById('_fb_2').addEventListener('click', function (){ _change_obj_color(document.getElementById('_fb_2'), "color_2_bg", "color_1_tx", "color_1_bg", "color_2_tx"); if (_s3_selector) { cleanAlert(); createAccount(); } else { setAlert("_box_red", " Accept terms and conditions. ") } _change_obj_color(document.getElementById('_fb_2'), "color_1_bg", "color_2_tx", "color_2_bg", "color_1_tx"); });
+if(document.getElementById('_fb_2')) document.getElementById('_fb_2').addEventListener('click', function (){ 
+    _change_obj_color(document.getElementById('_fb_2'), "color_2_bg", "color_1_tx", "color_1_bg", "color_2_tx"); 
+    if (_s3_selector) 
+    { 
+        cleanAlert(); 
+        //createAccount(); 
+        // go to get the publishable token
+        let response = cust_fetch_pub_key();
+        cust_checkout_service(response);
+
+    } else { 
+        setAlert("_box_red", " Accept terms and conditions. ") 
+    } 
+    _change_obj_color(document.getElementById('_fb_2'), "color_1_bg", "color_2_tx", "color_2_bg", "color_1_tx"); 
+});
 
 // Stage 2 triggers (selectors)
 if(document.getElementById('_plan_op1')) document.getElementById('_plan_op1').addEventListener('click', function (){ if (_stage == 2) stage2Selector(1); });
@@ -244,4 +258,33 @@ const _signupjs_leaps = (_num) => {
 // clean field 
 const _signupjs_clean_field = (_id) => {
     document.getElementById(_id).value = "";
+}
+
+// new
+// Get Stripe publishable key
+const cust_fetch_pub_key = () => {
+    console.log("inside stripe pub key")
+    fetch("/v1/publicKey")
+    .then((result) => { return result.json(); })
+    .then((data) => {
+    console.log(data.publicKey)
+    // Initialize Stripe.js
+    const stripe = Stripe(data.publicKey);
+    console.log(stripe)
+    fetch("/v1/Checkout")
+        .then((result) => { return result.json(); })
+        .then((data) => {
+        console.log(data);
+        // Redirect to Stripe Checkout
+        return stripe.redirectToCheckout({sessionId: data.sessionId})
+        })
+        .then((res) => {
+        console.log(res);
+        });
+    });
+    return true
+}
+
+const cust_checkout_service = (stripeObj) => {
+    
 }

@@ -18,7 +18,7 @@ from models.plans import plans
 from models.severityLevels import severityLevels
 import os, requests, base64
 from io import StringIO
-import csv
+import csv, stripe
 
 ## Initialize Flask App
 app = Flask(__name__)
@@ -28,6 +28,15 @@ app.config.from_object(Config)
 
 ## globals
 _alx_url = str(app.config['CONF_URL']) + ":" + str(app.config['CONF_PORT'])
+
+## stripe keys
+stripe_keys = {
+    "secret_key": app.config["CONF_STRIPE_SEC_KEY"],
+    "publishable_key": app.config["CONF_STRIPE_PUB_KEY"]
+}
+
+## setup stripe api key
+stripe.api_key = stripe_keys["secret_key"]
 
 ################################################################################################################
 ## apidocs menu
@@ -1039,6 +1048,46 @@ def validation():
             return jsonify({"validated": False}), 401
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
+
+## stripe public key
+@app.route("/v1/publicKey", methods=['GET'])
+def get_publishable_key():
+    try: 
+        stripe_config = {"publicKey": stripe_keys["publishable_key"]}
+        return jsonify(stripe_config), 200 
+    except Exception as e:
+        return jsonify({"status": "An error Occurred", "error": str(e)}), 500
+
+## Checkuot API
+
+@app.route("/v1/Checkout")
+def create_checkout_session():
+    domain_url = "http://127.0.0.1:3001/"
+    stripe.api_key = stripe_keys["secret_key"]
+
+    try:
+        # Create new Checkout Session for the order
+        checkout_session = stripe.checkout.Session.create(
+            success_url=domain_url + "success?session_id={CHECKOUT_SESSION_ID}",
+            cancel_url=domain_url + "cancelled",
+            payment_method_types=["card"],
+            mode="payment",
+            line_items=[
+                {
+                    "price_data": {
+                        "currency": "usd",
+                        "product_data": {
+                            "name": "T-shirt",
+                        },
+                        "unit_amount": 2000,  # Amount in cents
+                    },
+                    "quantity": 1,
+                }
+            ]
+        )
+        return jsonify({"sessionId": checkout_session["id"]})
+    except Exception as e:
+        return jsonify(error=str(e)), 403
 
 ################################################################################################################
 
