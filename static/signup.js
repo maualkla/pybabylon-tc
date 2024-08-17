@@ -271,7 +271,7 @@ const cust_fetch_pub_key = () => {
     // Initialize Stripe.js
     const stripe = Stripe(data.publicKey);
     console.log(stripe)
-    fetch("/v1/Checkout")
+    fetch("/v1/checkout")
         .then((result) => { return result.json(); })
         .then((data) => {
         console.log(data);

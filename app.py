@@ -1049,6 +1049,8 @@ def validation():
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
 
+################################################################################################################
+## Stripe payments flow
 ## stripe public key
 @app.route("/v1/publicKey", methods=['GET'])
 def get_publishable_key():
@@ -1059,17 +1061,16 @@ def get_publishable_key():
         return jsonify({"status": "An error Occurred", "error": str(e)}), 500
 
 ## Checkuot API
-
-@app.route("/v1/Checkout")
+@app.route("/v1/checkout")
 def create_checkout_session():
-    domain_url = "http://127.0.0.1:3001/"
+    domain_url = request.host_url
     stripe.api_key = stripe_keys["secret_key"]
 
     try:
         # Create new Checkout Session for the order
         checkout_session = stripe.checkout.Session.create(
-            success_url=domain_url + "success?session_id={CHECKOUT_SESSION_ID}",
-            cancel_url=domain_url + "cancelled",
+            success_url=domain_url + "v1/success?session_id={CHECKOUT_SESSION_ID}",
+            cancel_url=domain_url + "v1/cancelled",
             payment_method_types=["card"],
             mode="payment",
             line_items=[
@@ -1077,9 +1078,9 @@ def create_checkout_session():
                     "price_data": {
                         "currency": "usd",
                         "product_data": {
-                            "name": "T-shirt",
+                            "name": "Adminde Time Card - Standard Plan",
                         },
-                        "unit_amount": 2000,  # Amount in cents
+                        "unit_amount": 500,  # Amount in cents
                     },
                     "quantity": 1,
                 }
@@ -1088,6 +1089,18 @@ def create_checkout_session():
         return jsonify({"sessionId": checkout_session["id"]})
     except Exception as e:
         return jsonify(error=str(e)), 403
+
+## Success flow
+@app.route("/v1/success")
+def success():
+    print("entro success")
+    return render_template("payments_success.html")
+
+## Cancelled flow
+@app.route("/v1/cancelled")
+def cancelled():
+    print("entro cancelled")
+    return render_template("payments_cancelled.html")
 
 ################################################################################################################
 
