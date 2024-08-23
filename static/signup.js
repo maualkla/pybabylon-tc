@@ -1,7 +1,7 @@
 let errors = 0;
 
 // Vars to be used
-let _stage = 0, _valid = false, _s2_selector = 0, _s3_selector = false, counter = 0;
+let _stage = 0, _valid = false, _s2_selector = 0, _s3_selector = false, counter = 0, go = false;
 
 /* floating buttons activation */
 if(document.getElementsByClassName("_floating_buttons")[0])document.getElementsByClassName("_floating_buttons")[0].classList.remove("_hidden");
@@ -40,11 +40,8 @@ if(document.getElementById('_fb_2')) document.getElementById('_fb_2').addEventLi
     if (_s3_selector) 
     { 
         cleanAlert(); 
-        //createAccount(); 
-        // go to get the publishable token
-        let response = cust_fetch_pub_key();
-        cust_checkout_service(response);
-
+        //createAccount();
+        cust_fetch_pub_key();
     } else { 
         setAlert("_box_red", " Accept terms and conditions. ") 
     } 
@@ -120,7 +117,7 @@ function createAccount(){
             _json_obj[_selector_ids[i].substring(2)] = _params[_selector_ids[i]];
         }
         _json_obj['pass'] = window.btoa(unescape(encodeURIComponent(_params['i_pass'])))
-        _json_obj['plan'] = _s2_selector; _json_obj['terms'] = true; _json_obj['type'] = 2;_json_obj["activate"] = true;_json_obj["pin"] = 0;_json_obj["tenant"] = "";_json_pay["item"] = _json_obj;
+        _json_obj['str_sess_id'] = false;_json_obj['plan'] = _s2_selector; _json_obj['terms'] = true; _json_obj['type'] = 2;_json_obj["activate"] = true;_json_obj["pin"] = 0;_json_obj["tenant"] = "";_json_pay["item"] = _json_obj;
         let xhr = new XMLHttpRequest();
         let url = "/v1/admdata?service=user";
         xhr.open("POST", url);
@@ -128,13 +125,14 @@ function createAccount(){
         xhr.onreadystatechange = function () {
             try
             {
+                //"cs_test_a13mVCHpT3y1jeMFMKRtickMEKopNRPMwZNtMAgMVEO7ERwUAPMlOANXXJ"
+                //"cs_test_a1xgmWtzWmDxt3l42lUx1wjv8qL9C0o3R3s6ImfBbVtcnCf94nUfde90Kc"
                 if (xhr.readyState === 4 && xhr.status === 202) {
                     let _data = xhr.responseText;
                     let _parsed_data = JSON.parse(_data);
                     if (_parsed_data["code"] == 202){
-                        document.cookie = '_flag_content=User succesfully created! Login to start.';
-                        document.cookie = '_flag_status=_box_green';
-                        _redirect("login");
+                        setAlert('_box_green', 'Redirecting to Stripe');
+                        //_redirect("login");
                     }else{
                         signupjs_customAlert(_parsed_data["reason"]);
                         _display_wheel(false);
@@ -158,6 +156,7 @@ function createAccount(){
                     _change_obj_color(document.getElementById('_login_buttom'), "color_1_bg", "color_2_tx", "color_2_bg", "color_1_tx"); 
                     setAlert("_box_red", "Error login user.");
                     _display_wheel(false);
+                    return false
                 }else{
                     counter++;
                 }
@@ -271,20 +270,16 @@ const cust_fetch_pub_key = () => {
         // Initialize Stripe.js
         const stripe = Stripe(data.publicKey);
         console.log(stripe)
-        fetch("/v1/checkout?subscription="+_s2_selector)
+        fetch("/v1/checkout?subscription="+(_s2_selector-1))
             .then((result) => { return result.json(); })
             .then((data) => {
-            console.log(data);
-            // Redirect to Stripe Checkout
-            return stripe.redirectToCheckout({sessionId: data.sessionId})
+                // Redirect to Stripe Checkout
+                createAccount(stripe);
+                return stripe.redirectToCheckout({sessionId: data.sessionId});
             })
             .then((res) => {
             console.log(res);
             });
     });
     return true
-}
-
-const cust_checkout_service = (stripeObj) => {
-    
 }

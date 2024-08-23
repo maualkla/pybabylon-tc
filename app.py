@@ -296,30 +296,29 @@ def dashboard():
                     _filter = ":"+_user_id+";limit:1"
                     _wsdata = Handlers.get_data(_alx_url, request, "workspace", False, "owner"+_filter)
                     if _wsdata['containsData']:
+                        _ws = _wsdata['items'][0] if _wsdata['containsData'] else False
+                    else: 
+                        _ws = False
                         ## get last login from the user.
-                        _trxdata = Handlers.get_data(_alx_url, request, "transaction", False, "userId"+_filter)
-                        if _trxdata['containsData']:
-                            ## define context
-                            _user = _userdata['items'][0]
-                            _ws = _wsdata['items'][0] if _wsdata['containsData'] else False
-                            _llog = _trxdata['items'][0] if _trxdata['containsData'] else False
-                            context = {
-                                "user_id": _user_id,
-                                "user_name": _user['username'],
-                                "user_type": _user['type'],
-                                "user_fname": _user['fname'],
-                                "user_pin": _user['pin'] if _user['pin'] > 0 else False,
-                                "ws_informal_name": _ws['InformalName'] if _ws else False,
-                                "ws_tax_id": _ws['TaxId'] if _ws else False,
-                                "trx_last_login_date": _llog['dateTime'] if _llog else False,
-                                "_flag_status": "",
-                                "_flag_content": "",
-                                "host_url": request.host_url
-                            }
-                            return render_template('dashboard.html', **context)
-                        else:
-                            ## return to login 
-                            return _log
+                    _trxdata = Handlers.get_data(_alx_url, request, "transaction", False, "userId"+_filter)
+                    if _trxdata['containsData']:
+                        ## define context
+                        _user = _userdata['items'][0]
+                        _llog = _trxdata['items'][0] if _trxdata['containsData'] else False
+                        context = {
+                            "user_id": _user_id,
+                            "user_name": _user['username'],
+                            "user_type": _user['type'],
+                            "user_fname": _user['fname'],
+                            "user_pin": _user['pin'] if _user['pin'] > 0 else False,
+                            "ws_informal_name": _ws['InformalName'] if _ws else False,
+                            "ws_tax_id": _ws['TaxId'] if _ws else False,
+                            "trx_last_login_date": _llog['dateTime'] if _llog else False,
+                            "_flag_status": "",
+                            "_flag_content": "",
+                            "host_url": request.host_url
+                        }
+                        return render_template('dashboard.html', **context)
                     else:
                         ## return to login 
                         return _log
@@ -1080,7 +1079,7 @@ def create_checkout_session():
                 payment_method_types=["card"],
                 mode="subscription",
                 line_items=[{
-                    'price': stripe_prices[request.args.get('subscription')], 
+                    'price': stripe_prices[int(request.args.get('subscription'))], 
                     'quantity': 1,
                 }]
             )
@@ -1102,7 +1101,6 @@ def cancelled():
     print("entro cancelled")
     return render_template("payments_cancelled.html")
 
-## 
 # app.py
 @app.route("/webhook", methods=["POST"])
 def stripe_webhook():
