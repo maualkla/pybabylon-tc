@@ -40,8 +40,8 @@ if(document.getElementById('_fb_2')) document.getElementById('_fb_2').addEventLi
     if (_s3_selector) 
     { 
         cleanAlert(); 
-        //createAccount();
-        cust_fetch_pub_key();
+        createAccount();
+        //cust_fetch_pub_key();
     } else { 
         setAlert("_box_red", " Accept terms and conditions. ") 
     } 
@@ -274,7 +274,6 @@ const cust_fetch_pub_key = () => {
             .then((result) => { return result.json(); })
             .then((data) => {
                 // Redirect to Stripe Checkout
-                createAccount(stripe);
                 return stripe.redirectToCheckout({sessionId: data.sessionId});
             })
             .then((res) => {
