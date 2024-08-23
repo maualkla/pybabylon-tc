@@ -32,8 +32,11 @@ _alx_url = str(app.config['CONF_URL']) + ":" + str(app.config['CONF_PORT'])
 ## stripe keys
 stripe_keys = {
     "secret_key": app.config["CONF_STRIPE_SEC_KEY"],
-    "publishable_key": app.config["CONF_STRIPE_PUB_KEY"]
+    "publishable_key": app.config["CONF_STRIPE_PUB_KEY"],
+    "endpoint_secret": app.config["CONF_STRIPE_ENDPOINT_SECRET"], # new
 }
+## product prices
+stripe_prices = [ app.config["CONF_STRIPE_SUBS_0"], app.config["CONF_STRIPE_SUBS_1"], app.config["CONF_STRIPE_SUBS_2"]]
 
 ## setup stripe api key
 stripe.api_key = stripe_keys["secret_key"]
@@ -1063,44 +1066,67 @@ def get_publishable_key():
 ## Checkuot API
 @app.route("/v1/checkout")
 def create_checkout_session():
+    ## CONF_STRIPE_SUBS_1
     domain_url = request.host_url
     stripe.api_key = stripe_keys["secret_key"]
-
+    print(" Welcome to checkout, the subscription is: ")
     try:
-        # Create new Checkout Session for the order
-        checkout_session = stripe.checkout.Session.create(
-            success_url=domain_url + "v1/success?session_id={CHECKOUT_SESSION_ID}",
-            cancel_url=domain_url + "v1/cancelled",
-            payment_method_types=["card"],
-            mode="payment",
-            line_items=[
-                {
-                    "price_data": {
-                        "currency": "usd",
-                        "product_data": {
-                            "name": "Adminde Time Card - Standard Plan",
-                        },
-                        "unit_amount": 500,  # Amount in cents
-                    },
-                    "quantity": 1,
-                }
-            ]
-        )
-        return jsonify({"sessionId": checkout_session["id"]})
+        if 'subscription' in request.args:
+            # Create new Checkout Session for the order
+            checkout_session = stripe.checkout.Session.create(
+                ##client_reference_id=current_user.id if current_user.is_authenticated else None,
+                success_url=domain_url + "success?session_id={CHECKOUT_SESSION_ID}",
+                cancel_url=domain_url + "cancelled",
+                payment_method_types=["card"],
+                mode="subscription",
+                line_items=[{
+                    'price': stripe_prices[request.args.get('subscription')], 
+                    'quantity': 1,
+                }]
+            )
+            return jsonify({"sessionId": checkout_session["id"]})
     except Exception as e:
+        print("(!) Errorr in /v1/checkout")
+        print(e)
         return jsonify(error=str(e)), 403
 
 ## Success flow
-@app.route("/v1/success")
+@app.route("/success")
 def success():
     print("entro success")
     return render_template("payments_success.html")
 
 ## Cancelled flow
-@app.route("/v1/cancelled")
+@app.route("/cancelled")
 def cancelled():
     print("entro cancelled")
     return render_template("payments_cancelled.html")
+
+## 
+# app.py
+@app.route("/webhook", methods=["POST"])
+def stripe_webhook():
+    payload = request.get_data(as_text=True)
+    sig_header = request.headers.get("Stripe-Signature")
+
+    try:
+        event = stripe.Webhook.construct_event(
+            payload, sig_header, stripe_keys["endpoint_secret"]
+        )
+
+    except ValueError as e:
+        # Invalid payload
+        return "Invalid payload", 400
+    except stripe.error.SignatureVerificationError as e:
+        # Invalid signature
+        return "Invalid signature", 400
+
+    # Handle the checkout.session.completed event
+    if event["type"] == "checkout.session.completed":
+        print("Payment was successful.")
+        # TODO: run some custom code here
+
+    return "Success", 200
 
 ################################################################################################################
 

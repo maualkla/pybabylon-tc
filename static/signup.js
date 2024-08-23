@@ -267,20 +267,20 @@ const cust_fetch_pub_key = () => {
     fetch("/v1/publicKey")
     .then((result) => { return result.json(); })
     .then((data) => {
-    console.log(data.publicKey)
-    // Initialize Stripe.js
-    const stripe = Stripe(data.publicKey);
-    console.log(stripe)
-    fetch("/v1/checkout")
-        .then((result) => { return result.json(); })
-        .then((data) => {
-        console.log(data);
-        // Redirect to Stripe Checkout
-        return stripe.redirectToCheckout({sessionId: data.sessionId})
-        })
-        .then((res) => {
-        console.log(res);
-        });
+        console.log(data.publicKey)
+        // Initialize Stripe.js
+        const stripe = Stripe(data.publicKey);
+        console.log(stripe)
+        fetch("/v1/checkout?subscription="+_s2_selector)
+            .then((result) => { return result.json(); })
+            .then((data) => {
+            console.log(data);
+            // Redirect to Stripe Checkout
+            return stripe.redirectToCheckout({sessionId: data.sessionId})
+            })
+            .then((res) => {
+            console.log(res);
+            });
     });
     return true
 }
