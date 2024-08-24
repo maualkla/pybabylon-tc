@@ -1,7 +1,7 @@
 let errors = 0;
 
 // Vars to be used
-let _stage = 0, _valid = false, _s2_selector = 0, _s3_selector = false, counter = 0, go = false;
+let _stage = 0, _valid = false, _s2_selector = 0, _s3_selector = false, counter = 0, go = false, semail = "", stoken = "";
 
 /* floating buttons activation */
 if(document.getElementsByClassName("_floating_buttons")[0])document.getElementsByClassName("_floating_buttons")[0].classList.remove("_hidden");
@@ -29,6 +29,8 @@ if(document.getElementById('_fb_1')) document.getElementById('_fb_1').addEventLi
         nextButton(true); cleanAlert(); 
     }else if (_stage === 2) { 
         setAlert("_box_red", "Select a plan to continue.")
+    }else if (_stage === 4) { 
+        cust_fetch_pub_key();
     }
     _change_obj_color(document.getElementById('_fb_1'), "color_1_bg", "color_2_tx", "color_2_bg", "color_1_tx");
 });
@@ -61,7 +63,7 @@ function stage_0_inputs_check(){_butt = document.getElementById('_fb_1');if(docu
 
 // _nextButton gets a _direction param to set fordward or backwards as direction. 
 function nextButton(_direction){
-    _stages = ["_stage_0", "_stage_1", "_stage_2", "_stage_3"];
+    _stages = ["_stage_0", "_stage_1", "_stage_2", "_stage_3", "_stage_4"];
     if(_direction && _stage > -1){
         document.getElementById(_stages[_stage]).classList.add("_hidden");
         document.getElementById(_stages[_stage + 1]).classList.remove("_hidden");
@@ -133,6 +135,10 @@ function createAccount(){
                     if (_parsed_data["code"] == 202){
                         setAlert('_box_green', 'Redirecting to Stripe');
                         //_redirect("login");
+                        _display_wheel(false);
+                        _common_fbuttons_change_display_text(['Redirect to Stripe', '', ''], [true, false, false]);
+                        nextButton(true);
+                        semail = _params['i_email'];
                     }else{
                         signupjs_customAlert(_parsed_data["reason"]);
                         _display_wheel(false);
@@ -273,11 +279,47 @@ const cust_fetch_pub_key = () => {
         fetch("/v1/checkout?subscription="+(_s2_selector-1))
             .then((result) => { return result.json(); })
             .then((data) => {
+                // update sessionid
+                counter = 0;
+                let xhr = new XMLHttpRequest();
+                let url = "/v1/admdata?service=user";
+                xhr.open("PUT", url);
+                xhr.setRequestHeader("Content-Type", "application/json");
+                xhr.onreadystatechange = function () {
+                    try
+                    {
+                        if (xhr.readyState === 4 && xhr.status === 202) {
+                            console.log("Token Updated")
+                            window.alert("Token Updated")
+                        }
+                    }
+                    catch(e)
+                    {
+                        if(counter === 1){
+                            if(_logging){
+                                console.log("-------------------")
+                                console.log(e)
+                                console.log("-------------------")
+                            }
+                            _errors++;
+                            _change_obj_color(document.getElementById('_login_buttom'), "color_1_bg", "color_2_tx", "color_2_bg", "color_1_tx"); 
+                            setAlert("_box_red", "Error login user.");
+                            _display_wheel(false);
+                            return false
+                        }else{
+                            counter++;
+                        }
+                    }
+                }
+                _json_pay = {"item":{"str_sess_id": data.sessionId, "email": semail}}
+                console.log(_json_pay)
+                var xdata = JSON.stringify(_json_pay);
+                xhr.send(xdata);
                 // Redirect to Stripe Checkout
                 return stripe.redirectToCheckout({sessionId: data.sessionId});
             })
             .then((res) => {
-            console.log(res);
+                console.log(res);
             });
     });
     return true

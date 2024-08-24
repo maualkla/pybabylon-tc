@@ -1068,7 +1068,6 @@ def create_checkout_session():
     ## CONF_STRIPE_SUBS_1
     domain_url = request.host_url
     stripe.api_key = stripe_keys["secret_key"]
-    print(" Welcome to checkout, the subscription is: ")
     try:
         if 'subscription' in request.args:
             # Create new Checkout Session for the order
@@ -1303,6 +1302,7 @@ def data_ops():
         elif request.method == 'PUT':
             ## validate service
             if request.args.get('service') and request.json['item']:
+                print(request.json['item'])
                 ## call handlers service
                 _response = Handlers.put_data(_alx_url, request, request.args.get('service'), request.json['item'])
                 if _response: 

@@ -5,7 +5,7 @@ from utilities.helpers import Helpers
 class Handlers():
 
     _models = {
-        "user":['activate', 'username', 'bday', 'pass', 'fname', 'phone', 'pin', 'plan', 'postalCode', 'terms', 'type', 'tenant'],
+        "user":['str_sess_id','activate', 'username', 'bday', 'pass', 'fname', 'phone', 'pin', 'plan', 'postalCode', 'terms', 'type', 'tenant'],
         "workspace":['Owner', 'TaxId', 'LegalName', 'InformalName', 'ShortCode', 'CountryCode', 'State', 'City', 'AddressLine1', 'AddressLine2', 'AddressLine3', 'AddressLine4', 'PhoneCountryCode', 'PhoneNumber', 'Email', 'MainHexColor', 'AlterHexColor', 'LowHexColor', 'Level', 'CreationDate', 'PostalCode'],
         "session": ['requestString', 'client'],
         "tenantUser": ['Active', 'Username', 'Id', 'Password', 'FullName', 'Email', 'Manager', 'Tenant', 'Type', 'CreatedBy'],
@@ -233,6 +233,22 @@ class Handlers():
                     return _response.json()
                 else:
                     return {}
+            elif _service == 'user':
+                _req = ['str_sess_id', 'email']
+                ## go and iterate to find all of them, if not _go will be false
+                _go = False
+                ## For Loop going for all the required fields.
+                for req_value in _req:
+                    ## if it is not in the parameters, set flag to false.
+                    if req_value in _item:
+                        _go = True
+                ## set the url of the service
+                _url = Helpers.generateURL(_service_url, _service)
+                _url = _url+'?type=open'
+                ## generate the get call
+                _response = requests.put(_url, json=_item)
+                ## returns the json as respons
+                return _response.json()
             else:
                 return {}
         except Exception as e:
