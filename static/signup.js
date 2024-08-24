@@ -127,18 +127,16 @@ function createAccount(){
         xhr.onreadystatechange = function () {
             try
             {
-                //"cs_test_a13mVCHpT3y1jeMFMKRtickMEKopNRPMwZNtMAgMVEO7ERwUAPMlOANXXJ"
-                //"cs_test_a1xgmWtzWmDxt3l42lUx1wjv8qL9C0o3R3s6ImfBbVtcnCf94nUfde90Kc"
                 if (xhr.readyState === 4 && xhr.status === 202) {
                     let _data = xhr.responseText;
                     let _parsed_data = JSON.parse(_data);
                     if (_parsed_data["code"] == 202){
                         setAlert('_box_green', 'Redirecting to Stripe');
-                        //_redirect("login");
                         _display_wheel(false);
                         _common_fbuttons_change_display_text(['Redirect to Stripe', '', ''], [true, false, false]);
                         nextButton(true);
                         semail = _params['i_email'];
+                        document.cookie = "us="+semail;
                     }else{
                         signupjs_customAlert(_parsed_data["reason"]);
                         _display_wheel(false);

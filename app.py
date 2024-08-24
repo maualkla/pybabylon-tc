@@ -1091,8 +1091,18 @@ def create_checkout_session():
 ## Success flow
 @app.route("/success")
 def success():
-    print("entro success")
-    return render_template("payments_success.html")
+    try:
+        if 'session_id' in request.args:
+            response = Handlers.put_data(_alx_url, request, "user", {"str_sess_id": request.args.get('session_id'), "activate": True})
+            print(response)
+            print("entro success")
+            return render_template("payments_success.html")
+        else: 
+            return make_response(redirect('/'))
+    except Exception as e:
+        print("(!) Errorr in /v1/checkout")
+        print(e)
+        return jsonify(error=str(e)), 403
 
 ## Cancelled flow
 @app.route("/cancelled")
@@ -1105,19 +1115,16 @@ def cancelled():
 def stripe_webhook():
     payload = request.get_data(as_text=True)
     sig_header = request.headers.get("Stripe-Signature")
-
     try:
         event = stripe.Webhook.construct_event(
             payload, sig_header, stripe_keys["endpoint_secret"]
         )
-
     except ValueError as e:
         # Invalid payload
         return "Invalid payload", 400
     except stripe.error.SignatureVerificationError as e:
         # Invalid signature
         return "Invalid signature", 400
-
     # Handle the checkout.session.completed event
     if event["type"] == "checkout.session.completed":
         print("Payment was successful.")
