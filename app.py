@@ -18,7 +18,7 @@ from models.plans import plans
 from models.severityLevels import severityLevels
 import os, requests, base64
 from io import StringIO
-import csv
+import csv, stripe
 
 ## Initialize Flask App
 app = Flask(__name__)
@@ -28,6 +28,18 @@ app.config.from_object(Config)
 
 ## globals
 _alx_url = str(app.config['CONF_URL']) + ":" + str(app.config['CONF_PORT'])
+
+## stripe keys
+stripe_keys = {
+    "secret_key": app.config["CONF_STRIPE_SEC_KEY"],
+    "publishable_key": app.config["CONF_STRIPE_PUB_KEY"],
+    "endpoint_secret": app.config["CONF_STRIPE_ENDPOINT_SECRET"], # new
+}
+## product prices
+stripe_prices = [ app.config["CONF_STRIPE_SUBS_0"], app.config["CONF_STRIPE_SUBS_1"], app.config["CONF_STRIPE_SUBS_2"]]
+
+## setup stripe api key
+stripe.api_key = stripe_keys["secret_key"]
 
 ################################################################################################################
 ## apidocs menu
@@ -284,30 +296,29 @@ def dashboard():
                     _filter = ":"+_user_id+";limit:1"
                     _wsdata = Handlers.get_data(_alx_url, request, "workspace", False, "owner"+_filter)
                     if _wsdata['containsData']:
+                        _ws = _wsdata['items'][0] if _wsdata['containsData'] else False
+                    else: 
+                        _ws = False
                         ## get last login from the user.
-                        _trxdata = Handlers.get_data(_alx_url, request, "transaction", False, "userId"+_filter)
-                        if _trxdata['containsData']:
-                            ## define context
-                            _user = _userdata['items'][0]
-                            _ws = _wsdata['items'][0] if _wsdata['containsData'] else False
-                            _llog = _trxdata['items'][0] if _trxdata['containsData'] else False
-                            context = {
-                                "user_id": _user_id,
-                                "user_name": _user['username'],
-                                "user_type": _user['type'],
-                                "user_fname": _user['fname'],
-                                "user_pin": _user['pin'] if _user['pin'] > 0 else False,
-                                "ws_informal_name": _ws['InformalName'] if _ws else False,
-                                "ws_tax_id": _ws['TaxId'] if _ws else False,
-                                "trx_last_login_date": _llog['dateTime'] if _llog else False,
-                                "_flag_status": "",
-                                "_flag_content": "",
-                                "host_url": request.host_url
-                            }
-                            return render_template('dashboard.html', **context)
-                        else:
-                            ## return to login 
-                            return _log
+                    _trxdata = Handlers.get_data(_alx_url, request, "transaction", False, "userId"+_filter)
+                    if _trxdata['containsData']:
+                        ## define context
+                        _user = _userdata['items'][0]
+                        _llog = _trxdata['items'][0] if _trxdata['containsData'] else False
+                        context = {
+                            "user_id": _user_id,
+                            "user_name": _user['username'],
+                            "user_type": _user['type'],
+                            "user_fname": _user['fname'],
+                            "user_pin": _user['pin'] if _user['pin'] > 0 else False,
+                            "ws_informal_name": _ws['InformalName'] if _ws else False,
+                            "ws_tax_id": _ws['TaxId'] if _ws else False,
+                            "trx_last_login_date": _llog['dateTime'] if _llog else False,
+                            "_flag_status": "",
+                            "_flag_content": "",
+                            "host_url": request.host_url
+                        }
+                        return render_template('dashboard.html', **context)
                     else:
                         ## return to login 
                         return _log
@@ -1041,6 +1052,92 @@ def validation():
         return {"status": "An error Occurred", "error": str(e)}
 
 ################################################################################################################
+## Stripe payments flow
+## stripe public key
+@app.route("/v1/publicKey", methods=['GET'])
+def get_publishable_key():
+    try: 
+        stripe_config = {"publicKey": stripe_keys["publishable_key"]}
+        return jsonify(stripe_config), 200 
+    except Exception as e:
+        return jsonify({"status": "An error Occurred", "error": str(e)}), 500
+
+## Checkuot API
+@app.route("/v1/checkout")
+def create_checkout_session():
+    ## CONF_STRIPE_SUBS_1
+    domain_url = request.host_url
+    stripe.api_key = stripe_keys["secret_key"]
+    try:
+        if 'subscription' in request.args:
+            # Create new Checkout Session for the order
+            checkout_session = stripe.checkout.Session.create(
+                ##client_reference_id=current_user.id if current_user.is_authenticated else None,
+                success_url=domain_url + "success?session_id={CHECKOUT_SESSION_ID}",
+                cancel_url=domain_url + "cancelled",
+                payment_method_types=["card"],
+                mode="subscription",
+                line_items=[{
+                    'price': stripe_prices[int(request.args.get('subscription'))], 
+                    'quantity': 1,
+                }]
+            )
+            return jsonify({"sessionId": checkout_session["id"]})
+    except Exception as e:
+        print("(!) Errorr in /v1/checkout")
+        print(e)
+        return jsonify(error=str(e)), 403
+
+## Success flow
+@app.route("/success")
+def success():
+    try:
+        if 'session_id' in request.args:
+            response = Handlers.put_data(_alx_url, request, "user", {"str_sess_id": request.args.get('session_id'), "activate": True})
+            if response: 
+                return render_template("payments_success.html")
+            else: 
+                return 'Error, try again later.'
+        else: 
+            return make_response(redirect('/'))
+    except Exception as e:
+        print("(!) Errorr in /v1/checkout")
+        print(e)
+        return jsonify(error=str(e)), 500
+
+## Cancelled flow
+@app.route("/cancelled")
+def cancelled():
+    try:
+        return render_template("payments_cancelled.html")
+    except Exception as e:
+        print("(!) Errorr in /v1/checkout")
+        print(e)
+        return jsonify(error=str(e)), 500
+
+# app.py
+@app.route("/webhook", methods=["POST"])
+def stripe_webhook():
+    payload = request.get_data(as_text=True)
+    sig_header = request.headers.get("Stripe-Signature")
+    try:
+        event = stripe.Webhook.construct_event(
+            payload, sig_header, stripe_keys["endpoint_secret"]
+        )
+    except ValueError as e:
+        # Invalid payload
+        return "Invalid payload", 400
+    except stripe.error.SignatureVerificationError as e:
+        # Invalid signature
+        return "Invalid signature", 400
+    # Handle the checkout.session.completed event
+    if event["type"] == "checkout.session.completed":
+        print("Payment was successful.")
+        # TODO: run some custom code here
+
+    return "Success", 200
+
+################################################################################################################
 
 ## Transactions service
 @app.route('/transactions')
@@ -1217,6 +1314,7 @@ def data_ops():
         elif request.method == 'PUT':
             ## validate service
             if request.args.get('service') and request.json['item']:
+                print(request.json['item'])
                 ## call handlers service
                 _response = Handlers.put_data(_alx_url, request, request.args.get('service'), request.json['item'])
                 if _response: 

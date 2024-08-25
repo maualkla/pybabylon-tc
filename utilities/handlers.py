@@ -5,7 +5,7 @@ from utilities.helpers import Helpers
 class Handlers():
 
     _models = {
-        "user":['activate', 'username', 'bday', 'pass', 'fname', 'phone', 'pin', 'plan', 'postalCode', 'terms', 'type', 'tenant'],
+        "user":['str_sess_id','activate', 'username', 'bday', 'pass', 'fname', 'phone', 'pin', 'plan', 'postalCode', 'terms', 'type', 'tenant'],
         "workspace":['Owner', 'TaxId', 'LegalName', 'InformalName', 'ShortCode', 'CountryCode', 'State', 'City', 'AddressLine1', 'AddressLine2', 'AddressLine3', 'AddressLine4', 'PhoneCountryCode', 'PhoneNumber', 'Email', 'MainHexColor', 'AlterHexColor', 'LowHexColor', 'Level', 'CreationDate', 'PostalCode'],
         "session": ['requestString', 'client'],
         "tenantUser": ['Active', 'Username', 'Id', 'Password', 'FullName', 'Email', 'Manager', 'Tenant', 'Type', 'CreatedBy'],
@@ -232,6 +232,32 @@ class Handlers():
                     ## returns the json as respons
                     return _response.json()
                 else:
+                    return {}
+            elif _service == 'user':
+                _req = ['str_sess_id', 'email']
+                ## go and iterate to find all of them, if not _go will be false
+                _go = True
+                _nitem = {}
+                ## For Loop going for all the required fields.
+                if 'str_sess_id' in _item:
+                    if 'email' not in _item:
+                        us = True if _request.cookies.get('us') else False
+                        if us:
+                            _nitem = {"email": _request.cookies.get('us'), "str_sess_id": _item['str_sess_id'], 'activate': True}
+                            _item = _nitem
+                        else:
+                            _go = False
+                else:
+                    _go = False
+                if _go:
+                    ## set the url of the service
+                    _url = Helpers.generateURL(_service_url, _service)
+                    _url = _url+'?type=open'
+                    ## generate the get call
+                    _response = requests.put(_url, json=_item)
+                    ## returns the json as respons
+                    return _response.json()
+                else: 
                     return {}
             else:
                 return {}
