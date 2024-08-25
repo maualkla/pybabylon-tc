@@ -8,7 +8,7 @@ Welcome to - {{ super() }}
 {% endblock %}
 
 {% block _title %}
-Welcome
+Welcome to Adminde
 {% endblock %}
 
 
@@ -18,9 +18,16 @@ Welcome
         {% if _flag_content %} <p>{{ _flag_content }} </p> {% endif %}
     </div>
     <div class="_main_block_content">
-        <div class="_mbc_inputs " id="_stage_0">
-            <p>Wilkomenn</p>
-        </div>
+        <p class="_general_text _en _hidden">
+            <bold>
+                All done, the payment was successfully done, please go to the login page to start with Adminde Time Card.
+            </bold>
+        </p>
+        <p class="_general_text _es _hidden">
+            <bold>
+                Todo listo, el pago fue exitoso, por favor inicia sesion para empezar a usar Adminde Time Card.
+            </bold>
+        </p>
     </div>
 </div>
 {% endblock %}
@@ -38,5 +45,5 @@ Welcome
 {% block scripts %}
 {{ super() }}
 <script src="https://js.stripe.com/v3/"></script>
-<script src="../static/signup.js"></script>
+<script src="../static/payments.js"></script>
 {% endblock %}

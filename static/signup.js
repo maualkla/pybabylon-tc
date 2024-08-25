@@ -131,9 +131,9 @@ function createAccount(){
                     let _data = xhr.responseText;
                     let _parsed_data = JSON.parse(_data);
                     if (_parsed_data["code"] == 202){
-                        setAlert('_box_green', 'Redirecting to Stripe');
+                        setAlert('_box_green', 'User created, payment pending');
                         _display_wheel(false);
-                        _common_fbuttons_change_display_text(['Redirect to Stripe', '', ''], [true, false, false]);
+                        _common_fbuttons_change_display_text(['Go to Stripe', '', ''], [true, false, false]);
                         nextButton(true);
                         semail = _params['i_email'];
                         document.cookie = "us="+semail;

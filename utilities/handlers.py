@@ -196,7 +196,6 @@ class Handlers():
                     for req_value in _req:
                         ## if it is not in the parameters, set flag to false.
                         if req_value in _item:
-                            print(2.2)
                             _go = True
                     if _go:
                         ## get the current username from the session id.
@@ -235,29 +234,21 @@ class Handlers():
                 else:
                     return {}
             elif _service == 'user':
-                print("__put_data() user")
                 _req = ['str_sess_id', 'email']
                 ## go and iterate to find all of them, if not _go will be false
                 _go = True
                 _nitem = {}
                 ## For Loop going for all the required fields.
-                print(_item)
                 if 'str_sess_id' in _item:
-                    print("str_sess_id present")
                     if 'email' not in _item:
-                        print("email not present")
                         us = True if _request.cookies.get('us') else False
                         if us:
-                            print('us cookie present')
                             _nitem = {"email": _request.cookies.get('us'), "str_sess_id": _item['str_sess_id'], 'activate': True}
                             _item = _nitem
                         else:
-                            print('us cookie not present')
                             _go = False
                 else:
-                    print("str_sess_id not present")
                     _go = False
-                print(" GO: "+str(_go))
                 if _go:
                     ## set the url of the service
                     _url = Helpers.generateURL(_service_url, _service)
@@ -267,10 +258,8 @@ class Handlers():
                     ## returns the json as respons
                     return _response.json()
                 else: 
-                    print("not go")
                     return {}
             else:
-                print("not valid service")
                 return {}
         except Exception as e:
             print(" (!) Exception in put_data(): ")

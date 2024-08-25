@@ -1094,21 +1094,26 @@ def success():
     try:
         if 'session_id' in request.args:
             response = Handlers.put_data(_alx_url, request, "user", {"str_sess_id": request.args.get('session_id'), "activate": True})
-            print(response)
-            print("entro success")
-            return render_template("payments_success.html")
+            if response: 
+                return render_template("payments_success.html")
+            else: 
+                return 'Error, try again later.'
         else: 
             return make_response(redirect('/'))
     except Exception as e:
         print("(!) Errorr in /v1/checkout")
         print(e)
-        return jsonify(error=str(e)), 403
+        return jsonify(error=str(e)), 500
 
 ## Cancelled flow
 @app.route("/cancelled")
 def cancelled():
-    print("entro cancelled")
-    return render_template("payments_cancelled.html")
+    try:
+        return render_template("payments_cancelled.html")
+    except Exception as e:
+        print("(!) Errorr in /v1/checkout")
+        print(e)
+        return jsonify(error=str(e)), 500
 
 # app.py
 @app.route("/webhook", methods=["POST"])

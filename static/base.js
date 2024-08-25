@@ -291,7 +291,7 @@ function _display_wheel(_state){
 }
 
 // function to redirect to another location. 
-const common_redirect = (target, version = fase) => {
+const common_redirect = (target, version = false) => {
     _display_wheel(true);
     if (version == 3){
         window.location.replace(window.location.href+target);
