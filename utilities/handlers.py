@@ -135,6 +135,7 @@ class Handlers():
                     if _go:
                         ## set the url of the service
                         _url = Helpers.generateURL(_service_url, _service)
+                        _url = _url+'?type=open'
                         ## set the headers
                         _headers = {'Content-Type': "application/json"}
                         ## generate the get call
