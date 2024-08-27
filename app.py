@@ -293,7 +293,7 @@ def dashboard():
                 _userdata = Handlers.get_data(_alx_url, request, "user", _user_id)
                 if _userdata['containsData']:
                     ## get data del ws del user.
-                    _filter = ":"+_user_id+";limit:1"
+                    _filter = ":"+_user_id+";limit:50"
                     _wsdata = Handlers.get_data(_alx_url, request, "workspace", False, "owner"+_filter)
                     if _wsdata['containsData']:
                         _ws = _wsdata['items'][0] if _wsdata['containsData'] else False
@@ -314,6 +314,7 @@ def dashboard():
                             "ws_informal_name": _ws['InformalName'] if _ws else False,
                             "ws_tax_id": _ws['TaxId'] if _ws else False,
                             "trx_last_login_date": _llog['dateTime'] if _llog else False,
+                            "ws_count": _wsdata['count'],
                             "_flag_status": "",
                             "_flag_content": "",
                             "host_url": request.host_url
