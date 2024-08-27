@@ -5,8 +5,34 @@
 
     }
     ._main_block_content{
-        display: block;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(10, 1fr);
+        grid-column-gap: 0px;
+        grid-row-gap: 0px;
     }
+        #_box1{
+            grid-area: 1 / 1 / 3 / 3; 
+        }
+        #_box2{
+            grid-area: 3 / 1 / 5 / 3; 
+        }
+        #_box3{
+            grid-area: 5 / 1 / 7 / 2;
+        }
+        #_box4{
+            grid-area: 5 / 2 / 7 / 3;
+        }
+        #_box5{
+            grid-area: 7 / 1 / 9 / 2;
+        }
+        #_box6{
+            grid-area: 7 / 2 / 9 / 3;
+        }
+        #_box7{
+            grid-area: 9 / 1 / 11 / 3;
+        }
+
         ._option_block{
             width: 80%;
             height: 400px;
