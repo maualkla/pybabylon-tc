@@ -19,7 +19,8 @@ Adminde Dashboard
     <div class="_main_block_content {% if user_pin == False %} _hidden {% endif %} ">
         <div class="_big_menu_box" id="_box1" onClick="_redirect('workspace/'+'{% if ws_tax_id %}{{ws_tax_id}}{% else %}new{% endif %}');">
             <div class="_bbx_text _en _hidden">
-                <bold>{{ws_count}}/5 Workspaces. </bold>
+                <bold>{{ws_count}}/5 Workspaces. </bold><br>
+                <bold>{{tu_count}}/5 Employees. </bold>
             </div>
             <div class="_bbx_text _es _hidden">
                 Crear <br>Workspace
