@@ -43,6 +43,7 @@ if(document.getElementById("_worktime_view")) document.getElementById("_worktime
 if(document.getElementById("_checkin_url")) document.getElementById("_checkin_url").addEventListener('click', function(){ 
     common_set_alert("_box_green", window.location.href+"/checkin");
     custom_clipboard_text(window.location.href+"/checkin");
+    common_set_alert("_box_green", "URL Copied to clipboard");
 });
 
 // fbutton actions
