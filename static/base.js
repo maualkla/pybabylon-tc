@@ -21,7 +21,7 @@ let _menu_ext_value = true;
 let _curr_languaje = "_"+navigator.language.substring(0,2) || "_en";
 let _new_lang = "_es";
 let _errors = 0;
-let _logging = false;
+let _logging = true;
 
 let _langs = ['_en', '_es'];
 let _pinpad_num = "";
@@ -350,7 +350,14 @@ const validateHex = (_value) => {
 // color = 1,2,3
 // value = HEX color value
 const common_change_system_colors = (_color, _value) => {
-    if (validateHex(_value)){
+    if (_logging) {
+        console.group()
+        console.log(_value)
+        console.log(_color)
+        console.groupEnd()
+    }
+    if (common_validate_hex(_value)){
+        if (_logging) console.log("change colors");
         let _root = document.querySelector(':root');
         if (_color == 1){
             _root.style.setProperty('--system-bg-color', _value);
@@ -359,6 +366,8 @@ const common_change_system_colors = (_color, _value) => {
         }else if (_color == 3){
             _root.style.setProperty('--system-altern-color', _value);
         }
+    }else{
+        if (_logging) console.log("No change colors");
     }
 }
 const _change_system_colors = (_color, _value) => {
@@ -405,9 +414,12 @@ const changeColorTextValue = (_value, _id, _num) => {
 //  system auto change color 
 const _common_system_auto_change_color = () => {
     if(_context_vars[2] && _context_vars[3] && _context_vars[4]) {
+        if (_logging) console.log("change colors")
         _change_system_colors(1, _context_vars[2]);
         _change_system_colors(2, _context_vars[3]);
         _change_system_colors(3, _context_vars[4]);
+    }else{
+        if (_logging) console.log("No change colors")
     }
 }
 

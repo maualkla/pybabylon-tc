@@ -40,6 +40,10 @@ if(document.getElementById("_worktime_view")) document.getElementById("_worktime
     _redirect('/workingTime', 3);
     //setAlert("_box_blue", "Option not available yet.");
 }); 
+if(document.getElementById("_checkin_url")) document.getElementById("_checkin_url").addEventListener('click', function(){ 
+    common_set_alert("_box_green", window.location.href+"/checkin");
+    custom_clipboard_text(window.location.href+"/checkin");
+});
 
 // fbutton actions
 // fb 1
@@ -327,3 +331,8 @@ function updateTime() {
 
 /// clock updater
 setInterval(updateTime, 1000);
+
+/// custom function to copy to clipboard a custom text
+const custom_clipboard_text = (myText) => {
+    navigator.clipboard.writeText(myText);
+}

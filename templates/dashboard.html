@@ -57,7 +57,7 @@ Adminde Dashboard
                 API Docs
             </div>
         </div>
-        <div class=" color_3_bg color_1_tx " id="_box6">
+        <div class=" color_3_bg color_1_tx" id="_box6">
             <div class="bbtext_clon _en _hidden">
                 Help
             </div>
@@ -65,6 +65,24 @@ Adminde Dashboard
                 Ayuda
             </div>
         </div>
+        {% if user_type > 2 %}
+        <div class="_big_menu_box color_1_bg color_2_tx" id="_box7">
+            <div class="bbtext_clon _en _hidden">Last<br><bold_italic>Transactions</bold_italic></div>
+            <div class="bbtext_clon _es _hidden">Ultimas<br><bold_italic>Transacciones</bold_italic></div>
+        </div>
+        <div class="_big_menu_box color_1_bg color_2_tx" id="_box8">
+            <div class="bbtext_clon _en _hidden">See<br><bold_italic>Users</bold_italic></div>
+            <div class="bbtext_clon _es _hidden">Ver<br><bold_italic>Usuarios</bold_italic></div>
+        </div>
+        <div class="_big_menu_box" id="_box9">
+            <div class="bbtext_clon _en _hidden">
+                Last Login <br> {{trx_last_login_date}}
+            </div>
+            <div class="bbtext_clon _es _hidden">
+                Ultimo Inicio de Sesion <br> {{trx_last_login_date}}
+            </div>
+        </div>
+        {%else%}
         <div class="_big_menu_box" id="_box7">
             <div class="bbtext_clon _en _hidden">
                 Last Login <br> {{trx_last_login_date}}
@@ -73,6 +91,8 @@ Adminde Dashboard
                 Ultimo Inicio de Sesion <br> {{trx_last_login_date}}
             </div>
         </div>
+        {% endif %}
+        
     </div>
     <div class="_main_block_numpad {% if user_pin != False %} _hidden {% endif %}">
         <div class="_big_numpad" id="_set_pin">
@@ -110,12 +130,6 @@ Adminde Dashboard
 <div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% else %}_es _hidden {% endif %}" id="_ws_view_es">Workspaces</div>
 <div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% else %}_en _hidden {% endif %}" id="_apidocs_en">API Docs</div>
 <div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% else %}_es _hidden {% endif %}" id="_apidocs_es">API Docs</div>
-{% if user_type > 2 %}
-<div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% else %}_en _hidden {% endif %}" id="_trx_mgr_en">Transactions</div>
-<div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% else %}_es _hidden {% endif %}" id="_trx_mgr_es">Transacciones</div>
-<div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% else %}_en _hidden {% endif %}" id="_usr_mgr_en">Users</div>
-<div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% else %}_es _hidden {% endif %}" id="_usr_mgr_es">Usuarios</div>
-{% endif %}
 <div class="_menu_box _box_main _box_main_bot _en _hidden" id="_logout_en">Close Session</div>
 <div class="_menu_box _box_main _box_main_bot _es _hidden" id="_logout_es">Cerrar Sesion</div>
 {% endblock %}

@@ -7,13 +7,13 @@
     ._main_block_content{
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: repeat(10, 1fr);
+        grid-template-rows: repeat(14, 1fr);
         grid-column-gap: 0px;
         grid-row-gap: 0px;
     }
 
         #_box1{
-            grid-area: 1 / 1 / 3 / 3; 
+            grid-area: 1 / 1 / 3 / 3;
         }
         #_box2{
             grid-area: 3 / 1 / 5 / 3; 
@@ -40,6 +40,12 @@
         }
         #_box7{
             grid-area: 9 / 1 / 11 / 3;
+        }
+        #_box8{
+            grid-area: 11 / 1 / 13 / 3;
+        }
+        #_box9{
+            grid-area: 13 / 1 / 15 / 3;
         }
 
         ._option_block{
