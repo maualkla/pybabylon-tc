@@ -28,8 +28,6 @@ if(document.getElementById('_box3')) document.getElementById('_box3').addEventLi
 if(document.getElementById('_box4')) document.getElementById('_box4').addEventListener('click', function (){ common_redirect("transactions"); });
 if(document.getElementById('_box5')) document.getElementById('_box5').addEventListener('click', function (){ common_redirect("apidocs"); });
 if(document.getElementById('_box6')) document.getElementById('_box6').addEventListener('click', function (){ common_redirect("help"); });
-if(document.getElementById('_box8')) document.getElementById('_box5').addEventListener('click', function (){ common_redirect("transactions"); });
-if(document.getElementById('_box9')) document.getElementById('_box6').addEventListener('click', function (){ common_redirect("users"); });
 
 // send pin function
 function _send_pin(){

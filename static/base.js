@@ -92,7 +92,7 @@ function setInitialLanguaje(){
 
 
 // Change languajes function
-const common_change_languaje = () => {
+const common_change_languaje = (_languaje) => {
     for(var i = 0; i < _langs.length; i++){
         _curr = document.getElementsByClassName(_langs[i]);
         if(_languaje === _langs[i]){
@@ -114,7 +114,7 @@ const common_change_languaje = () => {
     extended(_menu_ext_value);
 }
 function changeLanguaje(_languaje){
-    common_change_languaje();
+    common_change_languaje(_languaje);
 }
 
 // Delele all cookies alert
