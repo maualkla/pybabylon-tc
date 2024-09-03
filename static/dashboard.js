@@ -5,14 +5,14 @@
 
 
 // Triggers 
-if(document.getElementById('_logout_en')) document.getElementById('_logout_en').addEventListener('click', function (){window.location.replace("/logout")});
-if(document.getElementById('_logout_es')) document.getElementById('_logout_es').addEventListener('click', function (){ window.location.replace("/logout") });
-if(document.getElementById('_profile_en')) document.getElementById('_profile_en').addEventListener('click', function (){window.location.replace("/account")});
-if(document.getElementById('_profile_es')) document.getElementById('_profile_es').addEventListener('click', function (){window.location.replace("/account")});
-if(document.getElementById('_ws_view_en')) document.getElementById('_ws_view_en').addEventListener('click', function (){window.location.replace("/workspace")});
-if(document.getElementById('_ws_view_es')) document.getElementById('_ws_view_es').addEventListener('click', function (){window.location.replace("/workspace")});
-if(document.getElementById('_apidocs_en')) document.getElementById('_apidocs_en').addEventListener('click', function (){ window.location.replace('/apidocs') });
-if(document.getElementById('_apidocs_es')) document.getElementById('_apidocs_es').addEventListener('click', function (){ window.location.replace('/apidocs') });
+if(document.getElementById('_logout_en')) document.getElementById('_logout_en').addEventListener('click', function (){common_redirect("logout")});
+if(document.getElementById('_logout_es')) document.getElementById('_logout_es').addEventListener('click', function (){ common_redirect("logout") });
+if(document.getElementById('_profile_en')) document.getElementById('_profile_en').addEventListener('click', function (){common_redirect("account")});
+if(document.getElementById('_profile_es')) document.getElementById('_profile_es').addEventListener('click', function (){common_redirect("account")});
+if(document.getElementById('_ws_view_en')) document.getElementById('_ws_view_en').addEventListener('click', function (){common_redirect("workspace")});
+if(document.getElementById('_ws_view_es')) document.getElementById('_ws_view_es').addEventListener('click', function (){common_redirect("workspace")});
+if(document.getElementById('_apidocs_en')) document.getElementById('_apidocs_en').addEventListener('click', function (){ common_redirect('apidocs') });
+if(document.getElementById('_apidocs_es')) document.getElementById('_apidocs_es').addEventListener('click', function (){ common_redirect('apidocs') });
 
 // Boxes triggers
 // a inline onclick added //if(document.getElementById('_redirect_last_ws')) document.getElementById('_redirect_last_ws').addEventListener('click', function (){window.location.replace("/workspace")});
@@ -23,10 +23,11 @@ if(document.getElementById('_redirect_tutorials')) document.getElementById('_red
 if(document.getElementById('_set_pin_button')) document.getElementById('_set_pin_button').addEventListener('click', function (){  if(_pinpad_num.length === 6){ _send_pin() }else{window.alert("Pin has to be at least 6 digits long.")} });
 if(document.getElementById('_close_sesion_button')) document.getElementById('_close_sesion_button').addEventListener('click', function (){ window.location.replace("/logout"); });
 
-if(document.getElementById('_trx_mgr_en')) document.getElementById('_trx_mgr_en').addEventListener('click', function (){ window.location.replace("/transactions"); });
-if(document.getElementById('_trx_mgr_es')) document.getElementById('_trx_mgr_es').addEventListener('click', function (){ window.location.replace("/transactions"); });
-if(document.getElementById('_usr_mgr_en')) document.getElementById('_usr_mgr_en').addEventListener('click', function (){ window.location.replace("/users"); });
-if(document.getElementById('_usr_mgr_es')) document.getElementById('_usr_mgr_es').addEventListener('click', function (){ window.location.replace("/users"); });
+if(document.getElementById('_box2')) document.getElementById('_box2').addEventListener('click', function (){ common_redirect("workspace"); });
+if(document.getElementById('_box3')) document.getElementById('_box3').addEventListener('click', function (){ common_redirect("account"); });
+if(document.getElementById('_box4')) document.getElementById('_box4').addEventListener('click', function (){ common_redirect("transactions"); });
+if(document.getElementById('_box5')) document.getElementById('_box5').addEventListener('click', function (){ common_redirect("apidocs"); });
+if(document.getElementById('_box6')) document.getElementById('_box6').addEventListener('click', function (){ common_redirect("help"); });
 
 // send pin function
 function _send_pin(){

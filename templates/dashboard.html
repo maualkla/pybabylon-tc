@@ -17,61 +17,60 @@ Adminde Dashboard
         {% if _flag_content%} <p>{{ _flag_content }} </p> {% endif %}
     </div>
     <div class="_main_block_content {% if user_pin == False %} _hidden {% endif %} ">
-        <div class="_big_menu_box" id="_box1" onClick="_redirect('workspace/'+'{% if ws_tax_id %}{{ws_tax_id}}{% else %}new{% endif %}');">
-            <div class="_bbx_text _en _hidden">
-                <bold>{{ws_count}}/5 Workspaces. </bold><br>
-                <bold>{{tu_count}}/5 Employees. </bold>
-            </div>
-            <div class="_bbx_text _es _hidden">
-                Crear <br>Workspace
+        <div class="_big_menu_box color_3_bg color_1_tx" id="_box1">
+            <div class="bbtext_clon _en _hidden">
+                <bold>{{ws_count}}/{% if user_plan == 1%}1{% elif user_plan == 2%}3{% elif user_plan == 3%}10{% endif%} Workspaces. </bold><br>
+                <bold>{{tu_count}}/{% if user_plan == 1%}5{% elif user_plan == 2%}10{% elif user_plan == 3%}50{% endif%} Employees. </bold>
             </div>
         </div>
         <div class="_big_menu_box" id="_box2">
-            <div class="_bbx_text _en _hidden">
-                Tutorials and <br>Guides
+            <div class="bbtext_clon _en _hidden">
+                View all your <br>
+                <bold_italic>Workspaces</bold_italic>
             </div>
-            <div class="_bbx_text _es _hidden">
-                Tutoriales y <br>Guias
-            </div>
-        </div>
-        <div class="_big_menu_box" id="_box3">
-            <div class="_bbx_text _en _hidden">
-                Request <br> <bold_italic>Help</bold_italic>
-            </div>
-            <div class="_bbx_text _es _hidden">
-                Solicitar <br><bold_italic>Ayuda</bold_italic>
+            <div class="bbtext_clon _es _hidden">
+                Ver todos tus <br>
+                <bold_italic>Workspaces</bold_italic>
             </div>
         </div>
-        <div class="_big_menu_box" id="_box4">
-            <div class="_bbx_text _en _hidden">
-                Last Login: <br> Date: {{ trx_last_login_date }}
+        <div class=" color_3_bg color_1_tx " id="_box3">
+            <div class="bbtext_clon _en _hidden">
+                Account <br> Settings
             </div>
-            <div class="_bbx_text _es _hidden">
-                Ultimo inicio de sesion: <br> Fecha: {{ trx_last_login_date }}
-            </div>
-        </div>
-        <div class="_big_menu_box" id="_box5">
-            <div class="_bbx_text _en _hidden">
-                View all your <bold_italic>Workspaces</bold_italic>
-            </div>
-            <div class="_bbx_text _es _hidden">
-                Ver todos tus <bold_italic>Workspaces</bold_italic>
+            <div class="bbtext_clon _es _hidden">
+                Configuracion <br> de Cuenta
             </div>
         </div>
-        <div class="_big_menu_box" id="_box6">
-            <div class="_bbx_text _en _hidden">
-                View all your <bold_italic>Workspaces</bold_italic>
+        <div class=" color_1_bg color_2_tx " id="_box4">
+            <div class="bbtext_clon _en _hidden">
+                Last Transactions
             </div>
-            <div class="_bbx_text _es _hidden">
-                Ver todos tus <bold_italic>Workspaces</bold_italic>
+            <div class="bbtext_clon _es _hidden">
+                Ultimas Transacciones
+            </div>
+        </div>
+        <div class=" color_1_bg color_2_tx" id="_box5">
+            <div class="bbtext_clon _en _hidden">
+                API Docs
+            </div>
+            <div class="bbtext_clon _es _hidden">
+                API Docs
+            </div>
+        </div>
+        <div class=" color_3_bg color_1_tx " id="_box6">
+            <div class="bbtext_clon _en _hidden">
+                Help
+            </div>
+            <div class="bbtext_clon _es _hidden">
+                Ayuda
             </div>
         </div>
         <div class="_big_menu_box" id="_box7">
-            <div class="_bbx_text _en _hidden">
-                View all your <bold_italic>Workspaces</bold_italic>
+            <div class="bbtext_clon _en _hidden">
+                Last Login <br> {{trx_last_login_date}}
             </div>
-            <div class="_bbx_text _es _hidden">
-                Ver todos tus <bold_italic>Workspaces</bold_italic>
+            <div class="bbtext_clon _es _hidden">
+                Ultimo Inicio de Sesion <br> {{trx_last_login_date}}
             </div>
         </div>
     </div>
