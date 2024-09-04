@@ -41,22 +41,90 @@ Adminde Dashboard
                 Configuracion <br> de Cuenta
             </div>
         </div>
-        <div class=" color_1_bg color_2_tx " id="_box4">
+        {% if user_activated %}
+            {% if user_type > 2%}
+                {% if ws_informal_name %}
+            <div class=" color_1_bg color_2_tx " id="_box4" style="color:{{ws_color_code}}" onClick="common_redirect('workspace/{{ws_tax_id}}');">
+                <div class="bbtext_clon _en _hidden">
+                    <bold_italic>{{ws_informal_name}}</bold_italic>
+                </div>
+                <div class="bbtext_clon _es _hidden">
+                    <bold_italic>{{ws_informal_name}}</bold_italic>
+                </div>
+            </div>
+                {%else%}
+            <div class=" color_1_bg color_2_tx " id="_box4" onClick="common_redirect('workspace/new');">
+                <div class="bbtext_clon _en _hidden">
+                    New <br> Workspace
+                </div>
+                <div class="bbtext_clon _es _hidden">
+                    Nuevo <br> Workspace
+                </div>
+            </div>
+                {% endif %}
+            <div class=" color_1_bg color_2_tx" id="_box5" onClick="common_redirect('apidocs');">
+                <div class="bbtext_clon _en _hidden">
+                    API Docs
+                </div>
+                <div class="bbtext_clon _es _hidden">
+                    API Docs
+                </div>
+            </div>
+            {% else %}
+                {% if ws_informal_name %}
+            <div class=" color_1_bg color_2_tx " id="_box4" style="color:{{ws_color_code}}" onClick="common_redirect('workspace/{{ws_tax_id}}');">
+                <div class="bbtext_clon _en _hidden">
+                    <bold_italic>{{ws_informal_name}}</bold_italic>
+                </div>
+                <div class="bbtext_clon _es _hidden">
+                    <bold_italic>{{ws_informal_name}}</bold_italic>
+                </div>
+            </div>
+            <div class=" color_1_bg color_2_tx" id="_box5" onClick="common_redirect('workspace/new');">
+                <div class="bbtext_clon _en _hidden">
+                    New <br> Workspace
+                </div>
+                <div class="bbtext_clon _es _hidden">
+                    Nuevo <br> Workspace
+                </div>
+            </div>
+                {% else%}
+            <div class=" color_1_bg color_2_tx " id="_box4" onClick="common_redirect('workspace/new');">
+                <div class="bbtext_clon _en _hidden">
+                    New <br> Workspace
+                </div>
+                <div class="bbtext_clon _es _hidden">
+                    Nuevo <br> Workspace
+                </div>
+            </div>
+            <div class=" color_1_bg color_2_tx" id="_box5" onClick="common_redirect('learn');">
+                <div class="bbtext_clon _en _hidden">
+                    Quick Guide
+                </div>
+                <div class="bbtext_clon _es _hidden">
+                    Guia Rapida
+                </div>
+            </div>
+                {% endif %}
+            {% endif %}
+        {%else%}
+        <div class=" color_1_bg color_2_tx " id="_box4" onClick="common_redirect('dashboard');">
             <div class="bbtext_clon _en _hidden">
-                Last Transactions
+                <bold_italic>Activate <br>Account</bold_italic>
             </div>
             <div class="bbtext_clon _es _hidden">
-                Ultimas Transacciones
+                <bold_italic>Activar <br>Cuenta</bold_italic>
             </div>
         </div>
-        <div class=" color_1_bg color_2_tx" id="_box5">
+        <div class=" color_1_bg color_2_tx" id="_box5" onClick="common_redirect('help');">
             <div class="bbtext_clon _en _hidden">
-                API Docs
+                Contact <br>Support
             </div>
             <div class="bbtext_clon _es _hidden">
-                API Docs
+                Contactar a <br>Soporte
             </div>
         </div>
+        {% endif%}
         <div class=" color_3_bg color_1_tx" id="_box6">
             <div class="bbtext_clon _en _hidden">
                 Help

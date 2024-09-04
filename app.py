@@ -313,10 +313,12 @@ def dashboard():
                         "user_plan": _user['plan'],
                         "user_pin": _user['pin'] if _user['pin'] > 0 else False,
                         "ws_informal_name": _ws['InformalName'] if _ws else False,
+                        "ws_color_code": _ws['AlterHexColor'] if _ws else False,
                         "ws_tax_id": _ws['TaxId'] if _ws else False,
                         "trx_last_login_date": _llog['dateTime'] if _llog else False,
                         "ws_count": _wsdata['count'],
                         "tu_count": _tenantuserdata['count'],
+                        "user_activated": _user['activate'],
                         "_flag_status": "_box_red" if _user['activate'] == False else "" ,
                         "_flag_content": "You need to activate your user." if _user['activate'] == False else "",
                         "host_url": request.host_url
