@@ -1,12 +1,12 @@
 ## Flask Front End app for adminde-tc project.
 ## Pybabylon Project.
-## Coded by: Mauricio Alcala (@maualkla)
+## Coded by: Mauricio Alcala (@intmau)
 ## Date: May 2023.
 ## Current Version: 0.04
-## Last Modification Date: aug 2024.
-## More info at @intmau in twitter or in http://maualkla.com
+## Last Modification Date: sep 2024.
+## More info at @intmau in twitter or in http://themudev.com
 ## Description: Web app to serve adminde-tc project.
-## flask run --host=0.0.0.0 --port=3000
+## flask run --host=0.0.0.0 --port=3001
 
 ## Imports
 from flask import Flask, jsonify, request, render_template, redirect, make_response
