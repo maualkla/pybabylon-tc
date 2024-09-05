@@ -293,7 +293,7 @@ def dashboard():
                 _userdata = Handlers.get_data(_alx_url, request, "user", _user_id)
                 if _userdata['containsData']:
                     ## get data del ws del user.
-                    _filter = ":"+_user_id+";limit:1"
+                    _filter = ":"+_user_id+";limit:50"
                     _wsdata = Handlers.get_data(_alx_url, request, "workspace", False, "owner"+_filter)
                     if _wsdata['containsData']:
                         _ws = _wsdata['items'][0] if _wsdata['containsData'] else False
@@ -301,27 +301,29 @@ def dashboard():
                         _ws = False
                         ## get last login from the user.
                     _trxdata = Handlers.get_data(_alx_url, request, "transaction", False, "userId"+_filter)
-                    if _trxdata['containsData']:
-                        ## define context
-                        _user = _userdata['items'][0]
-                        _llog = _trxdata['items'][0] if _trxdata['containsData'] else False
-                        context = {
-                            "user_id": _user_id,
-                            "user_name": _user['username'],
-                            "user_type": _user['type'],
-                            "user_fname": _user['fname'],
-                            "user_pin": _user['pin'] if _user['pin'] > 0 else False,
-                            "ws_informal_name": _ws['InformalName'] if _ws else False,
-                            "ws_tax_id": _ws['TaxId'] if _ws else False,
-                            "trx_last_login_date": _llog['dateTime'] if _llog else False,
-                            "_flag_status": "",
-                            "_flag_content": "",
-                            "host_url": request.host_url
-                        }
-                        return render_template('dashboard.html', **context)
-                    else:
-                        ## return to login 
-                        return _log
+                    _tenantuserdata = Handlers.get_data(_alx_url, request, "tenantUser", False, "createdBy:"+_user_id)
+                    ## define context
+                    _user = _userdata['items'][0]
+                    _llog = _trxdata['items'][0] if _trxdata['containsData'] else False
+                    context = {
+                        "user_id": _user_id,
+                        "user_name": _user['username'],
+                        "user_type": _user['type'],
+                        "user_fname": _user['fname'],
+                        "user_plan": _user['plan'],
+                        "user_pin": _user['pin'] if _user['pin'] > 0 else False,
+                        "ws_informal_name": _ws['InformalName'] if _ws else False,
+                        "ws_color_code": _ws['AlterHexColor'] if _ws else False,
+                        "ws_tax_id": _ws['TaxId'] if _ws else False,
+                        "trx_last_login_date": _llog['dateTime'] if _llog else False,
+                        "ws_count": _wsdata['count'],
+                        "tu_count": _tenantuserdata['count'],
+                        "user_activated": _user['activate'],
+                        "_flag_status": "_box_red" if _user['activate'] == False else "" ,
+                        "_flag_content": "You need to activate your account." if _user['activate'] == False else "",
+                        "host_url": request.host_url
+                    }
+                    return render_template('dashboard.html', **context)
                 else:
                     ## return to login 
                     return _log
