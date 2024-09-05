@@ -25,8 +25,6 @@ if(document.getElementById('_close_sesion_button')) document.getElementById('_cl
 
 if(document.getElementById('_box2')) document.getElementById('_box2').addEventListener('click', function (){ common_redirect("workspace"); });
 if(document.getElementById('_box3')) document.getElementById('_box3').addEventListener('click', function (){ common_redirect("account"); });
-if(document.getElementById('_box4')) document.getElementById('_box4').addEventListener('click', function (){ });
-if(document.getElementById('_box5')) document.getElementById('_box5').addEventListener('click', function (){ common_redirect("apidocs"); });
 if(document.getElementById('_box6')) document.getElementById('_box6').addEventListener('click', function (){ common_redirect("help"); });
 
 // send pin function

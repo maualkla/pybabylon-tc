@@ -320,7 +320,7 @@ def dashboard():
                         "tu_count": _tenantuserdata['count'],
                         "user_activated": _user['activate'],
                         "_flag_status": "_box_red" if _user['activate'] == False else "" ,
-                        "_flag_content": "You need to activate your user." if _user['activate'] == False else "",
+                        "_flag_content": "You need to activate your account." if _user['activate'] == False else "",
                         "host_url": request.host_url
                     }
                     return render_template('dashboard.html', **context)
