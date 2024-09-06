@@ -16,9 +16,12 @@ from utilities.handlers import Handlers
 from models.levels import levels
 from models.plans import plans
 from models.severityLevels import severityLevels
-import os, requests, base64
 from io import StringIO
+import requests
 import csv, stripe
+
+
+
 
 ## Initialize Flask App
 app = Flask(__name__)
@@ -40,6 +43,9 @@ stripe_prices = [ app.config["CONF_STRIPE_SUBS_0"], app.config["CONF_STRIPE_SUBS
 
 ## setup stripe api key
 stripe.api_key = stripe_keys["secret_key"]
+
+## email object
+mail = Mail(app)
 
 ################################################################################################################
 ## apidocs menu
@@ -920,9 +926,9 @@ def workspace_checkin(_id):
 @app.route('/workspace/<_id>/home')
 def workspace_home(_id):
     try:
+        print(request.cookies.get('token'))
         _required_token = True if request.cookies.get('token') else False
         _out = make_response(redirect('/workspace/'+_id+'/checkin'))
-        _out.delete_cookie('token')
         if _required_token:
             if _id:
                 _wsdata = Handlers.get_data(_alx_url, request, "workspace", _id, False, True, app.config['PRIVATE_SERVICE_TOKEN'])
@@ -941,10 +947,16 @@ def workspace_home(_id):
                     }
                     return render_template('workspace_tu_home.html', **context)
                 else: 
+                    print(1)
+                    _out.delete_cookie('token')
                     return _out
             else: 
+                print(2)
+                _out.delete_cookie('token')
                 return _out
         else: 
+            print(3)
+            _out.delete_cookie('token')
             return _out
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
@@ -1353,7 +1365,6 @@ def page_not_found(e):
 @app.route('/desktop')
 def desktop():
     return render_template('desktop.html')
-
 
 
 ################################################################################################################

@@ -12,9 +12,6 @@ if(document.getElementById('_fb_1')) document.getElementById('_fb_1').addEventLi
         _display_wheel(false);
     }else if (_view == 1){
         _tu_home_call_timeLog_validation(2);
-        _common_delete_all_cookies();
-        _common_reload_page(location.href);
-        _display_wheel(false);
     }else{
         _common_reload_page(location.href);
     }
@@ -83,8 +80,12 @@ const _tu_home_call_timeLog_validation = (action = false) => {
                         }
                         _tu_home_switch_views();
                     }else{
-                        _stg = "False";
-                        _tu_home_switch_views();
+                        if (_view == 1){
+                            _common_delete_all_cookies();
+                            _common_reload_page(location.href);
+                        }
+                        //_stg = "False";
+                        //_tu_home_switch_views();
                     }
                 }
             }else if(xhr.status === 403){
