@@ -1,4 +1,3 @@
-from flask_mail import Mail
 import requests, base64, re
 import mailtrap as mt
 
@@ -7,7 +6,7 @@ import mailtrap as mt
 ########################################
 class Helpers:
 
-    ## common email sent 
+    ## common email sender 
     def emailSender(email_list_to = False, template_id = False, api_token = False, template_variables = False ):
         try:
             if email_list_to and template_id and api_token and template_variables:

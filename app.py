@@ -44,9 +44,6 @@ stripe_prices = [ app.config["CONF_STRIPE_SUBS_0"], app.config["CONF_STRIPE_SUBS
 ## setup stripe api key
 stripe.api_key = stripe_keys["secret_key"]
 
-## email object
-mail = Mail(app)
-
 ################################################################################################################
 ## apidocs menu
 @app.route('/apidocs')
@@ -133,6 +130,18 @@ def apidocs_v0_4():
             return _log
     except Exception as e:
         return {"status": "Error", "reason": str(e)}
+
+#####
+## Email service
+@app.route('/email')
+def email():
+    template_vars = {
+      "user_email": "variable@email.com",
+      "pass_reset_link": "http://themudev.com/validresetlink"
+    }
+    response = Helpers.emailSender("variable@email.com", app.config["MAIL_TEMPLATE_RESET"] , app.config["MAIL_API_TOKEN"], template_vars)
+    return "Email sent? "+str(response)
+
 
 ################################################################################################################
 
