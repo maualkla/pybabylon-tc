@@ -242,13 +242,42 @@ def reset_pass_user():
                     userdata = Handlers.get_data(_alx_url, request, "user", email.upper())
                     print(userdata)
                     if userdata['containsData']:
-                        userdata = userdata['item']
+                        userdata = userdata['items'][0]
                         print(" yes user ")
                         print(userdata)
-                        if userdata['rp_email_exp_date'] == False or userdata['rp_email_exp_date'] < Helpers.generateDateTime()[1]:
-                            print("update")
+                        date_format = "%d.%m.%Y"
+                        from datetime import datetime,timedelta
+                        print("validacion:::")
+                        path = 0
+                        print(userdata['rp_email_exp_date'])
+                        if userdata['rp_email_exp_date'] == False:
+                            print(1)
+                            path = 1
+                            ## generate the new code and expdate
+                        else:
+                            ## validate
+                            print(2)
+                            user_date = datetime.strptime(userdata['rp_email_exp_date'], date_format)
+                            current_date = datetime.strptime(Helpers.generateDateTime()[1], date_format)
+                            print(user_date)
+                            print(current_date)
+                            if user_date < current_date:
+                                ## generate new token
+                                print("generate new token")
+                                path = 1
+                            else: 
+                                print("reuse old token")
+                                ## reuse old token
+                                path = 2
                         print(" generate token")
+                        if path == 1:
+                            reset_token = Helpers.randomString(65)
+                        elif path == 2:
+                            reset_token = userdata['rp_email_exp_date']
+                        else: 
+                            print(" no se como llegamos aca.")
                         print(" save t")
+                        print(" Token: "+str(reset_token))
                         print(" send emails function () is next")
                         template_vars = {
                         "user_email": email,
@@ -256,9 +285,11 @@ def reset_pass_user():
                         }
                         print(template_vars)
                         ##response = Helpers.emailSender("variable@email.com", app.config["MAIL_TEMPLATE_RESET"] , app.config["MAIL_API_TOKEN"], template_vars)
+                        status = "All smooth, email was sent with a reset_pass link."
                     else:
                         status = "Account not found."
-                status = "Score not valid"
+                else: 
+                    status = "Score not valid"
             else:
                 status = "Sorry ! Bots are not allowed."
             print(" Status: "+status)

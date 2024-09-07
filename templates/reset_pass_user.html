@@ -48,12 +48,12 @@ Reset Password
     common_display_floating_buttons(true);
     document.getElementById('_fb_1').addEventListener('click', function() {
     //grecaptcha.ready(function() {
+        common_display_wheel(true);
         grecaptcha.execute('{{ recaptcha_key }}', {action: 'submit'}).then(function(token) {
             // Add the reCAPTCHA token to your form before submitting
             var recaptchaResponse = document.getElementById('recaptchaResponse');
             recaptchaResponse.value = token;
             // Now you can submit the form
-            common_display_wheel(true);
             document.getElementById('your-form-id').submit();
         });
     });
