@@ -246,6 +246,7 @@ def reset_pass_user():
                         print(" yes user ")
                         print(userdata)
                         if userdata['rp_email_exp_date'] == False or userdata['rp_email_exp_date'] < Helpers.generateDateTime()[1]:
+                            print("update")
                         print(" generate token")
                         print(" save t")
                         print(" send emails function () is next")
