@@ -9,7 +9,8 @@
 ## flask run --host=0.0.0.0 --port=3001
 
 ## Imports
-from flask import Flask, jsonify, request, render_template, redirect, make_response
+import json
+from flask import Flask, jsonify, request, render_template, redirect, make_response, url_for
 from config import Config
 from utilities.helpers import Helpers
 from utilities.handlers import Handlers
@@ -219,6 +220,53 @@ def login():
             return render_template('login.html', **context)
     except Exception as e:
         return {"status": "An earror Occurred", "error": str(e)}
+    
+
+################################################################################################################
+
+## reset password for user
+## workspace tuser reset pass
+@app.route('/reset_pass_user', methods=['GET', 'POST'])
+def reset_pass_user():
+    try:
+        context={"host_url": request.host_url,"recaptcha_key": app.config["RECAPTCHA_SITE_KEY"]}
+        if request.method == 'GET':
+            return render_template('reset_pass_user.html', **context)
+        elif request.method == 'POST':
+            email = request.form['email']
+            captcha_response = request.form['recaptchaResponse']
+            humanValidation = is_human(captcha_response)
+            if humanValidation:
+                if humanValidation == 0.9 or humanValidation == 0.7:
+                    print(" score valido")
+                    userdata = Handlers.get_data(_alx_url, request, "user", email.upper())
+                    print(userdata)
+                    if userdata['containsData']:
+                        userdata = userdata['item']
+                        print(" yes user ")
+                        print(userdata)
+                        if userdata['rp_email_exp_date'] == False or userdata['rp_email_exp_date'] < Helpers.generateDateTime()[1]:
+                        print(" generate token")
+                        print(" save t")
+                        print(" send emails function () is next")
+                        template_vars = {
+                        "user_email": email,
+                        "pass_reset_link": request.host_url+"validresetlink?token=1212"
+                        }
+                        print(template_vars)
+                        ##response = Helpers.emailSender("variable@email.com", app.config["MAIL_TEMPLATE_RESET"] , app.config["MAIL_API_TOKEN"], template_vars)
+                    else:
+                        status = "Account not found."
+                status = "Score not valid"
+            else:
+                status = "Sorry ! Bots are not allowed."
+            print(" Status: "+status)
+            return redirect(url_for('reset_pass_user'))
+        else:
+            return jsonify({"status": "error"}), 405
+    except Exception as e:
+        print("(!) Expection in reset_pass_user() "+str(e))
+        return {"status": "An error Occurred", "error": str(e)} 
 
 ################################################################################################################
 
@@ -304,7 +352,7 @@ def dashboard():
             ## generate a auth object and save the response in _auth_obj
             _user_id = Handlers.get_username(_alx_url, _session_id, _client_bw, _client_ip)
             if _user_id:
-                ## get data del useer
+                ## get data del user
                 _userdata = Handlers.get_data(_alx_url, request, "user", _user_id)
                 if _userdata['containsData']:
                     ## get data del ws del user.
@@ -931,6 +979,17 @@ def workspace_checkin(_id):
         return {"status": "An error Occurred", "error": str(e)}   
 
 
+## workspace tuser reset pass
+@app.route('/workspace/<_id>/reset-password')
+def reset_pass_tuser():
+    try:
+        context={"recaptcha_key": app.config["RECAPTCHA_SITE_KEY"]}
+        return render_template('reset_pass_tuser.html',**context )
+    except Exception as e:
+        print("(!) Expection in reset_pass_tuser() "+str(e))
+        return {"status": "An error Occurred", "error": str(e)} 
+
+
 ## workspace checkin home
 @app.route('/workspace/<_id>/home')
 def workspace_home(_id):
@@ -1363,6 +1422,21 @@ def data_ops():
                 return jsonify({}), 403
     except Exception as e:
         return jsonify({"status": "An error Occurred", "error": str(e)}), 500
+
+################################################################################################################
+##  is_human() Validating recaptcha response from google server
+##  Returns True captcha test passed for submitted form else returns False.
+def is_human(captcha_response):
+    try:
+        print(">>> is_human()")
+        secret = app.config['RECAPTCHA_SECRET_KEY']
+        payload = {'response':captcha_response, 'secret':secret}
+        response = requests.post("https://www.google.com/recaptcha/api/siteverify", payload)
+        response_text = json.loads(response.text)
+        return response_text['score']
+    except Exception as e:
+        print("(!) Exception in is_human(): "+str(e))
+
 
 ################################################################################################################
 
