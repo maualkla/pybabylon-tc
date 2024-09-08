@@ -303,7 +303,8 @@ def reset_pass_user():
                             "pass_reset_link": request.host_url+"reset_password?type=1&token="+str(reset_token)
                         }
                         print(template_vars)
-                        ##response = Helpers.emailSender("variable@email.com", app.config["MAIL_TEMPLATE_RESET"] , app.config["MAIL_API_TOKEN"], template_vars)
+                        response = Helpers.emailSender(email, app.config["MAIL_TEMPLATE_RESET"] , app.config["MAIL_API_TOKEN"], template_vars)
+                        print(response)
                         status = "All smooth, email was sent with a reset_pass link."
                     else:
                         status = "Account not found."
@@ -1541,6 +1542,7 @@ def data_ops():
             else:
                 return jsonify({}), 403
     except Exception as e:
+        print("(!) Exception at admdata("+str(request.method)+"): "+str(e))
         return jsonify({"status": "An error Occurred", "error": str(e)}), 500
 
 ################################################################################################################

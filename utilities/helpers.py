@@ -29,6 +29,7 @@ class Helpers:
                 )
                 client = mt.MailtrapClient(token=api_token)
                 response = client.send(mail)
+                print(response)
                 return True
             else: 
                 return False
