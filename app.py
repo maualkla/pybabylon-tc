@@ -372,10 +372,13 @@ def reset_password():
                 userdata = Handlers.get_data(_alx_url, request, service_name,  request.json['email'].upper() if request.args.get('type') == '1' else request.json['id'].upper(), False, True, app.config['PRIVATE_SERVICE_TOKEN'])
                 print(userdata)
                 response = Handlers.put_user_password(_alx_url, request, service_name, request.json['email'].upper() if request.args.get('type') == '1' else request.json['id'].upper(), request.json, app.config['PRIVATE_SERVICE_TOKEN'])
-                if response['code'] == 202:
-                    temp_json = {"email": userdata['email'].upper(), "rp_email_token": False, "rp_email_exp_date": False} if request.args.get('type') == '1' else {"Id": userdata['Id'].upper(), "rp_email_token": False, "rp_email_exp_date": False}
+                if response['code'] == '202':
+                    temp_json = {"email": request.json['email'].upper(), "rp_email_token": False, "rp_email_exp_date": False} if request.args.get('type') == '1' else {"Id": request.json['Id'].upper(), "rp_email_token": False, "rp_email_exp_date": False}
                     updres = Handlers.put_data(_alx_url, request, service_name, temp_json )
-                return jsonify(response), 200
+                    print(updres)
+                    return jsonify(response), 200
+                else:
+                    return jsonify({"status": "error", "reason": "Error while updating data, please reach support@adminde.com for help."}), 409
             else: 
                 return jsonify({"status": "error", "reason": "Missing parameters"}), 403
         else:

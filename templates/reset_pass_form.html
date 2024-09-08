@@ -17,9 +17,12 @@ Reset Password
         {% if _flag_content%} <p>{{ _flag_content }} </p> {% endif %}
     </div>
     <div class="_main_block_content" >
-        <div class="_main_boxes_pwd">
+        <div class="_main_boxes_pwd" id="view_1">
             <input class="_input_general color_2_bg color_1_tx" type="password" id="_input_new_pass" placeholder="New Password" value=""/> 
             <input class="_input_general color_2_bg color_1_tx" type="password" id="_input_new_pass_repeat" placeholder="Repeat New Password" value=""/> 
+        </div>
+        <div class="_main_boxes_pwd _hidden" id="view_2">
+            <div class="_menu_box">Go to the login page to start again.</div> 
         </div>
     </div>
 </div>
@@ -39,47 +42,55 @@ Reset Password
 {% block scripts %}
 {{ super() }}
 <script>
+    let _view = 1
     common_display_floating_buttons(true);
     // floating buttons 
     if(document.getElementById('_fb_1')) document.getElementById('_fb_1').addEventListener('click', function (){ 
-        _params =  _ws_users_update_get_restpassparams();
-        if(_params){
-            _display_wheel(true);
-            _params['{%if type == 1 %}email{%else%}Id{%endif%}'] = '{{id}}';
-            let _json_out = {};
-            _json_out = _params;
-            console.log(_json_out);
-            let xhr = new XMLHttpRequest();
-            let url = "/reset_password?type={{type}}";
-            xhr.open("PUT", url);
-            xhr.setRequestHeader("Content-Type", "application/json");
-            xhr.onreadystatechange = function () {
-                try
-                {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        _display_wheel(false);
-                        setAlert("_box_green", "Changes Saved");
-                        common_redirect("login")
-                    }
-                }
-                catch(e)
-                {
-                    if(counter === 1){
-                        if(_logging){
-                            console.log("-------------------")
-                            console.log(e)
-                            console.log("-------------------")
+        if (_view == 1){
+            _params =  _ws_users_update_get_restpassparams();
+            if(_params){
+                _display_wheel(true);
+                _params['{%if type == 1 %}email{%else%}Id{%endif%}'] = '{{id}}';
+                let _json_out = {};
+                _json_out = _params;
+                console.log(_json_out);
+                let xhr = new XMLHttpRequest();
+                let url = "/reset_password?type={{type}}";
+                xhr.open("PUT", url);
+                xhr.setRequestHeader("Content-Type", "application/json");
+                xhr.onreadystatechange = function () {
+                    try
+                    {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            setAlert("_box_green", "New password successfully saved");
+                            _view = 2;
+                            document.getElementById('view_1').classList.add('_hidden');
+                            document.getElementById('view_2').classList.remove('_hidden');
+                            _common_fbuttons_change_display_text(['Go to Login', '', ''], [true, false, false])
+                            _display_wheel(false);
                         }
-                        _errors++;
-                        setAlert("_box_red", "Error updating Tenant User.");
-                        _display_wheel(false);
-                    }else{
-                        counter++;
                     }
-                }
-            };
-            var data = JSON.stringify(_json_out);
-            xhr.send(data);
+                    catch(e)
+                    {
+                        if(counter === 1){
+                            if(_logging){
+                                console.log("-------------------")
+                                console.log(e)
+                                console.log("-------------------")
+                            }
+                            _errors++;
+                            setAlert("_box_red", "Error updating Tenant User.");
+                            _display_wheel(false);
+                        }else{
+                            counter++;
+                        }
+                    }
+                };
+                var data = JSON.stringify(_json_out);
+                xhr.send(data);
+            }
+        }else if(_view == 2){
+            common_redirect('login');
         }
     });
     // get pass resseet params
