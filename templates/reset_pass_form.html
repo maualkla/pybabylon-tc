@@ -29,10 +29,10 @@ Reset Password
 {% endblock %}
 
 {% block _flex_menu %}
-<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_dash_en">Login</div>
-<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_dash_es">Iniciar Sesion</div>
-<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_logout_en">Signup</div>
-<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_logout_es">Crear Cuenta</div>
+<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_dash_en" onCLick="common_redirect('login');">Login</div>
+<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_dash_es" onCLick="common_redirect('login');">Iniciar Sesion</div>
+<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_logout_en" onCLick="common_redirect('signup');">Signup</div>
+<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_logout_es" onCLick="common_redirect('signup');">Crear Cuenta</div>
 {% endblock %}
 
 

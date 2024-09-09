@@ -119,7 +119,7 @@ function createAccount(){
             _json_obj[_selector_ids[i].substring(2)] = _params[_selector_ids[i]];
         }
         _json_obj['pass'] = window.btoa(unescape(encodeURIComponent(_params['i_pass'])))
-        _json_obj['rp_email_token'] = false;_json_obj['rp_email_exp_date'] = false;_json_obj['str_sess_id'] = false;_json_obj['plan'] = _s2_selector; _json_obj['terms'] = true; _json_obj['type'] = 2;_json_obj["activate"] = true;_json_obj["pin"] = 0;_json_obj["tenant"] = "";_json_pay["item"] = _json_obj;
+        _json_obj['rp_email_token'] = false; _json_obj['rp_email_exp_date'] = false; _json_obj['str_sess_id'] = false; _json_obj['plan'] = _s2_selector; _json_obj['terms'] = true; _json_obj['type'] = 2; _json_obj["activate"] = true; _json_obj["pin"] = 0; _json_obj["tenant"] = ""; _json_pay["item"] = _json_obj;
         let xhr = new XMLHttpRequest();
         let url = "/v1/admdata?service=user";
         xhr.open("POST", url);
