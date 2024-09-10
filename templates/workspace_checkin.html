@@ -33,8 +33,8 @@
 {% if _logged: %}
 <div class="_menu_box _box_main _box_main_bot" id="_dashboard">Dashboard</div>
 {% else: %}
-<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_reset_en">Reset Password</div>
-<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_reset_es">Reiniciar Contraseña</div>
+<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_reset_en" onClick="redirect('workspace/{{ws_data['TaxId']}}/reset_password')">Reset Password</div>
+<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_reset_es" onClick="redirect('workspace/{{ws_data['TaxId']}}/reset_password')">Reiniciar Contraseña</div>
 {% endif %}
 {% endblock %}
 
