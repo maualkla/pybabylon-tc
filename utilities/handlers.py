@@ -266,6 +266,27 @@ class Handlers():
                     return _response.json()
                 else: 
                     return {}
+            elif _service == 'tenantUser':
+                _req = ['Id', 'Tenant', 'rp_email_token', 'rp_email_exp_date']
+                ## go and iterate to find all of them, if not _go will be false
+                _go = True
+                _nitem = {}
+                ## For Loop going for all the required fields.
+                if 'rp_email_token' in _item and 'rp_email_exp_date' in _item and 'Id' in _item and 'Tenant' in _item:
+                    nitem = {"currentUser": "System", "Tenant": _item['Tenant'], "Id": _item['Id'], "rp_email_token": _item['rp_email_token'], "rp_email_exp_date": _item['rp_email_exp_date']}
+                    _item = nitem
+                else:
+                    _go = False
+                if _go:
+                    ## set the url of the service
+                    _url = Helpers.generateURL(_service_url, _service)
+                    _url = _url+'?type=open'
+                    ## generate the get call
+                    _response = requests.put(_url, json=_item)
+                    ## returns the json as respons
+                    return _response.json()
+                else: 
+                    return {}
             else:
                 return {}
         except Exception as e:
@@ -393,16 +414,23 @@ class Handlers():
             output_item = {}
             if _request and _service_url and _service and _item and _id:
                 if _service == "user" or _service == "tenantUser":
+                    print(1)
                     if _service == "user": 
+                        print(1.1)
                         if _item['repeatPassword'] == _item['pass']:
                             output_item['pass'] = _item['repeatPassword']
                             output_item['email'] = _id.upper()
                     elif _service == 'tenantUser': 
-                        if _item['repeatPassword'] == _item['Password']:
+                        print(1.2)
+                        if _item['repeatPassword'] == _item['pass']:
                             output_item['Password'] = _item['repeatPassword']
                             output_item['Id'] = _id.upper()
+                            output_item['Tenant'] = _id.split('.')[0].upper()
+                            output_item['currentUser'] = "System"
+                            print(output_item)
                     _go = True
                 if _go:
+                    print(2)
                     print(" GO!!")
                     ## set the url of the service
                     _url = Helpers.generateURL(_service_url, _service)

@@ -7,8 +7,6 @@ _common_system_auto_change_color();
 if(document.getElementById('_fb_1')) document.getElementById('_fb_1').addEventListener('click', function (){ _change_obj_color(document.getElementById('_fb_1'), "color_2_bg", "color_1_tx", "color_1_bg", "color_2_tx", "color_2_border"); login_worker(); });
 
 // system triggers
-if(document.getElementById('_reset_en')) document.getElementById('_reset_en').addEventListener('click', function (){window.location.replace("/resetpass")});
-if(document.getElementById('_reset_es')) document.getElementById('_reset_es').addEventListener('click', function (){ window.location.replace("/resetpass") });
 
 
 //// login worker

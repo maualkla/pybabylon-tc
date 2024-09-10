@@ -347,7 +347,7 @@ def reset_password():
                     print(current_date)
                     print(user_date >= current_date)
                     if user_date >= current_date:
-                        temp_json = {"email": userdata['email'].upper(), "rp_email_token": True, "rp_email_exp_date": True} if request.args.get('type') == '1' else {"Id": userdata['Id'].upper(), "rp_email_token": True, "rp_email_exp_date": True}
+                        temp_json = {"email": userdata['email'].upper(), "rp_email_token": True, "rp_email_exp_date": True} if request.args.get('type') == '1' else {"Tenant": userdata['Id'].split(".")[0].upper(), "currentUser": "System", "Id": userdata['Id'].upper(), "rp_email_token": True, "rp_email_exp_date": True}
                         updres = Handlers.put_data(_alx_url, request, service_name, temp_json )
                         print(updres)
                         print( ' Valid, please set a new pass.')
@@ -358,7 +358,10 @@ def reset_password():
                         }
                         return render_template('reset_pass_form.html', **context)
                     else:
-                        out = make_response(redirect('/reset_pass_user'))
+                        if request.args.get('type') == '1':
+                            out = make_response(redirect('/reset_pass_user'))
+                        else: 
+                            out = make_response(redirect('/reset_pass_tuser'))
                         out.set_cookie('email_sent', '2')
                         return 
                 else: 
@@ -370,11 +373,12 @@ def reset_password():
             print(request.json)
             if 'type' in request.args and ('Id' in request.json or 'email' in request.json):
                 service_name = "user" if request.args.get('type') == '1' else "tenantUser"
-                userdata = Handlers.get_data(_alx_url, request, service_name,  request.json['email'].upper() if request.args.get('type') == '1' else request.json['id'].upper(), False, True, app.config['PRIVATE_SERVICE_TOKEN'])
+                userdata = Handlers.get_data(_alx_url, request, service_name,  request.json['email'].upper() if request.args.get('type') == '1' else request.json['Id'].upper(), False, True, app.config['PRIVATE_SERVICE_TOKEN'])
                 print(userdata)
-                response = Handlers.put_user_password(_alx_url, request, service_name, request.json['email'].upper() if request.args.get('type') == '1' else request.json['id'].upper(), request.json, app.config['PRIVATE_SERVICE_TOKEN'])
-                if response['code'] == '202':
-                    temp_json = {"email": request.json['email'].upper(), "rp_email_token": False, "rp_email_exp_date": False} if request.args.get('type') == '1' else {"Id": request.json['Id'].upper(), "rp_email_token": False, "rp_email_exp_date": False}
+                print(request.json)
+                response = Handlers.put_user_password(_alx_url, request, service_name, request.json['email'].upper() if request.args.get('type') == '1' else request.json['Id'].upper(), request.json, app.config['PRIVATE_SERVICE_TOKEN'])
+                if response['code'] == '202' or response['code'] == 202:
+                    temp_json = {"email": request.json['email'].upper(), "rp_email_token": False, "rp_email_exp_date": False} if request.args.get('type') == '1' else {"Tenant": request.json['Id'].split(".")[0].upper(), "Id": request.json['Id'].upper(), "currentUser": "System", "rp_email_token": False, "rp_email_exp_date": False}
                     updres = Handlers.put_data(_alx_url, request, service_name, temp_json )
                     print(updres)
                     return jsonify(response), 200
@@ -638,7 +642,7 @@ def workspace_option(_id = False):
         return _ws
 
 ## Tenant Users reset password
-@app.route('/workspace/<_id>/reset_password')
+@app.route('/workspace/<_id>/reset_password', methods=['GET', 'POST'])
 def reset_password_tuser(_id = False):
     try: 
         ## Set a logged variable requesting the _id and _us cookies.
@@ -658,10 +662,10 @@ def reset_password_tuser(_id = False):
                         "ws_data": _wsdata['items'][0]
                     }
                     if request.cookies.get('email_sent') == '1':
-                        context["_flag_status"] = "_box_red"
+                        context["_flag_status"] = "_box_green"
                         context["_flag_content"] = "Reset Pass Email Sent" 
                     elif request.cookies.get("email_sent") == '2':
-                        context["_flag_status"] = "_box_green"
+                        context["_flag_status"] = "_box_red"
                         context["_flag_content"] = "Link expired, send a new email." 
                     elif request.cookies.get("email_sent") == '3':
                         context["_flag_status"] = "_box_red"
@@ -713,7 +717,7 @@ def reset_password_tuser(_id = False):
                                 if path == 1:
                                     reset_token = Helpers.randomString(65)
                                     exp_date = Helpers.generateDateTime(-1)[1]
-                                    updres = Handlers.put_data(_alx_url, request, "tenantUser", {"Id": tuserid.upper(), "rp_email_token": reset_token, "rp_email_exp_date": exp_date})
+                                    updres = Handlers.put_data(_alx_url, request, "tenantUser", {"Tenant": _wsdata['items'][0]['TaxId'], "Id": tuserid.upper(), "rp_email_token": reset_token, "rp_email_exp_date": exp_date})
                                     print(updres)
                                 elif path == 2:
                                     reset_token = userdata['rp_email_token']
@@ -732,12 +736,12 @@ def reset_password_tuser(_id = False):
                                     "pass_reset_link": request.host_url+"reset_password?type=2&token="+str(reset_token)
                                 }
                                 print(template_vars)
-                                response = Helpers.emailSender(userdata['Email'], app.config["MAIL_TEMPLATE_RESET_TU"] , app.config["MAIL_API_TOKEN"], template_vars)
-                                print(response)
+                                ##response = Helpers.emailSender(userdata['Email'], app.config["MAIL_TEMPLATE_RESET_TU"] , app.config["MAIL_API_TOKEN"], template_vars)
+                                ##print(response)
                                 status = "All smooth, email was sent with a reset_pass link."
                             else:
                                 status = "Account not found."
-                        else: 
+                        else:   
                             status = "Score not valid"
                     else:
                         status = "Sorry ! Bots are not allowed."

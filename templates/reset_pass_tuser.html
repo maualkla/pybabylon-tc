@@ -17,9 +17,9 @@ Reset Password
         {% if _flag_content%} <p>{{ _flag_content }} </p> {% endif %}
     </div>
     <div class="_main_block_content" id="_stg_1">
-        <form action="reset_pass_user" method="post" id="your-form-id">
+        <form action="reset_password" method="post" id="your-form-id">
             <div class="_menu_box">Type your user name and a email will be sent to your registered email.</div>
-            <input class="_input_general color_2_tx color_3_bg color_3_border_bottom color_2_tx" placeholder="Type Email" type="email" name="tuserid" id="tuserid">
+            <input class="_input_general color_2_tx color_3_bg color_3_border_bottom color_2_tx" placeholder="Type Username" type="email" name="tuserid" id="tuserid">
             <input type="hidden" name="recaptchaResponse" id="recaptchaResponse">
         </form>
         
@@ -54,17 +54,18 @@ Reset Password
             var recaptchaResponse = document.getElementById('recaptchaResponse');
             recaptchaResponse.value = token;
             // Now you can submit the form
-            document.
+            document.getElementById('tuserid').value = _context_vars[5]+"."+document.getElementById('tuserid').value;
             document.getElementById('your-form-id').submit();
         });
     });
 </script>
 <script>
+    
+    const _context_vars =  ["", 0, "{{ws_data['MainHexColor']}}", "{{ ws_data['LowHexColor'] }}", "{{ ws_data['AlterHexColor'] }}", "{{ ws_data['TaxId'] }}"];
+    {% set ns = namespace() %}
+    let _severityes = [{% for level in severityLevels %} {% if ns.value %} ,"{{level}}" {% else %} {% set ns.value = 1 %} "{{level}}" {% endif %} {% endfor %}];
     common_display_floating_buttons(true);
     _common_system_auto_change_color();
-    _context = {"", 0, "{{ws_data['MainHexColor']}}", "{{ ws_data['LowHexColor'] }}", "{{ ws_data['AlterHexColor'] }}", "{{ ws_data['TaxId'] }}"};
-    {% set ns = namespace() %}
-    _severityes = [{% for level in severityLevels %} {% if ns.value %} ,"{{level}}" {% else %} {% set ns.value = 1 %} "{{level}}" {% endif %} {% endfor %}];
-   </script>
+</script>
 <script src="../static/reset_pass.js"></script>
 {% endblock %}
