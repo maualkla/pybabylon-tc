@@ -133,18 +133,6 @@ def apidocs_v0_4():
         return {"status": "Error", "reason": str(e)}
 
 ################################################################################################################
-## Email service
-@app.route('/email')
-def email():
-    template_vars = {
-      "user_email": "variable@email.com",
-      "pass_reset_link": "http://themudev.com/validresetlink"
-    }
-    response = Helpers.emailSender("variable@email.com", app.config["MAIL_TEMPLATE_RESET"] , app.config["MAIL_API_TOKEN"], template_vars)
-    return "Email sent? "+str(response)
-
-
-################################################################################################################
 
 # Landing page
 @app.route('/')
