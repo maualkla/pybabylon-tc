@@ -246,65 +246,43 @@ def reset_pass_user():
             captcha_response = request.form['recaptchaResponse']
             humanValidation = is_human(captcha_response)
             if humanValidation:
-                if humanValidation > 0.6:
-                    print(" score valido")
+                if humanValidation > 0.5:
                     userdata = Handlers.get_data(_alx_url, request, "user",  email.upper(), False, True, app.config['PRIVATE_SERVICE_TOKEN'])
-                    print(userdata)
                     if userdata['containsData']:
                         userdata = userdata['items'][0]
-                        print(" yes user ")
-                        print(userdata)
                         date_format = "%d.%m.%Y"
                         from datetime import datetime
-                        print("validacion:::")
                         path = 0
-                        print(userdata['rp_email_exp_date'])
                         if userdata['rp_email_exp_date'] == False:
-                            print(1)
                             path = 1
                             ## generate the new code and expdate
                         elif userdata['rp_email_exp_date'] == True:
-                            print("true")
                             path = 3
                         else:
                             ## validate
-                            print(2)
                             user_date = datetime.strptime(userdata['rp_email_exp_date'], date_format)
                             current_date = datetime.strptime(Helpers.generateDateTime()[1], date_format)
-                            print(user_date)
-                            print(current_date)
                             if user_date >= current_date:
                                 ## generate new token
-                                print("generate new token")
                                 path = 1
                             else: 
-                                print("reuse old token")
                                 ## reuse old token
                                 path = 2
-                        print(" generate token")
                         if path == 1:
                             reset_token = Helpers.randomString(65)
                             exp_date = Helpers.generateDateTime(-1)[1]
                             updres = Handlers.put_data(_alx_url, request, "user", {"email": email.upper(), "rp_email_token": reset_token, "rp_email_exp_date": exp_date})
-                            print(updres)
                         elif path == 2:
                             reset_token = userdata['rp_email_token']
                         else: 
                             resp = make_response(redirect('/reset_pass_user'))
                             resp.set_cookie('email_sent', '3')  
                             return resp
-                        print(" save t")
-                        print(" Token: "+str(reset_token))
-                        print("Token lenght")
-                        print(len(reset_token))
-                        print(" send emails function () is next")
                         template_vars = {
                             "user_email": email,
                             "pass_reset_link": request.host_url+"reset_password?type=1&token="+str(reset_token)
                         }
-                        print(template_vars)
                         response = Helpers.emailSender(email, app.config["MAIL_TEMPLATE_RESET"] , app.config["MAIL_API_TOKEN"], template_vars)
-                        print(response)
                         status = "All smooth, email was sent with a reset_pass link."
                     else:
                         status = "Account not found."
@@ -312,7 +290,6 @@ def reset_pass_user():
                     status = "Score not valid"
             else:
                 status = "Sorry ! Bots are not allowed."
-            print(" Status: "+status)
             resp = make_response(redirect('/reset_pass_user'))
             resp.set_cookie('email_sent', '1')  
             return resp
@@ -332,25 +309,17 @@ def reset_password():
         if request.method == 'GET':
             if 'token' in request.args and 'type' in request.args:
                 _filter = "resetToken:"+request.args.get('token')
-                print(request.args.get('type'))
                 service_name = "user" if request.args.get('type') == '1' else "tenantUser"
-                print(service_name)
                 userdata = Handlers.get_data(_alx_url, request, service_name, False, _filter, True, app.config['PRIVATE_SERVICE_TOKEN'])
-                print(userdata)
                 if userdata['containsData']:
                     userdata = userdata['items'][0]
                     date_format = "%d.%m.%Y"
                     from datetime import datetime
                     user_date = datetime.strptime(userdata['rp_email_exp_date'], date_format)
                     current_date = datetime.strptime(Helpers.generateDateTime()[1], date_format)
-                    print(user_date)
-                    print(current_date)
-                    print(user_date >= current_date)
                     if user_date >= current_date:
                         temp_json = {"email": userdata['email'].upper(), "rp_email_token": True, "rp_email_exp_date": True} if request.args.get('type') == '1' else {"Tenant": userdata['Id'].split(".")[0].upper(), "currentUser": "System", "Id": userdata['Id'].upper(), "rp_email_token": True, "rp_email_exp_date": True}
                         updres = Handlers.put_data(_alx_url, request, service_name, temp_json )
-                        print(updres)
-                        print( ' Valid, please set a new pass.')
                         context = {
                             "id": userdata['email'] if request.args.get('type') == '1' else userdata['Id'],
                             "type": 1 if request.args.get('type') == '1' else 2,
@@ -369,18 +338,13 @@ def reset_password():
             else:
                 return out
         if request.method == 'PUT':
-            print(request.args)
-            print(request.json)
             if 'type' in request.args and ('Id' in request.json or 'email' in request.json):
                 service_name = "user" if request.args.get('type') == '1' else "tenantUser"
                 userdata = Handlers.get_data(_alx_url, request, service_name,  request.json['email'].upper() if request.args.get('type') == '1' else request.json['Id'].upper(), False, True, app.config['PRIVATE_SERVICE_TOKEN'])
-                print(userdata)
-                print(request.json)
                 response = Handlers.put_user_password(_alx_url, request, service_name, request.json['email'].upper() if request.args.get('type') == '1' else request.json['Id'].upper(), request.json, app.config['PRIVATE_SERVICE_TOKEN'])
                 if response['code'] == '202' or response['code'] == 202:
                     temp_json = {"email": request.json['email'].upper(), "rp_email_token": False, "rp_email_exp_date": False} if request.args.get('type') == '1' else {"Tenant": request.json['Id'].split(".")[0].upper(), "Id": request.json['Id'].upper(), "currentUser": "System", "rp_email_token": False, "rp_email_exp_date": False}
                     updres = Handlers.put_data(_alx_url, request, service_name, temp_json )
-                    print(updres)
                     return jsonify(response), 200
                 else:
                     return jsonify({"status": "error", "reason": "Error while updating data, please reach support@adminde.com for help."}), 409
@@ -642,8 +606,8 @@ def workspace_option(_id = False):
         return _ws
 
 ## Tenant Users reset password
-@app.route('/workspace/<_id>/reset_password', methods=['GET', 'POST'])
-def reset_password_tuser(_id = False):
+@app.route('/workspace/<_id>/reset_pass', methods=['GET', 'POST'])
+def reset_password_tuser_process(_id = False):
     try: 
         ## Set a logged variable requesting the _id and _us cookies.
         _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
@@ -678,66 +642,44 @@ def reset_password_tuser(_id = False):
                     captcha_response = request.form['recaptchaResponse']
                     humanValidation = is_human(captcha_response)
                     if humanValidation:
-                        if humanValidation > 0.6:
-                            print(" score valido")
+                        if humanValidation > 0.5:
                             userdata = Handlers.get_data(_alx_url, request, "tenantUser",  tuserid.upper(), "tenant:"+_wsdata['items'][0]['TaxId'], True, app.config['PRIVATE_SERVICE_TOKEN'])
-                            print(userdata)
                             if userdata['containsData']:
                                 userdata = userdata['items'][0]
-                                print(" yes user ")
-                                print(userdata)
                                 date_format = "%d.%m.%Y"
                                 from datetime import datetime
-                                print("validacion:::")
                                 path = 0
-                                print(userdata['rp_email_exp_date'])
                                 if userdata['rp_email_exp_date'] == False:
-                                    print(1)
                                     path = 1
                                     ## generate the new code and expdate
                                 elif userdata['rp_email_exp_date'] == True:
-                                    print("true")
                                     path = 3
                                 else:
                                     ## validate
-                                    print(2)
                                     user_date = datetime.strptime(userdata['rp_email_exp_date'], date_format)
                                     current_date = datetime.strptime(Helpers.generateDateTime()[1], date_format)
-                                    print(user_date)
-                                    print(current_date)
                                     if user_date >= current_date:
                                         ## generate new token
-                                        print("generate new token")
                                         path = 1
-                                    else: 
-                                        print("reuse old token")
+                                    else:
                                         ## reuse old token
                                         path = 2
-                                print(" generate token")
                                 if path == 1:
                                     reset_token = Helpers.randomString(65)
                                     exp_date = Helpers.generateDateTime(-1)[1]
                                     updres = Handlers.put_data(_alx_url, request, "tenantUser", {"Tenant": _wsdata['items'][0]['TaxId'], "Id": tuserid.upper(), "rp_email_token": reset_token, "rp_email_exp_date": exp_date})
-                                    print(updres)
                                 elif path == 2:
                                     reset_token = userdata['rp_email_token']
                                 else: 
-                                    resp = make_response(redirect('workspace/'+_id+'/reset_password'))
+                                    resp = make_response(redirect('workspace/'+_id+'/reset_pass'))
                                     resp.set_cookie('email_sent', '3')  
                                     return resp
-                                print(" save t")
-                                print(" Token: "+str(reset_token))
-                                print("Token lenght")
-                                print(len(reset_token))
-                                print(" send emails function () is next")
                                 template_vars = {
                                     "company_name": _wsdata['items'][0]['InformalName'],
                                     "user_email": userdata['Email'],
-                                    "pass_reset_link": request.host_url+"reset_password?type=2&token="+str(reset_token)
+                                    "pass_reset_link": request.host_url+"workspace/"+_id+"/reset_password?type=2&token="+str(reset_token)
                                 }
-                                print(template_vars)
-                                ##response = Helpers.emailSender(userdata['Email'], app.config["MAIL_TEMPLATE_RESET_TU"] , app.config["MAIL_API_TOKEN"], template_vars)
-                                ##print(response)
+                                response = Helpers.emailSender(userdata['Email'], app.config["MAIL_TEMPLATE_RESET_TU"] , app.config["MAIL_API_TOKEN"], template_vars)
                                 status = "All smooth, email was sent with a reset_pass link."
                             else:
                                 status = "Account not found."
@@ -745,8 +687,7 @@ def reset_password_tuser(_id = False):
                             status = "Score not valid"
                     else:
                         status = "Sorry ! Bots are not allowed."
-                    print(" Status: "+status)
-                    resp = make_response(redirect('/workspace/'+_id+'/reset_password'))
+                    resp = make_response(redirect('/workspace/'+_id+'/reset_pass'))
                     resp.set_cookie('email_sent', '1')  
                     return resp
                 else:
@@ -757,7 +698,65 @@ def reset_password_tuser(_id = False):
     except Exception as e:
         print("(!) Exception in reset_pass_tuser(): "+str(e))
         return {"status": "An error Occurred", "error": str(e)}
-    
+
+### Tenant users reset_password page
+@app.route('/workspace/<_id>/reset_password', methods=['GET', 'PUT'])
+def reset_password_tuser_logic(_id = False):
+    try:
+        out = make_response(redirect('/'))
+        _wsdata = Handlers.get_data(_alx_url, request, "workspace", _id, False, True, app.config['PRIVATE_SERVICE_TOKEN'])
+        if request.method == 'GET' and _wsdata['containsData']:
+            if 'token' in request.args and 'type' in request.args:
+                _filter = "resetToken:"+request.args.get('token')
+                service_name = "user" if request.args.get('type') == '1' else "tenantUser"
+                userdata = Handlers.get_data(_alx_url, request, service_name, False, _filter, True, app.config['PRIVATE_SERVICE_TOKEN'])
+                if userdata['containsData']:
+                    userdata = userdata['items'][0]
+                    date_format = "%d.%m.%Y"
+                    from datetime import datetime
+                    user_date = datetime.strptime(userdata['rp_email_exp_date'], date_format)
+                    current_date = datetime.strptime(Helpers.generateDateTime()[1], date_format)
+                    if user_date >= current_date:
+                        temp_json = {"email": userdata['email'].upper(), "rp_email_token": True, "rp_email_exp_date": True} if request.args.get('type') == '1' else {"Tenant": userdata['Id'].split(".")[0].upper(), "currentUser": "System", "Id": userdata['Id'].upper(), "rp_email_token": True, "rp_email_exp_date": True}
+                        updres = Handlers.put_data(_alx_url, request, service_name, temp_json )
+                        context = {
+                            "id": userdata['email'] if request.args.get('type') == '1' else userdata['Id'],
+                            "type": 1 if request.args.get('type') == '1' else 2,
+                            "host_url": request.host_url,
+                            "ws_data" : _wsdata['items'][0]
+                        }
+                        return render_template('reset_pass_form.html', **context)
+                    else:
+                        if request.args.get('type') == '1':
+                            out = make_response(redirect('workspace/'+_id+'/reset_pass_user'))
+                        else: 
+                            out = make_response(redirect('workspace/'+_id+'/reset_pass_tuser'))
+                        out.set_cookie('email_sent', '2')
+                        return 
+                else: 
+                    return out
+            else:
+                return out
+        if request.method == 'PUT' and _wsdata['containsData']:
+            if 'type' in request.args and ('Id' in request.json or 'email' in request.json):
+                service_name = "user" if request.args.get('type') == '1' else "tenantUser"
+                userdata = Handlers.get_data(_alx_url, request, service_name,  request.json['email'].upper() if request.args.get('type') == '1' else request.json['Id'].upper(), False, True, app.config['PRIVATE_SERVICE_TOKEN'])
+                response = Handlers.put_user_password(_alx_url, request, service_name, request.json['email'].upper() if request.args.get('type') == '1' else request.json['Id'].upper(), request.json, app.config['PRIVATE_SERVICE_TOKEN'])
+                if response['code'] == '202' or response['code'] == 202:
+                    temp_json = {"email": request.json['email'].upper(), "rp_email_token": False, "rp_email_exp_date": False} if request.args.get('type') == '1' else {"Tenant": request.json['Id'].split(".")[0].upper(), "Id": request.json['Id'].upper(), "currentUser": "System", "rp_email_token": False, "rp_email_exp_date": False}
+                    updres = Handlers.put_data(_alx_url, request, service_name, temp_json )
+                    return jsonify(response), 200
+                else:
+                    return jsonify({"status": "error", "reason": "Error while updating data, please reach support@adminde.com for help."}), 409
+            else: 
+                return jsonify({"status": "error", "reason": "Missing parameters"}), 403
+        else:
+            return out
+
+    except Exception as e:
+        print("(!) Exception in reset_password() "+str(e))
+        return {"status": "An error Occurred", "error": str(e)}
+
 ## Tenant Users Overview
 @app.route('/workspace/<_id>/users')
 def workspace_users(_id = False):
@@ -1665,7 +1664,6 @@ def is_human(captcha_response):
         payload = {'response':captcha_response, 'secret':secret}
         response = requests.post("https://www.google.com/recaptcha/api/siteverify", payload)
         response_text = json.loads(response.text)
-        print(response_text)
         return response_text['score']
     except Exception as e:
         print("(!) Exception in is_human(): "+str(e))

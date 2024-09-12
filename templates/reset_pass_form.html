@@ -29,10 +29,12 @@ Reset Password
 {% endblock %}
 
 {% block _flex_menu %}
-<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_dash_en" onCLick="common_redirect('login');">Login</div>
-<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_dash_es" onCLick="common_redirect('login');">Iniciar Sesion</div>
+<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_dash_en" onCLick="common_redirect({% if type == 1 %}'login'{%else%}'/workspace/wsdata['TaxId']/checkin'{% endif %});">Login</div>
+<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_dash_es" onCLick="common_redirect({% if type == 1 %}'login'{%else%}'/workspace/wsdata['TaxId']/checkin'{% endif %});">Iniciar Sesion</div>
+{% if type == 1 %}
 <div class="_menu_box _box_main _box_main_bot _en _hidden" id="_logout_en" onCLick="common_redirect('signup');">Signup</div>
 <div class="_menu_box _box_main _box_main_bot _es _hidden" id="_logout_es" onCLick="common_redirect('signup');">Crear Cuenta</div>
+{% endif %}
 {% endblock %}
 
 
@@ -42,7 +44,15 @@ Reset Password
 {% block scripts %}
 {{ super() }}
 <script>
+    const _context_vars =  ["", 0, "{{ws_data['MainHexColor']}}", "{{ ws_data['LowHexColor'] }}", "{{ ws_data['AlterHexColor'] }}", "{{ ws_data['TaxId'] }}"];
+    {% set ns = namespace() %}
+    _severityes = [{% for level in severityLevels %} {% if ns.value %} ,"{{level}}" {% else %} {% set ns.value = 1 %} "{{level}}" {% endif %} {% endfor %}];
+</script>
+<script>
     let _view = 1
+    {% if type == 2%}
+    _common_system_auto_change_color();
+    {% endif%}
     common_display_floating_buttons(true);
     // floating buttons 
     if(document.getElementById('_fb_1')) document.getElementById('_fb_1').addEventListener('click', function (){ 
@@ -53,7 +63,6 @@ Reset Password
                 _params['{%if type == 1 %}email{%else%}Id{%endif%}'] = '{{id}}';
                 let _json_out = {};
                 _json_out = _params;
-                console.log(_json_out);
                 let xhr = new XMLHttpRequest();
                 let url = "/reset_password?type={{type}}";
                 xhr.open("PUT", url);
@@ -106,9 +115,5 @@ Reset Password
         }
     }
 </script>
-<script>
-    {% set ns = namespace() %}
-    _severityes = [{% for level in severityLevels %} {% if ns.value %} ,"{{level}}" {% else %} {% set ns.value = 1 %} "{{level}}" {% endif %} {% endfor %}];
-   </script>
 <script src="../static/reset_pass.js"></script>
 {% endblock %}
