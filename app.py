@@ -1771,7 +1771,8 @@ def status():
 ## /legal
 @app.route('/legal')
 def legal():
-    return '/legal in construction, go back to <a href="/"> home </a>'
+    ##return '/legal in construction, go back to <a href="/"> home </a>'
+    return render_template('legal.html')
 
 ##### Service paths
 ## /about
