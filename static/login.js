@@ -4,6 +4,8 @@
 */
 /* triggers for the buttons */
 
+if(document.getElementById('_reset_en')) document.getElementById('_reset_en').addEventListener('click', function (){window.location.replace("/reset_pass_user")});
+if(document.getElementById('_reset_es')) document.getElementById('_reset_es').addEventListener('click', function (){window.location.replace("/reset_pass_user")});
 if(document.getElementById('_signup_en')) document.getElementById('_signup_en').addEventListener('click', function (){window.location.replace("/signup")});
 if(document.getElementById('_signup_es')) document.getElementById('_signup_es').addEventListener('click', function (){window.location.replace("/signup")});
 if(document.getElementById('_login_buttom')) document.getElementById('_login_buttom').addEventListener('click', function (){ _change_obj_color(document.getElementById('_login_buttom'), "color_2_bg", "color_1_tx", "color_1_bg", "color_2_tx", "color_2_border"); login_worker(); });

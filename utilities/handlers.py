@@ -5,10 +5,10 @@ from utilities.helpers import Helpers
 class Handlers():
 
     _models = {
-        "user":['str_sess_id','activate', 'username', 'bday', 'pass', 'fname', 'phone', 'pin', 'plan', 'postalCode', 'terms', 'type', 'tenant'],
+        "user":['rp_email_token', 'rp_email_exp_date','str_sess_id','activate', 'username', 'bday', 'pass', 'fname', 'phone', 'pin', 'plan', 'postalCode', 'terms', 'type', 'tenant'],
         "workspace":['Owner', 'TaxId', 'LegalName', 'InformalName', 'ShortCode', 'CountryCode', 'State', 'City', 'AddressLine1', 'AddressLine2', 'AddressLine3', 'AddressLine4', 'PhoneCountryCode', 'PhoneNumber', 'Email', 'MainHexColor', 'AlterHexColor', 'LowHexColor', 'Level', 'CreationDate', 'PostalCode'],
         "session": ['requestString', 'client'],
-        "tenantUser": ['Active', 'Username', 'Id', 'Password', 'FullName', 'Email', 'Manager', 'Tenant', 'Type', 'CreatedBy'],
+        "tenantUser": ['rp_email_token', 'rp_email_exp_date','Active', 'Username', 'Id', 'Password', 'FullName', 'Email', 'Manager', 'Tenant', 'Type', 'CreatedBy'],
         ##"timeLog": ['ip', 'browser', 'requestString'],
         "timeLog": ['Active', 'Id', 'StartTime', 'StartDate', 'OriginalStartTime', 'OriginalStartTime', 'Edited', 'EditedBy', 'EndDate', 'EndTime', 'EditionDate', 'EditionTime', 'OriginalEndDate', 'OriginalEndTime', 'ip', 'browser', 'requestString', 'UserId']
     }
@@ -47,6 +47,9 @@ class Handlers():
                     return {}
             else:
                 if _open_data:
+                    print("opendata")
+                    print(_id)
+                    print(_filter)
                     ## set the url of the service
                     _url = Helpers.generateURL(_service_url, _service, _id, _filter)
                     ## set the headers
@@ -235,7 +238,7 @@ class Handlers():
                 else:
                     return {}
             elif _service == 'user':
-                _req = ['str_sess_id', 'email']
+                _req = ['str_sess_id', 'email', 'rp_email_token', 'rp_email_exp_date']
                 ## go and iterate to find all of them, if not _go will be false
                 _go = True
                 _nitem = {}
@@ -248,6 +251,30 @@ class Handlers():
                             _item = _nitem
                         else:
                             _go = False
+                elif 'rp_email_token' in _item or 'rp_email_exp_date' in _item:
+                    nitem = {"email": _item['email'], "rp_email_token": _item['rp_email_token'], "rp_email_exp_date": _item['rp_email_exp_date']}
+                    _item = nitem
+                else:
+                    _go = False
+                if _go:
+                    ## set the url of the service
+                    _url = Helpers.generateURL(_service_url, _service)
+                    _url = _url+'?type=open'
+                    ## generate the get call
+                    _response = requests.put(_url, json=_item)
+                    ## returns the json as respons
+                    return _response.json()
+                else: 
+                    return {}
+            elif _service == 'tenantUser':
+                _req = ['Id', 'Tenant', 'rp_email_token', 'rp_email_exp_date']
+                ## go and iterate to find all of them, if not _go will be false
+                _go = True
+                _nitem = {}
+                ## For Loop going for all the required fields.
+                if 'rp_email_token' in _item and 'rp_email_exp_date' in _item and 'Id' in _item and 'Tenant' in _item:
+                    nitem = {"currentUser": "System", "Tenant": _item['Tenant'], "Id": _item['Id'], "rp_email_token": _item['rp_email_token'], "rp_email_exp_date": _item['rp_email_exp_date']}
+                    _item = nitem
                 else:
                     _go = False
                 if _go:
@@ -371,3 +398,56 @@ class Handlers():
             print(str(e))
             return False
         
+
+    ## put_user_password custom operation
+    ## custom function to update password.
+    ## gets authorized and then calls to the specificated service.
+    ## _service_url:    (required) service url ip+port
+    ## _request:        (required) request object to get the headers and cookies.
+    ## _service:        (required) Service to be called /service
+    ## _id:             (required) id to update
+    ## _item:           (required) _item object includes all the fields required to create the update
+    def put_user_password(_service_url, _request, _service, _id, _item, private_key):
+        try: 
+            print("put_user_password()")
+            _go = False
+            output_item = {}
+            if _request and _service_url and _service and _item and _id:
+                if _service == "user" or _service == "tenantUser":
+                    print(1)
+                    if _service == "user": 
+                        print(1.1)
+                        if _item['repeatPassword'] == _item['pass']:
+                            output_item['pass'] = _item['repeatPassword']
+                            output_item['email'] = _id.upper()
+                    elif _service == 'tenantUser': 
+                        print(1.2)
+                        if _item['repeatPassword'] == _item['pass']:
+                            output_item['Password'] = _item['repeatPassword']
+                            output_item['Id'] = _id.upper()
+                            output_item['Tenant'] = _id.split('.')[0].upper()
+                            output_item['currentUser'] = "System"
+                            print(output_item)
+                    _go = True
+                if _go:
+                    print(2)
+                    print(" GO!!")
+                    ## set the url of the service
+                    _url = Helpers.generateURL(_service_url, _service)
+                    ## set the headers
+                    _headers = {'openData': 'true', 'privateKey': private_key}
+                    ## generate the get call
+                    _response = requests.put(_url, json=output_item, headers=_headers)
+                    ## returns the json as respons
+                    print(_response.json())
+                    return _response.json()
+                else:
+                    print(" No go.")
+                    return {}
+            else: 
+                print(" missing fields.")
+                return {}
+        except Exception as e:
+            print(" (!) Exception in put_user_password(): ")
+            print(str(e))
+            return False

@@ -1,9 +1,42 @@
 import requests, base64, re
+import mailtrap as mt
 
 ########################################
 ### Class Helpers ######################
 ########################################
 class Helpers:
+
+    ## return String (lenght)
+    def randomString(_length):
+        try:
+            print(" >> helpers.randomString() helper.")
+            import random, string
+            output_str = ''.join(random.choice(string.ascii_letters) for i in range(_length))
+            return output_str
+        except Exception as e:
+            return {"status": "An error Occurred", "error": str(e)}
+
+    ## common email sender 
+    def emailSender(email_list_to = False, template_id = False, api_token = False, template_variables = False ):
+        try:
+            if email_list_to and template_id and api_token and template_variables:
+                print(" >> emailSender() helper.")
+                mail = mt.MailFromTemplate(
+                    sender=mt.Address(email="no-reply@adminde.com", name="Adminde Support"),
+                    to=[mt.Address(email=email_list_to)],
+                    template_uuid=template_id,
+                    template_variables=template_variables
+                )
+                client = mt.MailtrapClient(token=api_token)
+                response = client.send(mail)
+                print(response)
+                return True
+            else: 
+                return False
+        except Exception as e:
+            print("(!) Exception in emailSender(): ")
+            print(str(e))
+            return False
 
     ## Base64 encode
     def b64Encode(_string):
