@@ -33,6 +33,9 @@ app.config.from_object(Config)
 ## globals
 _alx_url = str(app.config['CONF_URL']) + ":" + str(app.config['CONF_PORT'])
 
+## set logging variables
+logging = app.config['LOGGING'] 
+
 ## stripe keys
 stripe_keys = {
     "secret_key": app.config["CONF_STRIPE_SEC_KEY"],
@@ -213,14 +216,18 @@ def login():
 ################################################################################################################
 
 ## reset password for user
-## workspace tuser reset pass
+## service to serve the reset pass view for users
 @app.route('/reset_pass_user', methods=['GET', 'POST'])
 def reset_pass_user():
     try:
+        ## we validate the method for the service request.
         if request.method == 'GET':
+            ## We validate the email_sent cookie
             if request.cookies.get('email_sent') == '1':
+                ## on this case, the emails has been sent and the notification is triggered.
                 context={"_flag_status": "_box_green", "_flag_content": "Reset Pass Email Sent", "host_url": request.host_url,"recaptcha_key": app.config["RECAPTCHA_SITE_KEY"]}
             elif request.cookies.get("email_sent") == '2':
+                ## on this case, the link used was expired and it is required to set a new reset token.
                 context={"_flag_status": "_box_red", "_flag_content": "Link expired, send a new email.", "host_url": request.host_url,"recaptcha_key": app.config["RECAPTCHA_SITE_KEY"]}
             elif request.cookies.get("email_sent") == '3':
                 context={"_flag_status": "_box_red", "_flag_content": "Reset password email already sent, please review your inbox or try again later.", "host_url": request.host_url,"recaptcha_key": app.config["RECAPTCHA_SITE_KEY"]}
@@ -271,6 +278,7 @@ def reset_pass_user():
                             "pass_reset_link": request.host_url+"reset_password?type=1&token="+str(reset_token)
                         }
                         response = Helpers.emailSender(email, app.config["MAIL_TEMPLATE_RESET"] , app.config["MAIL_API_TOKEN"], template_vars)
+                        if logging: print(response)
                         status = "All smooth, email was sent with a reset_pass link."
                     else:
                         status = "Account not found."
@@ -278,6 +286,7 @@ def reset_pass_user():
                     status = "Score not valid"
             else:
                 status = "Sorry ! Bots are not allowed."
+            if logging: print(status)
             resp = make_response(redirect('/reset_pass_user'))
             resp.set_cookie('email_sent', '1')  
             return resp
