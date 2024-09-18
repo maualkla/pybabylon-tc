@@ -769,22 +769,30 @@ def reset_password_tuser_logic(_id = False):
                 service_name = "user" if request.args.get('type') == '1' else "tenantUser"
                 userdata = Handlers.get_data(_alx_url, request, service_name, False, _filter, True, app.config['PRIVATE_SERVICE_TOKEN'])
                 if userdata['containsData']:
+                    ## save the contains data
                     userdata = userdata['items'][0]
+                    ## set the date format and import the datetime
                     date_format = "%d.%m.%Y"
                     from datetime import datetime
+                    ## set the userdate and currentdate
                     user_date = datetime.strptime(userdata['rp_email_exp_date'], date_format)
                     current_date = datetime.strptime(Helpers.generateDateTime()[1], date_format)
+                    ## compare the currentdate and userdate
                     if user_date >= current_date:
+                        ## set the temp_json data
                         temp_json = {"email": userdata['email'].upper(), "rp_email_token": True, "rp_email_exp_date": True} if request.args.get('type') == '1' else {"Tenant": userdata['Id'].split(".")[0].upper(), "currentUser": "System", "Id": userdata['Id'].upper(), "rp_email_token": True, "rp_email_exp_date": True}
                         updres = Handlers.put_data(_alx_url, request, service_name, temp_json )
+                        ## set the context
                         context = {
                             "id": userdata['email'] if request.args.get('type') == '1' else userdata['Id'],
                             "type": 1 if request.args.get('type') == '1' else 2,
                             "host_url": request.host_url,
                             "ws_data" : _wsdata['items'][0]
                         }
+                        ## return the template
                         return render_template('reset_pass_form.html', **context)
                     else:
+                        ## validate the type
                         if request.args.get('type') == '1':
                             out = make_response(redirect('workspace/'+_id+'/reset_pass_user'))
                         else: 
@@ -795,12 +803,18 @@ def reset_password_tuser_logic(_id = False):
                     return out
             else:
                 return out
+        ## validate the method to be PUT and the workspace data to be real
         if request.method == 'PUT' and _wsdata['containsData']:
+            ## validate the type and the presence of an Id or Email in the request.json
             if 'type' in request.args and ('Id' in request.json or 'email' in request.json):
+                ## set the name for user or tenantUser depending on the type
                 service_name = "user" if request.args.get('type') == '1' else "tenantUser"
+                ## get the user data and set the password
                 userdata = Handlers.get_data(_alx_url, request, service_name,  request.json['email'].upper() if request.args.get('type') == '1' else request.json['Id'].upper(), False, True, app.config['PRIVATE_SERVICE_TOKEN'])
                 response = Handlers.put_user_password(_alx_url, request, service_name, request.json['email'].upper() if request.args.get('type') == '1' else request.json['Id'].upper(), request.json, app.config['PRIVATE_SERVICE_TOKEN'])
+                ## if correct the code is 202 or '202'
                 if response['code'] == '202' or response['code'] == 202:
+                    ## set the template
                     temp_json = {"email": request.json['email'].upper(), "rp_email_token": False, "rp_email_exp_date": False} if request.args.get('type') == '1' else {"Tenant": request.json['Id'].split(".")[0].upper(), "Id": request.json['Id'].upper(), "currentUser": "System", "rp_email_token": False, "rp_email_exp_date": False}
                     updres = Handlers.put_data(_alx_url, request, service_name, temp_json )
                     return jsonify(response), 200
@@ -1718,10 +1732,15 @@ def data_ops():
 def is_human(captcha_response):
     try:
         print(">>> is_human()")
+        ## save the recaptcha secret key
         secret = app.config['RECAPTCHA_SECRET_KEY']
+        ## set the payload object
         payload = {'response':captcha_response, 'secret':secret}
+        ## makes a call to /google recaptcha to return a number, which means the user is real or not
         response = requests.post("https://www.google.com/recaptcha/api/siteverify", payload)
+        ## saves the response to json
         response_text = json.loads(response.text)
+        ## returns the score
         return response_text['score']
     except Exception as e:
         print("(!) Exception in is_human(): "+str(e))
