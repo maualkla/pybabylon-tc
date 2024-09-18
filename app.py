@@ -657,14 +657,19 @@ def reset_password_tuser_process(_id = False):
         if _required_cookies:
             return _out
         else: 
+            ## validate the _id param and required token
             if _id and _required_token == False:
+                ## search for the workspace data
                 _wsdata = Handlers.get_data(_alx_url, request, "workspace", _id, False, True, app.config['PRIVATE_SERVICE_TOKEN'])
+                ## if method is GET
                 if request.method == 'GET':
+                    ## set context 
                     context={
                         "host_url": request.host_url, 
                         "recaptcha_key": app.config["RECAPTCHA_SITE_KEY"],
                         "ws_data": _wsdata['items'][0]
                     }
+                    ## display alerts depending on the email_sent params
                     if request.cookies.get('email_sent') == '1':
                         context["_flag_status"] = "_box_green"
                         context["_flag_content"] = "Reset Pass Email Sent" 
@@ -674,28 +679,38 @@ def reset_password_tuser_process(_id = False):
                     elif request.cookies.get("email_sent") == '3':
                         context["_flag_status"] = "_box_red"
                         context["_flag_content"] = "Reset password email already sent, please review your inbox or try again later."
+                    ## return the template
                     resp = make_response(render_template('reset_pass_tuser.html', **context))
                     resp.delete_cookie('email_sent')
                     return resp
+                ## of method is POST
                 elif request.method == 'POST':
+                    ## set the form variables
                     tuserid = request.form['tuserid']
                     captcha_response = request.form['recaptchaResponse']
+                    ## validate the captcha and to know if it is human
                     humanValidation = is_human(captcha_response)
                     if humanValidation:
+                        ## in case .5 or more, it means it is probably a human, else it is probably a robot
                         if humanValidation > 0.5:
+                            ## get the userdata
                             userdata = Handlers.get_data(_alx_url, request, "tenantUser",  tuserid.upper(), "tenant:"+_wsdata['items'][0]['TaxId'], True, app.config['PRIVATE_SERVICE_TOKEN'])
+                            ## if present
                             if userdata['containsData']:
+                                ## set the data
                                 userdata = userdata['items'][0]
+                                ## set the format and import the datetime
                                 date_format = "%d.%m.%Y"
                                 from datetime import datetime
                                 path = 0
+                                ## search for the path
                                 if userdata['rp_email_exp_date'] == False:
                                     path = 1
                                     ## generate the new code and expdate
                                 elif userdata['rp_email_exp_date'] == True:
                                     path = 3
                                 else:
-                                    ## validate
+                                    ## set the userdate and currentdate
                                     user_date = datetime.strptime(userdata['rp_email_exp_date'], date_format)
                                     current_date = datetime.strptime(Helpers.generateDateTime()[1], date_format)
                                     if user_date >= current_date:
@@ -704,6 +719,7 @@ def reset_password_tuser_process(_id = False):
                                     else:
                                         ## reuse old token
                                         path = 2
+                                ## save the path
                                 if path == 1:
                                     reset_token = Helpers.randomString(65)
                                     exp_date = Helpers.generateDateTime(-1)[1]
@@ -714,11 +730,13 @@ def reset_password_tuser_process(_id = False):
                                     resp = make_response(redirect('workspace/'+_id+'/reset_pass'))
                                     resp.set_cookie('email_sent', '3')  
                                     return resp
+                                ## return template variables
                                 template_vars = {
                                     "company_name": _wsdata['items'][0]['InformalName'],
                                     "user_email": userdata['Email'],
                                     "pass_reset_link": request.host_url+"workspace/"+_id+"/reset_password?type=2&token="+str(reset_token)
                                 }
+                                ## send the emailSender function to send the required email.
                                 response = Helpers.emailSender(userdata['Email'], app.config["MAIL_TEMPLATE_RESET_TU"] , app.config["MAIL_API_TOKEN"], template_vars)
                                 status = "All smooth, email was sent with a reset_pass link."
                             else:
