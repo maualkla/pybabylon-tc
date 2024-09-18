@@ -324,27 +324,42 @@ def reset_pass_user():
 def reset_password():
     try:
         out = make_response(redirect('/'))
+        ## when method is GET
         if request.method == 'GET':
+            ## require the token and type params in the get call.
             if 'token' in request.args and 'type' in request.args:
+                ## generate the filter to search for the token
                 _filter = "resetToken:"+request.args.get('token')
+                ## set user if type=1 else set tenantUser
                 service_name = "user" if request.args.get('type') == '1' else "tenantUser"
+                ## get userdata from filter
                 userdata = Handlers.get_data(_alx_url, request, service_name, False, _filter, True, app.config['PRIVATE_SERVICE_TOKEN'])
+                ## if contains data
                 if userdata['containsData']:
+                    ## get userdata
                     userdata = userdata['items'][0]
+                    ## set the date format and import the datetime
                     date_format = "%d.%m.%Y"
                     from datetime import datetime
+                    ## set userdate and current date.
                     user_date = datetime.strptime(userdata['rp_email_exp_date'], date_format)
                     current_date = datetime.strptime(Helpers.generateDateTime()[1], date_format)
+                    ## compare the currentdate and userdate
                     if user_date >= current_date:
+                        ## set the template to be sent to the email 
                         temp_json = {"email": userdata['email'].upper(), "rp_email_token": True, "rp_email_exp_date": True} if request.args.get('type') == '1' else {"Tenant": userdata['Id'].split(".")[0].upper(), "currentUser": "System", "Id": userdata['Id'].upper(), "rp_email_token": True, "rp_email_exp_date": True}
+                        ## update the data
                         updres = Handlers.put_data(_alx_url, request, service_name, temp_json )
+                        ## set a context for the id, type and host_url 
                         context = {
                             "id": userdata['email'] if request.args.get('type') == '1' else userdata['Id'],
                             "type": 1 if request.args.get('type') == '1' else 2,
                             "host_url": request.host_url
                         }
+                        ## return reset_pass_form.html and the context
                         return render_template('reset_pass_form.html', **context)
                     else:
+                        ## depending the type, return each type.
                         if request.args.get('type') == '1':
                             out = make_response(redirect('/reset_pass_user'))
                         else: 
@@ -355,12 +370,19 @@ def reset_password():
                     return out
             else:
                 return out
+        ## when method equals PUT
         if request.method == 'PUT':
+            ## validate the type and if there is a Id or Email present.
             if 'type' in request.args and ('Id' in request.json or 'email' in request.json):
+                ## set the user and tenatUser
                 service_name = "user" if request.args.get('type') == '1' else "tenantUser"
+                ## get the data
                 userdata = Handlers.get_data(_alx_url, request, service_name,  request.json['email'].upper() if request.args.get('type') == '1' else request.json['Id'].upper(), False, True, app.config['PRIVATE_SERVICE_TOKEN'])
+                ## set the user password
                 response = Handlers.put_user_password(_alx_url, request, service_name, request.json['email'].upper() if request.args.get('type') == '1' else request.json['Id'].upper(), request.json, app.config['PRIVATE_SERVICE_TOKEN'])
+                ## validate the response code
                 if response['code'] == '202' or response['code'] == 202:
+                    ## set the temp_json
                     temp_json = {"email": request.json['email'].upper(), "rp_email_token": False, "rp_email_exp_date": False} if request.args.get('type') == '1' else {"Tenant": request.json['Id'].split(".")[0].upper(), "Id": request.json['Id'].upper(), "currentUser": "System", "rp_email_token": False, "rp_email_exp_date": False}
                     updres = Handlers.put_data(_alx_url, request, service_name, temp_json )
                     return jsonify(response), 200
