@@ -230,53 +230,73 @@ def reset_pass_user():
                 ## on this case, the link used was expired and it is required to set a new reset token.
                 context={"_flag_status": "_box_red", "_flag_content": "Link expired, send a new email.", "host_url": request.host_url,"recaptcha_key": app.config["RECAPTCHA_SITE_KEY"]}
             elif request.cookies.get("email_sent") == '3':
+                ## in this case, the email was alredy sent.
                 context={"_flag_status": "_box_red", "_flag_content": "Reset password email already sent, please review your inbox or try again later.", "host_url": request.host_url,"recaptcha_key": app.config["RECAPTCHA_SITE_KEY"]}
             else:
+                ## in this case, there is no flag presented, only the host url and the recaptcha key.
                 context={"host_url": request.host_url, "recaptcha_key": app.config["RECAPTCHA_SITE_KEY"]}
+            ## return the reset_pass_user.html template and delete the cookie.
             resp = make_response(render_template('reset_pass_user.html', **context))
             resp.delete_cookie('email_sent')
             return resp
+        ## when method is post this is true.
         elif request.method == 'POST':
+            ## get the form parameters [email, recaptchaResponse]
             email = request.form['email']
             captcha_response = request.form['recaptchaResponse']
+            ## call the function is_human sending the captcha_response and getting a number for the validation. 
             humanValidation = is_human(captcha_response)
             if humanValidation:
+                ## if humanValidation > .5 means it is probably a real user, else is probably a bot.
                 if humanValidation > 0.5:
+                    ## gets the current user data.
                     userdata = Handlers.get_data(_alx_url, request, "user",  email.upper(), False, True, app.config['PRIVATE_SERVICE_TOKEN'])
+                    ## if current user search contains data
                     if userdata['containsData']:
+                        ## get the user data
                         userdata = userdata['items'][0]
+                        ## set the date format, also calls the datetime lib is called
                         date_format = "%d.%m.%Y"
                         from datetime import datetime
                         path = 0
+                        ## here we validate the expiracy date, if False path=1
                         if userdata['rp_email_exp_date'] == False:
                             path = 1
                             ## generate the new code and expdate
+                        ## if is true, the path=3 that means we need to clear the variables.
                         elif userdata['rp_email_exp_date'] == True:
                             path = 3
                         else:
-                            ## validate
+                            ## set userdate and current date.
                             user_date = datetime.strptime(userdata['rp_email_exp_date'], date_format)
                             current_date = datetime.strptime(Helpers.generateDateTime()[1], date_format)
+                            ## When user date is smaller or equal to current date, we set the path=1
                             if user_date >= current_date:
                                 ## generate new token
                                 path = 1
+                            ## else path=2
                             else: 
                                 ## reuse old token
                                 path = 2
+                        ## path=1 means we generate a new token and update it to the userdata in firebase.
                         if path == 1:
                             reset_token = Helpers.randomString(65)
                             exp_date = Helpers.generateDateTime(-1)[1]
                             updres = Handlers.put_data(_alx_url, request, "user", {"email": email.upper(), "rp_email_token": reset_token, "rp_email_exp_date": exp_date})
+                        ## path=2 return the current token.
                         elif path == 2:
                             reset_token = userdata['rp_email_token']
+                        ## path=3 return to /reset_pass_user and sending the 3 param.
                         else: 
                             resp = make_response(redirect('/reset_pass_user'))
                             resp.set_cookie('email_sent', '3')  
                             return resp
+                        ## template parameters set to be sent to the email template.
                         template_vars = {
                             "user_email": email,
                             "pass_reset_link": request.host_url+"reset_password?type=1&token="+str(reset_token)
                         }
+                        ## send the emailSender function to send the required email.
                         response = Helpers.emailSender(email, app.config["MAIL_TEMPLATE_RESET"] , app.config["MAIL_API_TOKEN"], template_vars)
                         if logging: print(response)
                         status = "All smooth, email was sent with a reset_pass link."
@@ -287,6 +307,7 @@ def reset_pass_user():
             else:
                 status = "Sorry ! Bots are not allowed."
             if logging: print(status)
+            ## here we return a response for /reset_pass_user
             resp = make_response(redirect('/reset_pass_user'))
             resp.set_cookie('email_sent', '1')  
             return resp
