@@ -53,12 +53,14 @@ stripe.api_key = stripe_keys["secret_key"]
 @app.route('/apidocs')
 def apidocs():
     try:
+        _cookies_policy = True if request.cookies.get('cookies_policy') else False
         ## Set a logged variable requesting the _id and _us cookies.
         _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
         _out = make_response(redirect('/logout'))
         ## validate if _logged
         if _required_cookies:
             context= {
+                
                 "_logged" : True if _required_cookies else False,
                 "host_url": request.host_url
             }

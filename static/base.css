@@ -829,10 +829,11 @@ a{
     margin: 6%;
 }
 ._flex_display{     
-    position: sticky;
-    margin-top: -900px;
+    position: absolute;
     font-size: 45px;
     padding: 10px 50px 10px 50px;
+    margin-left: -10px;
+    margin-top: 700px;
 }
 
 /* loading wheel */
