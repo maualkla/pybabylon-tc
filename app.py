@@ -53,14 +53,13 @@ stripe.api_key = stripe_keys["secret_key"]
 @app.route('/apidocs')
 def apidocs():
     try:
-        _cookies_policy = True if request.cookies.get('cookies_policy') else False
         ## Set a logged variable requesting the _id and _us cookies.
         _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
         _out = make_response(redirect('/logout'))
         ## validate if _logged
         if _required_cookies:
             context= {
-                
+                "_cookies_policy": True if request.cookies.get('cookies_policy') else False,
                 "_logged" : True if _required_cookies else False,
                 "host_url": request.host_url
             }
@@ -83,6 +82,7 @@ def apidocs_v0_1():
         ## validate if _logged
         if _required_cookies:
             context= {
+                "_cookies_policy": True if request.cookies.get('cookies_policy') else False,
                 "_logged" : True if _required_cookies else False,
                 "host_url": request.host_url
             }
@@ -105,6 +105,7 @@ def apidocs_v0_2():
         ## validate if _logged
         if _required_cookies:
             context= {
+                "_cookies_policy": True if request.cookies.get('cookies_policy') else False,
                 "_logged" : True if _required_cookies else False,
                 "host_url": request.host_url
             }
@@ -127,6 +128,7 @@ def apidocs_v0_4():
         ## validate if _logged
         if _required_cookies:
             context= {
+                "_cookies_policy": True if request.cookies.get('cookies_policy') else False,
                 "_logged" : True if _required_cookies else False,
                 "host_url": request.host_url
             }
@@ -204,13 +206,17 @@ def login():
             if request.cookies.get('_flag_content') and request.cookies.get('_flag_status'):
                 ## if _flag cookies are present, set the context object to the content of the cookies.
                 context = {
+                    "_cookies_policy": True if request.cookies.get('cookies_policy') else False,
                     "_flag_content": request.cookies.get('_flag_content'),
                     "_flag_status": request.cookies.get('_flag_status'),
                     "host_url": request.host_url
                 }
             else:
                 ## Else, set the context object as empty.
-                context = {}
+                context = {
+                    "_cookies_policy": True if request.cookies.get('cookies_policy') else False,
+                    "host_url": request.host_url
+                }
             ## Return the login template sending the context object.
             return render_template('login.html', **context)
     except Exception as e:
@@ -229,16 +235,16 @@ def reset_pass_user():
             ## We validate the email_sent cookie
             if request.cookies.get('email_sent') == '1':
                 ## on this case, the emails has been sent and the notification is triggered.
-                context={"_flag_status": "_box_green", "_flag_content": "Reset Pass Email Sent", "host_url": request.host_url,"recaptcha_key": app.config["RECAPTCHA_SITE_KEY"]}
+                context={"_cookies_policy": True if request.cookies.get('cookies_policy') else False,"_flag_status": "_box_green", "_flag_content": "Reset Pass Email Sent", "host_url": request.host_url,"recaptcha_key": app.config["RECAPTCHA_SITE_KEY"]}
             elif request.cookies.get("email_sent") == '2':
                 ## on this case, the link used was expired and it is required to set a new reset token.
-                context={"_flag_status": "_box_red", "_flag_content": "Link expired, send a new email.", "host_url": request.host_url,"recaptcha_key": app.config["RECAPTCHA_SITE_KEY"]}
+                context={"_cookies_policy": True if request.cookies.get('cookies_policy') else False,"_flag_status": "_box_red", "_flag_content": "Link expired, send a new email.", "host_url": request.host_url,"recaptcha_key": app.config["RECAPTCHA_SITE_KEY"]}
             elif request.cookies.get("email_sent") == '3':
                 ## in this case, the email was alredy sent.
-                context={"_flag_status": "_box_red", "_flag_content": "Reset password email already sent, please review your inbox or try again later.", "host_url": request.host_url,"recaptcha_key": app.config["RECAPTCHA_SITE_KEY"]}
+                context={"_cookies_policy": True if request.cookies.get('cookies_policy') else False,"_flag_status": "_box_red", "_flag_content": "Reset password email already sent, please review your inbox or try again later.", "host_url": request.host_url,"recaptcha_key": app.config["RECAPTCHA_SITE_KEY"]}
             else:
                 ## in this case, there is no flag presented, only the host url and the recaptcha key.
-                context={"host_url": request.host_url, "recaptcha_key": app.config["RECAPTCHA_SITE_KEY"]}
+                context={"_cookies_policy": True if request.cookies.get('cookies_policy') else False,"host_url": request.host_url, "recaptcha_key": app.config["RECAPTCHA_SITE_KEY"]}
             ## return the reset_pass_user.html template and delete the cookie.
             resp = make_response(render_template('reset_pass_user.html', **context))
             resp.delete_cookie('email_sent')
@@ -356,6 +362,7 @@ def reset_password():
                         updres = Handlers.put_data(_alx_url, request, service_name, temp_json )
                         ## set a context for the id, type and host_url 
                         context = {
+                            "_cookies_policy": True if request.cookies.get('cookies_policy') else False,
                             "id": userdata['email'] if request.args.get('type') == '1' else userdata['Id'],
                             "type": 1 if request.args.get('type') == '1' else 2,
                             "host_url": request.host_url
@@ -458,7 +465,7 @@ def signup():
                 _log.delete_cookie('clientIP')
                 return _log
         else:
-            context = {"host_url": request.host_url}
+            context = {"_cookies_policy": True if request.cookies.get('cookies_policy') else False,"host_url": request.host_url}
             ### In case _id and _un not presnt, renders signup.html page.
             return render_template('signup.html', **context)
     except Exception as e:
@@ -502,6 +509,7 @@ def dashboard():
                     _user = _userdata['items'][0]
                     _llog = _trxdata['items'][0] if _trxdata['containsData'] else False
                     context = {
+                        "_cookies_policy": True if request.cookies.get('cookies_policy') else False,
                         "user_id": _user_id,
                         "user_name": _user['username'],
                         "user_type": _user['type'],
@@ -558,6 +566,7 @@ def account():
                 _full_user_data = Handlers.get_data(_alx_url, request, "user", _user_id)
                 _user_data = _full_user_data["items"][0]
                 context = {
+                    "_cookies_policy": True if request.cookies.get('cookies_policy') else False,
                     "email": _user_id,
                     "fname": _user_data["fname"],
                     "username": _user_data["username"],
@@ -603,6 +612,7 @@ def workspace_option(_id = False):
             _user = _userdata['items'][0]
             if _id == 'new':
                 context = {
+                    "_cookies_policy": True if request.cookies.get('cookies_policy') else False,
                     "user_id": _user_id,
                     "user_name": _user['username'],
                     "user_type": _user['type'],
@@ -619,6 +629,7 @@ def workspace_option(_id = False):
                 if _wsdata['containsData'] == True:
                     _ws = _wsdata["items"][0]
                     context = {
+                        "_cookies_policy": True if request.cookies.get('cookies_policy') else False,
                         "user_id": _user_id,
                         "user_name": _user['username'],
                         "user_type": _user['type'],
@@ -669,6 +680,7 @@ def reset_password_tuser_process(_id = False):
                 if request.method == 'GET':
                     ## set context 
                     context={
+                        "_cookies_policy": True if request.cookies.get('cookies_policy') else False,
                         "host_url": request.host_url, 
                         "recaptcha_key": app.config["RECAPTCHA_SITE_KEY"],
                         "ws_data": _wsdata['items'][0]
@@ -788,6 +800,7 @@ def reset_password_tuser_logic(_id = False):
                         updres = Handlers.put_data(_alx_url, request, service_name, temp_json )
                         ## set the context
                         context = {
+                            "_cookies_policy": True if request.cookies.get('cookies_policy') else False,
                             "id": userdata['email'] if request.args.get('type') == '1' else userdata['Id'],
                             "type": 1 if request.args.get('type') == '1' else 2,
                             "host_url": request.host_url,
@@ -865,6 +878,7 @@ def workspace_users(_id = False):
                         else:
                             _items = False
                         context = {
+                            "_cookies_policy": True if request.cookies.get('cookies_policy') else False,
                             "user_id": _user_id,
                             "user_name": _user['username'],
                             "user_type": _user['type'],
@@ -934,6 +948,7 @@ def tusers_new(_id = False):
                     else:
                         _managers = False
                     context = {
+                        "_cookies_policy": True if request.cookies.get('cookies_policy') else False,
                         "user_id": _user_id,
                         "user_name": _user['username'],
                         "user_type": _user['type'],
@@ -994,6 +1009,7 @@ def tusers_management(_id = False, _tusername = False):
                             else:
                                 _out_mgrs = False
                             context = {
+                                "_cookies_policy": True if request.cookies.get('cookies_policy') else False,
                                 "user_id": _user_id,
                                 "user_name": _user['username'],
                                 "user_type": _user['type'],
@@ -1070,6 +1086,7 @@ def working_time(_id = False):
                     _usrs = custom_get_all_employees_worktime(_id, False, request, _onlyDate8, False)
                     ## set context object
                     context = {
+                        "_cookies_policy": True if request.cookies.get('cookies_policy') else False,
                         "user_id": _user_id,
                         "user_name": _user['username'],
                         "user_type": _user['type'],
@@ -1135,6 +1152,7 @@ def working_time_user_detail(_id = False, _tuser_id = False):
                         _times = custom_get_all_employees_worktime(_id, _id+"."+_tuser_id, request, _weekAgo, False)
                         if _times['containsData']:
                             context = {
+                                "_cookies_policy": True if request.cookies.get('cookies_policy') else False,
                                 "userdata": _user,
                                 "wsdata": _ws,
                                 "tlogdata": _times['items'],
@@ -1200,6 +1218,7 @@ def working_time_user_log_detail(_id = False, _tuser_id = False, _tlog_id = Fals
                                 _tlogdata = _tlogdata['items'][0]
                                 ## build the context object
                                 context = {
+                                    "_cookies_policy": True if request.cookies.get('cookies_policy') else False,
                                     "userdata": _tuserdata,
                                     "wsdata": _wsdata,
                                     "tuserdata": _tuserdata,
@@ -1246,6 +1265,7 @@ def workspace():
                     _user = _userdata['items'][0]
                     _ws = _wsdata['items'] if _wsdata['containsData'] else False
                     context = {
+                        "_cookies_policy": True if request.cookies.get('cookies_policy') else False,
                         "user_id": _user_id,
                         "user_name": _user['username'],
                         "user_type": _user['type'],
@@ -1284,6 +1304,7 @@ def workspace_checkin(_id):
             if _id and _required_token == False:
                 _wsdata = Handlers.get_data(_alx_url, request, "workspace", _id, False, True, app.config['PRIVATE_SERVICE_TOKEN'])
                 context ={
+                    "_cookies_policy": True if request.cookies.get('cookies_policy') else False,
                     "ws_data": _wsdata['items'][0],
                     "host_url": request.host_url
                 }
@@ -1311,6 +1332,7 @@ def workspace_home(_id):
                     _onlyTime = Helpers.generateDateTime()[0]
                     _onlyDate = Helpers.generateDateTime()[1]
                     context = {
+                        "_cookies_policy": True if request.cookies.get('cookies_policy') else False,
                         "user_id": "null",
                         "ws_data": _wsdata['items'][0],
                         "host_url": request.host_url,
@@ -1565,6 +1587,7 @@ def transactions():
                             }]
                         ## Set the context variable.
                         context = {
+                            "_cookies_policy": True if request.cookies.get('cookies_policy') else False,
                             "user_id": _user_id,
                             "user_name": _user['username'],
                             "user_type": _user['type'],
@@ -1635,6 +1658,7 @@ def users():
                                 "plan": "0"
                             }]
                         context = {
+                            "_cookies_policy": True if request.cookies.get('cookies_policy') else False,
                             "user_id": _user_id,
                             "user_name": _user['username'],
                             "user_type": _user['type'],
@@ -1767,9 +1791,19 @@ def desktop():
 ## API Status
 @app.route('/status')
 def status():
-    _local_ip = request.remote_addr
-    local_ip = request.cookies.get('local_ip')
-    return "Running fine - IP: "+_local_ip
+    try:
+        context = {
+            "_cookies_policy": True if request.cookies.get('cookies_policy') else False,
+            "_logged": False,
+            "_sample": "1234",
+            "host_url": request.host_url
+        }
+        _local_ip = request.remote_addr
+        local_ip = request.cookies.get('local_ip')
+        return "Running fine - IP: "+_local_ip
+    except Exception as e:
+        return {"status": "Error", "reason": str(e)}
+    
 
 ##### Service paths
 ## /legal
@@ -1792,6 +1826,7 @@ def legal():
                 _log = make_response(redirect('/logout'))
                 return _log
         context = {
+            "_cookies_policy": True if request.cookies.get('cookies_policy') else False,
             "_logged": _logged,
             "_sample": "1234",
             "host_url": request.host_url
