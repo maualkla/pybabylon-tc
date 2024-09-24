@@ -142,6 +142,7 @@ def apidocs_v0_4():
 def landing():
     try:
         _logged = False
+        _cookies_policy = True if request.cookies.get('cookies_policy') else False
         _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
         ## validate if _logged
         if _required_cookies:
@@ -157,6 +158,7 @@ def landing():
                 _log = make_response(redirect('/logout'))
                 return _log
         context = {
+            "_cookies_policy": _cookies_policy,
             "_logged": _logged,
             "_sample": "1234",
             "host_url": request.host_url
@@ -1771,8 +1773,34 @@ def status():
 ## /legal
 @app.route('/legal')
 def legal():
+    try:
+        _logged = False
+        _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
+        ## validate if _logged
+        if _required_cookies:
+            ## if present, save the _id and _un
+            _session_id = request.cookies.get('SessionId')
+            _client_bw = request.cookies.get('browserVersion')
+            _client_ip = request.cookies.get('clientIP')
+            ## user search
+            _user_id = Handlers.get_username(_alx_url, _session_id, _client_bw, _client_ip)
+            if _user_id:
+                _logged = True
+            else:
+                _log = make_response(redirect('/logout'))
+                return _log
+        context = {
+            "_logged": _logged,
+            "_sample": "1234",
+            "host_url": request.host_url
+        }
+        ## render and return the home page including the context variables.
+        return render_template('legal.html', **context)
+    
+    except Exception as e:
+        return {"status": "Error", "reason": str(e)}
     ##return '/legal in construction, go back to <a href="/"> home </a>'
-    return render_template('legal.html')
+    ##return render_template('legal.html')
 
 ##### Service paths
 ## /about

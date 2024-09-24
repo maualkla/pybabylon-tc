@@ -785,6 +785,22 @@ a{
             vertical-align: middle;
             display: table-cell; 
         }
+._generic_button{
+    font-family: Roboto, Arial, Helvetica, sans-serif; 
+    vertical-align: middle;
+    height: 90px;
+    width: 200px;
+    font-size: 80%;
+    border-radius: var(--system-radius-value);
+    text-align: center;
+    align-items: center;
+    margin-bottom: 20px; 
+}   
+    ._generic_button:active{
+        height: 89px;
+        width: 198px;
+        font-size: 78%;
+    }
 
 ._big_selector{
     font-size: 290%;
@@ -811,6 +827,12 @@ a{
 ._general_text{
     font-size: 500%;
     margin: 6%;
+}
+._flex_display{     
+    position: sticky;
+    margin-top: -900px;
+    font-size: 45px;
+    padding: 10px 50px 10px 50px;
 }
 
 /* loading wheel */

@@ -13,6 +13,7 @@ Adminde Time Card
 
 {% block _flex_box %}
 <div class="_main_block">
+    
     <div class="_main_block_top"> 
         <p class="_en _hidden _mbt_top"><bold>Simplifica</bold> el <bold_italic>registro de horas</bold_italic> para tus empleados y <bold> para tí.</bold> </p>
         <p class="_en _hidden color_1_tx color_2_bg _mbt_bottom"><bold>Adminde Time Card ©</bold>, la app de reloj checador que simplifica el proceso de <bold>captura de horas</bold> para tu empresa.</p>
@@ -29,6 +30,13 @@ Adminde Time Card
         <p class="_en _hidden _big_text color_1_tx"><bold_italic>Programa una Demo</bold_italic></p>
         <p class="_es _hidden _big_text color_1_tx"><bold_italic>Programa una Demo</bold_italic></p>
     </div>
+</div>
+<div class="_flex_display _box_yellow {% if _cookies_policy %} _hidden {% endif %}">
+    <p>Adminde and our third-party vendors use cookies and similar technologies to deliver, maintain, and improve our services and ads. If you agree, we will use this data for ads personalization and associated analytics.</p>
+    <p>You can select 'Accept' to consent to these uses, 'Reject' to decline these uses or click on 'More options' to review your options. You can change your selection under 'Manage Cookie Preferences' at the bottom of this page. <a href="/legal"> Privacy Statement</a></p>
+    <input class="_generic_button color_1_bg color_2_tx " type="button" value="Accept" onClick="console.log('all');document.cookie = 'cookies_policy=all'; document.getElementsByClassName('_flex_display')[0].classList.add('_hidden');">
+    <input class="_generic_button color_1_bg color_2_tx " type="button" value="Reject" onClick="console.log('all');document.cookie = 'cookies_policy=none'; document.getElementsByClassName('_flex_display')[0].classList.add('_hidden');">
+    <input class="_generic_button color_1_bg color_2_tx " type="button" value="More" onClick="console.log('all');document.cookie = 'cookies_policy=some'; document.getElementsByClassName('_flex_display')[0].classList.add('_hidden');">
 </div>
 {% endblock %}
 
