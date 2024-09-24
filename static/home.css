@@ -34,7 +34,7 @@
         /*grid position */
         grid-area: 17 / 1 / 21 / 2;
         display: flex;
-        margin-top: 40%;
+        margin-top: 80%;
     }   
         #_signup_button{
             margin:auto;
