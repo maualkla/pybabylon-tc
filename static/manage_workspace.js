@@ -327,7 +327,7 @@ function updateTime() {
     let data = new Date();
     let options = { hour12: false }; // Use 24-hour format
     let timeString = data.toLocaleTimeString(undefined, options);
-    document.getElementById('live_time').innerHTML = timeString;
+    document.getElementById('live_time').innerHTML = '<bold>'+timeString+'</bold>';
 }
 
 /// clock updater

@@ -61,8 +61,11 @@
             </div>
         </div>
         <div class="_main_boxes_live _hidden" id="_ws_5">
-            <div class="_bbx_text_cust color_3_bg color_1_tx"><div class="bbtx_top"> <bold>{{currentDate}}</bold></div><div class="bbtx_bottom" id="live_time">{{ currentTime }}</div></div>
+            <div class="_bbx_text_cust color_3_bg color_1_tx"><div class="bbtx_top" id="live_time"><bold>{{ currentTime }}</bold></div><div class="bbtx_bottom"> {{currentDate}}</div></div>
             <div class="_bbx_text_cust color_3_bg color_1_tx"><div class="bbtx_top"> <bold>{{wsdata['InformalName'][:42]}}{% if wsdata['InformalName']|length > 42 %}..{% endif %}</bold></div><div class="bbtx_bottom">Welcome to your Shift</div></div>
+            <div class="code_box" style="border: solid 2px red">
+                <p class="color_3_bg color_1_tx">Code: 777888</p>
+            </div>
         </div>
         <div class="_main_boxes_live _hidden" id="_ws_6">
             <div class="_menu_box" id="_menu_box_custom">Choose Auth methods.</div>
