@@ -1321,7 +1321,6 @@ def workspace_checkin(_id):
 @app.route('/workspace/<_id>/home')
 def workspace_home(_id):
     try:
-        print(request.cookies.get('token'))
         _required_token = True if request.cookies.get('token') else False
         _out = make_response(redirect('/workspace/'+_id+'/checkin'))
         if _required_token:
@@ -1343,15 +1342,12 @@ def workspace_home(_id):
                     }
                     return render_template('workspace_tu_home.html', **context)
                 else: 
-                    print(1)
                     _out.delete_cookie('token')
                     return _out
             else: 
-                print(2)
                 _out.delete_cookie('token')
                 return _out
         else: 
-            print(3)
             _out.delete_cookie('token')
             return _out
     except Exception as e:
@@ -1460,6 +1456,28 @@ def validation():
             return jsonify({"validated": False}), 401
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}
+
+## Code generator receiver
+@app.route('/v1/codeGenerator', methods=['GET'])
+def codeGenerator():
+    try:
+        _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
+        if _required_cookies: 
+            if request.args.get('wsid'): 
+                _wsdata = Handlers.get_data(_alx_url, request, "workspace", request.args.get('wsid'), False)
+                if 'containsData' in _wsdata:
+                    _ws = _wsdata['items'][0]
+                    print(_ws)
+                    return jsonify({"code": _ws['CodeHash']}), 200
+                else: 
+                    return jsonify({"code": False}), 400
+            else: 
+                return jsonify({"code": False}), 404
+        else:
+            return jsonify({"code": False}), 401
+    except Exception as e:
+        print('(!) Exception ')
+        return jsonify({"status": "An error Occurred", "error": str(e)}), 500
 
 ################################################################################################################
 ## Stripe payments flow
