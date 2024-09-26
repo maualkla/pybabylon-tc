@@ -31,9 +31,10 @@ CSS styles for manage_workspace
 }
 
 .code_box p{
-    font-size: 700%;
+    font-size: 1200%;
     padding: 40px;
     margin: 5%;
+    margin-top: 20%;
     text-align: center;
     font-family: monospace;
     border-radius: 10px;

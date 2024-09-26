@@ -166,7 +166,7 @@ const _cust_butt_data = (_case = false) => {
         _common_fbuttons_change_display_text(_values,_disp); 
     }
     if(_case == 3){
-        _values = ["Check In (Beta)", "Return to Manage", false], _disp = [true, true, false];
+        _values = ["Return to Manage", false, false], _disp = [true, false, false];
         _common_fbuttons_change_display_text(_values,_disp); 
     }
 }
@@ -330,10 +330,66 @@ function updateTime() {
     document.getElementById('live_time').innerHTML = '<bold>'+timeString+'</bold>';
 }
 
+/// update code
+const updateCode = () => {
+    document.getElementsByClassName('code_box')[0].innerHTML = '<p class="color_3_bg color_1_tx">RANDONM</p>';
+    _display_wheel(true);
+    _json_payload = _update_workspace_get_params();
+    _json_payload["TaxId"] = _context_vars[5];
+    _json_payload["Owner"] = _context_vars[0];
+    _payload = {};
+    _payload["item"] = _json_payload;
+    let xhr = new XMLHttpRequest();
+    let url = "/v1/admdata?service=workspace";
+    xhr.open("PUT", url);
+    xhr.setRequestHeader("Content-Type", "application/json");   
+    xhr.onreadystatechange = function () {
+        try
+        {
+            let _data = xhr.responseText;
+            let _parsed_data = JSON.parse(_data);
+            if (xhr.readyState === 4 && xhr.status === 202) {
+                setAlert("_box_green", "Workspace Successfully Updated");
+                _pinpad_num = ""; _ws_switch_pinpad(false);
+                _display_wheel(false);
+            }else if(xhr.status === 409){
+                setAlert("_box_red",_parsed_data["reason"]);
+                _display_wheel(false);
+            }
+        }
+        catch(e)
+        {
+            if(counter === 1){
+                if(_logging){
+                    console.log("-------------------")
+                    console.log(e)
+                    console.log("-------------------")
+                }
+                _errors++;
+                _change_obj_color(document.getElementById('_login_buttom'), "color_1_bg", "color_2_tx", "color_2_bg", "color_1_tx"); 
+                setAlert("_box_red", "Error login user.");
+                _display_wheel(false);
+            }else{
+                counter++;
+            }
+        }
+    };
+    var data = JSON.stringify(_payload);
+    console.log(data);
+    xhr.send(data);
+}
+
+const updates = () => {
+    updateCode();
+    updateTime();
+}
+
 /// clock updater
-setInterval(updateTime, 1000);
+setInterval(updates, 1000);
 
 /// custom function to copy to clipboard a custom text
 const custom_clipboard_text = (myText) => {
     navigator.clipboard.writeText(myText);
 }
+
+///
