@@ -3,7 +3,7 @@
 */
 
 // params
-let _window = 0, counter = 0, authopt = _context_vars[6];
+let _window = 0, counter = 0, authopt = _context_vars[6], _auth_code = "------", showing = false;
 
 // initialization of the floating buttons
 _display_fbuttons(true);
@@ -71,8 +71,10 @@ if(document.getElementById("_fb_1")) document.getElementById("_fb_1").addEventLi
             _ws_switch_pinpad(true);
             break; 
         case 5: 
-            setAlert("_box_blue", "Code: 8437HX");
-            break; 
+            _cust_butt_data(2);
+            _ws_manage_change_view("_ws_"+_window, "_ws_0");
+            _window = 0;
+            break;
         case 6: 
             _display_fbuttons(false);
             _ws_switch_pinpad(true);
@@ -107,6 +109,7 @@ if(document.getElementById("_fb_3")) document.getElementById("_fb_3").addEventLi
             _cust_butt_data(3);
             _ws_manage_change_view("_ws_"+_window, "_ws_5");
             _window = 5;
+            updateCode();
             break;
         case 1: 
             _cust_butt_data(2);
@@ -322,39 +325,30 @@ const _cust_switch_auth_methods = (selector = false) => {
 
 
 /// updatee time
-function updateTime() {
+function updateTime(timeString) {
     // get time format HH:MM:SS
-    let data = new Date();
-    let options = { hour12: false }; // Use 24-hour format
-    let timeString = data.toLocaleTimeString(undefined, options);
-    document.getElementById('live_time').innerHTML = '<bold>'+timeString+'</bold>';
+    if (timeString){
+        document.getElementById('live_time').innerHTML = '<bold>'+timeString+'</bold>';
+    }
 }
 
 /// update code
 const updateCode = () => {
-    document.getElementsByClassName('code_box')[0].innerHTML = '<p class="color_3_bg color_1_tx">RANDONM</p>';
-    _display_wheel(true);
-    _json_payload = _update_workspace_get_params();
-    _json_payload["TaxId"] = _context_vars[5];
-    _json_payload["Owner"] = _context_vars[0];
-    _payload = {};
-    _payload["item"] = _json_payload;
+    _auth_code = "------";
+    setCode();
+    counter = 0;
     let xhr = new XMLHttpRequest();
-    let url = "/v1/admdata?service=workspace";
-    xhr.open("PUT", url);
+    let url = "/v1/codeGenerator?wsid="+_context_vars[5];
+    xhr.open("GET", url);   
     xhr.setRequestHeader("Content-Type", "application/json");   
     xhr.onreadystatechange = function () {
         try
         {
             let _data = xhr.responseText;
             let _parsed_data = JSON.parse(_data);
-            if (xhr.readyState === 4 && xhr.status === 202) {
-                setAlert("_box_green", "Workspace Successfully Updated");
-                _pinpad_num = ""; _ws_switch_pinpad(false);
-                _display_wheel(false);
-            }else if(xhr.status === 409){
-                setAlert("_box_red",_parsed_data["reason"]);
-                _display_wheel(false);
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                _auth_code = _parsed_data["code"];
+                setCode();
             }
         }
         catch(e)
@@ -366,23 +360,37 @@ const updateCode = () => {
                     console.log("-------------------")
                 }
                 _errors++;
-                _change_obj_color(document.getElementById('_login_buttom'), "color_1_bg", "color_2_tx", "color_2_bg", "color_1_tx"); 
-                setAlert("_box_red", "Error login user.");
-                _display_wheel(false);
             }else{
                 counter++;
             }
         }
     };
-    var data = JSON.stringify(_payload);
-    console.log(data);
-    xhr.send(data);
+    xhr.send();
 }
 
 const updates = () => {
-    updateCode();
-    updateTime();
+    let data = new Date();
+    let options = { hour12: false }; // Use 24-hour format
+    let timeString = data.toLocaleTimeString(undefined, options);
+    updateTime(timeString);
+    if (timeString.slice(-2) == '00' || timeString.slice(-2) == '30' ){
+        updateCode();
+    }else{
+        setCode();
+    }
 }
+
+// const set code 
+const setCode = () => {
+    let obj = document.getElementsByClassName('code_box')[0]
+    if (showing){
+        obj.innerHTML = '<p class="color_2_bg color_1_tx">'+_auth_code+'</p>';
+        showing = false;
+    }else{
+        obj.innerHTML = '<p class="color_3_bg color_1_tx">'+_auth_code+'</p>';
+        showing = true;
+    }
+} 
 
 /// clock updater
 setInterval(updates, 1000);
@@ -393,3 +401,12 @@ const custom_clipboard_text = (myText) => {
 }
 
 ///
+const cust_copy_text = () => {
+    var copyText = _auth_code;
+
+    // Copy the text inside the text field
+    navigator.clipboard.writeText(copyText);
+
+    // Alert the copied text
+    alert("Copied the text: " + copyText);
+}

@@ -40,8 +40,8 @@ CSS styles for manage_workspace
     border-radius: 10px;
 }
 .code_box p:hover{
-    background-color: green;
+    background-color: gray;
 }
 .code_box p:active{
-    background-color: green;
+    background-color: gray;
 }
