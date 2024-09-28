@@ -1295,30 +1295,34 @@ def workspace_checkin(_id):
     try:
         ## Set a logged variable requesting the _id and _us cookies.
         _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
-        _required_token = True if request.cookies.get('token') and request.cookies.get('token') != 'false' else False
-        print("tokken: "+str(request.cookies.get('token')))
+        _required_token = True if request.cookies.get('token') else False
+        _expired = True if request.cookies.get('expired') else False
         _out = make_response(redirect('/workspace/'+_id))
         ## validate if _logged
-        print(" >>> in checkin()")
-        print("Required cookies:"+str(_required_cookies))
-        print("Required tokken: "+str(_required_token))
         if _required_cookies:
-            print(1)
             return _out
         else: 
-            print(2)
-            if _id and _required_token == False:
-                print(3)
+            if _id and (_required_token == False or _expired):
                 _wsdata = Handlers.get_data(_alx_url, request, "workspace", _id, False, True, app.config['PRIVATE_SERVICE_TOKEN'])
                 context ={
                     "_cookies_policy": True if request.cookies.get('cookies_policy') else False,
                     "ws_data": _wsdata['items'][0],
                     "host_url": request.host_url
                 }
-                return render_template('workspace_checkin.html', **context)
-            elif _id and _required_token:
+                _out = make_response(render_template('workspace_checkin.html', **context))
+                _out.delete_cookie('token')
+                _out.delete_cookie('cookies_policy')
+                _out.delete_cookie('clientIP')
+                _out.delete_cookie('browserVersion')
+                return _out
+            elif _id and request.cookies.get('token') and not _expired :
                 return(redirect('/workspace/'+_id+'/home'))
             else: 
+                _out = make_response(redirect('/'))
+                _out.delete_cookie('token')
+                _out.delete_cookie('cookies_policy')
+                _out.delete_cookie('clientIP')
+                _out.delete_cookie('browserVersion')
                 return _out
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}   
@@ -1328,22 +1332,18 @@ def workspace_checkin(_id):
 @app.route('/workspace/<_id>/home')
 def workspace_home(_id):
     try:
-        print(" >> In Home ()")
         _required_token = True if request.cookies.get('token') else False
         _out = make_response(redirect('/workspace/'+_id+'/checkin'))    
         _out.delete_cookie('token')
         _out.delete_cookie('cookies_policy')
         _out.delete_cookie('clientIP')
         _out.delete_cookie('browserVersion')
+        _out.set_cookie('expired', 'true', max_age=36000) 
         if _required_token:
-            print(1)
             if _id:
-                print(2)
                 _wsdata = Handlers.get_data(_alx_url, request, "workspace", _id, False, True, app.config['PRIVATE_SERVICE_TOKEN'])
                 _tldata = Handlers.get_data(_alx_url, request, "timeLog", request.cookies.get('token'), False, True, app.config['PRIVATE_SERVICE_TOKEN'] )
-                print(_tldata['items'][0]['EndTime'])
                 if _tldata['containsData'] and _tldata['items'][0]['EndTime'] == False:
-                    print(3)
                     _onlyTime = Helpers.generateDateTime()[0]
                     _onlyDate = Helpers.generateDateTime()[1]
                     context = {
@@ -1356,20 +1356,12 @@ def workspace_home(_id):
                         "startDate": _tldata['items'][0]['StartTime'],
                         "tldata": _tldata['items'][0]
                     }
-                    print(context)
                     return render_template('workspace_tu_home.html', **context)
                 else: 
-                    print(3.1)
-                    for cookie_name in request.cookies:
-                        print("deleted cookie: "+cookie_name)
-                        _out.delete_cookie(cookie_name)
-                    _out.set_cookie('token', 'false', max_age=3600) 
                     return _out
             else: 
-                print(2.1)
                 return _out
         else: 
-            print(1.1)
             return _out
     except Exception as e:
         return {"status": "An error Occurred", "error": str(e)}

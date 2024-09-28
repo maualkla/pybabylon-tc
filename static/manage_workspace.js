@@ -239,7 +239,6 @@ function _update_workspace(){
             }
         };
         var data = JSON.stringify(_payload);
-        console.log(data);
         xhr.send(data);
     }else{
         setAlert("_box_red", "Incorrect Pin");_display_wheel(false);
@@ -369,14 +368,16 @@ const updateCode = () => {
 }
 
 const updates = () => {
-    let data = new Date();
-    let options = { hour12: false }; // Use 24-hour format
-    let timeString = data.toLocaleTimeString(undefined, options);
-    updateTime(timeString);
-    if (timeString.slice(-2) == '00' || timeString.slice(-2) == '30' ){
-        updateCode();
-    }else{
-        setCode();
+    if (_window == 5){
+        let data = new Date();
+        let options = { hour12: false }; // Use 24-hour format
+        let timeString = data.toLocaleTimeString(undefined, options);
+        updateTime(timeString);
+        if (timeString.slice(-2) == '00' || timeString.slice(-2) == '30' ){
+            updateCode();
+        }else{
+            setCode();
+        }
     }
 }
 
