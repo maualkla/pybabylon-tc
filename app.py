@@ -2,8 +2,8 @@
 ## Pybabylon Project.
 ## Coded by: Mauricio Alcala (@intmau)
 ## Date: May 2023.
-## Current Version: 0.05
-## Last Modification Date: sep 2024.
+## Current Version: 0.05.2
+## Last Modification Date: oct 2024.
 ## More info at @intmau in twitter or in http://themudev.com
 ## Description: Web app to serve adminde-tc project.
 ## flask run --host=0.0.0.0 --port=3001
