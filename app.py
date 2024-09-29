@@ -2,7 +2,7 @@
 ## Pybabylon Project.
 ## Coded by: Mauricio Alcala (@intmau)
 ## Date: May 2023.
-## Current Version: 0.04
+## Current Version: 0.05
 ## Last Modification Date: sep 2024.
 ## More info at @intmau in twitter or in http://themudev.com
 ## Description: Web app to serve adminde-tc project.
