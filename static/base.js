@@ -22,6 +22,7 @@ let _curr_languaje = "_"+navigator.language.substring(0,2) || "_en";
 let _new_lang = "_es";
 let _errors = 0;
 let _logging = true;
+let _fbdisp = true;
 
 let _langs = ['_en', '_es'];
 let _pinpad_num = "";
@@ -311,8 +312,10 @@ const common_display_floating_buttons = (_state) => {
     let _fb = document.getElementsByClassName("_floating_buttons")[0]
     if(_state){
         _fb.classList.remove("_hidden")
+        _fbdisp = true;
     }else{
         _fb.classList.add("_hidden")
+        _fbdisp  = false;
     }
 }
 const _display_fbuttons = (_state) => {
@@ -323,15 +326,33 @@ const _display_fbuttons = (_state) => {
 // expects 2 arrays ['text1', 'text2', ''], [true, true, false]
 // it will replace the values on the 3 buttons and if the flag is true
 // will remove the hidden class to be displayed.
-const _common_fbuttons_change_display_text = (_values = false, _displayed = false) => {
-    if(_values && _displayed){
+const _common_fbuttons_change_display_text = (_values = false, _displayed = false, _version = false) => {
+    if(_values && _displayed && !_version){
         for (let i = 1; i<4 ; i++){
+            let x = document.getElementById("_fb_"+i);
+            if (_values[i-1]) x.innerHTML = '<p class="'+_curr_languaje+'"><bold>'+_values[i-1]+'</bold></p>';
+            if (_displayed[i-1]) x.classList.remove("_hidden"); else x.classList.add("_hidden");
+        }
+    }else if (_values && _displayed && _version == 2){
+        for (let i = 0; i<4 ; i++){
             let x = document.getElementById("_fb_"+i);
             if (_values[i-1]) x.innerHTML = '<p class="'+_curr_languaje+'"><bold>'+_values[i-1]+'</bold></p>';
             if (_displayed[i-1]) x.classList.remove("_hidden"); else x.classList.add("_hidden");
         }
     }
 };
+
+// common hide_show action for floating buttons
+if(document.getElementById('_fb_0')) document.getElementById('_fb_0').addEventListener('click', function (){  
+    if(_fbdisp){
+        window.alert("hide")
+        _common_fbuttons_change_display_text(["Show", document.getElementById('_fb_1').innerHTML, document.getElementById('_fb_2').innerHTML, document.getElementById('_fb_3').innerHTML], [true, false, false, false], 2)
+    }else{
+        window.alert("show")
+        _common_fbuttons_change_display_text(["Hide", document.getElementById('_fb_1').innerHTML, document.getElementById('_fb_2').innerHTML, document.getElementById('_fb_3').innerHTML], [true, false, true, true], 2)
+    }
+});
+
 
 // function validate value hex
 const common_validate_hex = (_value) => {
