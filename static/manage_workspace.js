@@ -3,7 +3,7 @@
 */
 
 // params
-let _window = 0, counter = 0, authopt = _context_vars[6];
+let _window = 0, counter = 0, authopt = _context_vars[6], _auth_code = "------", showing = false;
 
 // initialization of the floating buttons
 _display_fbuttons(true);
@@ -40,6 +40,11 @@ if(document.getElementById("_worktime_view")) document.getElementById("_worktime
     _redirect('/workingTime', 3);
     //setAlert("_box_blue", "Option not available yet.");
 }); 
+if(document.getElementById("_checkin_url")) document.getElementById("_checkin_url").addEventListener('click', function(){ 
+    common_set_alert("_box_green", window.location.href+"/checkin");
+    custom_clipboard_text(window.location.href+"/checkin");
+    common_set_alert("_box_green", "URL Copied to clipboard");
+});
 
 // fbutton actions
 // fb 1
@@ -66,8 +71,10 @@ if(document.getElementById("_fb_1")) document.getElementById("_fb_1").addEventLi
             _ws_switch_pinpad(true);
             break; 
         case 5: 
-            setAlert("_box_blue", "Code: 8437HX");
-            break; 
+            _cust_butt_data(2);
+            _ws_manage_change_view("_ws_"+_window, "_ws_0");
+            _window = 0;
+            break;
         case 6: 
             _display_fbuttons(false);
             _ws_switch_pinpad(true);
@@ -102,6 +109,7 @@ if(document.getElementById("_fb_3")) document.getElementById("_fb_3").addEventLi
             _cust_butt_data(3);
             _ws_manage_change_view("_ws_"+_window, "_ws_5");
             _window = 5;
+            updateCode();
             break;
         case 1: 
             _cust_butt_data(2);
@@ -161,7 +169,7 @@ const _cust_butt_data = (_case = false) => {
         _common_fbuttons_change_display_text(_values,_disp); 
     }
     if(_case == 3){
-        _values = ["Check In (Beta)", "Return to Manage", false], _disp = [true, true, false];
+        _values = ["Return to Manage", false, false], _disp = [true, false, false];
         _common_fbuttons_change_display_text(_values,_disp); 
     }
 }
@@ -231,7 +239,6 @@ function _update_workspace(){
             }
         };
         var data = JSON.stringify(_payload);
-        console.log(data);
         xhr.send(data);
     }else{
         setAlert("_box_red", "Incorrect Pin");_display_wheel(false);
@@ -317,13 +324,90 @@ const _cust_switch_auth_methods = (selector = false) => {
 
 
 /// updatee time
-function updateTime() {
+function updateTime(timeString) {
     // get time format HH:MM:SS
-    let data = new Date();
-    let options = { hour12: false }; // Use 24-hour format
-    let timeString = data.toLocaleTimeString(undefined, options);
-    document.getElementById('live_time').innerHTML = timeString;
+    if (timeString){
+        document.getElementById('live_time').innerHTML = '<bold>'+timeString+'</bold>';
+    }
 }
 
+/// update code
+const updateCode = () => {
+    _auth_code = "------";
+    setCode();
+    counter = 0;
+    let xhr = new XMLHttpRequest();
+    let url = "/v1/codeGenerator?wsid="+_context_vars[5];
+    xhr.open("GET", url);   
+    xhr.setRequestHeader("Content-Type", "application/json");   
+    xhr.onreadystatechange = function () {
+        try
+        {
+            let _data = xhr.responseText;
+            let _parsed_data = JSON.parse(_data);
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                _auth_code = _parsed_data["code"];
+                setCode();
+            }
+        }
+        catch(e)
+        {
+            if(counter === 1){
+                if(_logging){
+                    console.log("-------------------")
+                    console.log(e)
+                    console.log("-------------------")
+                }
+                _errors++;
+            }else{
+                counter++;
+            }
+        }
+    };
+    xhr.send();
+}
+
+const updates = () => {
+    if (_window == 5){
+        let data = new Date();
+        let options = { hour12: false }; // Use 24-hour format
+        let timeString = data.toLocaleTimeString(undefined, options);
+        updateTime(timeString);
+        if (timeString.slice(-2) == '00' || timeString.slice(-2) == '30' ){
+            updateCode();
+        }else{
+            setCode();
+        }
+    }
+}
+
+// const set code 
+const setCode = () => {
+    let obj = document.getElementsByClassName('code_box')[0]
+    if (showing){
+        obj.innerHTML = '<p class="color_2_bg color_1_tx">'+_auth_code+'</p>';
+        showing = false;
+    }else{
+        obj.innerHTML = '<p class="color_3_bg color_1_tx">'+_auth_code+'</p>';
+        showing = true;
+    }
+} 
+
 /// clock updater
-setInterval(updateTime, 1000);
+setInterval(updates, 1000);
+
+/// custom function to copy to clipboard a custom text
+const custom_clipboard_text = (myText) => {
+    navigator.clipboard.writeText(myText);
+}
+
+///
+const cust_copy_text = () => {
+    var copyText = _auth_code;
+
+    // Copy the text inside the text field
+    navigator.clipboard.writeText(copyText);
+
+    // Alert the copied text
+    alert("Copied the text: " + copyText);
+}

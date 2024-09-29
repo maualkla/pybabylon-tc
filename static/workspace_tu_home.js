@@ -12,9 +12,6 @@ if(document.getElementById('_fb_1')) document.getElementById('_fb_1').addEventLi
         _display_wheel(false);
     }else if (_view == 1){
         _tu_home_call_timeLog_validation(2);
-        _common_delete_all_cookies();
-        _common_reload_page(location.href);
-        _display_wheel(false);
     }else{
         _common_reload_page(location.href);
     }
@@ -34,7 +31,7 @@ function updateTime() {
 setInterval(updateTime, 1000);
 
 /// switch trhu views
-let _tu_home_switch_views = () => {
+const _tu_home_switch_views = () => {
     let _stg1 = document.getElementsByClassName('_stg1')
     let _stg2 = document.getElementsByClassName('_stg2')
     if (_stg == "False"){
@@ -64,55 +61,75 @@ _tu_home_switch_views();
 
 /// call  
 const _tu_home_call_timeLog_validation = (action = false) => {
-    _display_wheel(true);
-    let xhr = new XMLHttpRequest();
-    let url = "/checkinValidation?id="+_common_get_cookie_value('token')+"&action="+action;
-    xhr.open("GET", url);
-    xhr.onreadystatechange = function () {
-        try
-        {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                let _data = xhr.responseText;
-                let _parsed_data = JSON.parse(_data);
-                if (_parsed_data["validated"]){
-                    if (!_parsed_data['EndTime']){
-                        _stg = _parsed_data['StartTime'];
-                        let stds = document.getElementsByClassName('custom_start_date')
-                        for(let i = 0; i < stds.length; i++){
-                            stds[i].innerHTML = _stg;
+    console.log(1)
+    if((document.getElementById('code').value.length == 6 && action == 1) || action == 2 ){
+        console.log(2)
+        _display_wheel(true);
+        let xhr = new XMLHttpRequest();
+        let url = "/v1/checkinValidation?id="+_common_get_cookie_value('token')+"&action="+action+"&code="+document.getElementById('code').value+'&wsid='+_context_vars[5];
+        console.log(url)
+        xhr.open("GET", url);
+        xhr.onreadystatechange = function () {
+            try
+            {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    let _data = xhr.responseText;
+                    let _parsed_data = JSON.parse(_data);
+                    if (_parsed_data["validated"]){
+                        if (!_parsed_data['EndTime']){
+                            _stg = _parsed_data['StartTime'];
+                            let stds = document.getElementsByClassName('custom_start_date')
+                            for(let i = 0; i < stds.length; i++){
+                                stds[i].innerHTML = _stg;
+                            }
+                            _tu_home_switch_views();
+                        }else{
+                            if (_view == 1){
+                                _common_delete_all_cookies();
+                                _common_reload_page(location.href);
+                            }
                         }
-                        _tu_home_switch_views();
-                    }else{
-                        _stg = "False";
-                        _tu_home_switch_views();
                     }
+                }else if( xhr.readyState === 4 && (xhr.status === 401 || xhr.status === 403)){
+                    let _data = xhr.responseText;
+                    let _parsed_data = JSON.parse(_data);
+                    setAlert("_box_red", _parsed_data['errorDesc']);
+                    _display_wheel(false);
                 }
-            }else if(xhr.status === 403){
-                let _data = xhr.responseText;
-                let _parsed_data = JSON.parse(_data);
-                setAlert("_box_red", _parsed_data['errorDesc']);
-                _display_wheel(false);
-            }else if(xhr.status === 401){
-                _common_delete_all_cookies();
-                _common_reload_page();
-                _display_wheel(false);
             }
-        }
-        catch(e)
-        {
-            if(counter === 1){
-                if(_logging){
-                    console.log("-------------------")
-                    console.log(e)
-                    console.log("-------------------")
+            catch(e)
+            {
+                if(counter === 1){
+                    if(_logging){
+                        console.log("-------------------")
+                        console.log(e)
+                        console.log("-------------------")
+                    }
+                    _errors++;
+                    setAlert("_box_red", _common_dictionary_errors[_curr_languaje]['013']);
+                    _display_wheel(false);
+                }else{
+                    counter++;
                 }
-                _errors++;
-                setAlert("_box_red", _common_dictionary_errors[_curr_languaje]['013']);
-                _display_wheel(false);
-            }else{
-                counter++;
             }
-        }
-    };
-    xhr.send();
+        };
+        xhr.send();
+    }else{
+        setAlert("_box_red", _common_dictionary_errors[_curr_languaje]['014']);
+        window.alert(1)
+        document.getElementById('code').value = "";
+    }
 }
+
+/// validate no more than 6 charss
+const cust_more_than_6_chars = () => {
+    document.getElementById('code').value = document.getElementById('code').value.substring(0, 6);
+}
+
+// onchange validation
+if(document.getElementById('code')) document.getElementById('code').addEventListener('change', function () { 
+    if(document.getElementById('code').value.length > 6){
+        setAlert("_box_red", _common_dictionary_errors[_curr_languaje]['014']);
+        cust_more_than_6_chars();
+    }
+});

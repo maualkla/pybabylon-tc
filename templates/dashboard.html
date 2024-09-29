@@ -17,57 +17,162 @@ Adminde Dashboard
         {% if _flag_content%} <p>{{ _flag_content }} </p> {% endif %}
     </div>
     <div class="_main_block_content {% if user_pin == False %} _hidden {% endif %} ">
-        <div class="_big_menu_box  " id="_redirect_last_ws" onClick="_redirect('workspace/'+'{% if ws_tax_id %}{{ws_tax_id}}{% else %}new{% endif %}');">
-            {% if ws_tax_id %}
-            <div class="_bbx_text _en _hidden">
-                Continue Working on <bold_italic>{% if ws_informal_name %} {{ws_informal_name}} {% else %} {{ws_tax_id}} {% endif%} </bold_italic>
+        <div class="_big_menu_box color_3_bg color_1_tx" id="_box1">
+            <div class="bbtext_clon _en _hidden">
+                <bold>{{ws_count}}/{% if user_plan == 1%}1{% elif user_plan == 2%}3{% elif user_plan == 3%}10{% endif%} Workspaces. </bold><br>
+                <bold>{{tu_count}}/{% if user_plan == 1%}5{% elif user_plan == 2%}10{% elif user_plan == 3%}50{% endif%} Employees. </bold>
             </div>
-            <div class="_bbx_text _es _hidden">
-                Sigue Trabajando con <bold_italic>{% if ws_informal_name %} {{ws_informal_name}} {% else %} {{ws_tax_id}} {% endif%} </bold_italic>
+        </div>
+        <div class="_big_menu_box" id="_box2">
+            <div class="bbtext_clon _en _hidden">
+                View all your <br>
+                <bold_italic>Workspaces</bold_italic>
+            </div>
+            <div class="bbtext_clon _es _hidden">
+                Ver todos tus <br>
+                <bold_italic>Workspaces</bold_italic>
+            </div>
+        </div>
+        <div class=" color_3_bg color_1_tx " id="_box3">
+            <div class="bbtext_clon _en _hidden">
+                Account <br> Settings
+            </div>
+            <div class="bbtext_clon _es _hidden">
+                Configuracion <br> de Cuenta
+            </div>
+        </div>
+        {% if user_activated %}
+            {% if user_type > 2%}
+                {% if ws_informal_name %}
+            <div class=" color_1_bg color_2_tx " id="_box4" style="color:{{ws_color_code}}" onClick="common_redirect('workspace/{{ws_tax_id}}');">
+                <div class="bbtext_clon _en _hidden">
+                    <bold_italic>{{ws_informal_name}}</bold_italic>
+                </div>
+                <div class="bbtext_clon _es _hidden">
+                    <bold_italic>{{ws_informal_name}}</bold_italic>
+                </div>
+            </div>
+                {%else%}
+            <div class=" color_1_bg color_2_tx " id="_box4" onClick="common_redirect('workspace/new');">
+                <div class="bbtext_clon _en _hidden">
+                    New <br> Workspace
+                </div>
+                <div class="bbtext_clon _es _hidden">
+                    Nuevo <br> Workspace
+                </div>
+            </div>
+                {% endif %}
+            <div class=" color_1_bg color_2_tx" id="_box5" onClick="common_redirect('apidocs');">
+                <div class="bbtext_clon _en _hidden">
+                    API Docs
+                </div>
+                <div class="bbtext_clon _es _hidden">
+                    API Docs
+                </div>
             </div>
             {% else %}
-            <div class="_bbx_text _en _hidden">
-                New <br>Workspace
+                {% if ws_informal_name %}
+            <div class=" color_1_bg color_2_tx " id="_box4" style="color:{{ws_color_code}}" onClick="common_redirect('workspace/{{ws_tax_id}}');">
+                <div class="bbtext_clon _en _hidden">
+                    <bold_italic>{{ws_informal_name}}</bold_italic>
+                </div>
+                <div class="bbtext_clon _es _hidden">
+                    <bold_italic>{{ws_informal_name}}</bold_italic>
+                </div>
             </div>
-            <div class="_bbx_text _es _hidden">
-                Crear <br>Workspace
+            <div class=" color_1_bg color_2_tx" id="_box5" onClick="common_redirect('workspace/new');">
+                <div class="bbtext_clon _en _hidden">
+                    New <br> Workspace
+                </div>
+                <div class="bbtext_clon _es _hidden">
+                    Nuevo <br> Workspace
+                </div>
             </div>
+                {% else%}
+            <div class=" color_1_bg color_2_tx " id="_box4" onClick="common_redirect('workspace/new');">
+                <div class="bbtext_clon _en _hidden">
+                    New <br> Workspace
+                </div>
+                <div class="bbtext_clon _es _hidden">
+                    Nuevo <br> Workspace
+                </div>
+            </div>
+            <div class=" color_1_bg color_2_tx" id="_box5" onClick="common_redirect('learn');">
+                <div class="bbtext_clon _en _hidden">
+                    Quick Guide
+                </div>
+                <div class="bbtext_clon _es _hidden">
+                    Guia Rapida
+                </div>
+            </div>
+                {% endif %}
             {% endif %}
-        </div>
-        {% if ws_tax_id %}
-        <div class="_big_menu_box" id="_redirect_wss">
-            <div class="_bbx_text _en _hidden">
-                View all your <bold_italic>Workspaces</bold_italic>
+        {%else%}
+        <div class=" color_1_bg color_2_tx " id="_box4" onClick="common_redirect('dashboard');">
+            <div class="bbtext_clon _en _hidden">
+                <bold_italic>Activate <br>Account</bold_italic>
             </div>
-            <div class="_bbx_text _es _hidden">
-                Ver todos tus <bold_italic>Workspaces</bold_italic>
+            <div class="bbtext_clon _es _hidden">
+                <bold_italic>Activar <br>Cuenta</bold_italic>
+            </div>
+        </div>
+        <div class=" color_1_bg color_2_tx" id="_box5" onClick="common_redirect('help');">
+            <div class="bbtext_clon _en _hidden">
+                Contact <br>Support
+            </div>
+            <div class="bbtext_clon _es _hidden">
+                Contactar a <br>Soporte
+            </div>
+        </div>
+        {% endif%}
+        <div class=" color_3_bg color_1_tx" id="_box6">
+            <div class="bbtext_clon _en _hidden">
+                Help
+            </div>
+            <div class="bbtext_clon _es _hidden">
+                Ayuda
+            </div>
+        </div>
+        {% if user_type > 2 %}
+        <div class="_big_menu_box color_1_bg color_2_tx" id="_box7" onClick="common_redirect('transactions');">
+            <div class="bbtext_clon _en _hidden">Last<br><bold_italic>Transactions</bold_italic></div>
+            <div class="bbtext_clon _es _hidden">Ultimas<br><bold_italic>Transacciones</bold_italic></div>
+        </div>
+        <div class="_big_menu_box color_1_bg color_2_tx" id="_box8" onClick="common_redirect('users');">
+            <div class="bbtext_clon _en _hidden">See<br><bold_italic>Users</bold_italic></div>
+            <div class="bbtext_clon _es _hidden">Ver<br><bold_italic>Usuarios</bold_italic></div>
+        </div>
+        <div class="_big_menu_box" id="_box9">
+            <div class="bbtext_clon _en _hidden">
+                Last Login <br> {{trx_last_login_date}}
+            </div>
+            <div class="bbtext_clon _es _hidden">
+                Ultimo Inicio de Sesion <br> {{trx_last_login_date}}
+            </div>
+        </div>
+        {%else%}
+        <div class="" id="_box7">
+            <div class="bbtext_clon _en _hidden">
+            </div>
+            <div class="bbtext_clon _es _hidden">
+            </div>
+        </div>
+        <div class="" id="_box8">
+            <div class="bbtext_clon _en _hidden">
+            </div>
+            <div class="bbtext_clon _es _hidden">
+            </div>
+        </div>
+        <div class="_big_menu_box" id="_box9">
+            <div class="bbtext_clon _en _hidden">
+                Last Login <br> {{trx_last_login_date}}
+            </div>
+            <div class="bbtext_clon _es _hidden">
+                Ultimo Inicio de Sesion <br> {{trx_last_login_date}}
             </div>
         </div>
         {% endif %}
-        <div class="_big_menu_box" id="_redirect_tutorials">
-            <div class="_bbx_text _en _hidden">
-                Tutorials and <br>Guides
-            </div>
-            <div class="_bbx_text _es _hidden">
-                Tutoriales y <br>Guias
-            </div>
-        </div>
-        <div class="_big_menu_box" id="_redirect_help">
-            <div class="_bbx_text _en _hidden">
-                Request <br> <bold_italic>Help</bold_italic>
-            </div>
-            <div class="_bbx_text _es _hidden">
-                Solicitar <br><bold_italic>Ayuda</bold_italic>
-            </div>
-        </div>
-        <div class="_big_menu_box" id="_last_login">
-            <div class="_bbx_text _en _hidden">
-                Last Login: <br> Date: {{ trx_last_login_date }}
-            </div>
-            <div class="_bbx_text _es _hidden">
-                Ultimo inicio de sesion: <br> Fecha: {{ trx_last_login_date }}
-            </div>
-        </div>
+        
     </div>
     <div class="_main_block_numpad {% if user_pin != False %} _hidden {% endif %}">
         <div class="_big_numpad" id="_set_pin">
@@ -105,12 +210,6 @@ Adminde Dashboard
 <div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% else %}_es _hidden {% endif %}" id="_ws_view_es">Workspaces</div>
 <div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% else %}_en _hidden {% endif %}" id="_apidocs_en">API Docs</div>
 <div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% else %}_es _hidden {% endif %}" id="_apidocs_es">API Docs</div>
-{% if user_type > 2 %}
-<div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% else %}_en _hidden {% endif %}" id="_trx_mgr_en">Transactions</div>
-<div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% else %}_es _hidden {% endif %}" id="_trx_mgr_es">Transacciones</div>
-<div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% else %}_en _hidden {% endif %}" id="_usr_mgr_en">Users</div>
-<div class="_menu_box _box_main _box_main_bot {% if user_pin == False %} _hidden {% else %}_es _hidden {% endif %}" id="_usr_mgr_es">Usuarios</div>
-{% endif %}
 <div class="_menu_box _box_main _box_main_bot _en _hidden" id="_logout_en">Close Session</div>
 <div class="_menu_box _box_main _box_main_bot _es _hidden" id="_logout_es">Cerrar Sesion</div>
 {% endblock %}

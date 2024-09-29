@@ -21,7 +21,7 @@ let _menu_ext_value = true;
 let _curr_languaje = "_"+navigator.language.substring(0,2) || "_en";
 let _new_lang = "_es";
 let _errors = 0;
-let _logging = false;
+let _logging = true;
 
 let _langs = ['_en', '_es'];
 let _pinpad_num = "";
@@ -92,7 +92,7 @@ function setInitialLanguaje(){
 
 
 // Change languajes function
-const common_change_languaje = () => {
+const common_change_languaje = (_languaje) => {
     for(var i = 0; i < _langs.length; i++){
         _curr = document.getElementsByClassName(_langs[i]);
         if(_languaje === _langs[i]){
@@ -114,7 +114,7 @@ const common_change_languaje = () => {
     extended(_menu_ext_value);
 }
 function changeLanguaje(_languaje){
-    common_change_languaje();
+    common_change_languaje(_languaje);
 }
 
 // Delele all cookies alert
@@ -291,8 +291,8 @@ function _display_wheel(_state){
 }
 
 // function to redirect to another location. 
-const common_redirect = (target, version = fase) => {
-    _display_wheel(true);
+const common_redirect = (target, version = false) => {
+    common_display_wheel(true);
     if (version == 3){
         window.location.replace(window.location.href+target);
     } else if (version){
@@ -350,7 +350,14 @@ const validateHex = (_value) => {
 // color = 1,2,3
 // value = HEX color value
 const common_change_system_colors = (_color, _value) => {
-    if (validateHex(_value)){
+    if (_logging) {
+        console.group()
+        console.log(_value)
+        console.log(_color)
+        console.groupEnd()
+    }
+    if (common_validate_hex(_value)){
+        if (_logging) console.log("change colors");
         let _root = document.querySelector(':root');
         if (_color == 1){
             _root.style.setProperty('--system-bg-color', _value);
@@ -359,6 +366,8 @@ const common_change_system_colors = (_color, _value) => {
         }else if (_color == 3){
             _root.style.setProperty('--system-altern-color', _value);
         }
+    }else{
+        if (_logging) console.log("No change colors");
     }
 }
 const _change_system_colors = (_color, _value) => {
@@ -405,9 +414,12 @@ const changeColorTextValue = (_value, _id, _num) => {
 //  system auto change color 
 const _common_system_auto_change_color = () => {
     if(_context_vars[2] && _context_vars[3] && _context_vars[4]) {
+        if (_logging) console.log("change colors")
         _change_system_colors(1, _context_vars[2]);
         _change_system_colors(2, _context_vars[3]);
         _change_system_colors(3, _context_vars[4]);
+    }else{
+        if (_logging) console.log("No change colors")
     }
 }
 
@@ -507,7 +519,8 @@ _common_dictionary_errors['_en'] = {
     "010": "Invalid Short Code, must have more than 3 and less than 7 characters.",
     "011": "Invalid Country, State, City or Address Line, Please fill all the values",
     "012": "Invalid Full Name value. Must have 3 or more characters.",
-    "013": "Unexpected error, try later."
+    "013": "Unexpected error, try later.",
+    "014": "Type a 6 digits code."
 }
 _common_dictionary_errors['_es'] = {
     "001": "Contraseña no coincide o es invalida",
@@ -522,7 +535,8 @@ _common_dictionary_errors['_es'] = {
     "010": "Nombre corto invalido, debe tener mas de 3 y menos de 7 caracteres",
     "011": "Pais, Estado, Ciudad o Direccion invalidas. Llena todos los campos",
     "012": "Nombre completo invalido. Debe tener mas de 3 caracteres.",
-    "013": "Error innesperado, Intenta mas tarde."
+    "013": "Error innesperado, Intenta mas tarde.",
+    "014": "Escribe el codigo de 6 digitos."
 }
 
 

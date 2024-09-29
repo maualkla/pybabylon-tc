@@ -156,7 +156,7 @@ function _delete_transaction(_trx_id){
 const _display_items = (_items) =>{
     let _object = "";
     _items.forEach((item) => {
-        _object += '<div class="_box_custom_ws _box_main_bot" id="_cut_'+item["id"]+'"><div class="_bc_ws_inf">'+item["action"]+'</div><div class="_bc_ws_tax">'+item["dateTime"]+'</div><div class="_bc_ws_cit">'+item["userId"]+'</div><div class="_bc_ws_pos">'+_severityes[item["severity"]-1].substring(0, 22)+'</div><div class="_bc_ws_man" onClick="_manage_user("'+item["id"]+'");"><bold_italic>Manage</bold_italic></div></div>';
+        _object += '<div class="_box_custom_ws _box_main_bot" id="_cut_'+item["id"]+'"><div class="_bc_ws_inf">'+item["action"]+'</div><div class="_bc_ws_tax">'+item["dateTime"]+'</div><div class="_bc_ws_cit">'+item["userId"]+'</div><div class="_bc_ws_pos">'+_severityes[item["severity"]-1].substring(0, 22)+'</div><div class="_bc_ws_man" onClick="_delete_transaction("'+item["id"]+'");"><bold_italic>Delete</bold_italic></div></div>';
     })
     document.getElementsByClassName("_main_block_content")[0].innerHTML = _object;
 }

@@ -1,7 +1,7 @@
 let errors = 0;
 
 // Vars to be used
-let _stage = 0, _valid = false, _s2_selector = 0, _s3_selector = false, counter = 0;
+let _stage = 0, _valid = false, _s2_selector = 0, _s3_selector = false, counter = 0, go = false, semail = "", stoken = "";
 
 /* floating buttons activation */
 if(document.getElementsByClassName("_floating_buttons")[0])document.getElementsByClassName("_floating_buttons")[0].classList.remove("_hidden");
@@ -29,13 +29,26 @@ if(document.getElementById('_fb_1')) document.getElementById('_fb_1').addEventLi
         nextButton(true); cleanAlert(); 
     }else if (_stage === 2) { 
         setAlert("_box_red", "Select a plan to continue.")
+    }else if (_stage === 4) { 
+        cust_fetch_pub_key();
     }
     _change_obj_color(document.getElementById('_fb_1'), "color_1_bg", "color_2_tx", "color_2_bg", "color_1_tx");
 });
 // back button trigger
 if(document.getElementById('_fb_3')) document.getElementById('_fb_3').addEventListener('click', function (){ _change_obj_color(document.getElementById('_fb_3'), "color_1_bg", "color_2_tx", "color_2_bg", "color_1_tx"); if (_valid) {nextButton(false);}_change_obj_color(document.getElementById('_fb_3'), "color_2_bg", "color_1_tx", "color_1_bg", "color_2_tx"); });
 // create button trigger
-if(document.getElementById('_fb_2')) document.getElementById('_fb_2').addEventListener('click', function (){ _change_obj_color(document.getElementById('_fb_2'), "color_2_bg", "color_1_tx", "color_1_bg", "color_2_tx"); if (_s3_selector) { cleanAlert(); createAccount(); } else { setAlert("_box_red", " Accept terms and conditions. ") } _change_obj_color(document.getElementById('_fb_2'), "color_1_bg", "color_2_tx", "color_2_bg", "color_1_tx"); });
+if(document.getElementById('_fb_2')) document.getElementById('_fb_2').addEventListener('click', function (){ 
+    _change_obj_color(document.getElementById('_fb_2'), "color_2_bg", "color_1_tx", "color_1_bg", "color_2_tx"); 
+    if (_s3_selector) 
+    { 
+        cleanAlert(); 
+        createAccount();
+        //cust_fetch_pub_key();
+    } else { 
+        setAlert("_box_red", " Accept terms and conditions. ") 
+    } 
+    _change_obj_color(document.getElementById('_fb_2'), "color_1_bg", "color_2_tx", "color_2_bg", "color_1_tx"); 
+});
 
 // Stage 2 triggers (selectors)
 if(document.getElementById('_plan_op1')) document.getElementById('_plan_op1').addEventListener('click', function (){ if (_stage == 2) stage2Selector(1); });
@@ -50,7 +63,7 @@ function stage_0_inputs_check(){_butt = document.getElementById('_fb_1');if(docu
 
 // _nextButton gets a _direction param to set fordward or backwards as direction. 
 function nextButton(_direction){
-    _stages = ["_stage_0", "_stage_1", "_stage_2", "_stage_3"];
+    _stages = ["_stage_0", "_stage_1", "_stage_2", "_stage_3", "_stage_4"];
     if(_direction && _stage > -1){
         document.getElementById(_stages[_stage]).classList.add("_hidden");
         document.getElementById(_stages[_stage + 1]).classList.remove("_hidden");
@@ -106,7 +119,7 @@ function createAccount(){
             _json_obj[_selector_ids[i].substring(2)] = _params[_selector_ids[i]];
         }
         _json_obj['pass'] = window.btoa(unescape(encodeURIComponent(_params['i_pass'])))
-        _json_obj['plan'] = _s2_selector; _json_obj['terms'] = true; _json_obj['type'] = 2;_json_obj["activate"] = true;_json_obj["pin"] = 0;_json_obj["tenant"] = "";_json_pay["item"] = _json_obj;
+        _json_obj['rp_email_token'] = false; _json_obj['rp_email_exp_date'] = false; _json_obj['str_sess_id'] = false; _json_obj['plan'] = _s2_selector; _json_obj['terms'] = true; _json_obj['type'] = 2; _json_obj["activate"] = true; _json_obj["pin"] = 0; _json_obj["tenant"] = ""; _json_pay["item"] = _json_obj;
         let xhr = new XMLHttpRequest();
         let url = "/v1/admdata?service=user";
         xhr.open("POST", url);
@@ -118,9 +131,12 @@ function createAccount(){
                     let _data = xhr.responseText;
                     let _parsed_data = JSON.parse(_data);
                     if (_parsed_data["code"] == 202){
-                        document.cookie = '_flag_content=User succesfully created! Login to start.';
-                        document.cookie = '_flag_status=_box_green';
-                        _redirect("login");
+                        setAlert('_box_green', 'User created, payment pending');
+                        _display_wheel(false);
+                        _common_fbuttons_change_display_text(['Go to Stripe', '', ''], [true, false, false]);
+                        nextButton(true);
+                        semail = _params['i_email'];
+                        document.cookie = "us="+semail;
                     }else{
                         signupjs_customAlert(_parsed_data["reason"]);
                         _display_wheel(false);
@@ -144,6 +160,7 @@ function createAccount(){
                     _change_obj_color(document.getElementById('_login_buttom'), "color_1_bg", "color_2_tx", "color_2_bg", "color_1_tx"); 
                     setAlert("_box_red", "Error login user.");
                     _display_wheel(false);
+                    return false
                 }else{
                     counter++;
                 }
@@ -244,4 +261,64 @@ const _signupjs_leaps = (_num) => {
 // clean field 
 const _signupjs_clean_field = (_id) => {
     document.getElementById(_id).value = "";
+}
+
+// new
+// Get Stripe publishable key
+const cust_fetch_pub_key = () => {
+    console.log("inside stripe pub key")
+    fetch("/v1/publicKey")
+    .then((result) => { return result.json(); })
+    .then((data) => {
+        console.log(data.publicKey)
+        // Initialize Stripe.js
+        const stripe = Stripe(data.publicKey);
+        console.log(stripe)
+        fetch("/v1/checkout?subscription="+(_s2_selector-1))
+            .then((result) => { return result.json(); })
+            .then((data) => {
+                // update sessionid
+                counter = 0;
+                let xhr = new XMLHttpRequest();
+                let url = "/v1/admdata?service=user";
+                xhr.open("PUT", url);
+                xhr.setRequestHeader("Content-Type", "application/json");
+                xhr.onreadystatechange = function () {
+                    try
+                    {
+                        if (xhr.readyState === 4 && xhr.status === 202) {
+                            console.log("Token Updated")
+                            window.alert("Token Updated")
+                        }
+                    }
+                    catch(e)
+                    {
+                        if(counter === 1){
+                            if(_logging){
+                                console.log("-------------------")
+                                console.log(e)
+                                console.log("-------------------")
+                            }
+                            _errors++;
+                            _change_obj_color(document.getElementById('_login_buttom'), "color_1_bg", "color_2_tx", "color_2_bg", "color_1_tx"); 
+                            setAlert("_box_red", "Error login user.");
+                            _display_wheel(false);
+                            return false
+                        }else{
+                            counter++;
+                        }
+                    }
+                }
+                _json_pay = {"item":{"str_sess_id": data.sessionId, "email": semail}}
+                console.log(_json_pay)
+                var xdata = JSON.stringify(_json_pay);
+                xhr.send(xdata);
+                // Redirect to Stripe Checkout
+                return stripe.redirectToCheckout({sessionId: data.sessionId});
+            })
+            .then((res) => {
+                console.log(res);
+            });
+    });
+    return true
 }
