@@ -2,13 +2,18 @@
     JS functions for the home.html file.
 
 */
+
+/* display floating buttons */
+_display_fbuttons(true);
+
+
 /* triggers for the buttons */
 
 if(document.getElementById('_reset_en')) document.getElementById('_reset_en').addEventListener('click', function (){window.location.replace("/reset_pass_user")});
 if(document.getElementById('_reset_es')) document.getElementById('_reset_es').addEventListener('click', function (){window.location.replace("/reset_pass_user")});
 if(document.getElementById('_signup_en')) document.getElementById('_signup_en').addEventListener('click', function (){window.location.replace("/signup")});
 if(document.getElementById('_signup_es')) document.getElementById('_signup_es').addEventListener('click', function (){window.location.replace("/signup")});
-if(document.getElementById('_login_buttom')) document.getElementById('_login_buttom').addEventListener('click', function (){ _change_obj_color(document.getElementById('_login_buttom'), "color_2_bg", "color_1_tx", "color_1_bg", "color_2_tx", "color_2_border"); login_worker(); });
+if(document.getElementById('_fb_1')) document.getElementById('_fb_1').addEventListener('click', function (){ _change_obj_color(document.getElementById('_fb_1'), "color_2_bg", "color_1_tx", "color_1_bg", "color_2_tx", "color_2_border"); login_worker(); });
 
 
 // Login function
@@ -49,11 +54,11 @@ function login_worker(){
                     }else if(xhr.status === 500 || xhr.status === 403){
                         _display_wheel(false);
                         setAlert("_box_red", "System error, try again later.");  
-                        _change_obj_color(document.getElementById('_login_buttom'), "color_1_bg", "color_2_tx", "color_2_bg", "color_1_tx"); 
+                        _change_obj_color(document.getElementById('_fb_1'), "color_1_bg", "color_2_tx", "color_2_bg", "color_1_tx"); 
                     }else if(xhr.status === 202 && _parsed_data.code){
                         _display_wheel(false);
                         setAlert("_box_red", _parsed_data.reason);  
-                        _change_obj_color(document.getElementById('_login_buttom'), "color_1_bg", "color_2_tx", "color_2_bg", "color_1_tx"); 
+                        _change_obj_color(document.getElementById('_fb_1'), "color_1_bg", "color_2_tx", "color_2_bg", "color_1_tx"); 
                     }
                 }
             }
@@ -66,7 +71,7 @@ function login_worker(){
                         console.log("-------------------")
                     }
                     _errors++;
-                    _change_obj_color(document.getElementById('_login_buttom'), "color_1_bg", "color_2_tx", "color_2_bg", "color_1_tx"); 
+                    _change_obj_color(document.getElementById('_fb_1'), "color_1_bg", "color_2_tx", "color_2_bg", "color_1_tx"); 
                     setAlert("_box_red", "Error login user.");
                     _display_wheel(false);
                 }else{
@@ -77,6 +82,6 @@ function login_worker(){
         xhr.send(JSON.stringify(_obj));
     }else{
         setAlert("_box_yellow", "Missing username or password.");   
-        _change_obj_color(document.getElementById('_login_buttom'), "color_1_bg", "color_2_tx", "color_2_bg", "color_1_tx"); 
+        _change_obj_color(document.getElementById('_fb_1'), "color_1_bg", "color_2_tx", "color_2_bg", "color_1_tx"); 
     }
 }

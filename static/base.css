@@ -763,18 +763,39 @@ a{
     position:absolute;
     margin: 139.5% 0% 0% 30%;
 }
-    ._floating_button{
+    ._floating_control{
         /* style and internal text*/
         font-family: Roboto, Arial, Helvetica, sans-serif; 
         vertical-align: middle;
-        height: 152px;
-        width: 400px;
-        font-size: 300%;
+        height: 50px;
+        width: 330px;
+        font-size: 250%;
         border-radius: var(--system-radius-value);
         text-align: center;
         align-items: center;
         display: table ;
         margin-bottom: 20px; 
+        /* shadow*/
+        -webkit-box-shadow: 0px 0px 35px -6px rgba(56,56,56,1);
+        -moz-box-shadow: 0px 0px 35px -6px rgba(56,56,56,1);
+        box-shadow: 0px 0px 35px -6px rgba(56,56,56,1);
+    }
+    ._floating_button{
+        /* style and internal text*/
+        font-family: Roboto, Arial, Helvetica, sans-serif; 
+        vertical-align: middle;
+        height: 122px;
+        width: 330px;
+        font-size: 250%;
+        border-radius: var(--system-radius-value);
+        text-align: center;
+        align-items: center;
+        display: table ;
+        margin-bottom: 20px; 
+        /* shadow*/
+        -webkit-box-shadow: 0px 0px 35px -6px rgba(56,56,56,1);
+        -moz-box-shadow: 0px 0px 35px -6px rgba(56,56,56,1);
+        box-shadow: 0px 0px 35px -6px rgba(56,56,56,1);
     }
     ._floating_button:active{
         background: var(--system-text-color);

@@ -59,6 +59,9 @@
             <input class="_generic_button color_1_bg color_2_tx " type="button" value="More" onClick="console.log('all');document.cookie = 'cookies_policy=some'; document.getElementsByClassName('_flex_display')[0].classList.add('_hidden');">
         </div>
         <div class="_floating_buttons _hidden">
+            <div class="_floating_control{% block floating_control_style %}{% endblock%}" id="_fc">
+                {% block floating_control %} Hide {% endblock%}
+            </div>
             <div class="_floating_button {% block floating_button_1_style %} {% endblock %}" id="_fb_1">
                 {% block floating_button_1%} {% endblock%}
             </div>
