@@ -519,7 +519,8 @@ _common_dictionary_errors['_en'] = {
     "010": "Invalid Short Code, must have more than 3 and less than 7 characters.",
     "011": "Invalid Country, State, City or Address Line, Please fill all the values",
     "012": "Invalid Full Name value. Must have 3 or more characters.",
-    "013": "Unexpected error, try later."
+    "013": "Unexpected error, try later.",
+    "014": "Type a 6 digits code."
 }
 _common_dictionary_errors['_es'] = {
     "001": "Contraseña no coincide o es invalida",
@@ -534,7 +535,8 @@ _common_dictionary_errors['_es'] = {
     "010": "Nombre corto invalido, debe tener mas de 3 y menos de 7 caracteres",
     "011": "Pais, Estado, Ciudad o Direccion invalidas. Llena todos los campos",
     "012": "Nombre completo invalido. Debe tener mas de 3 caracteres.",
-    "013": "Error innesperado, Intenta mas tarde."
+    "013": "Error innesperado, Intenta mas tarde.",
+    "014": "Escribe el codigo de 6 digitos."
 }
 
 

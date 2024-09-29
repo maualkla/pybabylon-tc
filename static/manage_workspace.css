@@ -29,3 +29,19 @@ CSS styles for manage_workspace
 #_menu_box_custom{
     border: none !important;
 }
+
+.code_box p{
+    font-size: 1200%;
+    padding: 40px;
+    margin: 5%;
+    margin-top: 20%;
+    text-align: center;
+    font-family: monospace;
+    border-radius: 10px;
+}
+.code_box p:hover{
+    background-color: gray;
+}
+.code_box p:active{
+    background-color: gray;
+}

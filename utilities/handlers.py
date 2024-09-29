@@ -6,7 +6,7 @@ class Handlers():
 
     _models = {
         "user":['rp_email_token', 'rp_email_exp_date','str_sess_id','activate', 'username', 'bday', 'pass', 'fname', 'phone', 'pin', 'plan', 'postalCode', 'terms', 'type', 'tenant'],
-        "workspace":['Owner', 'TaxId', 'LegalName', 'InformalName', 'ShortCode', 'CountryCode', 'State', 'City', 'AddressLine1', 'AddressLine2', 'AddressLine3', 'AddressLine4', 'PhoneCountryCode', 'PhoneNumber', 'Email', 'MainHexColor', 'AlterHexColor', 'LowHexColor', 'Level', 'CreationDate', 'PostalCode'],
+        "workspace":['CodeHash', 'Owner', 'TaxId', 'LegalName', 'InformalName', 'ShortCode', 'CountryCode', 'State', 'City', 'AddressLine1', 'AddressLine2', 'AddressLine3', 'AddressLine4', 'PhoneCountryCode', 'PhoneNumber', 'Email', 'MainHexColor', 'AlterHexColor', 'LowHexColor', 'Level', 'CreationDate', 'PostalCode'],
         "session": ['requestString', 'client'],
         "tenantUser": ['rp_email_token', 'rp_email_exp_date','Active', 'Username', 'Id', 'Password', 'FullName', 'Email', 'Manager', 'Tenant', 'Type', 'CreatedBy'],
         ##"timeLog": ['ip', 'browser', 'requestString'],
@@ -409,29 +409,23 @@ class Handlers():
     ## _item:           (required) _item object includes all the fields required to create the update
     def put_user_password(_service_url, _request, _service, _id, _item, private_key):
         try: 
-            print("put_user_password()")
+            print(" >> handlers.put_user_passwor("+_service+", "+_id+") operation: ")
             _go = False
             output_item = {}
             if _request and _service_url and _service and _item and _id:
                 if _service == "user" or _service == "tenantUser":
-                    print(1)
                     if _service == "user": 
-                        print(1.1)
                         if _item['repeatPassword'] == _item['pass']:
                             output_item['pass'] = _item['repeatPassword']
                             output_item['email'] = _id.upper()
                     elif _service == 'tenantUser': 
-                        print(1.2)
                         if _item['repeatPassword'] == _item['pass']:
                             output_item['Password'] = _item['repeatPassword']
                             output_item['Id'] = _id.upper()
                             output_item['Tenant'] = _id.split('.')[0].upper()
                             output_item['currentUser'] = "System"
-                            print(output_item)
                     _go = True
                 if _go:
-                    print(2)
-                    print(" GO!!")
                     ## set the url of the service
                     _url = Helpers.generateURL(_service_url, _service)
                     ## set the headers
@@ -439,13 +433,10 @@ class Handlers():
                     ## generate the get call
                     _response = requests.put(_url, json=output_item, headers=_headers)
                     ## returns the json as respons
-                    print(_response.json())
                     return _response.json()
                 else:
-                    print(" No go.")
                     return {}
             else: 
-                print(" missing fields.")
                 return {}
         except Exception as e:
             print(" (!) Exception in put_user_password(): ")

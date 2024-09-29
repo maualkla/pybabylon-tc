@@ -828,7 +828,8 @@ a{
     font-size: 500%;
     margin: 6%;
 }
-._flex_display{     
+._flex_display{   
+    z-index: 1;  
     position: absolute;
     font-size: 45px;
     padding: 10px 50px 10px 50px;

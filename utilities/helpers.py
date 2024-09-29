@@ -6,6 +6,52 @@ import mailtrap as mt
 ########################################
 class Helpers:
 
+    ## code generator
+    def codeGenerator(secret_key, time_step=30, digits=6):
+        try:
+            if secret_key: 
+                import time
+                import hashlib
+                import hmac
+                import base64
+
+                # Get the current time in Unix seconds
+                current_time = int(time.time())
+
+                # Calculate the time counter (number of time steps since epoch)
+                time_counter = current_time // time_step
+
+                # Convert the time counter to a byte string (big-endian)
+                time_counter_bytes = time_counter.to_bytes(8, 'big')
+
+                # Decode the secret key from base32 to bytes
+                secret_key_bytes = base64.b32decode(secret_key)
+
+                # Calculate the HMAC-SHA1 hash
+                hmac_hash = hmac.new(secret_key_bytes, time_counter_bytes, hashlib.sha1).digest()
+
+                # Dynamic truncation (extract 4 bytes from the hash based on the last 4 bits)
+                offset = hmac_hash[-1] & 0xf
+                truncated_hash = hmac_hash[offset:offset + 4]
+
+                # Convert the truncated hash to an integer
+                code_int = int.from_bytes(truncated_hash, 'big')
+
+                # Extract the desired number of digits
+                code = str(code_int % 10**digits)
+
+                # Pad with leading zeros if necessary
+                code = code.zfill(digits)
+
+                return code
+            else:
+                return False
+
+        except Exception as e:
+            print("(!) Exception in /codeGenerator")
+            print(e)
+            return {"status": "An error Occurred", "error": str(e)}
+
     ## return String (lenght)
     def randomString(_length):
         try:

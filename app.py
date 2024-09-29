@@ -2,7 +2,7 @@
 ## Pybabylon Project.
 ## Coded by: Mauricio Alcala (@intmau)
 ## Date: May 2023.
-## Current Version: 0.04
+## Current Version: 0.05
 ## Last Modification Date: sep 2024.
 ## More info at @intmau in twitter or in http://themudev.com
 ## Description: Web app to serve adminde-tc project.
@@ -1295,42 +1295,81 @@ def workspace_checkin(_id):
     try:
         ## Set a logged variable requesting the _id and _us cookies.
         _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
+        ## validate the presence of a token
         _required_token = True if request.cookies.get('token') else False
+        ## validate the presence of a expired cookie
+        _expired = True if request.cookies.get('expired') else False
+        ## set an out response
         _out = make_response(redirect('/workspace/'+_id))
         ## validate if _logged
         if _required_cookies:
+            ## redirect to /workspace
             return _out
         else: 
-            if _id and _required_token == False:
+            ## validate if _id && not required_token or expired cookie
+            if _id and (_required_token == False or _expired):
+                ## get wsdata
                 _wsdata = Handlers.get_data(_alx_url, request, "workspace", _id, False, True, app.config['PRIVATE_SERVICE_TOKEN'])
+                ## set a context in loop
                 context ={
                     "_cookies_policy": True if request.cookies.get('cookies_policy') else False,
                     "ws_data": _wsdata['items'][0],
                     "host_url": request.host_url
                 }
-                return render_template('workspace_checkin.html', **context)
-            elif _id and _required_token:
+                ## set the response to workspace_checkin.html
+                _out = make_response(render_template('workspace_checkin.html', **context))
+                ## delete present cookies
+                _out.delete_cookie('token')
+                _out.delete_cookie('cookies_policy')
+                _out.delete_cookie('clientIP')
+                _out.delete_cookie('browserVersion')
+                return _out
+            elif _id and request.cookies.get('token') and not _expired :
+                ## return a redirect to /workspace/id/home
                 return(redirect('/workspace/'+_id+'/home'))
             else: 
+                ## redirect to home
+                _out = make_response(redirect('/'))
+                ## delete all present cookies
+                _out.delete_cookie('token')
+                _out.delete_cookie('cookies_policy')
+                _out.delete_cookie('clientIP')
+                _out.delete_cookie('browserVersion')
                 return _out
     except Exception as e:
-        return {"status": "An error Occurred", "error": str(e)}   
+        print("(!) Exception in workspace_checkin("+_id+"): "+str(e))
+        return {"status": "An error Occurred", "error": str(e)}
 
 
 ## workspace checkin home
 @app.route('/workspace/<_id>/home')
 def workspace_home(_id):
     try:
-        print(request.cookies.get('token'))
+        ## validate presence of the token
         _required_token = True if request.cookies.get('token') else False
-        _out = make_response(redirect('/workspace/'+_id+'/checkin'))
+        ## generate redirect to /workspace/id/checkin
+        _out = make_response(redirect('/workspace/'+_id+'/checkin'))   
+        ## delete the present cookies 
+        _out.delete_cookie('token')
+        _out.delete_cookie('cookies_policy')
+        _out.delete_cookie('clientIP')
+        _out.delete_cookie('browserVersion')
+        ## set a expired cookie
+        _out.set_cookie('expired', 'true', max_age=36000) 
+        ## validate presence of token
         if _required_token:
+            ## validate id presence.
             if _id:
+                ## get wsdata from the id
                 _wsdata = Handlers.get_data(_alx_url, request, "workspace", _id, False, True, app.config['PRIVATE_SERVICE_TOKEN'])
+                ## get timelog data from token present
                 _tldata = Handlers.get_data(_alx_url, request, "timeLog", request.cookies.get('token'), False, True, app.config['PRIVATE_SERVICE_TOKEN'] )
-                if _tldata['containsData']:
+                ## validate containsdata and timelog has an endTime value equals to False.
+                if _tldata['containsData'] and _tldata['items'][0]['EndTime'] == False:
+                    ## set current time and date
                     _onlyTime = Helpers.generateDateTime()[0]
                     _onlyDate = Helpers.generateDateTime()[1]
+                    ## set context object
                     context = {
                         "_cookies_policy": True if request.cookies.get('cookies_policy') else False,
                         "user_id": "null",
@@ -1341,20 +1380,16 @@ def workspace_home(_id):
                         "startDate": _tldata['items'][0]['StartTime'],
                         "tldata": _tldata['items'][0]
                     }
+                    ## return workspace_tu_home.html template
                     return render_template('workspace_tu_home.html', **context)
                 else: 
-                    print(1)
-                    _out.delete_cookie('token')
                     return _out
             else: 
-                print(2)
-                _out.delete_cookie('token')
                 return _out
         else: 
-            print(3)
-            _out.delete_cookie('token')
             return _out
     except Exception as e:
+        print("(!) Exception in workspace_home("+_id+"): "+str(e))
         return {"status": "An error Occurred", "error": str(e)}
 
 
@@ -1421,45 +1456,101 @@ def periodsData():
 ################################################################################################################
 
 ## checkin service
-@app.route('/checkinValidation', methods=['GET'])
+@app.route('/v1/checkinValidation', methods=['GET'])
 def validation():
     try:
-        if request.args.get('id') and request.args.get('action'):
-            _tldata = Handlers.get_data(_alx_url, request, "timeLog", request.args.get('id'), False, True, app.config['PRIVATE_SERVICE_TOKEN'] )
-            if _tldata['containsData']: 
-                _tldata = _tldata['items'][0] 
-                _onlyTime = Helpers.generateDateTime()[0]
-                _onlyDate = Helpers.generateDateTime()[1]
-                if request.args.get('action') == "1":
-                    _item = {}
-                    _item["StartTime"]= _onlyTime
-                    _item["StartDate"]= _onlyDate
-                    _item["Id"] = request.args.get('id')
-                    _response = Handlers.put_data(_alx_url, request, "timeLog", _item)
-                    if _response['code'] == 202:
-                        ## Logic to set start date and time
-                        return jsonify({"validated": True, "StartTime": _onlyTime, "EndTime": False, "token": request.args.get('id')}), 200
-                    else: 
-                        return jsonify({"validated": False, "errorDesc": _response['reason']}), 403
-                elif request.args.get('action') == "2":
-                    _item = {}
-                    _item["EndTime"]= _onlyTime
-                    _item["EndDate"]= _onlyDate
-                    _item["Id"] = request.args.get('id')
-                    _response = Handlers.put_data(_alx_url, request, "timeLog", _item)
-                    if _response['code'] == 202:
-                        ## Logic to set end date and time
-                        return jsonify({"validated": True, "StartTime": _tldata['StartTime'], "EndTime": _onlyTime, "token": request.args.get('id')}), 200
-                    else: 
-                        return jsonify({"validated": False, "errorDesc": _response['reason']}), 403
-                else:
-                    return jsonify({"validated": False, "errorDesc": "Invalid Code"}), 403
+        if logging: print(" >>> Entro a CheckinValidation [GET]")
+        ## validate presence of id, action, code and wsid
+        if 'id' in request.args and 'action' in request.args and 'code' in request.args and 'wsid' in request.args:
+            ## if presence search for the corresponding ws
+            _wsdata = Handlers.get_data(_alx_url, request, "workspace", request.args.get('wsid'), False, True, app.config['PRIVATE_SERVICE_TOKEN'])
+            ## if ws search contains data.
+            if _wsdata['containsData']:
+                ## save only the items data
+                _ws = _wsdata['items'][0]
+                ## get the tldata from the id argument parameter.
+                _tldata = Handlers.get_data(_alx_url, request, "timeLog", request.args.get('id'), False, True, app.config['PRIVATE_SERVICE_TOKEN'] )
+                ## if the timelog contains data
+                if _tldata['containsData']: 
+                    ## save the items object from the timelog
+                    _tldata = _tldata['items'][0]
+                    ## set the date time  
+                    _onlyTime = Helpers.generateDateTime()[0]
+                    _onlyDate = Helpers.generateDateTime()[1]
+                    ## validate action and the code in the request args parameters
+                    if request.args.get('action') == "1" and request.args.get('code'):
+                        ## validate the param code is the same as the wscode generated
+                        if request.args.get('code') == Helpers.codeGenerator(_ws['CodeHash']):
+                            ## generate an item object, set the startdate, startime, id
+                            _item = {}
+                            _item["StartTime"]= _onlyTime
+                            _item["StartDate"]= _onlyDate
+                            _item["Id"] = request.args.get('id')
+                            ## set the update of the timelog
+                            _response = Handlers.put_data(_alx_url, request, "timeLog", _item)
+                            ## if success
+                            if _response['code'] == 202:
+                                ## return a success to the client. return the token id 
+                                return jsonify({"validated": True, "StartTime": _onlyTime, "EndTime": False, "token": request.args.get('id')}), 200
+                            else: 
+                                ## return a error message to the client. return the reason of the error. 
+                                return jsonify({"validated": False, "errorDesc": _response['reason']}), 403
+                        else:
+                            ## return an error indicating the invalid code. 
+                            return jsonify({"validated": False, "errorDesc": "Invalid code. Try again."}), 401
+                    ## case when action is 2 (close timelog)
+                    elif request.args.get('action') == "2":
+                        ## generate the item object, set the endTime, endDate, Id
+                        _item = {}
+                        _item["EndTime"]= _onlyTime
+                        _item["EndDate"]= _onlyDate
+                        _item["Id"] = request.args.get('id')
+                        ## update endtime and date in the timelog
+                        _response = Handlers.put_data(_alx_url, request, "timeLog", _item)
+                        ## success
+                        if _response['code'] == 202:
+                            ## return a success message and the info of the timelog
+                            return jsonify({"validated": True, "StartTime": _tldata['StartTime'], "EndTime": _onlyTime, "token": request.args.get('id')}), 200
+                        else: 
+                            ## return a error description
+                            return jsonify({"validated": False, "errorDesc": _response['reason']}), 403
+                    else:
+                        ## return a error description of the invalid code.
+                        return jsonify({"validated": False, "errorDesc": "Invalid Code"}), 403
+                else: 
+                    ## return error of false not valid data
+                    return jsonify({"validated": False}), 404    
             else: 
-                return jsonify({"validated": False}), 401
+                ## return a invalid auth
+                return jsonify({"validated": False}), 404
         else: 
+            ## return a invalid auth error.
             return jsonify({"validated": False}), 401
     except Exception as e:
-        return {"status": "An error Occurred", "error": str(e)}
+        print("(!) Exception in checkinValidation(): "+str(e))
+        return jsonify({"status": "An error Occurred", "error": str(e)}), 500
+
+## Code generator receiver
+@app.route('/v1/codeGenerator', methods=['GET'])
+def codeGenerator():
+    try:
+        _required_cookies = True if request.cookies.get('SessionId') and request.cookies.get('clientIP') and request.cookies.get('browserVersion') else False
+        if _required_cookies: 
+            if request.args.get('wsid'): 
+                _wsdata = Handlers.get_data(_alx_url, request, "workspace", request.args.get('wsid'), False)
+                if 'containsData' in _wsdata:
+                    _ws = _wsdata['items'][0]
+                    ncode = Helpers.codeGenerator(_ws['CodeHash'])
+                    return jsonify({"code": ncode}), 200
+                else: 
+                    return jsonify({"code": False}), 400
+            else: 
+                return jsonify({"code": False}), 404
+        else:
+            return jsonify({"code": False}), 401
+    except Exception as e:
+        print('(!) Exception ')
+        return jsonify({"status": "An error Occurred", "error": str(e)}), 500
 
 ################################################################################################################
 ## Stripe payments flow
