@@ -23,6 +23,7 @@ let _new_lang = "_es";
 let _errors = 0;
 let _logging = true;
 let _fbdisp = true;
+let _fbdisp_butts = []
 
 let _langs = ['_en', '_es'];
 let _pinpad_num = "";
@@ -313,9 +314,14 @@ const common_display_floating_buttons = (_state) => {
     if(_state){
         _fb.classList.remove("_hidden")
         _fbdisp = true;
+        _fbdisp_butts = [(document.getElementById('_fb_0').classList.contains('_hidden')) ? false : true, document.getElementById('_fb_1').classList.contains('_hidden') ? false : true, document.getElementById('_fb_2').classList.contains('_hidden') ? false : true, document.getElementById('_fb_3').classList.contains('_hidden') ? false : true]
+        console.log(" Botones default: ")
+        console.log(_fbdisp_butts);
     }else{
         _fb.classList.add("_hidden")
         _fbdisp  = false;
+        console.log(_fbdisp_butts);
+        //_fbdisp_butts = [(document.getElementById('_fb_0').classList.contains('_hidden')) ? fa : false, document.getElementById('_fb_1').classList.contains('_hidden') ? true : false, document.getElementById('_fb_2').classList.contains('_hidden') ? true : false, document.getElementById('_fb_3').classList.contains('_hidden') ? true : false]
     }
 }
 const _display_fbuttons = (_state) => {
@@ -327,17 +333,21 @@ const _display_fbuttons = (_state) => {
 // it will replace the values on the 3 buttons and if the flag is true
 // will remove the hidden class to be displayed.
 const _common_fbuttons_change_display_text = (_values = false, _displayed = false, _version = false) => {
-    if(_values && _displayed && !_version){
+    if(_values && _displayed && _version == false){
+        console.log("case 1")
         for (let i = 1; i<4 ; i++){
             let x = document.getElementById("_fb_"+i);
             if (_values[i-1]) x.innerHTML = '<p class="'+_curr_languaje+'"><bold>'+_values[i-1]+'</bold></p>';
             if (_displayed[i-1]) x.classList.remove("_hidden"); else x.classList.add("_hidden");
+            console.log(_fbdisp_butts);
         }
     }else if (_values && _displayed && _version == 2){
+        console.log("case 2")
         for (let i = 0; i<4 ; i++){
             let x = document.getElementById("_fb_"+i);
-            if (_values[i-1]) x.innerHTML = '<p class="'+_curr_languaje+'"><bold>'+_values[i-1]+'</bold></p>';
-            if (_displayed[i-1]) x.classList.remove("_hidden"); else x.classList.add("_hidden");
+            if (_values[i]) x.innerHTML = '<p class="'+_curr_languaje+'"><bold>'+_values[i]+'</bold></p>';
+            if (_displayed[i]) x.classList.remove("_hidden"); else x.classList.add("_hidden");
+            console.log(_fbdisp_butts);
         }
     }
 };
@@ -346,10 +356,12 @@ const _common_fbuttons_change_display_text = (_values = false, _displayed = fals
 if(document.getElementById('_fb_0')) document.getElementById('_fb_0').addEventListener('click', function (){  
     if(_fbdisp){
         window.alert("hide")
-        _common_fbuttons_change_display_text(["Show", document.getElementById('_fb_1').innerHTML, document.getElementById('_fb_2').innerHTML, document.getElementById('_fb_3').innerHTML], [true, false, false, false], 2)
+        _common_fbuttons_change_display_text(["Show", false, false, false], [true, false, false, false], 2)
+        _fbdisp = false
     }else{
         window.alert("show")
-        _common_fbuttons_change_display_text(["Hide", document.getElementById('_fb_1').innerHTML, document.getElementById('_fb_2').innerHTML, document.getElementById('_fb_3').innerHTML], [true, false, true, true], 2)
+        _common_fbuttons_change_display_text(["Hide", false, false, false], _fbdisp_butts, 2)
+        _fbdisp = true
     }
 });
 
