@@ -38,6 +38,10 @@ CSS styles for manage_workspace
     text-align: center;
     font-family: monospace;
     border-radius: 10px;
+    /* shadow*/
+    -webkit-box-shadow: 0px 0px 35px -6px rgba(56,56,56,1);
+    -moz-box-shadow: 0px 0px 35px -6px rgba(56,56,56,1);
+    box-shadow: 0px 0px 35px -6px rgba(56,56,56,1);
 }
 .code_box p:hover{
     background-color: gray;

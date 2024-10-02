@@ -605,8 +605,6 @@ document.getElementById('_trans').addEventListener('click', function (){ changeL
 // TBD Extra triggers
 if(document.getElementById('_x_account')) document.getElementById('_x_account').addEventListener('click', function (){window.open('https://twitter.com/intmau', '_blank')});
 
-
-console.log(window.screen.availHeight)
-console.log(window.screen.availWidth)
-
+// height adjust
 document.getElementsByClassName("_main_block")[0].style.height = (window.screen.availHeight+700)+"px";
+document.getElementsByClassName("_flex_menu")[0].style.height = (window.screen.availHeight+700)+"px";
