@@ -6,6 +6,8 @@ let _view = 0;
 let _view_2 = 0;
 _pinpad_num = "";
 
+common_display_floating_buttons(true);
+
 // Triggers
 if(document.getElementById('_fb_1')) document.getElementById('_fb_1').addEventListener('click', function ()
 { 

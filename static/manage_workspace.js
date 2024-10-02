@@ -55,19 +55,19 @@ if(document.getElementById("_fb_1")) document.getElementById("_fb_1").addEventLi
             _redirect(window.location.pathname.substring(1)+'/users');
             break;
         case 1: 
-            _display_fbuttons(false);
+            //_display_fbuttons(false);
             _ws_switch_pinpad(true);
             break;
         case 2: 
-            _display_fbuttons(false);
+            //_display_fbuttons(false);
             _ws_switch_pinpad(true);
             break;
         case 3: 
-            _display_fbuttons(false);
+            //_display_fbuttons(false);
             _ws_switch_pinpad(true);
             break; 
         case 4: 
-            _display_fbuttons(false);
+            //_display_fbuttons(false);
             _ws_switch_pinpad(true);
             break; 
         case 5: 
@@ -76,7 +76,7 @@ if(document.getElementById("_fb_1")) document.getElementById("_fb_1").addEventLi
             _window = 0;
             break;
         case 6: 
-            _display_fbuttons(false);
+            //_display_fbuttons(false);
             _ws_switch_pinpad(true);
             break;
     }
@@ -161,16 +161,16 @@ const _ws_manage_change_view = (_hide = false, _show = false) => {
 /// custom save changes and cancel buttons 
 const _cust_butt_data = (_case = false) => {
     if(_case == 1){
-        _values = ["Save Changes", false, "Back"], _disp = [true, false, true];
-        _common_fbuttons_change_display_text(_values,_disp); 
+        _values = [false,"Save Changes", false, "Back"], _disp = [false,true, false, true];
+        _common_fbuttons_change_display_text(_values,_disp,2); 
     }
     if(_case == 2){
-        _values = ["Manage Users", "Delete Workspace", "Workspace Live"], _disp = [true, true, true];
-        _common_fbuttons_change_display_text(_values,_disp); 
+        _values = [false, "Manage Users", "Delete Workspace", "Workspace Live"], _disp = [true, true, true, true];
+        _common_fbuttons_change_display_text(_values,_disp, 2); 
     }
     if(_case == 3){
-        _values = ["Return to Manage", false, false], _disp = [true, false, false];
-        _common_fbuttons_change_display_text(_values,_disp); 
+        _values = [false, "Return to Manage", false, false], _disp = [false, true, false, false];
+        _common_fbuttons_change_display_text(_values,_disp,2); 
     }
 }
 
@@ -254,13 +254,16 @@ if(document.getElementById('_close_sesion_button')) document.getElementById('_cl
 
 // pinpad display
 function _ws_switch_pinpad(_show){
+    if (_logging) {console.log(" switch_pinpad("+_show+")")}
     if(_show){
-        _display_fbuttons(false);
+        _common_fbuttons_change_display_text([false,false,false,false], [false,false,false,false], 2)
+        //_display_fbuttons(false);
         document.getElementsByClassName('_main_block_content')[0].classList.add("_hidden");
         document.getElementsByClassName('_main_block_numpad')[0].classList.remove("_hidden");
         _display_pinpad("Type Pin")
     }else{
-        _display_fbuttons(true);
+        _common_fbuttons_change_display_text([false,false,false,false], [false,true,false,true], 2)
+        //_display_fbuttons(true);
         document.getElementsByClassName('_main_block_numpad')[0].classList.add("_hidden");
         document.getElementsByClassName('_main_block_content')[0].classList.remove("_hidden");
     }
