@@ -609,4 +609,4 @@ if(document.getElementById('_x_account')) document.getElementById('_x_account').
 console.log(window.screen.availHeight)
 console.log(window.screen.availWidth)
 
-document.getElementsByClassName("_main_block")[0].style.height = (window.screen.availHeight+900)+"px";
+document.getElementsByClassName("_main_block")[0].style.height = (window.screen.availHeight+700)+"px";
