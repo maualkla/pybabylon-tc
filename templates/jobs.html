@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}
-Api Docs - {{ super() }}
+Jobs - {{ super() }}
 {% endblock %}
 {% block styles %}
 <link rel="stylesheet" href="../static/apidocs.css">
@@ -8,22 +8,18 @@ Api Docs - {{ super() }}
 {% endblock %}
 
 {% block _title %}
-Time Card
+Jobs at Adminde
 {% endblock %}
 
 {% block _flex_box %}
-<div class="_container">
-    <div class="_main_block">
-        <div class="_menu_box _box_main_bot _box_main_bot box_custom" id="_v001"><bold_italic>View</bold_italic> Alexandria API v0.01</div>
-        <div class="_menu_box _box_main_bot _box_main_bot box_custom" id="_v002"><bold_italic>View</bold_italic> Alexandria API v0.02</div>
-        <div class="_menu_box _box_main_bot _box_main_bot box_custom" id="_v004"><bold_italic>View</bold_italic> Alexandria API v0.04</div>
-        <div class="_menu_box _box_main_bot _box_main_bot box_custom" id="_v005"><bold_italic>View</bold_italic> Alexandria API v0.05</div>
-    </div>
+
+<div class="_main_block" style="margin-left: 5%;">
+    <h1> There is no new jobs for now.</h1>
+    <p> Please come back later to see new jobs.</p>
 </div>
 {% endblock %}
 
 {% block _flex_menu %}
-
 {% if _logged: %}
 <div class="_menu_box _box_main _box_main_bot" id="_dashboard">Dashboard</div>
 {% else: %}
@@ -32,8 +28,8 @@ Time Card
 <div class="_menu_box _box_main _box_main_bot _es _hidden" id="_login_es">Inicia Sesion</div>
 <div class="_menu_box _box_main _box_main_bot _es _hidden" id="_signup_es">Registrate</div>
 {% endif %}
-
 {% endblock %}
+
 
 {% block scripts %}
 {{ super() }}

@@ -26,3 +26,12 @@ mark{
     ._text_apidocs_block{
         margin-bottom: 10%;
     }
+
+
+.box_custom{
+    font-size: 200% !important;
+}
+.box_custom:active{
+    font-size: 220% !important;
+    padding: 30px;
+}

@@ -595,7 +595,7 @@ document.getElementById('_menu_box_extender').addEventListener('click', function
 if(document.getElementsByClassName('_main_block_alerts').length > 0) document.getElementsByClassName('_main_block_alerts')[0].addEventListener('click', function (){ cleanAlert(); });
 
 // triggers for the extended links
-document.getElementById('_contac').addEventListener('click', function (){location.href = "https://www.twitter.com/intmau";});
+document.getElementById('_contac').addEventListener('click', function (){_redirect("contact");});
 document.getElementById('_legal').addEventListener('click', function (){_redirect("legal");});
 document.getElementById('_about').addEventListener('click', function (){_redirect("about");});
 document.getElementById('_jobs').addEventListener('click', function (){_redirect("jobs");});
@@ -604,7 +604,7 @@ document.getElementById('_trans').addEventListener('click', function (){ changeL
 
 // TBD Extra triggers
 if(document.getElementById('_x_account')) document.getElementById('_x_account').addEventListener('click', function (){window.open('https://twitter.com/intmau', '_blank')});
-
+ 
 // height adjust
 document.getElementsByClassName("_main_block")[0].style.height = (window.screen.availHeight+700)+"px";
 document.getElementsByClassName("_flex_menu")[0].style.height = (window.screen.availHeight+700)+"px";

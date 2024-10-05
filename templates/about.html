@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}
+About Adminde - {{ super() }}
+{% endblock %}
+{% block styles %}
+<link rel="stylesheet" href="../static/apidocs.css">
+{{ super() }}
+{% endblock %}
+
+{% block _title %}
+About Adminde
+{% endblock %}
+
+{% block _flex_box %}
+
+<div class="_main_block" style="margin-left: 5%;">
+    <h1> What´s Adminde?</h1>
+    <p stryle="text-align: justify !important; text-justify: inter-word !important;"> Adminde is a new and easy way to manage your business, offering simple solutions to Problems that keep you up at night. Starting with Adminde Time Card, the first solution open to the public which allows you to save time and make things easy by providing a easy way to track the work of your employees allowing them to chekin and checkout wherever they are or where you need them to be. It is a simple solution which is also compatible with your workflow because requires no extra infrastructure, you only need to have a terminal and your employees have to have a mobile devices. Thats all and you will get custom reports, and live data about your employees. Try Adminde for free right now.</p>
+    <p> Adminde.com is a service provided by themudev company. </p>
+</div>
+{% endblock %}
+
+{% block _flex_menu %}
+{% if _logged: %}
+<div class="_menu_box _box_main _box_main_bot" id="_dashboard">Dashboard</div>
+{% else: %}
+<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_login_en">Login</div>
+<div class="_menu_box _box_main _box_main_bot _en _hidden" id="_signup_en">Signup</div>
+<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_login_es">Inicia Sesion</div>
+<div class="_menu_box _box_main _box_main_bot _es _hidden" id="_signup_es">Registrate</div>
+{% endif %}
+{% endblock %}
+
+
+{% block scripts %}
+{{ super() }}
+<script src="../static/apidocs.js"></script>
+{% endblock %}
