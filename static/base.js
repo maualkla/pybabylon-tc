@@ -535,7 +535,7 @@ const _common_postal_code_validation = (_postal_code, _country_code) => {
 }
 
 // js function redirect if desktop view
-common_desktop_view(_desktop);
+//common_desktop_view(_desktop);
 
 
 // Dictionaries

@@ -59,9 +59,9 @@ a{
 
 @media only screen and (max-width: 1000px), (pointer:none){
     
-    ._desktop_view{
+    /*._desktop_view{
         display: none;
-    }
+    }*/
 
     /* GLOBAL */
     ._content{
@@ -149,9 +149,9 @@ a{
 @media only screen and (min-width: 1000px), (pointer:cursor) {
 /* Main page */
 
-._content{
+/*._content{
     display: none;
-}
+}*/
     * {
         box-sizing: border-box;
         font-family: Verdana, Geneva, Tahoma, sans-serif;  
