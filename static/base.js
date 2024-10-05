@@ -4,8 +4,8 @@
 ## Pybabylon Project.
 ## Coded by: Mauricio Alcala (@maualkla)
 ## Date: May 2023.
-## Current Version: 0.04
-## Last Modification Date: Aug 2023.
+## Current Version: 0.05
+## Last Modification Date: Oct 2024.
 ## More info at @intmau in twitter or in http://maualkla.com
 ## Description: Web app to serve adminde-tc project.
 */
@@ -23,7 +23,8 @@ let _new_lang = "_es";
 let _errors = 0;
 let _logging = false;
 let _fbdisp = true;
-let _fbdisp_butts = []
+let _fbdisp_butts = [];
+let _desktop = true;
 
 let _langs = ['_en', '_es'];
 let _pinpad_num = "";
@@ -458,13 +459,13 @@ const _common_system_auto_change_color = () => {
 }
 
 // Screen Size: 
-const common_desktop_view = () => {
-    if (window.screen.width >= 1024 && window.screen.height >= 768) {
+const common_desktop_view = (_desktop) => {
+    if (window.screen.width >= 1024 && window.screen.height >= 768 && _desktop) {
         _redirect('desktop');
     }
 }
-const _desktop_view =  () => {
-    common_desktop_view();
+const _desktop_view =  (_desktop) => {
+    common_desktop_view(_desktop);
 }
 
 // common reload page
@@ -534,7 +535,7 @@ const _common_postal_code_validation = (_postal_code, _country_code) => {
 }
 
 // js function redirect if desktop view
-common_desktop_view();
+common_desktop_view(_desktop);
 
 
 // Dictionaries
