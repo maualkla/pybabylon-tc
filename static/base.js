@@ -605,16 +605,28 @@ document.getElementById('_trans').addEventListener('click', function (){ changeL
 
 // TBD Extra triggers
 if(document.getElementById('_x_account')) document.getElementById('_x_account').addEventListener('click', function (){window.open('https://twitter.com/intmau', '_blank')});
- 
-// height adjust
-document.getElementsByClassName("_main_block")[0].style.height = (window.screen.availHeight+700)+"px";
-document.getElementsByClassName("_flex_menu")[0].style.height = (window.screen.availHeight+700)+"px";
 
 // on window size change event
 window.onresize = function(event) {
-    console.log(" window size change: ["+window.screen.availWidth+"]px")
-    // height adjust
-    document.getElementsByClassName("_main_block")[0].style.height = (window.screen.availHeight+700)+"px";
-    document.getElementsByClassName("_flex_menu")[0].style.height = (window.screen.availHeight+700)+"px";
-
+    common_switch_fontend_mobile_to_desk();
 };
+
+// switch mobile/dekstop
+const common_switch_fontend_mobile_to_desk = () => {
+    if(_logging) console.log(" window size change: ["+window.screen.availWidth+"]px")
+        let menu = document.getElementsByClassName('_flex_menu')[0]
+        if(window.screen.availWidth > 1200){
+            menu.classList.remove('_hidden')
+            _menu_value = true;
+            _menu_ext_value = true;
+            document.getElementsByClassName("_content")[0].style.height = (window.screen.availHeight-105)+"px";
+        }else{
+            menu.classList.add('_hidden')
+            // height adjust
+            document.getElementsByClassName("_main_block")[0].style.height = (window.screen.availHeight+700)+"px";
+            document.getElementsByClassName("_flex_menu")[0].style.height = (window.screen.availHeight+700)+"px";
+        }
+}
+
+// trigger at load.
+common_switch_fontend_mobile_to_desk();
