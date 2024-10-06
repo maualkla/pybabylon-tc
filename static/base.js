@@ -609,3 +609,12 @@ if(document.getElementById('_x_account')) document.getElementById('_x_account').
 // height adjust
 document.getElementsByClassName("_main_block")[0].style.height = (window.screen.availHeight+700)+"px";
 document.getElementsByClassName("_flex_menu")[0].style.height = (window.screen.availHeight+700)+"px";
+
+// on window size change event
+window.onresize = function(event) {
+    console.log(" window size change: ["+window.screen.availWidth+"]px")
+    // height adjust
+    document.getElementsByClassName("_main_block")[0].style.height = (window.screen.availHeight+700)+"px";
+    document.getElementsByClassName("_flex_menu")[0].style.height = (window.screen.availHeight+700)+"px";
+
+};
