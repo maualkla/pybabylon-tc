@@ -619,7 +619,7 @@ const common_switch_fontend_mobile_to_desk = () => {
             menu.classList.remove('_hidden')
             _menu_value = true;
             _menu_ext_value = true;
-            document.getElementsByClassName("_content")[0].style.height = (window.screen.availHeight-105)+"px";
+            document.getElementsByClassName("_content")[0].style.height = (window.screen.availHeight-135)+"px";
         }else{
             menu.classList.add('_hidden')
             // height adjust
