@@ -991,6 +991,7 @@ a{
                         }
                         ._bbx_text{
                             font-size: 300%;
+                            padding: 40px;
                         }
             ._flex_menu{
                 border: solid 1px var(--system-bg-color);
@@ -1022,6 +1023,16 @@ a{
                 ._floating_control{
                     display: none;
                 }
+            ._flex_display{
+                margin-top: -600px;
+                z-index: -1;
+                height: fit-content;
+                z-index: 1;  
+                position: absolute;
+                font-size: 45px;
+                padding: 10px 50px 10px 50px;
+                margin-left: -10px;
+            }
     /*._content{
         display: none;
     }*/
