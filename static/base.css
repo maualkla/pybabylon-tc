@@ -427,26 +427,7 @@ a{
             ._box_altern_bot{
                 border-bottom: var(--system-light-border-width) solid var(--system-bg-color);
             }
-            ._box_green{
-                background: var(--system-alert-green);
-                color: var(--system-bg-color);
-                border: solid var(--system-light-border-width) var(--system-bg-color);
-            }
-            ._box_red{
-                background: var( --system-alert-red);
-                color:var(--system-bg-color);
-                border: solid var(--system-light-border-width) var(--system-bg-color);
-            }
-            ._box_yellow{
-                background: var( --system-alert-yellow);
-                color:var(--system-text-color);
-                border: solid var(--system-light-border-width) var(--system-text-color);
-            }
-            ._box_blue{
-                background: var( --system-alert-blue);
-                color:var(--system-text-color);
-                border: solid var(--system-light-border-width) var(--system-text-color);
-            }
+            
 
 
 
@@ -944,9 +925,13 @@ a{
                 margin-top: 73px;
             }
                 ._main_block{}
-                    ._main_block_alerts{}
+                    ._main_block_alerts{
+                        padding: 5px;
+                        max-height: 5%;
+                        font-size: 200%;
+                    }
                     ._main_block_content{
-
+                        padding-bottom: 50px;
                     }
                         ._big_menu_box{
                             margin-top: 80px;
@@ -1095,4 +1080,24 @@ a{
 }
 .color_red_border{
     border: var(--system-regular-border-width) solid var(--system-alert-red) ;
+}
+._box_green{
+    background: var(--system-alert-green);
+    color: var(--system-bg-color);
+    border: solid var(--system-light-border-width) var(--system-bg-color);
+}
+._box_red{
+    background: var( --system-alert-red);
+    color:var(--system-bg-color);
+    border: solid var(--system-light-border-width) var(--system-bg-color);
+}
+._box_yellow{
+    background: var( --system-alert-yellow);
+    color:var(--system-text-color);
+    border: solid var(--system-light-border-width) var(--system-text-color);
+}
+._box_blue{
+    background: var( --system-alert-blue);
+    color:var(--system-text-color);
+    border: solid var(--system-light-border-width) var(--system-text-color);
 }
