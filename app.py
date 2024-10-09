@@ -365,7 +365,8 @@ def reset_password():
                             "_cookies_policy": True if request.cookies.get('cookies_policy') else False,
                             "id": userdata['email'] if request.args.get('type') == '1' else userdata['Id'],
                             "type": 1 if request.args.get('type') == '1' else 2,
-                            "host_url": request.host_url
+                            "host_url": request.host_url,
+                            "ws_data": {}
                         }
                         ## return reset_pass_form.html and the context
                         return render_template('reset_pass_form.html', **context)
@@ -376,10 +377,12 @@ def reset_password():
                         else: 
                             out = make_response(redirect('/reset_pass_tuser'))
                         out.set_cookie('email_sent', '2')
-                        return 
+                        return out
                 else: 
+                    print("not contains data from user")
                     return out
             else:
+                print("not token or type params")
                 return out
         ## when method equals PUT
         if request.method == 'PUT':

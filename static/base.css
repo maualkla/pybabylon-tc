@@ -993,6 +993,21 @@ a{
                             font-size: 300%;
                             padding: 40px;
                         }
+                        
+                    .terms_box{
+                        border: solid 1px red;
+                        padding: 100px;
+                        height: 200px;
+                        margin-top: 200px;
+                        font-size: 200%;
+                    }
+                        ._big_checkbox{
+                            width: 50px;  
+                        }
+                    ._general_text{
+                        font-size: 200%;
+                        padding: 50px;
+                    }
             ._flex_menu{
                 border: solid 1px var(--system-bg-color);
                 position: fixed;

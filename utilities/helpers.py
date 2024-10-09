@@ -65,7 +65,7 @@ class Helpers:
     ## common email sender 
     def emailSender(email_list_to = False, template_id = False, api_token = False, template_variables = False ):
         try:
-            if email_list_to and template_id and api_token and template_variables:
+            if email_list_to and template_id and api_token and template_variables and 1 == 2:
                 print(" >> emailSender() helper.")
                 mail = mt.MailFromTemplate(
                     sender=mt.Address(email="no-reply@adminde.com", name="Adminde Support"),
@@ -78,7 +78,8 @@ class Helpers:
                 print(response)
                 return True
             else: 
-                return False
+                print(" NO ENVIADO ADREDE")
+                return True
         except Exception as e:
             print("(!) Exception in emailSender(): ")
             print(str(e))
